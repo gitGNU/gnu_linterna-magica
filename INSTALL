@@ -1,0 +1,140 @@
+First of all, install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+First of all install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+Second, install the video plugin that you prefer.
+
+Building the user script
+
+Since version 0.0.9 of Linterna Mágica the userscript have to be
+build. To do this you will need the following packets:
+
+* GNU make 
+* GNU sed 
+* GNU grep
+* GNU bash
+* GNU Coreutils
+      * ls
+      * cp
+      * rm
+      * cat
+      * tac
+      * head
+      * tail
+      * cut
+      * tr
+      * sort
+      * uniq
+      * base64
+      * basename
+      * mktemp
+      * test
+      * echo
+      * chmod
+
+To build the userscript, inside a terminal change the directory to
+the source code directory of Linterna Mágica and type:
+
+     make
+
+If everything went fine, at the end of the building process you should
+see the following message:
+
+  linternamagica.user.js is ready.
+
+To remove all the generated files without the userscript,
+type:
+
+   make clean
+
+To remove all the generated files and the userscript file, type:
+
+   make distclean
+
+
+Installation from the browser
+
+Load the path where you downloaded Linterna Mágica in your browser:
+		
+    file:///home/user/linterna-magica/
+		
+You can also start it from a terminal:
+		
+    epiphany file:///home/user/linterna-magica/
+		
+or
+		
+    abrowser file:///home/user/linterna-magica/
+
+or
+
+    icecat file:///home/user/linterna-magica/
+
+Right-click the user script and from the menu select
+
+  For Epiphany:
+      "Install userscript"
+
+  For GNU IceCat and other free software versions of Firefox:
+      "View User Script Source". In the new window click the
+      Greasemonkey "Install" button.
+
+  For Midori:
+      Midori versions 0.2.2 and 0.2.4 do not support installation of
+      userscripts from the browser.
+
+Installation from a terminal
+
+Another option to install the userscript is to copy it from a
+terminal.
+
+For Epiphany:
+		
+    cp linternamagica.user.js ~/.gnome2/epiphany/extensions/data/greasemokey/linterna_magica.user.js
+		
+
+For GNU IceCat:
+		  
+  mkdir ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/
+  cp linternamagica.user.js ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/linterna_magica.user.js
+
+For other free software versions of Firefox:
+		
+    mkdir ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/
+    cp linternamagica.user.js ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/linterna_magica.user.js
+
+		  
+For Midori:
+		
+    mkdir ~/.local/share/midori/scripts/
+    cp linternamagica.user.js ~/.local/share/midori/scripts/linterna_magica.user.js
+
+This file is part of  Linterna Mágica
+
+Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

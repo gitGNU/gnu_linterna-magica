@@ -1,0 +1,140 @@
+Configuration options
+
+Linterna Mágica has some configuration options. The only way (for now)
+to configure it, is to edit the code of the userscript. Open the
+userscript file and look for "var linterna_magica_options". This is a
+JavaScript object that keeps configuration options in "option":"value"
+format:
+		
+ var linterna_magica_options =
+ {
+    "debug": 1,
+    "log_to": "web",
+    "updates": "1w",
+    "priority": "self",
+    "autostart": "off",
+    "controls": "self",
+    "cookies": "restore",
+    "wait_dm": "off",
+ };
+		
+		
+Available options are:
+  debug
+      This option sets the debug level. The debug information is
+      printed in the console.
+        0
+            Do not print anything (default)
+        1..5
+            Print debug information
+  log_to 
+      Where to print the debugging information when debug is not zero.
+	web
+	    Print messages in the web page (default)
+	console
+	    Use the debugging console of the browser
+  updates
+      Should Linterna Mágica automatically check and notify for
+      updates.
+	<time><type>
+	    Check at interval. (default 1w)
+		<time>: positive integer
+		<type>:  d/w/m/y
+		d = day, w = week, m = month, y = year
+	off/disabled/no/never/false/0: Do not check
+  priority
+      This options sets if Linterna Mágica should replace found
+      objects.
+        self
+            Replace the flash object (default)
+        plugin
+            Use Gnash/Swfdec. A button next to the flash object
+            switches to Linterna Mágica.
+  autostart
+      Auto start playback. If more than one object is found, only the
+      first one will start playback.
+        on/enabled/true
+            Auto start the clip (default)
+        off/disabled/false
+            Do not start the clip
+  controls
+      Buttons for controlling the video
+        self
+            Use controls provided by Linterna Mágica (default)
+        plugin
+            Use controls provided by the video plugin.
+  cookies 
+      The way cookies are processed. Please ***read*** "A note on
+      cookies", few lines below.
+	delete
+	    Just delete the cookies.
+	 restore
+	    Extract and restore cookies.
+  wait_dm
+      Timeout before background processing starts in Dailymotion in
+      milliseconds. 1 s = 1000 ms. If you have problems increase the
+      value.
+        off/no/disabled/false/0
+	    Don't wait (default)
+	<integer>
+            Wait for <integer> milliseconds.
+
+A note on updates
+
+Linterna Mágica checks for updates every time the configured interval
+is reached plus the first and at the second day after the exact match.
+
+A note on cookies:
+
+A weird hack to get data from YouTube and Dailymotion without cookies
+is used. With cookies the video link data is garbage for Linterna
+Mágica.
+
+First the cookies are removed by setting their expiration dates in the
+past. A request on the background (XMLHttpRequest) for the video page
+(for example watch?v=x) is made. The required data is extracted and
+the replacement video object is created. Cookies values can be saved
+before the request and restored later, but not their original
+expiration dates. Restored cookies will expire when the browser is
+closed. This hack might break login/favourites/recently watched and
+other features for sites supported this way. The browser will
+automatically set new values to some of the cookies with the
+background request. 
+
+For Dailymotion there is a timeout option. During the first tests of
+this fix there were some problems if the background request was made
+too soon. It seemed that not all cookies were set by the site and
+cleared by Linterna Mágica before the request. Later everything worked
+without timeout. If you have problems with Dailymotion increase the
+value for the "wait_dm" option.
+
+Stop execution on every site
+
+By default Linterna Mágica will run on every site. This is something
+that you might not like. You can configure it to run only on some
+pages. Open the source file and look for "// @include http://*".
+Remove this and place the same statement for every site you wish to
+use Linterna Mágica with:
+		
+ // @include http://example.org
+ // @include http://example2.org
+ ...
+ // @include http://exampleN.org
+
+This file is part of  Linterna Mágica
+
+Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

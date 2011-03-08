@@ -1,0 +1,193 @@
+Watch video on the web in a brand new way: "You don't need a
+glint, the magic lantern is ignited!"
+
+What is Linterna Mágica?
+
+Linterna Mágica is "tiny" (at least it started that way) script written
+in JavaScript for the Greasemonkey extension. It searches web pages
+for flash objects with links to video clips and replaces them
+with <object> tag that is playable by browser video plugin. The
+program is named after an early version of a projection apparatus.
+
+Why it exists?
+
+The short answer: I had spare time and was curious is it going to
+work.
+
+The long answer: Free_software flash plugins like Gnash and Swfdec do
+not work well with video flash players on every site. On top of that:
+
+    * Even with free plugin you run a lot of proprietary software as
+      ActionScript
+    * Even the free software plugins use too much resources
+    * Flash is proprietary technology
+    * Flash is not a web standard
+    * Most of the flash objects in a page contain useless stuff
+
+Playback of video clips in a browser is technically possible since the
+existence of the <object> tag (around 1999; maybe even before
+that?!). To watch a video inside a browser the user always needs a
+plugin (HTML5 changes that a bit).  Why it should be flash plugin?
+
+Most of the time I do not have Gnash or Swfdec installed. I do not
+care about flash except, sometimes for video clips. I got tired of
+using Bash/Perl/ Python... scripts to download video clips and watch
+them. Linterna Mágica was born.
+
+Who made Linterna Mágica?
+  Original idea and programming: Ivaylo Valkov
+  Design:Anton Katsarov
+
+How to pronounce Linterna Mágica?
+
+You can find the answer to that question by playing the Ogg Vorbis
+file "linterna màgica - pronounce.ogg" located in the data directory.
+
+Supported browsers
+
+Linterna Mágica is tested with:
+    * Epiphany
+
+      Epiphany versions older than 2.30 might have problems with
+      Greasemonkey.
+
+    * Free software versions of Firefox
+
+      Free software versions of Firefox that support the Greasemonkey
+      extension should work. Only GNU IceCat, Web Browser/ABrowser and
+      Iceweasel are tested.
+
+    * Midori
+
+      Only versions 0.2.2 and 0.2.4 are tested. There are reports from
+      users that 0.3.2 works too.
+
+Supported video plugins Plugins that can handle "video/flv" and
+"video/mp4" should work right away.  Some plugins provide an API which
+is used in Linterna Mágica to support web controls, but this will
+require modifications to the code, if the plugin is not listed as
+supported. There is a configuration option to switch between controls
+provided by the plugin and Linterna Mágica.
+
+These plugins are known to work:
+    * Totem_plugin.
+
+      Versions older and equal to 2.30 does not have full API support
+      for web controls. Newer versions of Totem have been patched and
+      should work.
+
+    * VLC_plugin
+    * gecko-mediaplayer_plugin
+
+      Note: Have in mind that gecko-mediaplayer depends on mplayer for
+      playback. Mplayer is free software by itself, but it can load
+      and recommends binary only codecs. The completely free (as in
+      freedom) distribution of GNU/Linux, Trisquel provides clean
+      version of mplayer.
+
+    * Xine_plugin
+
+Supported websites
+
+Linterna Mágica is programmed in such a way that it might work (and it
+does) with web sites not specifically tested and supported. This is
+achieved by regular expressions, patterns and similarities between
+video sharing and posting sites. The main idea is that very little
+should be needed to support a new site - few changes in a regular
+expression, adding an address from where the clip should be extracted
+and so on.
+
+There are more than 30 web sites, found with random web searches that
+are known to work. See the WEBSITES file for all known working sites
+and more information.
+
+Linterna Mágica is not working specific with browser or plugin or
+operating system. Is it possible to support it?
+
+Only free_software will be supported. Explicit support for non-free
+software will not be provided. If Linterna Mágica is working with
+non-free software you must be very "lucky". Yes, that is sarcasm!
+
+License
+
+Linterna Mágica is free software. You can distribute it and or modify
+it under the terms of the GNU GPL version 3 or later. You can see the
+license in the COPYING file or at GNU project web page:
+http://www.gnu.org/licenses/gpl.html.
+
+All the supported browsers and plugins are distributed under a free
+software license.
+
+Licenses for data files (images, audio files, style sheets etc.):
+
+linterna mágica - pronounce.ogg
+
+	Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-about.png
+button-fullscreen.png
+button-muted.png
+button-play.png
+button-toggle-plugin.png
+button-unmuted.png
+slider-background.png
+button-download.png
+button-higher-quality-old.png
+button-pause.png
+button-stop.png
+button-toggle-plugin-with-logo.png
+header-background.png
+slider-knob.png
+
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-close.png
+button-debug.png
+button-update.png
+button-minimize.png
+button-higher-quality.png
+
+	Copyright (C) 2011  Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+linterna mágica - interface.svg
+
+	Copyright (C) 2010, 2011 Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+template.css
+
+	Copyright (C) 2010, 2011  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+
+This file is part of  Linterna Mágica
+
+	Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

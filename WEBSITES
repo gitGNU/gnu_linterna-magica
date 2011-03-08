@@ -1,0 +1,135 @@
+This is a list of web sites that are known to work. Most of these were
+found by random web searches for pages that provide services for
+posting and sharing video clips. The list of the working web pages is
+not limited to this file. There are other places where Linterna Mágica
+works as well. It is impossible to know and track them all. If you
+found something new and think it will be a good idea to be listed
+here, please send an e-mail.
+
+World-Wide:
+http://vimeo.com
+    - with HD support
+http://youtube.com 
+    - with HD support
+    - Parsing scripts (without Gnash/Swfdec) might bloat and block the
+      browser (firefox). This issue was fixed at least two times
+      should not occur, but one never knows.
+http://video.google.com
+    - Parsing scripts might bloat the browser (firefox).
+    - Any domain should work video.google.* (es, jp, etc.)
+http://dailymotion.com
+    - with HD support
+http://blip.tv
+    - with HD support
+http://metacafe.com
+    - It seems metacafe changes some things often. You might
+    experience some trouble.
+http://www.4videosharing.com
+    - Seems their account is disabled by their hosting provider.
+http://www.vidoemo.com
+    - Seems it is disabled and redirects to random sites with sex
+      content.
+http://www.videoclipsdump.com 
+    - Support re-written in 0.0.9. Everything seems to be working. 
+http://www.boomclips.com
+http://www.lucidclips.com
+http://clips.e2bn.org
+http://www.reuters.com
+    -  Only the section /news/video is tested.
+http://www.5min.com/Video
+    - Only the /video section of the site works for the moment.
+http://ted.com
+http://myvideo.de
+    - Parsing scripts (without Gnash) might bloat the browser
+      (firefox).
+http://facebook.com
+    - Only public video clips are tested.
+    - If they use the same logic for video clips available after
+      login, Linterna Mágica should work with them too. I never had
+      Facebook account, and I am not planning to make one just for
+      testing. For video clips available after login you depend on
+      Facebook mercy.
+    - No HD support yet
+http://video.xfree.hu/
+
+Bulgarian:
+http://vbox7.com
+http://vbox.bg
+    - Tested at 25.02.2011 and it redirects to video.data.bg.
+http://video.data.bg
+http://boozho.com
+http://fermer.bg/video_archive/1/0
+http://bnt.bg
+http://novatv.bg
+    - Without the sub domain play.novatv.bg for the moment
+http://tv7.bg
+http://dnevnik.bg 
+    - Only clips hosted at the site
+http://dariknews.bg
+    - Totem plugin is unable to start the clip, but it can be
+      downloaded. Error in the console: "failed to seek; server does
+      not accept Range HTTP header".
+http://www.smolyannews.com
+    - Totem plugin is unable to start the clip, but it can be
+       downloaded. Error in the console: "failed to seek; server does
+       not accept Range HTTP header".
+http://clipovete.com
+http://video.fensko.com
+    - Totem plugin is unable to start the clip, but it can be
+      downloaded. Error in the console: "failed to seek; server does
+      not accept Range HTTP header".
+http://www.i-kat.org
+    - Used to work. Video section is not accessible anymore. The
+      browser is redirected.
+http://mqsto.com
+http://fun-6.com
+http://jwak.net
+http://failo.bg
+    - Hosting account suspended
+http://www.mediashare.bg
+    - Does not exist anymore.
+    - Only clips hosted at the site worked.
+http://www.arenamedia.net
+http://www.screen.bg
+http://www.crazy.bg
+http://www.friends.bg
+http://www.vboxbg.net/
+
+Web sites that use one of the following JavaScript libraries to create
+flash objects, and have the video link inline in a script tag should
+work out of the box: SWFObject, UFO, PokkaryPlayer.
+
+Web sites that use object/embed elements in the HTML document without
+a JavaScript library and have video links as parameter in the element
+arguments and parameters should work out of the box.
+
+Web sites that use identifiers to request video files need few changes
+in the code, but the framework is ready.
+
+Web sites that use RTMP to transfer clips DO NOT work.
+
+Web sites that use clips and players from remote site DO NOT work.For
+example youtube video placed in a blog or a news article. Since
+version 0.0.9 some remote objects are detected and a link to the web
+page of the video is provided. 
+
+For testing purposes you might want to check the following Wikipedia
+article: http://en.wikipedia.org/wiki/List_of_video_hosting_websites
+
+This file is part of  Linterna Mágica
+
+Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

@@ -1,0 +1,68 @@
+* Support for (i)frames/objects for Greasemonkey/Userscripts in
+  Epiphany. This will be useful for remotely placed videos.
+
+ * Greasemonkey for Epiphany needs to be patched to have some version
+   of GM_xmlHTTP. Without it there is no chance for remote sites in
+   Epiphany. Maybe with (i)frame /object support for userscripts can help.
+
+* Support play.novatv.bg. It needs:
+
+    - check if an argument to SWFObject is a variable (match for var) 
+       and parse it for video_id or video link (see next)
+
+    - remote requests (epiphany needs work) The xml with video link is
+      at a remote location
+
+* Support www.clipjunkie.com
+    - check if an argument to SWFObject is a variable (match for var)
+       and parse it for video_id or video link (see previous)
+    - Video link is in separate <script> tag. Uses SWFObject 
+
+* Might be better to not have an array with flash objects, but just to
+  make them invisible.
+
+* Fix metacafe.com high definition links
+    - At the moment high definition videos are played, but there is no
+       option to switch to other links
+    - It is patched to work with flv and mp4. Rework Metacafe support.
+
+* Try to support http://mbox4u.com (the player is in iframe)
+
+* Facebook needs HD support.  Public videos work.
+      - The URL is given by video_src=
+      - There are highqual_src and lowqual_src URLs
+      - some video links have some hash key (?h=something), that might
+         not be needed
+
+* A major rework is needed (in some parts):
+  - use a  framework with configs for sites (not using the general purpose way):
+        - Example:
+	      {
+		rexgexp: "bla bla | bla ",
+		// For xmlhttprequest extraction
+		method: "get",
+		"extract_url" : "url",
+		"extract_elements" : array,
+		"make_url" : "http://a.b.c/ 1+ 2 + 3" // use the above array
+	      }
+
+* The regular expression for video links needs rework. It is messy.
+
+
+This file is part of  Linterna Mágica
+
+Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

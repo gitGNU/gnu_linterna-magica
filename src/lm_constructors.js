@@ -1,0 +1,314 @@
+//  @licstart The following is the entire license notice for the
+//  JavaScript code in this page (or file).
+//
+//  This file is part of Linterna Mágica
+//
+//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+//
+//  The JavaScript code in this page (or file) is free software: you
+//  can redistribute it and/or modify it under the terms of the GNU
+//  General Public License (GNU GPL) as published by the Free Software
+//  Foundation, either version 3 of the License, or (at your option)
+//  any later version.  The code is distributed WITHOUT ANY WARRANTY
+//  without even the implied warranty of MERCHANTABILITY or FITNESS
+//  FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+//
+//  As additional permission under GNU GPL version 3 section 7, you
+//  may distribute non-source (e.g., minimized or compacted) forms of
+//  that code without the copy of the GNU GPL normally required by
+//  section 4, provided you include this license notice and a URL
+//  through which recipients can access the Corresponding Source.
+//
+//  @licend The above is the entire license notice for the JavaScript
+//  code in this page (or file).
+//
+// @source http://e-valkov.org/linterna-magica
+
+// END OF LICENSE HEADER
+
+// Linterna Mágica constructor
+function LinternaMagica(params)
+{
+    this.debug_level = params.debug;
+
+    if (this.debug_level && params.log_to == "web")
+    {
+	var logger = this.create_web_logger();
+	this.log_to = "web";
+
+	if (!logger)
+	{
+	    this.log_to = "console";
+	}
+
+	var body = document.getElementsByTagName("body")[0];
+	if (!body)
+	{
+	    this.log_to = "console";
+	}
+	else
+	{
+	    body.appendChild(logger);
+	    // With fixed position this is not needed
+	    // var bottom =parseInt(body.clientHeight|| body.offsetHeight)-30;
+	    // logger.style.setProperty("top", bottom+"px", "important");
+	}
+    }
+    else
+    {
+	this.log_to = "console";
+    }
+
+    // FIXME: This might be used in a frame and after the object is
+    // replaced, everithing else to be removed leaving only the
+    // video. This way it might be possible to play videos from remote
+    // sites in Epiphany (no GM_ API and xmlHttpReqeust is restricted to
+    // the same origin).
+
+    var w = null;
+
+    // Firefox adn forks in Greasemonkey
+    try
+    {
+	w = unsafeWindow;
+    }
+    catch(e)
+    {
+	w = window;
+    }
+
+    if (w.top != w.self)
+    {
+	this.log("LinternaMagica.constructor:\n"+
+		 "Skipping (i)frame with address: "+
+		 window.location,1);
+	return null;
+    }
+
+    // Skip ted.com at the front page. With Gnash installed the flash
+    // object is created. The flashvars attrubute value is 24 KB
+    // (kilo*bytes*) and Firefox and forks block 
+    if (/ted\.com/i.test(window.location.hostname) &&
+	!/[A-Za-z0-9]+/i.test(window.location.pathname))
+    {	
+	this.log("LinternaMagica.constructor:\n"+
+		 "Skipping TED front page!"+
+		 " Blocks Firefox and forks.");
+	return null;
+    }
+
+    // Do not change order
+    this.check_flash_plugin();
+    this.set_priority(params.priority);
+    this.set_autostart(params.autostart);
+    this.set_controls(params.controls);
+    this.set_cookies(params.cookies);
+    this.set_wait_dailymotion(params.wait_dm);
+    this.set_check_updates(params.updates);
+
+    // check_for_updates() MUST be called only if there is video object
+    // found. The only place where the user can be informed is in the
+    // interface. It is not a good idea to fetch the updates.js script
+    // (with JSONP data) on every page. check_for_updates() is called
+    // in create_video_object().
+
+    // Add the style sheet to the head of the document.
+    this.create_stylesheet();
+
+    // Array of flash objects
+    this.dirty_objects = new Array();
+
+    // Array of created "video" objects
+    this.video_objects = new Array();
+
+    // Object holding data for curently processed video ids with
+    // XMLHttpRequest. Keys video_id+host , values 1/0.
+    // Prevent creation of two video objects in YouTube 
+    this.requested_ids =new Object();
+
+    if (this.controls)
+    {
+	// setInterval ids for the video time position counter function
+	this.player_timers = new Array();
+    }
+
+    // If there is a plugin installed do not search in scripts.
+    // Exception for blip.tv. This is the easiesy way to
+    // support it with installed plugin.
+    if (!this.plugin_is_installed ||
+	/blip\.tv/i.test(window.location.hostname) ||
+	/myvideo\.de/i.test(window.location.hostname))
+    {
+	this.log("LinternaMagica.constructor:\n"+
+		 "Examining scripts.", 4);
+
+	// video.google.* bloats in this function. It takes around 1 min
+	this.extract_objects_from_scripts();
+    }
+
+    this.log("LinternaMagica.constructor:\n"+
+	     "Adding DOM event listener for inserted node.",1);
+
+    // Work-around for FlashBlock && Installed plugin (some sites remove
+    // the scripts while insrting the object, so we cannot extract the
+    // information.
+    var self = this;
+
+    var body = document.getElementsByTagName("body")[0];
+
+    // Exit if the body is not found (Sometimes an error occurrs while
+   //  adding the event listener)
+   //  ** Message: console message: undefined @161: TypeError: Result of
+   // expression 'body' [undefined] is not an object.**
+    if (!body)
+	return;
+
+    // This way it can be removed somewhere if needed. Currentlu not
+    // used;
+    this.inserted_node_listener =  function(ev)
+			  {
+			      var el = this;
+			      self.if_node_is_inserted.
+				  apply(self, [ev, el]);
+			  };
+
+    body.addEventListener("DOMNodeInserted",  
+			  this.inserted_node_listener, true);
+
+    this.log("LinternaMagica.constructor:\n"+
+	     "Checking DOM for objects",1);
+
+    this.extract_objects_from_dom(document);
+}
+
+LinternaMagica.prototype = new Object ();
+LinternaMagica.constructor = LinternaMagica;
+
+LinternaMagica.prototype.version = "@VERSION@";
+LinternaMagica.prototype.name =  "Linterna Mágica";
+
+// Release date string in POISIX time format (date +"%s")
+// FIXME: Add real string
+LinternaMagica.prototype.release_date = "1299248757";
+
+// The URL with information about the latest version. Must
+// return JSONP data:
+// linterna_magica_latest_version({
+//    date: <release date>, // string in POISIX time format (date +"%s")>
+//    version: <version>,  // string 
+//});
+LinternaMagica.prototype.updates_page =
+    "http://e-valkov.org/linterna-magica/downloads/updates.js";
+
+LinternaMagica.prototype.description =
+    _("Watch video on the web ")+
+    _("in a brand new way: ")+
+    _("You don't need a glint, ")+
+    _("the magic lantern is ignited!");
+
+LinternaMagica.prototype.license =
+    _("This program is free software; ")+
+    _("you can redistribute it and/or ")+
+    _("modify it under the terms of the ")+
+    _("GNU  General Public License (GNU GPL)")+
+    _(" version 3 (or later). ")+
+    _("A copy of the license can be downloaded from ");
+
+LinternaMagica.prototype.license_link =
+    "http://www.gnu.org/licenses/gpl.html";
+
+LinternaMagica.prototype.homepage = "http://e-valkov.org/linterna-magica";
+// This is filled during build from the Makefile
+LinternaMagica.prototype.copyrights = new Array();
+
+// This object holds all the functions to control
+// the playback via web controls
+LinternaMagica.prototype.player = new Object();
+
+// Find which video plugin is in use and
+// set some variables and texts
+// (player_name, volume)
+LinternaMagica.prototype.player.init = function(id)
+{
+    this.player.set_player_name.apply(this,[id]);
+    var self = this;
+
+    // We only start the firs clip
+    if (this.autostart && id ==0)
+    {
+	// Sometimes it skips seconds if the
+	// interval is 1sec
+	this.player_timers[id] = setInterval(function()
+					     {
+						 self.ticker.apply(self,[id]);
+					     }, 500);
+    }
+
+
+    var volume_interval =
+	setInterval(function()
+		    {
+			var knob = document.getElementById(
+			    "linterna-magica-controls-"+
+				"volume-slider-knob-"+id);
+
+			if (!knob)
+			    return;
+
+			var text = knob.nextSibling;
+			var slider = knob.parentNode;
+			var vol = null;
+
+			var video_object = self.
+			    get_video_object(id);
+
+			var player_name =
+			    video_object.
+			    getAttribute("player_name");
+
+			if (/gecko/i.test(player_name)
+			    || /quicktime plug-in/i.test(player_name))
+			{
+			    try
+			    {
+				vol =
+				    video_object.GetVolume();
+				if (/quicktime/i.test(player_name))
+				{
+				    // totemNarrowspace uses 255 as max
+				    // calculate as 100 %
+				    vol = parseInt(vol * 100/255);
+				}
+
+			    }
+			    catch(e)
+			    {
+			    }
+			}
+			else if (/vlc/i.test(player_name))
+			{
+			    if (video_object.audio)
+			    {
+				vol =
+				    video_object.audio.
+				    volume;
+			    }
+			}
+
+			if (vol)
+			{
+			    var pos = parseInt(
+				(slider.clientWidth*vol/100) -
+				    knob.clientWidth-knob.clientWidth/2);
+
+			    knob.style.setProperty("left", pos+"px",
+						   "important");
+
+			    text.textContent = vol+"%";
+
+			    clearInterval(volume_interval);
+			}
+
+		    }, 800);
+}
