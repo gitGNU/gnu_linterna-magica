@@ -32,6 +32,10 @@ div.dmpi_video_playerv4 div.linterna-magica,
   /* Fix header buttons displacement in boozho.com */
   /* Fixes entire interface displacement */
   clear: left !important;
+  /* Temporary fix for languages written from right to left. */
+  /* If translation for  language with RTL is present this breaks */
+  /* See bug  https://savannah.nongnu.org/bugs/?32740 */
+  direction: ltr !important;
 }
 
 /* The message paragraph in the object */
@@ -66,7 +70,7 @@ div.linterna-magica-header,
                         right: 0px  !important;
                         margin: 0px  !important;
                         background: url('button-about.png') 0 0 no-repeat !important;
-                        text-indent: -3000px  !important;
+                        line-height: 3000px  !important;
                         overflow: hidden  !important;
                         /* Hint that there is help */
                         cursor: help !important;
@@ -83,7 +87,7 @@ div.linterna-magica-header,
                                  position: absolute !important;
                                  right: 0px  !important;
                                  background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
-                                 text-indent: -3000px  !important;
+                                 line-height: 3000px  !important;
                                  overflow: hidden  !important;
                                  }
 
@@ -172,7 +176,7 @@ a.linterna-magica-controls-buttons {
                                      text-decoration: none !important;
                                      padding: 0px !important;
                                      overflow: hidden  !important;
-                                     text-indent: -3000px  !important;
+                                     line-height: 3000px  !important;
                                      outline: none  !important;
                                      }
 
@@ -249,7 +253,7 @@ div.linterna-magica-controls-horizontal-slider,
                                        text-decoration: none !important;
                                        padding: 0px !important;
                                        overflow: hidden  !important;
-                                       text-indent: -3000px  !important;
+                                       line-height: 3000px  !important;
                                        outline: none  !important;
                                        display: block !important;
                                        float: left !important;
@@ -265,7 +269,7 @@ div.linterna-magica-controls-horizontal-slider,
                                         text-decoration: none !important;
                                         padding: 0px !important;
                                         overflow: hidden  !important;
-                                        text-indent: -3000px  !important;
+                                        line-height: 3000px  !important;
                                         outline: none  !important;
                                         display: block !important;
                                         float: left !important;
@@ -276,7 +280,7 @@ div.linterna-magica-controls-horizontal-slider,
                                         text-decoration: none !important;
                                         padding: 0px !important;
                                         overflow: hidden  !important;
-                                        text-indent: -3000px  !important;
+                                        line-height: 3000px  !important;
                                         outline: none  !important;
                                         display: block !important;
                                         float: left !important;
@@ -372,7 +376,7 @@ div.linterna-magica-hd-links-list,
                              text-decoration: none !important;
                              padding: 0px !important;
                              overflow: hidden  !important;
-                             text-indent: -3000px  !important;
+                             line-height: 3000px  !important;
                              outline: none  !important;
                              display: block !important;
                              float: left !important;
@@ -396,7 +400,7 @@ div.linterna-magica-hd-links-list,
                                         text-decoration: none !important;
                                         padding: 0px !important;
                                         overflow: hidden  !important;
-                                        text-indent: -3000px  !important;
+                                        line-height: 3000px  !important;
                                         outline: none  !important;
                                         display: block !important;
                                         float: right !important;
@@ -412,7 +416,7 @@ div.linterna-magica-hd-links-list,
                                 text-decoration: none !important;
                                 padding: 0px !important;
                                 overflow: hidden  !important;
-                                text-indent: -3000px  !important;
+                                line-height: 3000px  !important;
                                 outline: none  !important;
                                 display: block !important;
                                 float: right !important;
@@ -451,7 +455,7 @@ div.linterna-magica-web-log,
 
 .linterna-magica-web-log-header {
                                   text-align: left  !important;
-                                  text-indent: 10px !important;
+                                  line-height: 10px !important;
                                   color: #333333  !important;
                                   background: gray url('header-background.png') 0 0 repeat-x !important;
                                   height: 24px  !important;
@@ -491,7 +495,7 @@ div.linterna-magica-web-log,
                                     text-decoration: none !important;
                                     overflow: hidden;
                                     background: url('button-close.png') 0 0 no-repeat !important;
-                                    text-indent: -3000px;
+                                    line-height: 3000px;
                                     }
 .linterna-magica-web-log-header a.linterna-magica-web-log-show-hide-body {
                                                                            background: url('button-minimize.png') 0 0 no-repeat !important;
