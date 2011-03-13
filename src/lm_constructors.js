@@ -200,6 +200,7 @@ LinternaMagica.prototype.release_date = "1299939325";
 //});
 LinternaMagica.prototype.updates_page =
     "http://e-valkov.org/linterna-magica/downloads/updates.js";
+//    "http://localhost/linterna-magica/downloads/updates.js";
 
 LinternaMagica.prototype.description =
     _("Watch video on the web ")+
@@ -218,7 +219,10 @@ LinternaMagica.prototype.license =
 LinternaMagica.prototype.license_link =
     "http://www.gnu.org/licenses/gpl.html";
 
-LinternaMagica.prototype.homepage = "http://e-valkov.org/linterna-magica";
+LinternaMagica.prototype.homepage = 
+    "http://e-valkov.org/linterna-magica";
+// "http://localhost/lm";
+
 // This is filled during build from the Makefile
 LinternaMagica.prototype.copyrights = new Array();
 

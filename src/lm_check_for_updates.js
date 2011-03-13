@@ -285,67 +285,14 @@ LinternaMagica.prototype.create_update_info_box = function(id)
     p.appendChild(t);
     div.appendChild(p);
 
-    // Duplication in lm_about.js:
-    // LinternaMagica.create_about_box()
-    var script_data = function(){
-	var a =  document.getElementsByTagName("a");
-	// Simulate the click as if it was in the parent
-	// window. Otherwise it is opened in the <object>
-	var click = function(ev)
-	{
-	    // Don't mess with middle button clicks.  Epiphany for
-	    // example has an extension that opens new tabs with
-	    // middle click. Same with FF.
-	    if (ev.button == 1)
-	    {
-		return true;
-	    }
+    var a = this.pack_external_link(
+	this.homepage+"/#news",
+	_("Read the news section at the home page"));
 
-	    ev.preventDefault();
-	    window.parent.location = this.href;
-	    return false;
-	}
+    p = document.createElement('p');
+    p.appendChild(a);
+    div.appendChild(p);
 
-	for (var i=0; i<a.length; i++)
-	{
-	    // WebKit crashes with translated text.
-	    // encode and then decode the text
-	    a[i].textContent = decodeURI(a[i].textContent);
-	    a[i].addEventListener("click", click, false);
-	}
-    };
-
-    // FIXME: Style will be different with changes in the stylesheet.
-    var a = "<html><head></head><body>"+
-	"<a href='"+this.homepage+"/#news'>"+
-
-    // WebKit crashes with translated text.
-    // encode and then decode the text
-    encodeURI(_("Read the news section at the home page"))+
-
-    "</a>"+
-	"<style>"+
-	"a { color:#bbbbbb; text-decoration: uderline; "+
-	"font-style:none; font-family: 'Liberation Sans',"+
-	" 'Arial', sans-serif  !important; "+
-	"display: block !important; "+
-	"font-size: 12px !important;"+
-	"line-height: 1.3em !important;"+
-	"font-weight: normal !important;"+
-	"}"+
-	"</style>"+
-	"<script type='text/javascript'>"+
-	"("+script_data.toString()+")();"+
-	"</script>"+
-	"</body></html>";
-
-    var awrap = document.createElement("object");
-  
-    awrap.setAttribute("data", 
-	    	       "data:text/html;charset=UTF-8;base64,"+
-	    	       btoa(a));
-
-    div.appendChild(awrap);
     return div;
 }
 

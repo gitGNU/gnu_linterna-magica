@@ -62,66 +62,19 @@ LinternaMagica.prototype.create_about_box = function(id)
     p.appendChild(text);
     box.appendChild(p);
 
-    // The links are wrapped in object with data: URI scheme. This
-    // will not send referrer. The page where the user was is not
-    // sent.
-    var license_and_home_page = document.createElement("object");
+    var license_link = this.pack_external_link(this.license_link,
+					  this.license_link);
 
-    // Duplication in lm_check_for_updates.js:
-    // LinternaMagica.create_update_info_box();
-    var script_data = function(){
-	var a =  document.getElementsByTagName("a");
-	// Simulate the click as if it was in the parent
-	// window. Otherwise it is opened in the <object>
-	var click = function(ev)
-	{
-	    // Don't mess with middle button clicks.  Epiphany for
-	    // example has an extension that opens new tabs with
-	    // middle click. Same with FF.
-	    if (ev.button == 1)
-	    {
-		return true;
-	    }
+    p = document.createElement('p');
+    p.appendChild(license_link);
+    box.appendChild(p);
 
-	    ev.preventDefault();
-	    window.parent.location = this.href;
-	}
-	for (var i=0; i<a.length; i++)
-	{
-	    // WebKit crashes with translated text.
-	    // encode and then decode the text
-	    a[i].textContent = decodeURI(a[i].textContent);
-	    a[i].addEventListener("click", click, false);
-	}
-    };
+    var homepage = this.pack_external_link(this.homepage,
+					   _("Linterna Mágica Home page"));
 
-    // FIXME: Style will be different with changes in the stylesheet.
-    var data = "<html><head></head><body>"+
-	"<a href='"+this.license_link+"' >"+
-	this.license_link+"</a>"+
-	"<a href='"+this.homepage+"' style='margin-top: 10px !important;' >"+
-	// WebKit crashes with translated text.
-	// encode and then decode the text
-	encodeURI(_("Linterna Mágica Home page"))+"</a>"+
-	"<style>"+
-	"a { color:#bbbbbb; text-decoration: uderline; "+
-	"font-style:none; font-family: 'Liberation Sans',"+
-	" 'Arial', sans-serif  !important; "+
-	"display: block !important; "+
-	"font-size: 12px !important;"+
-	 "line-height: 1.3em !important;"+
-	"font-weight: normal !important;"+
-	"}"+
-	"</style>"+
-	"<script type='text/javascript'>"+
-	"("+script_data.toString()+")();"+
-	"</script>"+
-	"</body></html>";
-
-    license_and_home_page.data = 
-	"data:text/html;charset=UTF-8;base64,"+btoa(data);
-
-    box.appendChild(license_and_home_page);
+    p = document.createElement('p');
+    p.appendChild(homepage);
+    box.appendChild(p);
 
     // We want this for small objects. Scroll bars will be visible and
     // license and home page links accessible.
