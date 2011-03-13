@@ -230,7 +230,9 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // Fix dailymotion (otherwise it is set to 100%
     // and it goes out of the "box")
     about_box.style.setProperty("height",
-				object_data.height+"px",
+				// Using the exact height with small
+				// objects hides the homepage link.
+				(parseInt(object_data.height)-20)+"px",
 				"important");
     container.appendChild(about_box);
 
