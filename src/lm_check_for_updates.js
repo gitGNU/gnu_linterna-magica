@@ -133,10 +133,12 @@ LinternaMagica.prototype.check_for_updates = function()
 
     var frame_data = 
 	"<html><head>"+
-	"<script type='text/javascript'>var receiver_location='"+
+	"<script async='async' defer='defer' type='text/javascript'>"+
+	"var receiver_location='"+
 	encodeURI(window.location)+"';("+frame_script.toString()+")();"+
 	"</script>"+
-	"<script type='text/javascript' src='"+this.updates_page+"'>"+
+	"<script async='async' defer='defer' type='text/javascript' src='"+
+	this.updates_page+"'>"+
 	"</script>"+
 	"</head><body></body></html>";
 
@@ -345,6 +347,3 @@ LinternaMagica.prototype.show_or_hide_update_info = function(event, element)
 	}
     }
 }
-
-
-
