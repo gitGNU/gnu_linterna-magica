@@ -69,7 +69,8 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	    continue;
 	}
 
-	if (/youtube\.com/i.test(window.location.hostname))
+	if (/youtube\.com/i.test(window.location.hostname) ||
+	    (/youtube-nocookie\.com/i.test(window.location.hostname)))
 	{
 	    object_data =
 		this.extract_object_from_script_youtube();
@@ -121,7 +122,9 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 		     object_data.video_id,1);
 
 	    this.request_video_link(object_data);
-	    if (/youtube\.com/i.test(window.location.hostname))
+
+	    if (/youtube\.com/i.test(window.location.hostname) ||
+		(/youtube-nocookie\.com/i.test(window.location.hostname)))
 	    {
 		// We assume there is only one object per page in 
 		// YouTube found trough scripts.

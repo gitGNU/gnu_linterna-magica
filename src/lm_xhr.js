@@ -55,7 +55,8 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	this.log("LinternaMagica.request_video_link:\n"+
 		 "Video with id  "+video_id+
 		 " is being processed. Skipping this request."+host,1);
-	if (/youtube\.com/i.test(window.location.hostname))
+	if (/youtube\.com/i.test(window.location.hostname) ||
+	    /youtube-nocookie\.com/i.test(window.location.hostname))
 	{
 	    this.log("LinternaMagica.request_video_link:\n"+
 		     "Removing duplicate object ",1);
@@ -118,7 +119,8 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	address = "/videodownload.php?e="+video_id;
     }
 
-    if (/youtube\.com/i.test(host))
+    if (/youtube\.com/i.test(host) || 
+	/youtube-nocookie\.com/i.test(host))
     {
 	address = "/watch?v="+video_id;
 
@@ -297,7 +299,8 @@ function(client, object_data)
 	    }
 	}
 
-	if (/youtube\.com/i.test(host))
+	if (/youtube\.com/i.test(host) ||
+	    /youtube-nocookie\.com/i.test(host))
 	{
 	    var fmt =
 		this.extract_youtube_fmt_parameter(client.responseText);
@@ -360,8 +363,10 @@ function(client, object_data)
 	// FIXME HTML5 in WebKit switch like for flash plugin ?
 	// In the next release 0.0.10 ?!
 	if (!/youtube\.com/i.test(window.location.host) &&
+	    !/youtube-nocookie\.com/i.test(window.location.host) &&
 	    !/vimeo\.com/i.test(window.location.host) ||
 	    ((/youtube\.com/i.test(window.location.host) ||
+	      /youtube-nocookie\.com/i.test(window.location.host) ||
 	      /vimeo\.com/i.test(window.location.host)) &&
 	     this.plugin_is_installed))
 	{
@@ -372,7 +377,8 @@ function(client, object_data)
 		     "Creating video object with url: "+url,1);
 	    this.create_video_object(object_data)
 	}
-	else if (/youtube\.com/i.test(window.location.host) &&
+	else if ((/youtube\.com/i.test(window.location.host) ||
+		  /youtube-nocookie\.com/i.test(window.location.host))  &&
 		 ! this.plugin_is_installed)
 	{
 	    if (!this.youtube_flash_upgrade_timeout)

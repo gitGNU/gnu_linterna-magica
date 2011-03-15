@@ -399,7 +399,8 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 	    // at www.youtube.com time: ***14:58:59:999***
 	    // LinternaMagica.extract_link: No link found. at
 	    // www.youtube.com time: ***15:12:21:356***
-	    if (!/youtube\.com/i.test(window.location.hostname))
+	    if (!/youtube\.com/i.test(window.location.hostname) &&
+		!/youtube-nocookie\.com/i.test(window.location.hostname))
 	    {
 		this.log("LinternaMagica.extract_link_from_param_list:\n"+
 			 "Trying to extract a link from"+
