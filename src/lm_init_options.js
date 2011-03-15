@@ -37,7 +37,7 @@ var linterna_magica_options =
 	// Where to print the debugging information
 	// web: Print messages in the web page (default)
 	// console: Use the debugging console of the browser
-	"log_to": "web",
+	"log_to": "console",
 	// Should Linterna  Mágica automatically check and notify for
 	// updates.
 	// <time><type>: Check at interval. (default 3w)
