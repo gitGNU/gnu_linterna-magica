@@ -190,7 +190,7 @@ LinternaMagica.prototype.name =  "Linterna Mágica";
 
 // Release date string in POISIX time format (date +"%s")
 // FIXME: Add real string
-LinternaMagica.prototype.release_date = "1300219018";
+LinternaMagica.prototype.release_date = "1300639727";
 
 // The URL with information about the latest version. Must
 // return JSONP data:
