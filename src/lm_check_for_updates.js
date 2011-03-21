@@ -30,7 +30,9 @@
 LinternaMagica.prototype.check_for_updates = function()
 {
     // Configured to not update
-    if (this.updates == -1)
+    // or the build is from SVN
+    if (this.updates == -1 || 
+	/svn/i.test(this.version))
     {
 	return  null;
     }
