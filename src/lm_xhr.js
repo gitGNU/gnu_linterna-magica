@@ -35,6 +35,7 @@ LinternaMagica.prototype.request_video_link = function(object_data)
     // extract them from swf object data/src attribute
     var protocol = window.location.protocol;
     var host = window.location.host;
+    var location_href = window.location.href;
     var video_id = object_data.video_id;
     var address = null;
     var method ="GET";
@@ -122,7 +123,19 @@ LinternaMagica.prototype.request_video_link = function(object_data)
     if (/youtube\.com/i.test(host) || 
 	/youtube-nocookie\.com/i.test(host))
     {
-	address = "/watch?v="+video_id;
+	var uri_args = null;
+	// Some clips require &skipcontrinter=1. Other might require
+	// something else.
+	if (/&/i.test(location_href))
+	{
+	    uri_args = location_href.split(/&/);
+	    // This is the host and path (http://...). We do not need
+	    // it.
+	    delete uri_args[0];
+	    uri_args = uri_args.join("&");
+	}
+
+	address = "/watch?v="+video_id +(uri_args ? ("&"+uri_args) : "");
 
 	// Remove cookies and fetch page again. See "A note on
 	// cookies".
