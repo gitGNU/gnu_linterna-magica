@@ -126,7 +126,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    }
 
 	    link.label  = link_data[1] + " " +label;
-	    link.url = fmt_url_map[fmt_id];
+	    link.url = fmt_url_map[fmt_id].replace(/\\u0026/g,"&");
 
 	    this.log("LinternaMagica.create_youtube_links:\n"+
 		     "Extracted link  : "+link.url,4);
