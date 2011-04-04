@@ -27,5 +27,62 @@
 
 // END OF LICENSE HEADER
 
-// Init
-var larerna_magica = new LinternaMagica(linterna_magica_options);
+// The initialisation code. This is kept outside the LinternaMagica
+// object on purpose. This function is called in setInterval for a
+// while, waiting for objects from "child" userscripts. With this code
+// the configuration options of the user and translations objects are
+// received. There is no other way for Greasemonkey (IceCat /
+// Firefox). Epiphany (and Midori) could make it without this code,
+// because the userscript is executed as if it is part of the web page
+// and there is access to the window object and everything is in
+// single scope.
+function linterna_magica_init ()
+{
+    window.linterna_magica_init_counter ++;
+
+    var ready_to_init = 0;
+
+    var data_window = null;
+
+    try
+    {
+	data_window = unsafeWindow;
+    }
+    catch(e)
+    {
+	data_window = window;
+    }
+
+    // 1.5 second with 250 ms interval.
+    if (window.linterna_magica_init_counter >= 6 ||
+	data_window.linterna_magica_user_config != undefined)
+    {
+	clearInterval(window.linterna_magica_init_timeout);
+	ready_to_init = 1;
+    }
+    
+    if (ready_to_init)
+    {
+	var config = new Object();
+
+	for (var o in linterna_magica_options)
+	{
+	    // Zero migth be an option
+	    if (data_window.linterna_magica_user_config[o] != undefined)
+	    {
+		config[o] = data_window.linterna_magica_user_config[o];
+	    }
+	    else
+	    {
+		config[o] = linterna_magica_options[o];
+	    }
+	}
+
+	// Init
+	var larerna_magica = new LinternaMagica(config);
+    }
+}
+
+window.linterna_magica_init_counter = 0;
+window.linterna_magica_init_timeout = 
+    setInterval(linterna_magica_init, 250);
