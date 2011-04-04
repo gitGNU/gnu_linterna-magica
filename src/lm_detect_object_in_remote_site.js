@@ -38,7 +38,7 @@ LinternaMagica.prototype.detect_object_in_remote_site = function()
 	var site = this.remote_sites[s];
 	var site_re = new RegExp (site.site_name_regex,"i");
 	var video_id_re = new RegExp (site.video_id_regex,"i");
-	var video_id = null;
+	var url_template_data = null;
 
 	if (window.location.hostname.match(site_re))
 	{
@@ -55,26 +55,30 @@ LinternaMagica.prototype.detect_object_in_remote_site = function()
 	{
 	    this.log("LinternaMagica.detect_object_in_remote_site:\n"+
 		     "Object matches "+site_re, 3);
-	    video_id = data.match(video_id_re);
+	    url_template_data = data.match(video_id_re);
 	}
 	else
 	{
 	    continue;
 	}
 	
-	if (video_id)
+	if (url_template_data)
 	{
-	    var pos = video_id.length-1;
+	    url = site.url_template;
 
-	    // Zero can be an option
-	    if (site.video_id_position != null)
+	    for (var to_be_replaced in site.regex_replace_map)
 	    {
-		pos = site.video_id_position;
-	    }
-	    video_id = video_id[pos];
-	    video_id = video_id.split("&")[0].split("?")[0];
 
-	    url = site.url_template.replace(/<video_id>/ig,video_id);
+		var index = site.regex_replace_map[to_be_replaced];
+		var pos = url_template_data.length-index;
+
+		var replace_data = url_template_data[pos];
+		replace_data = replace_data.split("&")[0].split("?")[0];
+
+		var regex = new RegExp ( "<"+to_be_replaced+">", "ig");
+
+		url = url.replace(regex, replace_data);
+	    }
 
 	    this.log("LinternaMagica.detect_object_in_remote_site:\n"+
 		     "Extracted remote link to video clip for object "+url, 1);
@@ -95,24 +99,36 @@ LinternaMagica.prototype.remote_sites = new Array();
 //  (youtube\.com, dailymotion\.com etc). Will be passed to RegExp
 //  * video_id_regex - regular expression that will match end extract
 //    the video_id. Will be passed to RegExp
-//  * video_id_position - the () block number where thevideo_id will
-//    be captured in the video_id_regexp. null for last.
 //  * url_template - the url template to recreate the video link. Use
 //  <video_id> where the video_id should be added.
+//  *regex_replace_map - hash/object. 
+//     The keys are strings to be replaces in the url_template, wrapped in <>.
+//     The values are the indexes of each () block in the video_id_regex.
+//     The indexes are subtracted from the length of the match array. 
+//     The enumeration is from left ro right. 
+//     For example: 1 for the last match, 2 for the next and so on.
+//     The video_id string is optional if it is the last matched () block.
+//     The code for google.video is an example.
+
 LinternaMagica.prototype.remote_sites.add_site =
-function (site_name_regex, video_id_regex, url_template, video_id_position)
+function (site_name_regex, video_id_regex, url_template, regex_replace_map)
 {
     var site = new Object();
 
-    // Zero is an option
-    if (video_id_position == undefined)
+    if (!regex_replace_map)
     {
-	video_id_position = null;
+	regex_replace_map = new Object();
+    }
+
+    // Zero is an option
+    if (regex_replace_map.video_id == undefined)
+    {
+	regex_replace_map.video_id = 1;
     }
 
     site.site_name_regex = site_name_regex;
     site.video_id_regex = video_id_regex;
-    site.video_id_position = video_id_position;
+    site.regex_replace_map = regex_replace_map;
     site.url_template = url_template;
    
     this.push(site);
@@ -142,17 +158,24 @@ LinternaMagica.prototype.remote_sites.add_site(
     "metacafe\\\.com\\\/fplayer\\\/(.*)\\\.swf",
     "http://metacafe.com/watch/<video_id>");
 
+LinternaMagica.prototype.remote_sites.add_site(
+    "video\\\.google\\\.",
+    "video\\\.google\\\.(.*)/googleplayer\\\.swf\\\?docid=([0-9-]+)\\\&",
+    "http://video.google.<tld>/videoplay?docid=<video_id>", 
+    {tld:2, video_id:1});
 
 // Create the buton/link that points to the remote site video
 LinternaMagica.prototype.create_remote_site_link = function(object_data)
 {
     var p= document.createElement("p");
-    var a = document.createElement("a");
-    a.textContent = "Linterna Mágica >>";
+
+    var a = this.pack_external_link(object_data.remote_site_link,
+				    "Linterna Mágica >>");
+
     a.setAttribute("class", "linterna-magica-toggle-plugin");
-    a.setAttribute("href", object_data.remote_site_link);
     a.setAttribute("title", _("Watch this video at it's original"+
-			      " site with Linterna Mágica"));
+     			      " site with Linterna Mágica"+
+			      " ("+object_data.remote_site_link+")"));
 
     p.appendChild(a);
     p.style.setProperty("position", "relative", "important");
