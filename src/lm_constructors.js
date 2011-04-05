@@ -30,6 +30,36 @@
 // Linterna Mágica constructor
 function LinternaMagica(params)
 {
+    // FIXME: This might be used in a frame and after the object is
+    // replaced, everithing else to be removed leaving only the
+    // video. This way it might be possible to play videos from remote
+    // sites in Epiphany (no GM_ API and xmlHttpReqeust is restricted to
+    // the same origin).
+    
+    var w = null;
+    
+    // GNU IceCat and other version of Firefox with Greasemonkey
+    try
+    {
+	w = unsafeWindow;
+    }
+    catch(e)
+    {
+	w = window;
+    }
+    
+    if (w.top != w.self)
+    {
+	this.log("LinternaMagica.constructor:\n"+
+		 "Skipping (i)frame with address: "+
+		 window.location,1);
+	return null;
+    }
+
+    // The code above should be executed before the web logger
+    // element. Otherwise it is created and visible in iframes and
+    // objects that are used to embed clips in remote sites.
+
     this.debug_level = params.debug;
 
     if (this.debug_level && params.log_to == "web")
@@ -58,32 +88,6 @@ function LinternaMagica(params)
     else
     {
 	this.log_to = "console";
-    }
-
-    // FIXME: This might be used in a frame and after the object is
-    // replaced, everithing else to be removed leaving only the
-    // video. This way it might be possible to play videos from remote
-    // sites in Epiphany (no GM_ API and xmlHttpReqeust is restricted to
-    // the same origin).
-
-    var w = null;
-
-    // Firefox adn forks in Greasemonkey
-    try
-    {
-	w = unsafeWindow;
-    }
-    catch(e)
-    {
-	w = window;
-    }
-
-    if (w.top != w.self)
-    {
-	this.log("LinternaMagica.constructor:\n"+
-		 "Skipping (i)frame with address: "+
-		 window.location,1);
-	return null;
     }
 
     // Skip ted.com at the front page. With Gnash installed the flash
