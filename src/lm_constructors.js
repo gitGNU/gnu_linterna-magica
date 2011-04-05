@@ -60,7 +60,8 @@ function LinternaMagica(params)
     // element. Otherwise it is created and visible in iframes and
     // objects that are used to embed clips in remote sites.
 
-    this.debug_level = params.debug;
+    // Could be a string, but we need integer.
+    this.debug_level = parseInt(params.debug);
 
     if (this.debug_level && params.log_to == "web")
     {
