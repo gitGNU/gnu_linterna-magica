@@ -41,7 +41,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     play.setAttribute("class", "linterna-magica-controls-buttons "+
 		      "linterna-magica-controls-buttons-play");
     play.setAttribute("href", "#");
-    play.setAttribute("title", _("Play"));
+    play.setAttribute("title", this._("Play"));
     play.textContent ="Pl";
     // Only pause button should be visible on autostart
     // Auto start only the firs object in the page
@@ -77,7 +77,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     pause.setAttribute("class", "linterna-magica-controls-buttons "+
 		       "linterna-magica-controls-buttons-pause");
     pause.setAttribute("href", "#");
-    pause.setAttribute("title", _("Pause"));
+    pause.setAttribute("title", this._("Pause"));
     pause.textContent ="Pa";
     // Only play button should be visible if !autostart (and
     if (!this.autostart || id !=0)
@@ -107,7 +107,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     stop.setAttribute("class", "linterna-magica-controls-buttons "+
 		      "linterna-magica-controls-buttons-stop");
     stop.setAttribute("href", "#");
-    stop.setAttribute("title", _("Stop"));
+    stop.setAttribute("title", this._("Stop"));
     stop.textContent ="St";
     stop.addEventListener("click", function(ev)
     			  {
@@ -128,34 +128,8 @@ LinternaMagica.prototype.create_controls = function(object_data)
     			  }, false);
     controls.appendChild(stop);
 
-
-    // var seek_b = document.createElement("a");
-    // seek_b.setAttribute("class", "linterna-magica-controls-buttons");
-    // seek_b.setAttribute("href", "#");
-    // seek_b.setAttribute("title", _("Seek 10 seconds backwards"));
-    // seek_b.textContent ="Rw";
-    // seek_b.addEventListener("click", function(ev)
-    // 			    {
-    // 				ev.preventDefault();
-    // 				self.player.rewind.apply(self, [id]);
-    // 			    }, false);
-    // controls.appendChild(seek_b);
-
-    // var seek_f = document.createElement("a");
-    // seek_f.setAttribute("class", "linterna-magica-controls-buttons");
-    // seek_f.setAttribute("href", "#")
-    // seek_f.setAttribute("title", _("Seek 10 seconds forward"));
-    // seek_f.textContent ="Fw";
-    // seek_f.addEventListener("click", function(ev)
-    // 			    {
-    // 				ev.preventDefault();
-    // 				self.player.forward.apply(self, [id]);
-    // 			    }, false);
-    // controls.appendChild(seek_f);
-
-
     var time_slider = document.createElement("div");
-    time_slider.setAttribute("title", _("Time"));
+    time_slider.setAttribute("title", this._("Time"));
 
     time_slider.setAttribute("class",
 			     "linterna-magica-controls-horizontal-slider");
@@ -226,13 +200,24 @@ LinternaMagica.prototype.create_controls = function(object_data)
 					     }, 500);
 				 }, false);
 
+    var time_knob_move = null;
+
+    if (this.languages[this.lang].__direction == "ltr" ||
+	this.languages[this.lang].__direction !== "rtl")
+    {
+	time_knob_move = "left";
+    }
+    else if (this.languages[this.lang].__direction == "rtl")
+    {
+	time_knob_move = "right";
+    }
 
     var time_knob = document.createElement("a");
-    time_knob.setAttribute("title", _("Time"));
+    time_knob.setAttribute("title", this._("Time"));
     time_knob.setAttribute("class", "linterna-magica-controls-slider-knob");
     time_knob.setAttribute("id",
 			   "linterna-magica-controls-time-slider-knob-"+id);
-    time_knob.style.setProperty("left", "0px", "important");
+    time_knob.style.setProperty(time_knob_move, "0px", "important");
 
     time_knob.setAttribute("href", "#");
     time_knob.addEventListener("mousedown", function(ev)
@@ -267,7 +252,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     var volume_slider = document.createElement("div");
     volume_slider.setAttribute("class",
 			       "linterna-magica-controls-horizontal-slider");
-    volume_slider.setAttribute("title", _("Volume control"));
+    volume_slider.setAttribute("title", this._("Volume control"));
 
     // The slider width is calculated from
     // the object width.  We have 6 buttons
@@ -307,6 +292,18 @@ LinternaMagica.prototype.create_controls = function(object_data)
 				       volume_text.textContent = pos.val;
 				   }, false);
 
+    var volume_knob_move = null;
+
+    if (this.languages[this.lang].__direction == "ltr" ||
+	this.languages[this.lang].__direction !== "rtl")
+    {
+	volume_knob_move = "left";
+    }
+    else if (this.languages[this.lang].__direction == "rtl")
+    {
+	volume_knob_move = "right";
+    }
+
     var volume_knob = document.createElement("a");
     volume_knob.setAttribute("class", "linterna-magica-controls-slider-knob");
     volume_knob.setAttribute("id",
@@ -316,9 +313,9 @@ LinternaMagica.prototype.create_controls = function(object_data)
     // volume_knob.style.setProperty("width",
     // 				  parseInt(volume_width*10/100)+"px",
     // 				  "important");
-    volume_knob.style.setProperty("left", "0px", "important");
+    volume_knob.style.setProperty(volume_knob_move, "0px", "important");
     volume_knob.setAttribute("href", "#");
-    volume_knob.setAttribute("title", _("Volume control"));
+    volume_knob.setAttribute("title", this._("Volume control"));
     volume_knob.addEventListener("mousedown", function(ev)
 				 {
 				     ev.preventDefault();
@@ -342,7 +339,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     mute.setAttribute("class", "linterna-magica-controls-buttons "+
 		      "linterna-magica-controls-buttons-mute");
     mute.setAttribute("href", "#");
-    mute.setAttribute("title", _("Mute"));
+    mute.setAttribute("title", this._("Mute"));
     mute.textContent ="M";
 
     mute.addEventListener("click", function(ev)
@@ -354,7 +351,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
 			      if (/M/i.test(mute.textContent))
 			      {
 				  mute.textContent = "U";
-				  mute.setAttribute("title", _("Unmute"));
+				  mute.setAttribute("title", this._("Unmute"));
 
 				  mute.setAttribute(
 				      "class",
@@ -363,16 +360,16 @@ LinternaMagica.prototype.create_controls = function(object_data)
 					  "buttons-unmute");
 				  volume_text.textContent = "0%";
 				  volume_text.setAttribute("title",
-							   _("Muted"));
+							   this._("Muted"));
 				  volume_slider.setAttribute("title",
-							     _("Muted"));
+							     this._("Muted"));
 				  volume_knob.setAttribute("title",
-							   _("Muted"));
+							   this._("Muted"));
 			      }
 			      else
 			      {
 				  mute.textContent = "M";
-				  mute.setAttribute("title", _("Mute"));
+				  mute.setAttribute("title", this._("Mute"));
 				  volume_text.textContent = volume;
 
 				  volume_text.removeAttribute("title");
@@ -384,10 +381,10 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
 				  volume_slider.
 				      setAttribute("title",
-						   _("Volume control"));
+						   this._("Volume control"));
 				  volume_knob.
 				      setAttribute("title",
-						   _("Volume control"));
+						   this._("Volume control"));
 			      }
 
 
@@ -399,7 +396,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
 	"class", "linterna-magica-controls-buttons "+
 	    "linterna-magica-controls-buttons-fullscreen");
     fullscreen.setAttribute("href", "#");
-    fullscreen.setAttribute("title", _("Fullscreen"));
+    fullscreen.setAttribute("title", this._("Fullscreen"));
     fullscreen.textContent ="Fs";
     fullscreen.addEventListener("click", function(ev)
     				{

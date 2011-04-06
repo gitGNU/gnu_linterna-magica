@@ -14,6 +14,7 @@ format:
     "priority": "self",
     "autostart": "off",
     "controls": "self",
+    "locale": "auto",
     "cookies": "restore",
     "wait_dm": "off",
  };
@@ -63,6 +64,16 @@ Available options are:
             Use controls provided by Linterna Mágica (default)
         plugin
             Use controls provided by the video plugin.
+  locale
+      Interface language
+	auto
+	    Use the language of the browser interface if translation
+	    is available (default)
+	<lc>_<CC>
+	    Set language to lc_CC, where
+		<lc>:  language code (lowercase)
+		<CC>: country code (uppercase)
+		Example: en_US, en_UK, bg_BG
   cookies 
       The way cookies are processed. Please ***read*** "A note on
       cookies", few lines below.
@@ -107,6 +118,16 @@ too soon. It seemed that not all cookies were set by the site and
 cleared by Linterna Mágica before the request. Later everything worked
 without timeout. If you have problems with Dailymotion increase the
 value for the "wait_dm" option.
+
+Localisation
+
+Since version 0.0.10 the translations are split from the main
+userscript. Every localisation is a separate userscript in the locale
+directory with special structure. If there is translation for your
+language and you want to use it, you will have to install the
+userscript for it. By default Linterna Mágica tries to use the
+language of the browser interface if available. You could also set a
+custom locale by the "locale" config option.
 
 Stop execution on every site
 

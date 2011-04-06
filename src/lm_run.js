@@ -55,7 +55,8 @@ function linterna_magica_init ()
 
     // 1.5 second with 250 ms interval.
     if (window.linterna_magica_init_counter >= 6 ||
-	data_window.linterna_magica_user_config != undefined)
+	data_window.linterna_magica_user_config != undefined || 
+       	data_window.LinternaMagica_L10N != undefined)
     {
 	clearInterval(window.linterna_magica_init_timeout);
 	ready_to_init = 1;
@@ -77,6 +78,29 @@ function linterna_magica_init ()
 		config[o] = linterna_magica_options[o];
 	    }
 	}
+
+	delete data_window.linterna_magica_user_config;
+
+	for (var loc in data_window.LinternaMagica_L10N)
+	{
+	     LinternaMagica.prototype.languages[loc] =
+		data_window.LinternaMagica_L10N[loc];
+
+	    // Direction value must be lowercase
+	    var dir = data_window.LinternaMagica_L10N[loc]["__direction"];
+
+	    // Wrong value 
+	    if (dir != "rtl" &&
+		dir != "ltr")
+	    {
+		dir = "ltr";
+	    }
+
+	    LinternaMagica.prototype.languages[loc]["__direction"] = 
+		dir.toLowerCase();
+	}
+
+	delete data_window.LinternaMagica_L10N;
 
 	// Init
 	var larerna_magica = new LinternaMagica(config);

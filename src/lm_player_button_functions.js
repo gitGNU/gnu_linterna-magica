@@ -127,10 +127,10 @@ LinternaMagica.prototype.player.state = function(id)
 	switch(video_object.playState)
 	{
 	case 0:
-	    time.state = _("Loading");
+	    time.state = this._("Loading");
 	    break;
 	case  6:
-	    time.state = _("Buffering");
+	    time.state = this._("Buffering");
 	    break;
 
 	}
@@ -164,10 +164,10 @@ LinternaMagica.prototype.player.state = function(id)
 	    switch (video_object.input.state)
 	    {
 	    case 0:
-		time.state = _("Loading");
+		time.state = this._("Loading");
 		break;
 	    case 2:
-		time.state = _("Buffering");
+		time.state = this._("Buffering");
 		break;
 	    }
 	}
@@ -201,7 +201,7 @@ LinternaMagica.prototype.player.state = function(id)
 	    // Xine supports only playing (3) and paused (4)
 	    var state = video_object.controls.GetPlayState();
 	    if (state !== 4 && state !== 3)
-		time.state = _("Loading");
+		time.state = this._("Loading");
 	}
 	catch(e)
 	{
@@ -243,10 +243,10 @@ LinternaMagica.prototype.player.state = function(id)
 	{
 	case "Loading":
 	case "Waiting":
-	    time.state = _("Loading");
+	    time.state = this._("Loading");
 	    break;
 	case "NOT_READY":
-	    time.state = _("Waiting plugin");
+	    time.state = this._("Waiting plugin");
 	    break;
 	}
 
@@ -662,7 +662,18 @@ LinternaMagica.prototype.slider_control = function(event)
     if (!knob)
 	return null;
 
-    var old_position = parseInt(knob.style.getPropertyValue("left"));
+    var move = null;
+    if (this.languages[this.lang].__direction == "ltr" ||
+	this.languages[this.lang].__direction !== "rtl")
+    {
+	move = "left";
+    }
+    else if (this.languages[this.lang].__direction == "rtl")
+    {
+	move = "right";
+    }
+
+    var old_position = parseInt(knob.style.getPropertyValue(move));
     var direction = 0;
     var position = old_position;
 
@@ -676,8 +687,6 @@ LinternaMagica.prototype.slider_control = function(event)
 	    offset_left += obj.offsetLeft;
 	} while (obj = obj.offsetParent);
     }
-
-
 
 
     // Get wheel direction
@@ -714,6 +723,13 @@ LinternaMagica.prototype.slider_control = function(event)
 	    position = event.pageX -
 		offset_left-
 		knob.clientWidth/2;
+
+	    // When the direction is rtl the knob starts at
+	    // slider.clientWidth, and moves to 0.
+	    if (move == "right")
+	    {
+		position = Math.abs(position- slider.clientWidth);
+	    }
 
 	    if (position > old_position)
 	    {
@@ -765,12 +781,12 @@ LinternaMagica.prototype.slider_control = function(event)
 	position = 0;
     }
 
-    knob.style.setProperty("left",
+    knob.style.setProperty(move,
 			   position +"px",
 			   "important");
 
     var return_data = new Object();
-    return_data.val =  (parseInt((position/slider.clientWidth) *100))+"%";
+    return_data.val = (parseInt((position/slider.clientWidth) *100))+"%";
     return_data.direction = direction;
     return return_data;
 }
@@ -823,6 +839,18 @@ LinternaMagica.prototype.ticker = function(id)
 
     if (knob)
     {
+	var move = null;
+
+	if (this.languages[this.lang].__direction == "ltr" ||
+	    this.languages[this.lang].__direction !== "rtl")
+	{
+	    move = "left";
+	}
+	else if (this.languages[this.lang].__direction == "rtl")
+	{
+	    move = "right";
+	}
+
 	var slider = knob.parentNode;
 	var pos = parseInt(slider.clientWidth *
 			   time_and_state.percent);
@@ -830,7 +858,7 @@ LinternaMagica.prototype.ticker = function(id)
 	if (pos >= slider.clientWidth)
 	    pos = slider.clientWidth - knob.clientWidth;;
 
-	knob.style.setProperty("left",
+	knob.style.setProperty(move,
 			       pos+"px",
 			       "important");
     }

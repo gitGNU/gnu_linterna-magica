@@ -246,9 +246,9 @@ LinternaMagica.prototype.create_update_notifier_link = function(id)
     var format_date =  this.updates_data.format_date;
 
     var title = 
-	_("New version")+
-	": "+version+". "+_("Date")+": "+_(format_date[2]) + " "+
-	_(format_date[1]) + " " + _(format_date[3]);
+	this._("New version")+
+	": "+version+". "+this._("Date")+": "+this._(format_date[2]) + " "+
+	this._(format_date[1]) + " " + this._(format_date[3]);
     
     var notifier = document.createElement("a");
 
@@ -257,7 +257,7 @@ LinternaMagica.prototype.create_update_notifier_link = function(id)
     notifier.setAttribute("class", "linterna-magica-update-notifier-link ");
     notifier.setAttribute("id",  "linterna-magica-update-"+
 					  "notifier-link-"+id);
-    notifier.textContent = _("Update");
+    notifier.textContent = this._("Update");
 
     return notifier;
 }
@@ -277,21 +277,21 @@ LinternaMagica.prototype.create_update_info_box = function(id)
 
     // Other 
     var p = document.createElement('p');
-    var t = document.createTextNode(_("New version is available."));
+    var t = document.createTextNode(this._("New version is available."));
     p.appendChild(t);
     div.appendChild(p);
 
     p = document.createElement('p');
     t = document.createTextNode(
 	"Linterna Mágica"+" "+version+
-	    " "+_("released at")+" "+_(format_date[2]) + " "+
- 	    _(format_date[1]) + " "+_(format_date[3]));
+	    " "+this._("released at")+" "+this._(format_date[2]) + " "+
+ 	    this._(format_date[1]) + " "+this._(format_date[3]));
     p.appendChild(t);
     div.appendChild(p);
 
     var a = this.pack_external_link(
 	this.homepage+"/#news",
-	_("Read the news section at the home page"));
+	this._("Read the news section at the home page"));
 
     p = document.createElement('p');
     p.appendChild(a);

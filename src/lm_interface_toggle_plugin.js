@@ -57,7 +57,7 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     }
     else
     {
-	toggle_plugin.textContent = _("Plugin");
+	toggle_plugin.textContent = this._("Plugin");
 	toggle_plugin.setAttribute("class", 
 				   "linterna-magica-toggle-plugin-header");
 	toggle_plugin.setAttribute("id", 
@@ -65,7 +65,7 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     }
 
     toggle_plugin.setAttribute("title",
-			       _("Switch between flash plugin"+
+			       this._("Switch between flash plugin"+
 				 " and Linterna Mágica"));
 
     return wrapper ? wrapper : toggle_plugin;

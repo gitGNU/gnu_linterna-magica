@@ -53,8 +53,7 @@ NOMINIMISATIONLINE="// NO MINIMISATION ABOVE THIS LINE"
 USRSCRIPTHDR=$(srcdir)/lm_userscript_header.txt
 
 FIRSTJSFILES="$(srcdir)/lm_init_options.js			\
-$(srcdir)/lm_localisation.js $(srcdir)/lm_constructors.js	\
-$(srcdir)/lm_config_options.js"
+$(srcdir)/lm_constructors.js $(srcdir)/lm_config_options.js"
 
 LASTJSFILES="$(srcdir)/lm_run.js"
 

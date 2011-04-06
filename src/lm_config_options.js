@@ -188,3 +188,36 @@ LinternaMagica.prototype.set_check_updates = function(updates)
 
     this.updates = set_updates_to;
 }
+
+// Set the language to the user preferred or the env (provided by the
+// browser)
+LinternaMagica.prototype.set_locale = function(locale)
+{
+    // See lm_localisation.js
+    this.set_env_lang();
+
+    // In case the country code is lowercase and the language code is
+    // upper case
+    if (/.*_.*/.test(locale))
+    {
+	locale = locale.split(/_/);
+	locale[locale.length-1] = 
+	    locale[locale.length-1].toUpperCase();
+
+	locale[0] = 
+	    locale[0].toLowerCase();
+    
+	locale = locale.join("_");
+    }
+
+    var set_lang_to = locale ? locale : this.env_lang;
+
+    if (!set_lang_to ||
+	!/[a-z][a-z]_[A-Z][A-Z]/i.test(set_lang_to) ||
+	this.languages[set_lang_to] == undefined)
+    {
+	set_lang_to = "C";
+    }
+
+    this.lang = set_lang_to;
+}

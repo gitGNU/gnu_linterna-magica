@@ -97,7 +97,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		label += " 3GP";
 		break;
 	    default:
-		label += _("Unkown container");
+		label += this._("Unkown container");
 	    }
 
 	    // Set video and audio encodings
@@ -122,7 +122,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		label += " MPEG-4 Visual, AAC";
 		break;
 	    default:
-		label += " " + _("Unkown encoding");
+		label += " " + this._("Unkown encoding");
 	    }
 
 	    link.label  = link_data[1] + " " +label;

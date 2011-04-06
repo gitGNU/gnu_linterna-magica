@@ -37,7 +37,7 @@ LinternaMagica.prototype.create_about_box = function(id)
 
     var p = document.createElement("p");
     var text = document.createTextNode(
-	this.name+_(" version: ")+this.version);
+	this.name+this._(" version: ")+this.version);
     p.appendChild(text);
     box.appendChild(p);
 
@@ -50,15 +50,44 @@ LinternaMagica.prototype.create_about_box = function(id)
 	box.appendChild(p);
     }
 
+    // Translators 
+    if (this.languages[this.lang] &&
+	this.languages[this.lang].__translators)
+    {
+	var transl = null;
+	if (typeof (this.languages[this.lang].__translators) == "object")
+	{
+	    transl = this.languages[this.lang].__translators;
+	}
+	else
+	{
+	    transl = new Array();
+	    transl.push(this.languages[this.lang].__translators);
+	}
+
+	p = document.createElement("p");
+	text = document.createTextNode(this._("Translation")+":");
+	p.appendChild(text);
+	box.appendChild(p);
+
+	for (var l=0, length=transl.length; l< length; l++)
+	{
+	    p = document.createElement("p");
+	    text = document.createTextNode(transl[l]);
+	    p.appendChild(text);
+	    box.appendChild(p);
+	}
+    }
+
     // Info
     p = document.createElement("p");
-    text = document.createTextNode(this.description);
+    text = document.createTextNode(this.description());
     p.appendChild(text);
     box.appendChild(p);
 
     // License
     p = document.createElement("p");
-    text = document.createTextNode(this.license);
+    text = document.createTextNode(this.license());
     p.appendChild(text);
     box.appendChild(p);
 
@@ -70,7 +99,7 @@ LinternaMagica.prototype.create_about_box = function(id)
     box.appendChild(p);
 
     var homepage = this.pack_external_link(this.homepage,
-					   _("Linterna Mágica Home page"));
+					   this._("Linterna Mágica Home page"));
 
     p = document.createElement('p');
     p.appendChild(homepage);

@@ -60,6 +60,8 @@ function LinternaMagica(params)
     // element. Otherwise it is created and visible in iframes and
     // objects that are used to embed clips in remote sites.
 
+    this.set_locale(params.locale);
+
     // Could be a string, but we need integer.
     this.debug_level = parseInt(params.debug);
 
@@ -207,19 +209,29 @@ LinternaMagica.prototype.updates_page =
     "http://e-valkov.org/linterna-magica/downloads/updates.js";
 //    "http://localhost/linterna-magica/downloads/updates.js";
 
-LinternaMagica.prototype.description =
-    _("Watch video on the web ")+
-    _("in a brand new way: ")+
-    _("You don't need a glint, ")+
-    _("the magic lantern is ignited!");
+// When this is a function the internal _() function could be used.
+LinternaMagica.prototype.description = function()
+{
+    return (
+	this._("Watch video on the web ")+
+	    this._("in a brand new way: ")+
+	    this._("You don't need a glint, ")+
+	    this._("the magic lantern is ignited!")
+    );
+}
 
-LinternaMagica.prototype.license =
-    _("This program is free software; ")+
-    _("you can redistribute it and/or ")+
-    _("modify it under the terms of the ")+
-    _("GNU  General Public License (GNU GPL)")+
-    _(" version 3 (or later). ")+
-    _("A copy of the license can be downloaded from ");
+// When this is a function the internal _() function could be used.
+LinternaMagica.prototype.license = function()
+{
+    return (
+	this._("This program is free software; ")+
+	    this._("you can redistribute it and/or ")+
+	    this._("modify it under the terms of the ")+
+	    this._("GNU  General Public License (GNU GPL)")+
+	    this._(" version 3 (or later). ")+
+	    this._("A copy of the license can be downloaded from ")
+    );
+}
 
 LinternaMagica.prototype.license_link =
     "http://www.gnu.org/licenses/gpl.html";
@@ -321,3 +333,13 @@ LinternaMagica.prototype.player.init = function(id)
 
 		    }, 800);
 }
+
+// Localization languages object
+LinternaMagica.prototype.languages = new Object();
+
+// No translation.
+LinternaMagica.prototype.languages["C"] = 
+    {
+	__direction: "ltr",
+	__translators: null,
+    };

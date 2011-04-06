@@ -69,9 +69,24 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     container.setAttribute("id", "linterna-magica-"+id);
     container.setAttribute("class", "linterna-magica");
+
+    // Fix for rtl languages. See
+    // https://savannah.nongnu.org/bugs/?32740
+    // https://savannah.nongnu.org/task/?11056
+    container.setAttribute("dir", this.languages[this.lang].__direction);
+
+    var lang_code = this.lang.split("_")[0];
+    if (!lang_code)
+    {
+	// The locale is C
+	lang_code = "en";
+    }
+
+    container.setAttribute("xml:lang", lang_code);
+    container.setAttribute("lang", lang_code);
+
     container.style.setProperty("width",
 				(object_data.width+"px"), "important");
-
 
     header.setAttribute("class", "linterna-magica-header");
     header.setAttribute("id", "linterna-magica-header-"+id);
@@ -82,7 +97,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     script_name.textContent = "Linterna Mágica";
     script_name.setAttribute("href", "#");
-    script_name.setAttribute("title", _("About")+ " Linterna Mágica");
+    script_name.setAttribute("title", this._("About")+ " Linterna Mágica");
     script_name.setAttribute("id", "linterna-magica-logo-"+id);
     script_name.setAttribute("class", "linterna-magica-logo");
 
@@ -100,8 +115,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	header.appendChild(toggle_plugin);
     }
 
-    dw_link.textContent = _("Download");
-    dw_link.setAttribute("title", _("Save the video clip"));
+    dw_link.textContent = this._("Download");
+    dw_link.setAttribute("title", this._("Save the video clip"));
 
     dw_link.setAttribute("id", "linterna-magica-video-download-link-"+id);
     dw_link.setAttribute("class", "linterna-magica-video-download-link");
@@ -120,8 +135,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	var hd_wrapper = document.createElement("div");
 	var hd_button = document.createElement("a");
 	hd_button.setAttribute("href","#");
-	hd_button.textContent = _("HQ");
-	hd_button.setAttribute("title", _("Higher quality"));
+	hd_button.textContent = this._("HQ");
+	hd_button.setAttribute("title", this._("Higher quality"));
 	hd_button.setAttribute("class", "linterna-magica-switch-hd");
 	hd_button.addEventListener("click", function(ev)
 				   {
@@ -182,7 +197,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     object_tag.setAttribute("width", object_data.width);
     object_tag.setAttribute("height", object_data.height);
     object_tag.setAttribute("id","linterna-magica-video-object-"+id);
-    object_tag.setAttribute("standby", _("Loading video..."));
+    object_tag.setAttribute("standby", this._("Loading video..."));
 
     if (object_data.link)
     {
@@ -191,7 +206,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	object_tag.setAttribute("data", object_data.link);
     }
 
-    message.textContent = _("Waiting for video plugin...");
+    message.textContent = this._("Waiting for video plugin...");
 
     param.setAttribute("name", "autoplay");
     // Start only the first found clip

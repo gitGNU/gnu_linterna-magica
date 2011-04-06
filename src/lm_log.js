@@ -135,7 +135,7 @@ LinternaMagica.prototype.create_web_logger = function()
 
     var p = document.createElement("p");
 
-    var txt = document.createTextNode(_(
+    var txt = document.createTextNode(this._(
 	"Linterna Mágica error and debug messages"));
 
     p.appendChild(txt);
@@ -144,7 +144,7 @@ LinternaMagica.prototype.create_web_logger = function()
     var close = document.createElement("a");
     close.textContent="x";
     close.setAttribute("href", "#");
-    close.setAttribute("title", _("Remove log"));
+    close.setAttribute("title", this._("Remove log"));
     p.appendChild(close);
     
     close.addEventListener("click", function(ev)
@@ -159,7 +159,7 @@ LinternaMagica.prototype.create_web_logger = function()
     var show_hide_log = document.createElement("a");
     show_hide_log.textContent="-";
     show_hide_log.setAttribute("href", "#");
-    show_hide_log.setAttribute("title", _("Show/hide debug messages"));
+    show_hide_log.setAttribute("title", this._("Show/hide debug messages"));
     show_hide_log.setAttribute("class", "linterna-magica-web-log-show-hide-body");
     p.appendChild(show_hide_log);
     
@@ -225,11 +225,11 @@ LinternaMagica.prototype.create_web_log_link = function(id)
     var log_link = document.createElement("a");
 
     log_link.setAttribute("title",
-			  _("Linterna Mágica error and debug messages"));
+			  this._("Linterna Mágica error and debug messages"));
     log_link.setAttribute("href", "#");
     log_link.setAttribute("class", "linterna-magica-web-log-link");
     log_link.setAttribute("id",  "linterna-magica-web-log-link-"+id);
-    log_link.textContent = _("Debug messages");
+    log_link.textContent = this._("Debug messages");
 
     return log_link;
 }

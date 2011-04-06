@@ -61,6 +61,14 @@ var linterna_magica_options =
 	// self: Use controls provided by Linterna Mágica (default)
 	// plugin: Use controls provided by the video plugin
 	"controls": "self",
+	// Interface language
+	// auto: Use the language of the browser interface if
+	// translation is available (default)
+	// <lc>_<CC>: Set language to lc_CC, where
+	// <lc>:  language code (lowercase)
+	//  <CC>: country code (uppercase)
+	// Example: en_US, en_UK, bg_BG
+	"locale": "auto",
 	// The way cookies are proccessed. The explanation is too long
 	// to fit here. Please ***read*** "A note on cookies", in the
 	// HELP file.

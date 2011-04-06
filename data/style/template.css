@@ -32,10 +32,6 @@ div.dmpi_video_playerv4 div.linterna-magica,
   /* Fix header buttons displacement in boozho.com */
   /* Fixes entire interface displacement */
   clear: left !important;
-  /* Temporary fix for languages written from right to left. */
-  /* If translation for  language with RTL is present this breaks */
-  /* See bug  https://savannah.nongnu.org/bugs/?32740 */
-  direction: ltr !important;
 }
 
 /* The message paragraph in the object */
