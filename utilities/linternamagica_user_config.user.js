@@ -33,6 +33,10 @@
 
 // ==/UserScript==
 
+// This userscript is not updated on purpose. You will have to add
+// newer options from future versions manually. If an option is
+// missing, the one provided by the main userscript will be used.
+
 var linterna_magica_user_config = {
     "debug": 0,
     "log_to": "web",
@@ -40,9 +44,12 @@ var linterna_magica_user_config = {
     "priority": "self",
     "autostart": "on",
     "controls": "self",
+    "locale": "auto",
     "cookies": "restore",
     "wait_dm": "off",
 };
+
+// Do NOT edit past this line.
 
 var script = document.createElement("script");
 var script_data = "window.linterna_magica_user_config = {" ; 
@@ -58,4 +65,7 @@ script.textContent = script_data;
 var head = document.getElementsByTagName("head")[0];
 script.setAttribute("type", "text/javascript");
 head.appendChild(script);
+
 head.removeChild(script);
+script_data = undefined;
+script = undefined;
