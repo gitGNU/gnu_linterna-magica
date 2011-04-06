@@ -135,7 +135,6 @@ for (var o in LM_L10N)
 	    if (oo == "__translators" &&
 		typeof(LM_L10N[o][oo]) == "object")
 	    {
-		console.log("DIBIBIBI ");
 		script_data += '"'+oo+ '" : ["' +
 		    LM_L10N[o][oo].join('","')+'"],';
 	    }
