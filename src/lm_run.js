@@ -68,8 +68,10 @@ function linterna_magica_init ()
 
 	for (var o in linterna_magica_options)
 	{
-	    // Zero migth be an option
-	    if (data_window.linterna_magica_user_config[o] != undefined)
+	    // We could be running without custom config
+	    if (data_window.linterna_magica_user_config != undefined &&
+		// Zero migth be an option
+		data_window.linterna_magica_user_config[o] != undefined)
 	    {
 		config[o] = data_window.linterna_magica_user_config[o];
 	    }
