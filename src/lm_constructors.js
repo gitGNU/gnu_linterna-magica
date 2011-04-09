@@ -240,6 +240,9 @@ LinternaMagica.prototype.homepage =
     "http://e-valkov.org/linterna-magica";
 // "http://localhost/lm";
 
+LinternaMagica.prototype.microblog_link =
+    "https://identi.ca/group/linternamagica";
+
 // This is filled during build from the Makefile
 LinternaMagica.prototype.copyrights = new Array();
 

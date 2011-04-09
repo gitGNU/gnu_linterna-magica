@@ -105,6 +105,14 @@ LinternaMagica.prototype.create_about_box = function(id)
     p.appendChild(homepage);
     box.appendChild(p);
 
+    var microblog_link = this.pack_external_link(this.microblog_link,
+						 this._("Linterna Mágica at Identi.ca"));
+
+    p = document.createElement("p");
+    p.appendChild(microblog_link);
+    box.appendChild(p);
+    
+
     // We want this for small objects. Scroll bars will be visible and
     // license and home page links accessible.
     if (!/youtube\.com/i.test(window.location.hostname))
