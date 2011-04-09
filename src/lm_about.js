@@ -105,6 +105,13 @@ LinternaMagica.prototype.create_about_box = function(id)
     p.appendChild(homepage);
     box.appendChild(p);
 
+    var savannah_link = this.pack_external_link(this.savannah_page,
+						this._("Linterna Mágica project page at Savannah"));
+
+    p = document.createElement("p");
+    p.appendChild(savannah_link);
+    box.appendChild(p);
+
     var microblog_link = this.pack_external_link(this.microblog_link,
 						 this._("Linterna Mágica at Identi.ca"));
 
