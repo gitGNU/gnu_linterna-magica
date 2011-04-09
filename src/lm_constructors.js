@@ -243,6 +243,9 @@ LinternaMagica.prototype.homepage =
 LinternaMagica.prototype.savannah_page =
     "https://savannah.nongnu.org/projects/linterna-magica";
 
+LinternaMagica.prototype.bug_report_link = 
+    "https://sv.nongnu.org/support/?func=additem&amp;group=linterna-magica";
+
 LinternaMagica.prototype.microblog_link =
     "https://identi.ca/group/linternamagica";
 

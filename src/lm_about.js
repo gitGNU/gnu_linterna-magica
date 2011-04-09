@@ -115,6 +115,14 @@ LinternaMagica.prototype.create_about_box = function(id)
     p.appendChild(savannah_link);
     box.appendChild(p);
 
+    var bug_report_link = this.pack_external_link(this.bug_report_link,
+						  this._("Report a bug at our Savannah project page"));
+
+    bug_report_link.setAttribute("title", this.bug_report_link);
+    p = document.createElement("p");
+    p.appendChild(bug_report_link);
+    box.appendChild(p);
+
     var microblog_link = this.pack_external_link(this.microblog_link,
 						 this._("Linterna Mágica microbloging group at Identi.ca"));
 
@@ -122,7 +130,6 @@ LinternaMagica.prototype.create_about_box = function(id)
     p = document.createElement("p");
     p.appendChild(microblog_link);
     box.appendChild(p);
-    
 
     // We want this for small objects. Scroll bars will be visible and
     // license and home page links accessible.
