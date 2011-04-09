@@ -47,6 +47,9 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
     var video_object = document.getElementById(
 	"linterna-magica-video-object-"+id);
 
+    var selected_link = document.getElementById(
+	"linterna-magica-selected-hd-link-"+id);
+
     if (dw_link && video_object)
     {
 	dw_link.setAttribute("href",
@@ -71,6 +74,14 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 	{
 	    parent.appendChild(new_video);
 	}
+
+	// Set the new selected link in the list and clear the old one
+	if (selected_link)
+	{
+	    this.unselect_hd_link_in_list(selected_link);
+	}
+
+	this.select_hd_link_in_list(element,id);
 
 	// hide the list
 	div.style.setProperty("display", "none", "important");
@@ -97,4 +108,51 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	}
     }
     return true;
+}
+
+// Set style and id of the selected link in the HD list. This way it
+// is distinguished.
+LinternaMagica.prototype.select_hd_link_in_list = function(element,id)
+{
+    if (typeof(element) != "object" || !id)
+    {
+	return element;
+    }
+
+    element.style.setProperty("border-style", "solid", "important");
+    element.style.setProperty("border-width", "1px", "important");
+    element.style.setProperty("border-color", "#bbbbbb", "important");
+    element.style.setProperty("background-color", "#151515", "important");
+    element.style.setProperty("color", "#ffffff", "important");
+    element.setAttribute("id", "linterna-magica-selected-hd-link-"+id);
+
+    return element;
+}
+
+// Remove the style and the id of previous selected link in the HD
+// list. Called before select_hd_link_in_list() is called for newly
+// selected link.
+LinternaMagica.prototype.unselect_hd_link_in_list = function(element)
+{
+    if (typeof(element) != "object")
+    {
+	return element;
+    }
+
+    element.removeAttribute("id");
+    element.style.removeProperty("border-width");
+    element.style.removeProperty("border-color");
+    element.style.removeProperty("border-style");
+    element.style.removeProperty("background-color");
+    element.style.removeProperty("color");
+
+    // 09.04.2011 WebKit /Epiphany keeps showing border even if it is
+    // removed and border-style, border-color and border-width are
+    // null.
+    if (element.style.getPropertyValue("border"))
+    {
+	element.style.setProperty("border-width", "0px", "important");
+    }
+
+    return element;
 }

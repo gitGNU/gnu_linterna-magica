@@ -167,6 +167,12 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 					    apply(self, [ev, el]);
 				    }, false);
 
+	    // Selected link. Default it is the lowest quality.
+	    if (link == (object_data.hd_links.length-1))
+	    {
+		this.select_hd_link_in_list(button,id);
+	    }
+
 	    li.appendChild(button);
 	    ul.appendChild(li);
 	}
