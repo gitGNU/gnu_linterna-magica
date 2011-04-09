@@ -114,7 +114,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 // is distinguished.
 LinternaMagica.prototype.select_hd_link_in_list = function(element,id)
 {
-    if (typeof(element) != "object" || !id)
+    if (typeof(element) != "object" ||
+	// ID = zero is an option.
+	id == "undefined")
     {
 	return element;
     }
