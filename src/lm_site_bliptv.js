@@ -52,7 +52,7 @@ LinternaMagica.prototype.extract_bliptv_hd_links = function()
 	link.url = "http://blip.tv/file/get/"+raw_url[raw_url.length-1]+
 	    "?referrer=blip.tv&source=1&use_direct=1&use_documents=1";
 
-	hd_links.push(link);
+	hd_links.unshift(link);
     }
 
     return hd_links;
