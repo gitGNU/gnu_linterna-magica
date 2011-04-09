@@ -234,7 +234,7 @@ LinternaMagica.prototype.license = function()
 }
 
 LinternaMagica.prototype.license_link =
-    "http://www.gnu.org/licenses/gpl.html";
+    "https://www.gnu.org/licenses/gpl.html";
 
 LinternaMagica.prototype.homepage = 
     "http://e-valkov.org/linterna-magica";
