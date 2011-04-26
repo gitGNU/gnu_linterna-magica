@@ -32,18 +32,7 @@
 LinternaMagica.prototype.check_flash_plugin = function()
 {
     var is_installed = false;
-
-    try
-    {
-	// Greasemonkey with Firefox
-	var nav =unsafeWindow.navigator;
-    }
-    catch(e)
-    {
-	// Epiphany && Midori
-	var nav = window.navigator;
-    }
-
+    var nav = window.navigator;
 
     if (nav && nav.mimeTypes &&
 	nav.mimeTypes.length > 0 &&

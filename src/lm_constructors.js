@@ -66,19 +66,7 @@ function LinternaMagica(params)
     // sites in Epiphany (no GM_ API and xmlHttpReqeust is restricted to
     // the same origin).
 
-    var w = null;
-
-    // Firefox adn forks in Greasemonkey
-    try
-    {
-	w = unsafeWindow;
-    }
-    catch(e)
-    {
-	w = window;
-    }
-
-    if (w.top != w.self)
+    if (window.top != window.self)
     {
 	this.log("LinternaMagica.constructor:\n"+
 		 "Skipping (i)frame with address: "+
@@ -190,7 +178,7 @@ LinternaMagica.prototype.name =  "Linterna Mágica";
 
 // Release date string in POISIX time format (date +"%s")
 // FIXME: Add real string
-LinternaMagica.prototype.release_date = "1301130751";
+LinternaMagica.prototype.release_date = "1303812612";
 
 // The URL with information about the latest version. Must
 // return JSONP data:
