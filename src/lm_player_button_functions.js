@@ -32,22 +32,12 @@
 LinternaMagica.prototype.get_video_object = function(id)
 {
     var video_object = null;
-    // greasemonkey in Iceweasel
-    try
-    {
-	video_object = unsafeWindow.document.
-	    getElementById("linterna-magica-video-object-"+id);
-    }
-    // Epiphany
-    catch(e)
-    {
-	video_object = window.document.
-	    getElementById("linterna-magica-video-object-"+id);
-    }
+
+    video_object = window.document.
+	getElementById("linterna-magica-video-object-"+id);
 
     return video_object;
 }
-
 
 
 // Set player_name attribute to video objects.
@@ -64,16 +54,7 @@ LinternaMagica.prototype.player.set_player_name = function(id)
 {
     var name = null;
     var video_object = this.get_video_object(id);
-    var mimeTypes = null;
-
-    try
-    {
-	mimeTypes = unsafeWindow.navigator.mimeTypes;
-    }
-    catch(e)
-    {
-	mimeTypes = navigator.mimeTypes;
-    }
+    var mimeTypes = navigator.mimeTypes;
 
     var mime = mimeTypes[video_object.getAttribute("type")];
 

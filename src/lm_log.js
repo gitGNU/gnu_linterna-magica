@@ -87,24 +87,7 @@ LinternaMagica.prototype.log = function(message, level)
 	}
 	catch(e)
 	{
- 	    try
- 	    {
-		// Greasemonkey 0.8.2 does not print to fireBug
-		// console with console.log
-		try
-		{
-		    unsafeWindow.console.log(log_string);
-		}
-		catch(e)
-		{
-		    // Epiphany
-		    console.log(log_string);
-		}	
- 	    }
-	    catch(e)
-	    {
-		// The only option left is alert(), but is useless;
-	    }
+	    console.log(log_string);
 	}
     }
 }

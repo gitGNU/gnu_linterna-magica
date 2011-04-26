@@ -33,17 +33,9 @@ LinternaMagica.prototype.check_flash_plugin = function()
 {
     var is_installed = false;
 
-    try
-    {
-	// Greasemonkey with Firefox
-	var nav =unsafeWindow.navigator;
-    }
-    catch(e)
-    {
-	// Epiphany && Midori
-	var nav = window.navigator;
-    }
-
+    // OK even in Greasemonkey. Since 0.0.9-4 Linterna Magica is
+    // injected in the page.
+    var nav = window.navigator;
 
     if (nav && nav.mimeTypes &&
 	nav.mimeTypes.length > 0 &&

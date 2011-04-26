@@ -42,21 +42,10 @@ function linterna_magica_init ()
 
     var ready_to_init = 0;
 
-    var data_window = null;
-
-    try
-    {
-	data_window = unsafeWindow;
-    }
-    catch(e)
-    {
-	data_window = window;
-    }
-
     // 1.5 second with 250 ms interval.
     if (window.linterna_magica_init_counter >= 6 ||
-	data_window.linterna_magica_user_config != undefined || 
-       	data_window.LinternaMagica_L10N != undefined)
+	window.linterna_magica_user_config != undefined || 
+       	window.LinternaMagica_L10N != undefined)
     {
 	clearInterval(window.linterna_magica_init_timeout);
 	ready_to_init = 1;
@@ -69,11 +58,11 @@ function linterna_magica_init ()
 	for (var o in linterna_magica_options)
 	{
 	    // We could be running without custom config
-	    if (data_window.linterna_magica_user_config != undefined &&
+	    if (window.linterna_magica_user_config != undefined &&
 		// Zero migth be an option
-		data_window.linterna_magica_user_config[o] != undefined)
+		window.linterna_magica_user_config[o] != undefined)
 	    {
-		config[o] = data_window.linterna_magica_user_config[o];
+		config[o] = window.linterna_magica_user_config[o];
 	    }
 	    else
 	    {
@@ -81,15 +70,15 @@ function linterna_magica_init ()
 	    }
 	}
 
-	delete data_window.linterna_magica_user_config;
+	delete window.linterna_magica_user_config;
 
-	for (var loc in data_window.LinternaMagica_L10N)
+	for (var loc in window.LinternaMagica_L10N)
 	{
 	     LinternaMagica.prototype.languages[loc] =
-		data_window.LinternaMagica_L10N[loc];
+		window.LinternaMagica_L10N[loc];
 
 	    // Direction value must be lowercase
-	    var dir = data_window.LinternaMagica_L10N[loc]["__direction"];
+	    var dir = window.LinternaMagica_L10N[loc]["__direction"];
 
 	    // Wrong value 
 	    if (dir != "rtl" &&
@@ -102,7 +91,7 @@ function linterna_magica_init ()
 		dir.toLowerCase();
 	}
 
-	delete data_window.LinternaMagica_L10N;
+	delete window.LinternaMagica_L10N;
 
 	// Init
 	var larerna_magica = new LinternaMagica(config);
