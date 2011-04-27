@@ -130,14 +130,15 @@ LinternaMagica.prototype.create_web_logger = function()
     close.setAttribute("title", this._("Remove log"));
     p.appendChild(close);
     
-    close.addEventListener("click", function(ev)
-    			   {
-    			       ev.preventDefault();
-    			       // The entire web log
-    			       var log = this.parentNode.
-				   parentNode.parentNode;
-    			       log.parentNode.removeChild(log);
-    			   }, false);
+    var close_click_function =  function(ev)
+    {
+    	ev.preventDefault();
+    	// The entire web log
+    	var log = this.parentNode.parentNode.parentNode;
+    	log.parentNode.removeChild(log);
+    };
+
+    close.addEventListener("click", close_click_function, false);
 
     var show_hide_log = document.createElement("a");
     show_hide_log.textContent="-";
@@ -146,41 +147,35 @@ LinternaMagica.prototype.create_web_logger = function()
     show_hide_log.setAttribute("class", "linterna-magica-web-log-show-hide-body");
     p.appendChild(show_hide_log);
     
-    show_hide_log.addEventListener("click", function(ev)
-    			   {
-    			       ev.preventDefault();
-    			       // The body of the log
-    			       var b = this.parentNode.
-				   parentNode.nextSibling;
-			       var p = b.parentNode;
-			       var t = 
-				   parseInt(p.style.getPropertyValue("top"));
+    var show_hide_log_click_function = function(ev)
+    {
+    	ev.preventDefault();
+    	// The body of the log
+    	var b = this.parentNode.
+	    parentNode.nextSibling;
+	var p = b.parentNode;
+	var t = parseInt(p.style.getPropertyValue("top"));
 
-    			       	if(b.style.display)
-			       {
-				   b.style.removeProperty("display");
-				   p.style.setProperty("height",
-						       "250px", "important");
-				   p.style.setProperty("top", (t-226)+"px",
-						       "important");
-				   b.style.setProperty("overflow", "auto",
-						       "important");
-				   p.style.setProperty("overflow", "visible",
-				   		       "important");
-			       }
-			       else
-			       {
-				   b.style.setProperty(
-				       "display","none", "important");
-				   // Only the header is visible
-				   p.style.setProperty("height",
-						       "24px", "important");
-				   p.style.setProperty("overflow", "hidden",
-						       "important");
-				   p.style.setProperty("top", (t+226)+"px",
-						       "important");
-			       }
-    			   }, false);
+    	if(b.style.display)
+	{
+	    b.style.removeProperty("display");
+	    p.style.setProperty("height", "250px", "important");
+	    p.style.setProperty("top", (t-226)+"px", "important");
+	    b.style.setProperty("overflow", "auto", "important");
+	    p.style.setProperty("overflow", "visible", "important");
+	}
+	else
+	{
+	    b.style.setProperty("display", "none", "important");
+	    // Only the header is visible
+	    p.style.setProperty("height", "24px", "important");
+	    p.style.setProperty("overflow", "hidden", "important");
+	    p.style.setProperty("top", (t+226)+"px", "important");
+	}
+    };
+
+    show_hide_log.addEventListener("click",
+				   show_hide_log_click_function, false);
     
     
     logger.appendChild(header);

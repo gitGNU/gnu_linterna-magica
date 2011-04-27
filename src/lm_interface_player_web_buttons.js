@@ -49,28 +49,25 @@ LinternaMagica.prototype.create_controls = function(object_data)
     {
 	play.style.setProperty("display", "none", "important");
     }
+    var play_click_function = function(ev)
+    {
+    	ev.preventDefault();
 
-    play.addEventListener("click", function(ev)
-    			  {
-    			      ev.preventDefault();
+	this.style.setProperty("display", "none", "important");
 
-			      this.style.
-			       	  setProperty("display",
-			       		      "none", "important");
+	this.nextSibling.style.removeProperty("display");
 
-			      this.nextSibling.style.
-				  removeProperty("display");
+    	self.player.play.apply(self, [id]);
 
-    			      self.player.play.apply(self, [id]);
+	// Start the time ticker
+	self.player_timers[id] = setInterval(
+	    function()
+	    {
+		self.ticker.apply(self, [id]);
+	    }, 500);
+    };
 
-			      // Start the time ticker
-			      self.player_timers[id] =
-				  setInterval(
-				      function()
-				      {
-					  self.ticker.apply(self, [id]);
-				      }, 500);
-    			  }, false);
+    play.addEventListener("click", play_click_function, false);
     controls.appendChild(play);
 
     var pause = document.createElement("a");
@@ -85,22 +82,22 @@ LinternaMagica.prototype.create_controls = function(object_data)
 	pause.style.setProperty("display", "none", "important");
     }
 
-    pause.addEventListener("click", function(ev)
-    			   {
-    			       ev.preventDefault();
-			       this.style.
-			       	   setProperty("display",
-			       		       "none", "important");
+    var pause_click_function = function(ev)
+    {
+    	ev.preventDefault();
+	this.style.
+	    setProperty("display", "none", "important");
 
-			       this.previousSibling.style.
-				   removeProperty("display");
+	this.previousSibling.style.removeProperty("display");
 
-    			       self.player.pause.apply(self, [id]);
+    	self.player.pause.apply(self, [id]);
 
-			       // Stop the time ticker
-			       clearInterval(self.player_timers[id]);
-			       delete self.player_timers[id];
-    			   }, false);
+	// Stop the time ticker
+	clearInterval(self.player_timers[id]);
+	delete self.player_timers[id];
+    };
+
+    pause.addEventListener("click", pause_click_function, false);
     controls.appendChild(pause);
 
     var stop = document.createElement("a");
@@ -109,23 +106,25 @@ LinternaMagica.prototype.create_controls = function(object_data)
     stop.setAttribute("href", "#");
     stop.setAttribute("title", this._("Stop"));
     stop.textContent ="St";
-    stop.addEventListener("click", function(ev)
-    			  {
-    			      ev.preventDefault();
-			      // pause
-			      this.previousSibling.style.
-			       	  setProperty("display",
-			       		      "none", "important");
-			      // play
-			      this.previousSibling.previousSibling.
-			       	  style.removeProperty("display");
 
-    			      self.player.stop.apply(self, [id]);
+    var stop_click_function = function(ev)
+    {
+    	ev.preventDefault();
+	// pause
+	this.previousSibling.style.setProperty("display", 
+					       "none", "important");
+	// play button
+	var play = this.previousSibling.previousSibling;
+	play.style.removeProperty("display");
 
-			      // Stop the time ticker
-			      clearInterval(self.player_timers[id]);
-			      delete self.player_timers[id];
-    			  }, false);
+    	self.player.stop.apply(self, [id]);
+
+	// Stop the time ticker
+	clearInterval(self.player_timers[id]);
+	delete self.player_timers[id];
+    };
+
+    stop.addEventListener("click", stop_click_function, false);
     controls.appendChild(stop);
 
     var time_slider = document.createElement("div");
@@ -151,54 +150,50 @@ LinternaMagica.prototype.create_controls = function(object_data)
     var mouse_scroll = /WebKit/i.test(navigator.userAgent) ?
 	"mousewheel" : "DOMMouseScroll";
 
-    time_slider.addEventListener(mouse_scroll, function(ev)
-				 {
-				     ev.preventDefault();
-				     var pos = self.slider_control.
-					 apply(self, [ev]);
+    var time_slider_scroll_function = function(ev)
+    {
+	ev.preventDefault();
+	var pos = self.slider_control.apply(self, [ev]);
 
-				     if (pos.direction > 0)
-				     {
-					 self.player.forward.
-					     apply(self,[id,pos.val])
-				     }
-				     else
-				     {
-					 self.player.rewind.
-					     apply(self,[id,pos.val])
-				     }
+	if (pos.direction > 0)
+	{
+	    self.player.forward.apply(self,[id,pos.val]);
+	}
+	else
+	{
+	    self.player.rewind.apply(self,[id,pos.val]);
+	}
+    };
 
-				 }, false);
+    time_slider.addEventListener(mouse_scroll, 
+				 time_slider_scroll_function, false);
 
-    time_slider.addEventListener("click", function(ev)
-				 {
-				     ev.preventDefault();
-				     // Stop the time ticker
-				     clearInterval(self.player_timers[id]);
-				     delete self.player_timers[id];
+    var time_slider_click_function =  function(ev)
+    {
+	ev.preventDefault();
+	// Stop the time ticker
+	clearInterval(self.player_timers[id]);
+	delete self.player_timers[id];
 
-				     var pos =
-					 self.slider_control.
-					 apply(self, [ev]);
+	var pos =  self.slider_control.apply(self, [ev]);
 
-				     if (pos.direction > 0)
-				     {
-					 self.player.forward.
-					     apply(self,[id,pos.val])
-				     }
-				     else
-				     {
-					 self.player.rewind.
-					     apply(self,[id,pos.val])
-				     }
+	if (pos.direction > 0)
+	{
+	    self.player.forward.apply(self,[id,pos.val]);
+	}
+	else
+	{
+	    self.player.rewind.apply(self,[id,pos.val]);
+	}
 
-				     self.player_timers[id] =
-					 setInterval(
-					     function()
-					     {
-						 self.ticker.apply(self,[id]);
-					     }, 500);
-				 }, false);
+	self.player_timers[id] = setInterval(
+	    function()
+	    {
+		self.ticker.apply(self,[id]);
+	    }, 500);
+    };
+
+    time_slider.addEventListener("click", time_slider_click_function, false);
 
     var time_knob_move = null;
 
@@ -266,31 +261,31 @@ LinternaMagica.prototype.create_controls = function(object_data)
 				    volume_width+"px",
 				    "important");
 
-    volume_slider.addEventListener(mouse_scroll, function(ev)
-				   {
-				       ev.preventDefault();
-				       var pos =
-					   self.slider_control.
-					   apply(self, [ev]);
+    var volume_slider_scroll_function = function(ev)
+    {
+	ev.preventDefault();
+	var pos = self.slider_control.apply(self, [ev]);
 
-				       self.player.set_volume.
-					   apply(self, [id, pos.val]);
+	self.player.set_volume.apply(self, [id, pos.val]);
 
-				       volume_text.textContent = pos.val;
-				   }, false);
+	volume_text.textContent = pos.val;
+    };
 
-    volume_slider.addEventListener("click", function(ev)
-				   {
-				       ev.preventDefault();
-				       var pos =
-					   self.slider_control.
-					   apply(self, [ev]);
+    volume_slider.addEventListener(mouse_scroll,
+				   volume_slider_scroll_function, false);
 
-				       self.player.set_volume.
-					   apply(self, [id, pos.val]);
+    var volume_slider_click_function = function(ev)
+    {
+	ev.preventDefault();
+	var pos = self.slider_control.apply(self, [ev]);
 
-				       volume_text.textContent = pos.val;
-				   }, false);
+	self.player.set_volume.apply(self, [id, pos.val]);
+
+	volume_text.textContent = pos.val;
+    };
+
+    volume_slider.addEventListener("click",
+				   volume_slider_click_function, false);
 
     var volume_knob_move = null;
 
@@ -326,7 +321,8 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
     controls.appendChild(volume_slider);
 
-    volume_text.setAttribute("class", "linterna-magica-controls-slider-text");
+    volume_text.setAttribute("class",
+			     "linterna-magica-controls-slider-text");
 
     volume_text.style.setProperty("left",
 				  parseInt(volume_width/3)+"px",
@@ -399,11 +395,15 @@ LinternaMagica.prototype.create_controls = function(object_data)
     fullscreen.setAttribute("href", "#");
     fullscreen.setAttribute("title", this._("Fullscreen"));
     fullscreen.textContent ="Fs";
-    fullscreen.addEventListener("click", function(ev)
-    				{
-    				    ev.preventDefault();
-    				    self.player.fullscreen.apply(self, [id]);
-    				}, false);
+
+    var fullscreen_click_function = function(ev)
+    {
+    	ev.preventDefault();
+    	self.player.fullscreen.apply(self, [id]);
+    };
+    				
+    fullscreen.addEventListener("click",
+				fullscreen_click_function, false);
     controls.appendChild(fullscreen);
 
     return controls;

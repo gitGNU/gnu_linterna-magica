@@ -144,7 +144,8 @@ LinternaMagica.prototype.check_for_updates = function()
 	"</script>"+
 	"</head><body></body></html>";
 
-    checker_frame.setAttribute("data", "data:text/html;charset=UTF-8;base64,"+
+    checker_frame.setAttribute("data",
+			       "data:text/html;charset=UTF-8;base64,"+
 			       btoa(frame_data));
 
     checker_frame.setAttribute("width","1px");
@@ -196,7 +197,8 @@ LinternaMagica.prototype.parse_updated_version_data = function()
     
 	    // 0 - day name ; 1 - Month ; 2 - day of month; 3 - year
 	    // 0 - Mon, Tue, Wed, Thu, Fri, Sun, Sat
-	    // 1 - Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Noe, Dec
+	    // 1 - Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
+	    // Noe, Dec
 	    format_date = format_date.split(" ");
 
 	    // To be used by other functions
@@ -222,13 +224,15 @@ LinternaMagica.prototype.parse_updated_version_data = function()
 		    var notifier = this.create_update_notifier_link(n);
 		    var update_info = this.create_update_info_box(n);
 
-		    notifier.
-			addEventListener("click", function(ev)
-					 {
-					     var el = this;
-					     self.show_or_hide_update_info.
-						 apply(self, [ev, el]);
-					 }, false);
+		    var notifier_click_function = function(ev)
+		    {
+			var el = this;
+			self.show_or_hide_update_info.apply(self, [ev, el]);
+		    };
+
+		    notifier.addEventListener("click",
+					      notifier_click_function,
+					      false);
 
 		    h.appendChild(notifier);
 		    lm.appendChild(update_info);

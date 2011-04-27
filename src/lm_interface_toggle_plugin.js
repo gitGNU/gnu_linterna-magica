@@ -39,12 +39,16 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     {
 	toggle_plugin.setAttribute("class", "linterna-magica-toggle-plugin");
     }
-    toggle_plugin.addEventListener("click", function(ev)
-    				   {
-				       var el = this;
-				       self.toggle_plugin.
-					   apply(self, [ev, el]);
-    				   }, false);
+
+    var toggle_plugin_click_function = function(ev)
+    {
+	var el = this;
+	self.toggle_plugin.apply(self, [ev, el]);
+    };
+    				   
+    toggle_plugin.addEventListener("click",
+				   toggle_plugin_click_function, false);
+
     if (plugin_priority)
     {
 

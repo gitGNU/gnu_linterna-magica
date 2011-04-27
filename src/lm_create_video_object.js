@@ -102,10 +102,11 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     script_name.setAttribute("class", "linterna-magica-logo");
 
     var self = this;
-    script_name.addEventListener("click", function(ev){
-	var el = this;
-	self.about.apply(self, [ev, el]);
-    }, false);
+    script_name.addEventListener("click", function(ev)
+				 {
+				     var el = this;
+				     self.about.apply(self, [ev, el]);
+				 }, false);
 
     // If the plugin is not installed this is useless
     if (this.plugin_is_installed)
@@ -138,12 +139,15 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	hd_button.textContent = this._("HQ");
 	hd_button.setAttribute("title", this._("Higher quality"));
 	hd_button.setAttribute("class", "linterna-magica-switch-hd");
-	hd_button.addEventListener("click", function(ev)
-				   {
-				       var el = this;
-				       self.show_or_hide_hd_links.
-					   apply(self, [ev, el]);
-				   }, false);
+
+	var hd_button_click_function =  function(ev)
+	{
+	    var el = this;
+	    self.show_or_hide_hd_links.apply(self, [ev, el]);
+	};
+
+	hd_button.addEventListener("click",
+				   hd_button_click_function, false);
 
 	hd_wrapper.appendChild(hd_button);
 
@@ -160,12 +164,15 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    var button = document.createElement("a");
 	    button.setAttribute("href",object_data.hd_links[link].url);
 	    button.textContent = object_data.hd_links[link].label;
-	    button.addEventListener("click", function(ev)
-				    {
-					var el = this;
-					self.switch_to_hd_link.
-					    apply(self, [ev, el]);
-				    }, false);
+
+	    var button_click_function = function(ev)
+	    {
+		var el = this;
+		self.switch_to_hd_link.apply(self, [ev, el]);
+	    };
+
+	    button.addEventListener("click",
+				    button_click_function , false);
 
 	    // Selected link. Default it is the lowest quality.
 	    if (link == (object_data.hd_links.length-1))
@@ -187,12 +194,15 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     if (this.debug_level && this.log_to == "web")
     {
 	var log_link  =  this.create_web_log_link(id);
-	log_link.addEventListener("click", function(ev)
-				  {
-				      var el = this;
-				      self.show_or_hide_web_log.
-					  apply(self, [ev, el]);
-				  }, false);
+
+	var log_link_click_function = function(ev)
+	{
+	    var el = this;
+	    self.show_or_hide_web_log.apply(self, [ev, el]);
+	};
+
+	log_link.addEventListener("click",
+				  log_link_click_function, false);
 
 	header.appendChild(log_link);
 	// Hide the web log, so it accessible only from interface.
