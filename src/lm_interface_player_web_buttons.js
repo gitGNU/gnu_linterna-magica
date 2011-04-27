@@ -342,53 +342,54 @@ LinternaMagica.prototype.create_controls = function(object_data)
     mute.setAttribute("title", this._("Mute"));
     mute.textContent ="M";
 
-    mute.addEventListener("click", function(ev)
-			  {
-			      ev.preventDefault();
-			      var volume =
-				  self.player.toggle_mute.apply(self,[id]);
+    var mute_click_function = function(ev)
+    {
+	ev.preventDefault();
+	var volume =
+	    self.player.toggle_mute.apply(self,[id]);
 
-			      if (/M/i.test(mute.textContent))
-			      {
-				  mute.textContent = "U";
-				  mute.setAttribute("title", this._("Unmute"));
+	if (/M/i.test(mute.textContent))
+	{
+	    mute.textContent = "U";
+	    mute.setAttribute("title", self._.apply(self, ["Unmute"]));
 
-				  mute.setAttribute(
-				      "class",
-				      "linterna-magica-controls-buttons "+
-					  "linterna-magica-controls-"+
-					  "buttons-unmute");
-				  volume_text.textContent = "0%";
-				  volume_text.setAttribute("title",
-							   this._("Muted"));
-				  volume_slider.setAttribute("title",
-							     this._("Muted"));
-				  volume_knob.setAttribute("title",
-							   this._("Muted"));
-			      }
-			      else
-			      {
-				  mute.textContent = "M";
-				  mute.setAttribute("title", this._("Mute"));
-				  volume_text.textContent = volume;
+	    mute.setAttribute(
+		"class",
+		"linterna-magica-controls-buttons "+
+		    "linterna-magica-controls-"+
+		    "buttons-unmute");
 
-				  volume_text.removeAttribute("title");
-				  mute.setAttribute(
-				      "class",
-				      "linterna-magica-controls-buttons "+
-					  "linterna-magica-controls-"+
-					  "buttons-mute");
+	    volume_text.textContent = "0%";
+	    volume_text.setAttribute("title",
+				     self._.apply(self, ["Muted"]));
+	    volume_slider.setAttribute("title",
+				       self._.apply(self, ["Muted"]));
+	    volume_knob.setAttribute("title",
+				     self._.apply(self, ["Muted"]));
+	}
+	else
+	{
+	    mute.textContent = "M";
+	    mute.setAttribute("title", self._.apply(self, ["Mute"]));
+	    volume_text.textContent = volume;
 
-				  volume_slider.
-				      setAttribute("title",
-						   this._("Volume control"));
-				  volume_knob.
-				      setAttribute("title",
-						   this._("Volume control"));
-			      }
+	    volume_text.removeAttribute("title");
+	    mute.setAttribute(
+		"class",
+		"linterna-magica-controls-buttons "+
+		    "linterna-magica-controls-"+
+		    "buttons-mute");
 
+	    volume_slider.
+		setAttribute("title",
+			     self._.apply(self, ["Volume control"]));
+	    volume_knob.
+		setAttribute("title",
+			     self._.apply(self, ["Volume control"]));
+	}
+    };
 
-			  },false);
+    mute.addEventListener("click", mute_click_function, false);
     controls.appendChild(mute);
 
     var fullscreen = document.createElement("a");
