@@ -81,6 +81,18 @@ var linterna_magica_options =
 	// off/no/disabled/false/0: Don't wait (defult)
         // <integer>: Wait for <integer> milliseconds.
 	"wait_dm": "off",
+	// Preferred video quality.
+	//
+	// low/medium/high: Automatically select the link for
+	// low/medium/high from the list of links (default low)
+	//
+	// <number>: Start the <number> link from the list. If not
+	// available the highest quality. Use "1" for lowest quality.
+	//
+	// <number>%: Start the link that corresponds to <number>
+	// percent from the list. Float numbers are allowed - 34.56%,
+	// 18,6%.
+	"quality": "low",
     };
 
 // NO MINIMISATION ABOVE THIS LINE

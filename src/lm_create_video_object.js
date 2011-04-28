@@ -133,6 +133,16 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // Create HD links
     if (object_data.hd_links)
     {
+	var preferred_link = 
+	    this.compute_preferred_hd_link(object_data.hd_links);
+
+	// No link is calculated. Set to lowest.
+	if (preferred_link == null || isNaN(preferred_link))
+	{
+	    preferred_link = 
+		object_data.hd_links[object_data.hd_links.length-1];
+	}
+
 	var hd_wrapper = document.createElement("div");
 	var hd_button = document.createElement("a");
 	hd_button.setAttribute("href","#");
@@ -174,10 +184,16 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    button.addEventListener("click",
 				    button_click_function , false);
 
-	    // Selected link. Default it is the lowest quality.
-	    if (link == (object_data.hd_links.length-1))
+	    // Preferred link 
+	    if (link == preferred_link)
 	    {
+		// Set the link in the interface
 		this.select_hd_link_in_list(button,id);
+
+		// Set the link for the player and download link.
+		object_data.link = object_data.hd_links[link].url;
+		dw_link.setAttribute("href",
+				     object_data.hd_links[link].url);
 	    }
 
 	    li.appendChild(button);
@@ -205,7 +221,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				  log_link_click_function, false);
 
 	header.appendChild(log_link);
-	// Hide the web log, so it accessible only from interface.
+	// Hide the web log, so it is accessible only from the interface.
 	var log = document.getElementById("linterna-magica-web-log");
 	log.style.setProperty("display","none", "important");
     }

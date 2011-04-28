@@ -101,6 +101,7 @@ function LinternaMagica(params)
     this.set_cookies(params.cookies);
     this.set_wait_dailymotion(params.wait_dm);
     this.set_check_updates(params.updates);
+    this.set_hd_link_quality(params.quality);
 
     // check_for_updates() MUST be called only if there is video object
     // found. The only place where the user can be informed is in the

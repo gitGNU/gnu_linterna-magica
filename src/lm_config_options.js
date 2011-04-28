@@ -221,3 +221,56 @@ LinternaMagica.prototype.set_locale = function(locale)
 
     this.lang = set_lang_to;
 }
+
+// Set the preferred video quality 
+LinternaMagica.prototype.set_hd_link_quality = function(quality)
+{
+    var set_quality_to = quality ? quality : "low";
+    var err = null;
+    
+    if (!/^(low|medium|high|[0-9]+|[0-9.,]+%)$/i.test(set_quality_to) ||
+	/^low$/i.test(set_quality_to))
+    {
+	// Low
+	set_quality_to = -0.33;
+    }
+    else if (/^medium$/i.test(set_quality_to))
+    {
+	// Medium
+	set_quality_to = -0.66;
+    }
+    else if (/^high$/i.test(set_quality_to))
+    {
+	// High
+	set_quality_to = -1;
+    }
+     else if (/^[0-9]+$/i.test(set_quality_to))
+    {
+	// Set to link number
+	set_quality_to = parseInt(set_quality_to);
+	if (!set_quality_to)
+	{
+	    err = 1;
+	}
+    }
+    else if (/^[0-9.,]+%$/i.test(set_quality_to))
+    {
+	// parseFloat accepts only "." for separator.
+	set_quality_to = set_quality_to.replace(/,/g,".");
+
+	// Set to percent
+	set_quality_to = - parseFloat(set_quality_to)/100;
+	if (isNaN(set_quality_to))
+	{
+	    err = 1;
+	}
+    }
+
+    if (err) 
+    {
+	// Low
+	set_quality_to = -0.33;
+    }
+
+    this.preferred_hd_quality = set_quality_to;
+}
