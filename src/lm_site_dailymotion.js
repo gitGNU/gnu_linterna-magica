@@ -34,14 +34,15 @@ LinternaMagica.prototype.extract_dailymotion_links = function(data)
 	"sdurl"+
 	    "(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
 	    "(.*(\\\?auth\\\=[A-Za-z0-9\\\-\\\.]+)"+
-	    "(\\\&|\\\"|\\\'){1})\\\}",
+	    "(\\\&|\\\"|\\\'){1})\\\,{1}",
 	"i");
 
     var links = unescape(data).match(links_re);
 
     if (links && links[0])
     {
-	links =  links[0].split(/,/);
+	// There is not data after the last comma, it is end-of-match.
+	links =  links[0].replace(/,$/, "").split(/,/);
 
 	var hd_links = new Array();
 

@@ -36,7 +36,7 @@ MKTEMP=/bin/mktemp
 CHMOD=/bin/chmod
 
 PACKAGE= linternamagica
-VERSION = 0.0.9-4
+VERSION = 0.0.9-5
 
 topdir=.
 srcdir=$(topdir)/src
