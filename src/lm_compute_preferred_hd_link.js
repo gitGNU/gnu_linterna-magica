@@ -58,5 +58,21 @@ LinternaMagica.prototype.compute_preferred_hd_link = function(hd_links)
 	preferred_link_index = Math.floor(((hd_links.length)*quality));
     }
 
+    // Ensure correct index. The hd_links.length is greater by one
+    // then the number of links.
+    if (preferred_link_index == 0)
+    {
+	preferred_link_index = 1;
+    }
+
+    // Special case for two links and quality > 50%. The rounding
+    // makes the second link available after 75%. That is not what we
+    // want.
+    if (Math.abs(this.preferred_hd_quality) > 0.5 &&
+	hd_links.length == 2)
+    {
+	preferred_link_index = hd_links.length;
+    }
+
     return Math.abs(hd_links.length-preferred_link_index);
 }
