@@ -234,6 +234,24 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     if (object_data.link)
     {
 	var mime = object_data.mime ? object_data.mime : "video/flv";
+
+ 	// Fix for video/mp4 (and other QuickTime clips) for
+	// totemNarrowSpace plugin. Fixes these issues of
+	// totemNarrowSpace plugin:
+	// - No API for fullscreen. 
+	// - The UA it sends is different from the browser, Vimeo does
+	// not load.
+	// With video/flv totemCone plugin will load.
+	if (/mp4|m4v|quicktime/i)
+	{
+	    var mp4 = navigator.mimeTypes["video/mp4"];
+	    if (mp4 && mp4.enabledPlugin && mp4.enabledPlugin.name &&
+		/totem/i.test(mp4.enabledPlugin.description))
+	    {
+		mime = "video/flv";
+	    }
+	}
+
 	object_tag.setAttribute("type", mime);
 	object_tag.setAttribute("data", object_data.link);
     }
