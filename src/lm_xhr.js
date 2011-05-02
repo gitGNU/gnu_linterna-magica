@@ -254,10 +254,15 @@ function(client, object_data)
 		hd_links.unshift(hd_link);
 	    }
 
-	    // Explicitly force video/flv. We depend on this with
-	    // Totem. This way the plugin uses the user-agent of the
-	    // browser.
-	    mime = "video/flv";
+	    // Vimeo web server sends the clips as
+	    // video/mp4. totemNarrowSpace plugin (plays video/mp4)
+	    // sends custom UA. This prevents the video to load. Must
+	    // use video/flv, so totemCone plugin could start and send
+	    // UA of the browser.  totemNarrowSpace/QuickTime plugin
+	    // have other issues as well. Could be forced to
+	    // video/flv, but there is a better fix in
+	    // create_video_object();
+	    mime = "video/mp4";
 	}
 
 	if (/4videosharing\.com/i.test(host))
