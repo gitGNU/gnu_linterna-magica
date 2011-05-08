@@ -386,6 +386,15 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				  (this.controls ? 24 : 0))+"px"),
 				"important");
 
+    // In channels/user pages in YouTube the web controlls are
+    // overlapped by this element.
+    if (/youtube\.com/i.test(window.location.hostname) &&
+	document.getElementById("playnav-playview"))
+    {
+	var el = 	document.getElementById("playnav-playview");
+	el.style.setProperty("margin-top", "50px", "important");
+    }
+
     // The thumbnail image overlaps the toggle plugin button after our
     // changes. This way our button is visible.
     if (/vimeo\.com/i.test(window.location.hostname) && 
