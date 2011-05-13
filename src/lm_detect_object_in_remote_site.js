@@ -150,6 +150,10 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     var a = document.createElement("a");
     a.textContent = "Linterna Mágica >>";
     a.setAttribute("class", "linterna-magica-toggle-plugin");
+
+    // See https://savannah.nongnu.org/bugs/?33303
+    a.style.setProperty("margin-bottom", "50px", "important");
+
     a.setAttribute("href", object_data.remote_site_link);
     a.setAttribute("title", _("Watch this video at it's original"+
 			      " site with Linterna Mágica"));
