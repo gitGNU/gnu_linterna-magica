@@ -13,11 +13,6 @@
     - remote requests (epiphany needs work) The xml with video link is
       at a remote location
 
-* Support www.clipjunkie.com
-    - check if an argument to SWFObject is a variable (match for var)
-       and parse it for video_id or video link (see previous)
-    - Video link is in separate <script> tag. Uses SWFObject 
-
 * Fix metacafe.com high definition links
     - At the moment high definition videos are played, but there is no
        option to switch to other links
