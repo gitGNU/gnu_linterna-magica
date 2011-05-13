@@ -135,7 +135,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		// The parentNode is marked last and only it will be
 		// processed. The child will have marker/id and will
 		// not be processed at all later.
-		this.mark_flash_video_object(object);
+		this.mark_flash_object(object);
 		object = object.parentNode;
 	    }
 
