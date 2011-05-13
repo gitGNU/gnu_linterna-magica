@@ -72,23 +72,20 @@ LinternaMagica.prototype.
 	return null;
 
     var embed_object = element.getElementsByTagName("object")[0];
+    var linterna_magica_id = null;
 
     if (embed_object)
     {
-	this.dirty_objects.push(embed_object);
-	embed_object.setAttribute("linterna_magica_id",
-				  this.dirty_objects.length-1);
-
+	linterna_magica_id = this.mark_flash_object(embed_object);
     }
     else
     {
-	// Ugly && dirty hack.
-	// This way we have linterna_magica_id
-	this.dirty_objects.push(null);
+	linterna_magica_id =
+	    this.mark_flash_object("extracted-from-script");
     }
 
     var object_data = new Object();
-    object_data.linterna_magica_id = this.dirty_objects.length-1;
+    object_data.linterna_magica_id = linterna_magica_id;
 
     object_data.width = width;
     object_data.height = height;

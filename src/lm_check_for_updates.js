@@ -210,7 +210,7 @@ LinternaMagica.prototype.parse_updated_version_data = function()
 
 	    var self = this;
 	    // Add notifier in the headers of all video objects 
-	    for (var n=0; n< this.dirty_objects.length; n++)
+	    for (var n=0; n< this.found_flash_video_objects.length; n++)
 	    {
 		// header
 		var h = document.getElementById("linterna-magica-header-"+n);

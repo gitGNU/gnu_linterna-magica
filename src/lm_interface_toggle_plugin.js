@@ -53,7 +53,8 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     {
 
 	toggle_plugin.textContent = "Linterna Mágica >>";
-
+	toggle_plugin.setAttribute("id", 
+				   "linterna-magica-toggle-plugin-"+id);
 	// Fix link displacement after an object (vbox7 and others)
 	wrapper = document.createElement("p");
 	wrapper.appendChild(toggle_plugin);
@@ -86,70 +87,74 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
     // for the external link
     // element->p->div_with_object->object
 
-    var parent = element.parentNode;
-    if (parent.previousSibling &&
-	/object|embed/i.test(parent.previousSibling.localName))
-    {
-	// Must be "external" toggle_plugin link (Linterna Mágica >>)
-	var obj = parent.previousSibling;
-    }
-    else
-    {
-	var id = element.getAttribute("id");
-	id = id.split("-");
-	id = id[id.length-1];
-	// Must be toggle_plugin link in header
-	var obj = document.getElementById("linterna-magica-video-object-"+id);
-	    // element.parentNode.parentNode.
-    	    // getElementsByTagName("object")[0];
-    }
+    var linterna_magica_id = element.getAttribute("id");
+    linterna_magica_id = linterna_magica_id.split("-");
+    linterna_magica_id = linterna_magica_id[linterna_magica_id.length-1];
 
-    // Give up
-    if (!obj)
+    var video_object =
+	document.getElementById("linterna-magica-video-object-"+
+				linterna_magica_id);
+
+    var flash_object = 
+	this.get_flash_video_object(linterna_magica_id,
+				    // The parent of the div holding
+				    // Linterna Mágica
+				    video_object.parentNode.parentNode);
+
+    console.log("Flash "+flash_object+
+		" video "+video_object+
+		" lm "+linterna_magica_id);
+
+    if (!flash_object && !video_object)
+    {
 	return null;
+    }
 
-    var type = obj.getAttribute("type");
-    // Not every swf has type
-    // There might be a problem with <object><embed></object> structures
-    // where the object has no attributes for flash detection
-    if (this.is_swf_object(obj))
+    // Visible flash, hidden video object. Display has value (none)
+    // when the object is hidden.
+    if (!flash_object.style.getPropertyValue("display") &&
+	video_object.parentNode.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
-		 "Replacing swf object (id:"+
-		 obj.getAttribute("linterna_magica_id")+
+		 "Replacing/hiding swf object (id:"+
+		 linterna_magica_id+
 		 ") with video object.", 4);
 
-	var video_object = this.video_objects[
-	    obj.getAttribute("linterna_magica_id")];
+	this.hide_flash_video_object(linterna_magica_id, 
+				     flash_object.parentNode);
 
-	// The link is in a paragraph (because of link displacement
-	// fix in some sites)
-	obj.parentNode.insertBefore(video_object, parent);
+	this.show_lm_video(linterna_magica_id);
 
 	// Init the web controls
 	if (this.controls)
 	{
-	    this.player.init.apply(this,[
-		obj.getAttribute("linterna_magica_id")]);
+	    this.player.init.apply(this,[linterna_magica_id]);
 	}
-    	obj.parentNode.removeChild(obj);
-	parent.style.setProperty("display", "none", "important");
+	
+	// Hide the external toggle plugin link
+	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
+	ext_toggle_wrapper.style.setProperty("display", "none", "important");
+	console.log("Hiding flash, showing video, hiding ext toggle");
     }
-    else if(/video/i.test(type))
+    // Hidden flash, visible video object. Display has value (none)
+    // when the object is hidden.
+    else if (!video_object.parentNode.style.getPropertyValue("display") &&
+	     flash_object.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
-		 "Replacing video object (id:"+
-		 obj.getAttribute("linterna_magica_id")+
+		 "Replacing/hiding video object (id:"+
+		 linterna_magica_id+
 		 ") with swf object.", 4);
 
-	// Must be the toggle plugin link
-	obj.parentNode.nextSibling.style.removeProperty("display");
+	this.hide_lm_video(linterna_magica_id);
+	this.show_flash_video_object(linterna_magica_id, 
+				     flash_object.parentNode);
+	
+	// External toggle plugin link
+	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
+	ext_toggle_wrapper.style.removeProperty("display");
 
-	var dirty_object = this.dirty_objects[
-	    obj.getAttribute("linterna_magica_id")];
-	obj.parentNode.parentNode.insertBefore(dirty_object,
-					       obj.parentNode.nextSibling);
-
-    	obj.parentNode.parentNode.removeChild(obj.parentNode);
+	console.log("Showing flash, hiding video, showing ext toggle");
     }
+    console.log("Post ifs ");
 }

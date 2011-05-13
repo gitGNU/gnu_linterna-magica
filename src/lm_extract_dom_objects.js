@@ -41,11 +41,14 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
     {
 	var object = objects[i];
 
-	if (object.hasAttribute("linterna_magica_id"))
+	if (object.hasAttribute("class") && 
+	    this.object_has_css_class(object, 
+				      this.marked_object_template+".*"))
 	{
 	    this.log("LinternaMagica.extract_objects_from_dom:\n"+
 		     "Skipping processed object with linterna_magica_id:"+
-		     object.getAttribute("linterna_magica_id"),2);
+		     this.get_marked_object_id(object), 2);
+
 	    continue;
 	}
 
@@ -86,14 +89,12 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		var extracted_data = this.extract_link_from_param_list();
 	    }
 
-
 	    object_data.remote_site_link = extracted_data.remote_site_link;
 	    object_data.link = extracted_data.link;
 	    object_data.video_id = extracted_data.video_id;
 	    object_data.hd_links =
 		extracted_data.hd_links || null;
 
-	   
 
 	    if (!object_data.link && !object_data.video_id && 
 		!object_data.remote_site_link)
@@ -102,6 +103,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 			 "No video_id, link or remote site link"+
 			 " found. Not creating video oject or remote"+
 			 " video button.",1);
+
 		continue;
 	    }
 
@@ -110,6 +112,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	    {
 		// See the comments for this function
 		object_data.link = this.create_myvideode_link();
+
 		// Now that we have a link remove the video_id
 		// so it is not processed
 		if (object_data.link)
@@ -119,69 +122,51 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	    }
 
 	    var parent = object.parentNode.localName.toLowerCase();
+
 	    // Remove all the junk.
 	    if (parent === "object" ||
 		parent === "embed")
 	    {
+		// Usually both have the same flashvars and movie.
 		this.log("LinternaMagica.extract_objects_from_dom:\n"+
 			 "Using <"+object.localName+"> parentNode: <"+
 			 object.parentNode.localName+">.",1);
 
-	
-		this.dirty_objects.push(object.parentNode);
-
-		// Mark the parent object as procressed because it will
-		// be detected again when the video object is
-		// insterted/created
-		object.parentNode.setAttribute("linterna_magica_id",
-					       (this.dirty_objects.length-1));
-
-		object_data.parent = object.parentNode.parentNode;
-
-		// We need to use parent object/emebd so if data is
-		// missing it can be extracted from parent wrapper
-		// element (div/span)
-		object_data.width = this.extract_object_width(
-		    object.parentNode);
-
-		object_data.height = this.extract_object_height(
-		    object.parentNode);
+		// The parentNode is marked last and only it will be
+		// processed. The child will have marker/id and will
+		// not be processed at all later.
+		this.mark_flash_video_object(object);
+		object = object.parentNode;
 	    }
-	    else
+
+	    // Do not process objects without parent.  This bug
+	    // showed up at i-kat.org. The site uses an object inline
+	    // in another one and both have video link. When the
+	    // parent object is processed and replaced with a video
+	    // object, the second (child of the first) looses its
+	    // parent and Linterna Mágica crashes. There might be a
+	    // better solution to this. It acctualy crashes just
+	    // before/after calling remove_plugin_install_warning.
+	    if (!object.parentNode)
 	    {
-		// Do not process objects without parent.  This bug
-		// showed up at i-kat.org. The site uses an object inline
-		// in another one and both have video link. When the
-		// parent object is processed and replaced with a video
-		// object, the second (child of the first) looses its
-		// parent and Linterna Mágica crashes. There might be a
-		// better solution to this. It acctualy crashes just
-		// before/after calling remove_plugin_install_warning.
-		if (!object.parentNode)
-		{
-		    this.log("LinternaMagica.extract_objects_from_dom:\n"+
-			     "Object's parent node dissapeared."+
-			     " No link found (yet) in this object.",1);
-		    return null;
-		}
-
-		this.dirty_objects.push(object);
-		object_data.parent = object.parentNode;
-
-		object_data.width = this.extract_object_width(object);
-		object_data.height = this.extract_object_height(object);
+		this.log("LinternaMagica.extract_objects_from_dom:\n"+
+			 "Object's parent node dissapeared."+
+			 " No link found (yet) in this object.",1);
+		return null;
 	    }
 
-	    // Prevent second processing of this object
-	    object.setAttribute("linterna_magica_id",
-				(this.dirty_objects.length-1));
+	    this.mark_flash_object(object);
+	    object_data.parent = object.parentNode;
+
+	    object_data.width = this.extract_object_width(object);
+	    object_data.height = this.extract_object_height(object);
+
+	    object_data.linterna_magica_id =
+		this.get_marked_object_id(object);
 
 	    this.log("LinternaMagica.extract_objects_from_dom:\n"+
 		     "Object linterna_magica_id set to: "+
-		     object.getAttribute("linterna_magica_id"),2);
-
-	    object_data.linterna_magica_id =
-		object.getAttribute("linterna_magica_id");
+		     object_data.linterna_magica_id,2);
 
 	    if (object_data.remote_site_link)
 	    {
@@ -191,23 +176,24 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		
 		var remote_site = 
 		    this.create_remote_site_link(object_data);
-		var lm_id = object_data.linterna_magica_id;
-		var before =  this.dirty_objects[lm_id].nextSibling;
+
+		var before =  object.nextSibling;
 
 		if (before)
 		{
 		    object_data.parent.insertBefore(remote_site, before);
-		    }
+		}
 		else
 		{
 		    object_data.parent.appendChild(remote_site);
 		}
+
 		// We only need:
-		// * linetrna_magica_id attribute set;
-		// * object_data.parent set;
+		// * linetrna_magica_id to be set;
+		// * object_data.parent to be set;
 		// * the <object><embed/><object> detected.
 		continue;
-	    } 
+	    }
 	    else if (object_data.link)
 	    {
 		this.log("LinternaMagica.extract_objects_from_dom:\n"+
@@ -335,7 +321,8 @@ LinternaMagica.prototype.extract_object_height = function(element)
     // Fix small height in Google Video with IceCat, Abrowser etc.
     // Skip to parent height. The object has embed child node with
     // valid height. Because the parent is object we use it instead.
-    else if (element.offsetHeight && !/video\.google\./i.test(window.location.href))
+    else if (element.offsetHeight &&
+	     !/video\.google\./i.test(window.location.href))
     {
 	height = element.offsetHeight;
     }

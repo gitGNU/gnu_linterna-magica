@@ -112,11 +112,9 @@ function LinternaMagica(params)
     // Add the style sheet to the head of the document.
     this.create_stylesheet();
 
-    // Array of flash objects
-    this.dirty_objects = new Array();
-
-    // Array of created "video" objects
-    this.video_objects = new Array();
+    // Video flash objects counter. Counting starts from zero for the
+    // first found object with the first increment.
+    this.found_flash_video_objects = -1;
 
     // Object holding data for curently processed video ids with
     // XMLHttpRequest. Keys video_id+host , values 1/0.

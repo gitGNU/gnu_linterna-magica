@@ -39,8 +39,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	     "Creating video object with linterna_magica_id "+id,2);
 
     // Check if another object is created already there and skip.
-    // this.dirty_objects[(id-1)] will brak for scripts, because it is
-    // null
     if (((id-1) >= 0))
     {
 	// Will break if the there is object that is not created just
@@ -300,8 +298,9 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				(parseInt(object_data.height)-20)+"px",
 				"important");
     container.appendChild(about_box);
-
-    object_tag.setAttribute("linterna_magica_id", id);
+    
+    object_tag.setAttribute("class", 
+			    this.marked_object_template+"-video-"+id);
 
     // Add link after the object/embed
     // this.set_priority() has set this.priority
@@ -318,7 +317,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 					    "px", "important");
 	}
 
-	var before = this.dirty_objects[id].nextSibling;
+	var before = this.get_flash_video_object(id).nextSibling;
+
 	if (before)
 	{
 	    object_data.parent.insertBefore(toggle_plugin, before);
@@ -344,19 +344,19 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // then insert the new one, otherwise a loop is created
     // in extract_objects_from_dom.
 
-    // Remove the object if it is in DOM
-    // Objects extracted from script has null value in this.dirty_objects
-    if (/self/i.test(this.priority)
-	&& this.dirty_objects[id]
+    var dom_object =  this.get_flash_video_object(id);
+    // Remove/hide the object if it is in DOM
+    if (/self/i.test(this.priority) &&
+	dom_object &&
 	// The object is still in DOM some scripts remove it
-       && this.dirty_objects[id].parentNode)
+	dom_object.parentNode)
     {
-	if(this.dirty_objects[id].nextSibling)
+	if(dom_object.nextSibling)
 	{
-	    object_data.use_sibling = this.dirty_objects[id].nextSibling;
+	    object_data.use_sibling = dom_object.nextSibling;
 	}
 
-	object_data.parent.removeChild(this.dirty_objects[id]);
+	this.hide_flash_video_object(id,dom_object.parentNode);
     }
 
     if (/self/i.test(this.priority) && this.plugin_is_installed)
@@ -447,14 +447,15 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	// }
     }
 
+    var dom_object = this.get_flash_video_object(id);
     // Objects extracted from script usually does not have cloned object
     // For example youtube
-    if (this.dirty_objects[id])
+    if (dom_object)
     {
 	// Prevent the object to fill the container at 100% (if set)
 	// This way the toggle plugin link after the object is not
 	// overlaping elements.
-	this.dirty_objects[id].style.setProperty("height",
+	dom_object.style.setProperty("height",
 						 object_data.height+"px",
 						 "important");
     }
@@ -585,9 +586,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     // Temporary
     // parent.style.setProperty("border", "1px solid red", "important");
-
-    // Push to video object list
-    this.video_objects.push(container);
 
     // Init the web controls functions
     // only if Linterna Mágica has priority

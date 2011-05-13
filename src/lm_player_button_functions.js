@@ -27,19 +27,6 @@
 
 // END OF LICENSE HEADER
 
-
-// Find the current video object in the DOM
-LinternaMagica.prototype.get_video_object = function(id)
-{
-    var video_object = null;
-
-    video_object = window.document.
-	getElementById("linterna-magica-video-object-"+id);
-
-    return video_object;
-}
-
-
 // Set player_name attribute to video objects.
 // This is used to know wchich API to use
 // navigator.plugins[x].name:

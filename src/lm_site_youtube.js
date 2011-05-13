@@ -223,6 +223,7 @@ LinternaMagica.prototype.extract_object_from_script_youtube = function()
 
 
     var object_data = new Object();
+    var linterna_magica_id = null;
 
     object_data.width= width;
     object_data.height= height;
@@ -235,7 +236,9 @@ LinternaMagica.prototype.extract_object_from_script_youtube = function()
 	{
 	    if (this.plugin_is_installed)
 	    {
-		this.dirty_objects.push(embed_object);
+		linterna_magica_id =
+		    this.mark_flash_object(embed_object);
+
 		object_data.parent = embed_object.parentNode;
 	    }
 	}
@@ -246,12 +249,12 @@ LinternaMagica.prototype.extract_object_from_script_youtube = function()
 	(embed_object &&
 	 !this.plugin_is_installed))
     {
-	// Ugly && dirty hack.
-	// This way we have linterna_magica_id
-	this.dirty_objects.push(null);
+	linterna_magica_id =
+	    this.mark_flash_object("extracted-from-script");
+
 	object_data.parent = document.getElementById("watch-player");
     }
-    object_data.linterna_magica_id = this.dirty_objects.length-1;
+    object_data.linterna_magica_id = linterna_magica_id;
 
     return object_data;
 }

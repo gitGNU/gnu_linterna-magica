@@ -18,9 +18,6 @@
        and parse it for video_id or video link (see previous)
     - Video link is in separate <script> tag. Uses SWFObject 
 
-* Might be better to not have an array with flash objects, but just to
-  make them invisible.
-
 * Fix metacafe.com high definition links
     - At the moment high definition videos are played, but there is no
        option to switch to other links

@@ -133,10 +133,9 @@ LinternaMagica.prototype.extract_object_from_script_vimeo = function()
 	this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
 		 "Object data extracted from script ",1);
 
-	// Ugly && dirty hack.
-	// This way we have linterna_magica_id
-	this.dirty_objects.push(null);
-	object_data.linterna_magica_id = this.dirty_objects.length-1;
+	object_data.linterna_magica_id =
+	    this.mark_flash_object("extracted-from-script");
+
 	return object_data;
     }
 

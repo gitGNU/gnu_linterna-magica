@@ -97,10 +97,9 @@ LinternaMagica.prototype.extract_object_from_script_ufo = function()
 	this.log("LinternaMagica.extract_object_from_script_ufo:\n"+
 		 "SWF object extracted from script ",1);
 
-	// Ugly && dirty hack.
-	// This way we have linterna_magica_id
-	this.dirty_objects.push(null);
-	object_data.linterna_magica_id = this.dirty_objects.length-1;
+	object_data.linterna_magica_id =
+	    this.mark_flash_object("extracted-from-script");
+
 	return object_data;
     }
 

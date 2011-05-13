@@ -60,9 +60,10 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	    /youtube-nocookie\.com/i.test(window.location.hostname))
 	{
 	    this.log("LinternaMagica.request_video_link:\n"+
-		     "Removing duplicate object ",1);
-	    object_data.parent.removeChild(this.dirty_objects[
-		object_data.linterna_magica_id]);
+		     "Removing/hiding duplicate object ",1);
+
+	    this.hide_flash_video_object(object_data.linterna_magica_id,
+					 object_data.parent);
 	}
 
 	return null;
