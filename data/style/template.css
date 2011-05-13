@@ -529,3 +529,32 @@ div.linterna-magica-web-log,
 .linterna-magica-web-log-clone-messages p {
                                             margin: 1em 0 !important;
                                             }
+
+.linterna-magica-remote-clip-buttons  {
+    position: relative !important;
+    z-index: 99999 !important;
+    /* See https://savannah.nongnu.org/bugs/?33303*/
+    margin-bottom: 50px !important;
+}
+
+p.linterna-magica-remote-clip-buttons a {
+                                    display: block !important;
+                                    right: 0 !important;
+                                    margin: 0 !important;
+                                    top: 0 !important;
+                                    position: relative !important;
+                                    padding: 0 !important;
+                                    color:#ffffff !important;
+                                    height: 24px !important;
+                                    /* border: 1px dashed white !important; */
+                                    float: right !important;
+                                    text-decoration: none !important;
+                                    overflow: hidden;
+                                    line-height: 3000px;
+                                    }
+/* The link that destroys the remote clip link */
+a.linterna-magica-remote-clip-close-button {
+    background: url('button-close.png') 0 0 no-repeat !important;
+    width: 24px !important;
+}
+

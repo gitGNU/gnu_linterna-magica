@@ -178,8 +178,25 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
 			      " ("+object_data.remote_site_link+")"));
 
     p.appendChild(a);
-    p.style.setProperty("position", "relative", "important");
-    p.style.setProperty("z-index", "99999", "important");
+
+    var close = document.createElement("a");
+    close.textContent="x";
+    close.setAttribute("href", "#");
+    close.setAttribute("class", "linterna-magica-remote-clip-close-button");
+    close.setAttribute("title", this._("Remove this button, if it overlaps images or text in the page."));
+
+    var close_click_function =  function(ev)
+    {
+    	ev.preventDefault();
+	var wrapper =  this.parentNode;
+	wrapper.parentNode.removeChild(wrapper);
+    };
+
+    close.addEventListener("click", close_click_function, false);
+
+    p.appendChild(close);
+
+    p.setAttribute("class", "linterna-magica-remote-clip-buttons");
 
     return p;
 }
