@@ -151,9 +151,6 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     a.textContent = "Linterna Mágica >>";
     a.setAttribute("class", "linterna-magica-toggle-plugin");
 
-    // See https://savannah.nongnu.org/bugs/?33303
-    a.style.setProperty("margin-bottom", "50px", "important");
-
     a.setAttribute("href", object_data.remote_site_link);
     a.setAttribute("title", _("Watch this video at it's original"+
 			      " site with Linterna Mágica"));
@@ -161,6 +158,8 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     p.appendChild(a);
     p.style.setProperty("position", "relative", "important");
     p.style.setProperty("z-index", "99999", "important");
+    // See https://savannah.nongnu.org/bugs/?33303
+    p.style.setProperty("margin-bottom", "50px", "important");
 
     return p;
 }
