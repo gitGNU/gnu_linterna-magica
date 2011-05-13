@@ -139,7 +139,7 @@ LinternaMagica.prototype.remote_sites.add_site(
     "http://vbox7.com/play:<video_id>");
 
 LinternaMagica.prototype.remote_sites.add_site(
-    "youtube\\\.com",
+    "youtube\\\.com|youtube-nocookie\\\.com",
      "(v|embed)\\\/(.*)\\\&*",
     "http://youtube.com/watch?v=<video_id>");
 
