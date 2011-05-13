@@ -101,10 +101,6 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 				    // Linterna Mágica
 				    video_object.parentNode.parentNode);
 
-    console.log("Flash "+flash_object+
-		" video "+video_object+
-		" lm "+linterna_magica_id);
-
     if (!flash_object && !video_object)
     {
 	return null;
@@ -134,7 +130,6 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	// Hide the external toggle plugin link
 	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
 	ext_toggle_wrapper.style.setProperty("display", "none", "important");
-	console.log("Hiding flash, showing video, hiding ext toggle");
     }
     // Hidden flash, visible video object. Display has value (none)
     // when the object is hidden.
@@ -154,7 +149,5 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
 	ext_toggle_wrapper.style.removeProperty("display");
 
-	console.log("Showing flash, hiding video, showing ext toggle");
     }
-    console.log("Post ifs ");
 }
