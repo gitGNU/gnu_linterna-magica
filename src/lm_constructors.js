@@ -326,7 +326,7 @@ LinternaMagica.prototype.player.init = function(id)
     }
 
     var volume_interval =
-	setInterval(volube_interval_function, 800);
+	setInterval(volume_interval_function, 800);
 }
 
 // Localization languages object
