@@ -257,78 +257,76 @@ LinternaMagica.prototype.player.init = function(id)
     {
 	// Sometimes it skips seconds if the
 	// interval is 1sec
-	this.player_timers[id] = setInterval(function()
-					     {
-						 self.ticker.apply(self,[id]);
-					     }, 500);
+	this.player_timers[id] = 
+	    setInterval(function()
+			{
+			    self.ticker.apply(self,[id]);
+			}, 500);
     }
 
+    var volume_interval_function =    function()
+    {
+	var knob =
+	    document.getElementById("linterna-magica-controls-"+
+				    "volume-slider-knob-"+id);
+
+	if (!knob)
+	{
+	    return null;
+	}
+
+	var text = knob.nextSibling;
+	var slider = knob.parentNode;
+	var vol = null;
+
+	var video_object = self.get_video_object(id);
+
+	var player_name = video_object.getAttribute("player_name");
+
+	if (/gecko/i.test(player_name)
+	    || /quicktime plug-in/i.test(player_name))
+	{
+	    try
+	    {
+		vol = video_object.GetVolume();
+
+		if (/quicktime/i.test(player_name))
+		{
+		    // totemNarrowspace uses 255 as max
+		    // calculate as 100 %
+		    vol = parseInt(vol * 100/255);
+		}
+	    }
+	    catch(e)
+	    {
+	    }
+	}
+	else if (/vlc/i.test(player_name))
+	{
+	    if (video_object.audio)
+	    {
+		vol =
+		    video_object.audio.
+		    volume;
+	    }
+	}
+
+	if (vol)
+	{
+	    var pos = 
+		parseInt((slider.clientWidth*vol/100) -
+			 knob.clientWidth-knob.clientWidth/2);
+
+	    knob.style.setProperty("left", pos+"px", "important");
+
+	    text.textContent = vol+"%";
+
+	    clearInterval(volume_interval);
+	}
+    }
 
     var volume_interval =
-	setInterval(function()
-		    {
-			var knob = document.getElementById(
-			    "linterna-magica-controls-"+
-				"volume-slider-knob-"+id);
-
-			if (!knob)
-			    return;
-
-			var text = knob.nextSibling;
-			var slider = knob.parentNode;
-			var vol = null;
-
-			var video_object = self.
-			    get_video_object(id);
-
-			var player_name =
-			    video_object.
-			    getAttribute("player_name");
-
-			if (/gecko/i.test(player_name)
-			    || /quicktime plug-in/i.test(player_name))
-			{
-			    try
-			    {
-				vol =
-				    video_object.GetVolume();
-				if (/quicktime/i.test(player_name))
-				{
-				    // totemNarrowspace uses 255 as max
-				    // calculate as 100 %
-				    vol = parseInt(vol * 100/255);
-				}
-
-			    }
-			    catch(e)
-			    {
-			    }
-			}
-			else if (/vlc/i.test(player_name))
-			{
-			    if (video_object.audio)
-			    {
-				vol =
-				    video_object.audio.
-				    volume;
-			    }
-			}
-
-			if (vol)
-			{
-			    var pos = parseInt(
-				(slider.clientWidth*vol/100) -
-				    knob.clientWidth-knob.clientWidth/2);
-
-			    knob.style.setProperty("left", pos+"px",
-						   "important");
-
-			    text.textContent = vol+"%";
-
-			    clearInterval(volume_interval);
-			}
-
-		    }, 800);
+	setInterval(volube_interval_function, 800);
 }
 
 // Localization languages object
