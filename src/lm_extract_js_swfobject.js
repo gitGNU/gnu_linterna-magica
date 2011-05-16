@@ -164,7 +164,7 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 		 "SWF object extracted from script ",1);
 
 	object_data.linterna_magica_id =
-	    this.mark-flash_object("extracted-from-script");
+	    this.mark_flash_object("extracted-from-script");
 
 	return object_data;
     }
