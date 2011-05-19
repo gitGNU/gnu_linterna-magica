@@ -127,10 +127,15 @@ function LinternaMagica(params)
 	this.player_timers = new Array();
     }
 
+    if (!this.plugin_is_installed &&
+	/dailymotion\.com/i.test(window.location.hostname))
+    {
+	this.request_video_link({video_id: window.location.pathname});
+    }
     // If there is a plugin installed do not search in scripts.
     // Exception for blip.tv. This is the easiesy way to
     // support it with installed plugin.
-    if (!this.plugin_is_installed ||
+    else if (!this.plugin_is_installed ||
 	/blip\.tv/i.test(window.location.hostname) ||
 	/myvideo\.de/i.test(window.location.hostname))
     {
