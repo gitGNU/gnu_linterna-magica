@@ -257,8 +257,10 @@ LinternaMagica.prototype.player.init = function(id)
     this.player.set_player_name.apply(this,[id]);
     var self = this;
 
-    // We only start the firs clip
-    if (this.autostart && id ==0)
+    var started_clip = this.find_started_clip();
+
+    // Only start the clip, if not other is playing.
+    if (this.autostart && started_clip == null)
     {
 	// Sometimes it skips seconds if the
 	// interval is 1sec

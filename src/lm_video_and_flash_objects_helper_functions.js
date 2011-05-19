@@ -189,3 +189,23 @@ function(linterna_magica_id, parent)
 
     return flash_object;
 }
+
+// Check all video objects to find if one is started.
+LinternaMagica.prototype.find_started_clip = function()
+{
+    var started = null;
+
+    for (var i=0,l=this.found_flash_video_objects; i<l; i++)
+    {
+	// Another clip is started
+	if (this.get_video_object(i) &&
+	    this.player.state(i).string)
+	    {
+		started = i;
+		break;
+	    }
+    }
+
+    return started;
+}
+

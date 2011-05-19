@@ -37,6 +37,8 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
     var self =this;
 
+    var started_clip = this.find_started_clip();
+
     var play = document.createElement("a");
     play.setAttribute("class", "linterna-magica-controls-buttons "+
 		      "linterna-magica-controls-buttons-play");
@@ -44,11 +46,12 @@ LinternaMagica.prototype.create_controls = function(object_data)
     play.setAttribute("title", this._("Play"));
     play.textContent ="Pl";
     // Only pause button should be visible on autostart
-    // Auto start only the firs object in the page
-    if (this.autostart && id == 0)
+    // Auto start only if no other clip is playing.
+    if (this.autostart && started_clip == null)
     {
 	play.style.setProperty("display", "none", "important");
     }
+
     var play_click_function = function(ev)
     {
     	ev.preventDefault();
@@ -76,8 +79,9 @@ LinternaMagica.prototype.create_controls = function(object_data)
     pause.setAttribute("href", "#");
     pause.setAttribute("title", this._("Pause"));
     pause.textContent ="Pa";
-    // Only play button should be visible if !autostart (and
-    if (!this.autostart || id !=0)
+    // Only play button should be visible if !autostart or another
+    // clip is strated.
+    if (!this.autostart || started_clip !== null)
     {
 	pause.style.setProperty("display", "none", "important");
     }

@@ -257,8 +257,11 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     message.textContent = this._("Waiting for video plugin...");
 
     param.setAttribute("name", "autoplay");
-    // Start only the first found clip
-    param.setAttribute("value", (id > 0) ? "false" : this.autostart);
+    // Find if a clip is already playing.
+    var started_clip = this.find_started_clip();
+
+    param.setAttribute("value",
+		       (started_clip !== null) ? "false" : this.autostart);
 
     object_tag.appendChild(param);
 
