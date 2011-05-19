@@ -303,7 +303,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     container.appendChild(about_box);
     
     object_tag.setAttribute("class", 
-			    this.marked_object_template+"-video-"+id);
+			    this.marked_object_template+"video-"+id);
 
     // Add link after the object/embed
     // this.set_priority() has set this.priority
