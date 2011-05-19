@@ -373,8 +373,30 @@ function(client, object_data)
 
 		body.innerHTML = original_body_data;
 
-		object_data.parent = 
-		    this.getElementByClass("dmpi_video_playerv[0-9]+");
+		object_data.parent =  null;
+		var children = document.getElementsByTagName("div");
+    
+		if (!children)
+		{
+		    return null;
+		}
+
+		for (var i=0, l=children.length; i <l; i++)
+		{
+		    var el = children[i];
+		    var class_regex =
+			new RegExp ("\\\s*("+
+				    "dmpi_video_playerv[0-9]+)\\\s*","");
+
+		    var matches_class = el.hasAttribute("class") ? 
+			el.getAttribute("class").match(class_regex) : null;
+
+		    if (matches_class)
+		    {
+			object_data.parent = el;
+			break;
+		    }
+		}
 
 		if (!object_data.parent)
 		{
