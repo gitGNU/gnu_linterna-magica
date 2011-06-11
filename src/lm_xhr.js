@@ -375,7 +375,7 @@ function(client, object_data)
 		body.innerHTML = original_body_data;
 
 		object_data.parent = 
-		    this.getElementByClass("dmpi_video_playerv[0-9]+");
+		    this.get_first_element_by_class("dmpi_video_playerv[0-9]+");
 
 		if (!object_data.parent)
 		{

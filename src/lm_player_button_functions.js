@@ -27,7 +27,8 @@
 
 // END OF LICENSE HEADER
 
-// Set player_name attribute to video objects.
+
+// Set lm_player_name property
 // This is used to know wchich API to use
 // navigator.plugins[x].name:
 // Tototem:  VLC Multimedia Plugin (compatible Totem 2.30.1)
@@ -37,10 +38,17 @@
 // NOTE:
 // navigator.mimeTypes["video/flv"].enabledPlugin.name is not
 // reliable if more than one plugin is installed.
+// This is done once, and all the other functions just check a string.
 LinternaMagica.prototype.player.set_player_name = function(id)
 {
     var name = null;
     var video_object = this.get_video_object(id);
+
+    if (!video_object)
+    {
+	return null;
+    }
+
     var mimeTypes = navigator.mimeTypes;
 
     var mime = mimeTypes[video_object.getAttribute("type")];
@@ -58,7 +66,21 @@ LinternaMagica.prototype.player.set_player_name = function(id)
     {
 	this.log("LinternaMagica.player.set_player_name:\n"+
 		 "Name set to "+name,3);
-	video_object.setAttribute("player_name", name);
+	video_object.lm_player_name = name;
+    }
+
+    return name;
+}
+
+// Return the name ofthe plugin that will play the video.
+LinternaMagica.prototype.get_player_name = function(id)
+{
+    var name = null;
+    var video_object = this.get_video_object(id);
+
+    if (video_object)
+    {
+	name = video_object.lm_player_name;
     }
 
     return name;
@@ -79,11 +101,12 @@ LinternaMagica.prototype.player.set_player_name = function(id)
 LinternaMagica.prototype.player.state = function(id)
 {
     var video_object = this.get_video_object(id);
+    var player_name = this.get_player_name(id);
 
-    if (!video_object)
+    if (!video_object || !player_name)
+    {
 	return null;
-
-    var player_name = video_object.getAttribute("player_name");
+    }
 
     var time = new Object();
     time.duration = null;
@@ -142,7 +165,7 @@ LinternaMagica.prototype.player.state = function(id)
 
 	if (!time.state && video_object.input)
 	{
-	    // Fix exception when switching between
+	    // Fixes exception when switching between
 	    // Linterna Mágica and flash plugin
 	    try
 	    {
@@ -178,7 +201,7 @@ LinternaMagica.prototype.player.state = function(id)
 
 	if (!time.state)
 	{
-	    // Fix exception when switching between
+	    // Fixes exception when switching between
 	    // Linterna Mágica and flash plugin
 	    try
 	    {
@@ -186,7 +209,7 @@ LinternaMagica.prototype.player.state = function(id)
 		time.duration = video_object.controls.GetLength()/1000;
 		// Xine does not have percent
 		time.percent =  (time.position/time.duration);
- 		// Fix NaN result (division by 0)
+ 		// Fixes NaN result (division by 0)
 		time.percent = time.percent ? time.percent : 0;
 	    }
 	    catch(e)
@@ -220,7 +243,7 @@ LinternaMagica.prototype.player.state = function(id)
 
 	if (!time.state)
 	{
-	    // Fix exception when switching between
+	    // Fixes exception when switching between
 	    // Linterna Mágica and flash plugin
 	    try
 	    {
@@ -230,7 +253,7 @@ LinternaMagica.prototype.player.state = function(id)
 		// return the same format as getPercent() in
 		// gecko-mediaplayer
 		time.percent = (time.position/time.duration);
- 		// Fix NaN result (division by 0)
+ 		// Fixes NaN result (division by 0)
 		time.percent = time.percent ? time.percent : 0;
 	    }
 	    catch(e)
@@ -249,7 +272,6 @@ LinternaMagica.prototype.player.state = function(id)
 	}
     }
 
-    // new
     var sec_pos = Math.round(time.position) % 60;
     var min_pos = Math.round(time.position / 60) % 60;
     var hour_pos = Math.round(time.position / 3600);
@@ -273,7 +295,12 @@ LinternaMagica.prototype.player.state = function(id)
 LinternaMagica.prototype.player.pause = function(id)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
 
     if (/gecko-mediaplayer/.test(player_name))
     {
@@ -299,10 +326,15 @@ LinternaMagica.prototype.player.pause = function(id)
 LinternaMagica.prototype.player.play = function(id)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
 
-    if (/gecko-mediaplayer/.test(player_name)
-	|| /totem/.test(player_name))
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
+
+    if (/gecko-mediaplayer/.test(player_name) ||
+	/totem/.test(player_name))
     {
 	video_object.Play();
     }
@@ -325,7 +357,12 @@ LinternaMagica.prototype.player.play = function(id)
 LinternaMagica.prototype.player.stop = function(id)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if(!video_object || !player_name)
+    {
+	return null;
+    }
 
     if (/gecko-mediaplayer/.test(player_name))
     {
@@ -351,15 +388,21 @@ LinternaMagica.prototype.player.stop = function(id)
 LinternaMagica.prototype.player.forward = function(id,time)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
+
     // 10 seconds
     if (!time)
     {
 	time = 10000;
     }
 
-    if (/gecko-mediaplayer/.test(player_name)
-	|| /quicktime plug-in/i.test(player_name))
+    if (/gecko-mediaplayer/.test(player_name) ||
+	/quicktime plug-in/i.test(player_name))
     {
 	if (/%/.test(time))
 	{
@@ -421,7 +464,12 @@ LinternaMagica.prototype.player.forward = function(id,time)
 LinternaMagica.prototype.player.rewind = function(id,time)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
 
     if (!time)
 	time = 10000;
@@ -487,7 +535,12 @@ LinternaMagica.prototype.player.rewind = function(id,time)
 LinternaMagica.prototype.player.fullscreen = function(id)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
 
     if (/gecko-mediaplayer/.test(player_name))
     {
@@ -516,7 +569,12 @@ LinternaMagica.prototype.player.fullscreen = function(id)
 LinternaMagica.prototype.player.set_volume = function (id, volume)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
 
     // The slider control function returns values as string with % in
     // them.
@@ -547,30 +605,35 @@ LinternaMagica.prototype.player.set_volume = function (id, volume)
 LinternaMagica.prototype.player.toggle_mute = function (id)
 {
     var video_object = this.get_video_object(id);
-    var player_name = video_object.getAttribute("player_name");
+    var player_name = this.get_player_name(id);
+
+    if (!video_object || !player_name)
+    {
+	return null;
+    }
 
     var vol = null;
 
-    if (/gecko-mediaplayer/.test(player_name)
+    if (/gecko-mediaplayer/.test(player_name) ||
 	// totemNarrowspace plugin (quicktime)
-	|| /quicktime plug-in/i.test(player_name))
+	/quicktime plug-in/i.test(player_name))
     {
 	// totemNarrowspace has get/set mute but
 	// can not make it work
 	// gecko do not have mute method in the API
 	// Mute
-	if (!video_object.hasAttribute("linterna_magica_volume"))
+	if (!video_object.lm_player_volume)
 	{
 	    vol = video_object.GetVolume();
-	    video_object.setAttribute("linterna_magica_volume", vol);
+	    video_object.lm_player_volume, vol;
 	    video_object.SetVolume(0);
 	}
 	// unMute
 	else
 	{
-	    vol = video_object.getAttribute("linterna_magica_volume");
+	    vol = video_object.lm_player_volume;
 	    video_object.SetVolume(parseInt(vol));
-	    video_object.removeAttribute("linterna_magica_volume");
+	    delete video_object.lm_player_volume;
 	    // totemNarrowspace uses 255 as max value
 	    // calculcate as 100
 	    if (/quicktime/i.test(player_name))
@@ -628,7 +691,9 @@ LinternaMagica.prototype.slider_control = function(event)
     }
 
     if (!knob)
+    {
 	return null;
+    }
 
     var move = null;
     if (this.languages[this.lang].__direction == "ltr" ||
@@ -775,13 +840,15 @@ LinternaMagica.prototype.ticker = function(id)
     // With it the logic kills the ticker before  the plugin starts
 
     if (!time_and_state)
+    {
 	return;
+    }
 
     // Prevent clearing before the clip starts
     // Clear when the video end is reached
     // or null returned (no video_object found)
-    if ((time_and_state.position && time_and_state.duration)
-	&& (time_and_state.position >= time_and_state.duration))
+    if ((time_and_state.position && time_and_state.duration) &&
+	(time_and_state.position >= time_and_state.duration))
     {
 	clearInterval(self.player_timers[id]);
 	delete self.player_timers[id];

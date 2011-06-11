@@ -41,9 +41,8 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
     {
 	var object = objects[i];
 
-	if (object.hasAttribute("class") && 
-	    this.object_has_css_class(object, 
-				      this.marked_object_template+".*"))
+	// Zero is an option
+	if (object.linterna_magica_id != undefined)
 	{
 	    this.log("LinternaMagica.extract_objects_from_dom:\n"+
 		     "Skipping processed object with linterna_magica_id:"+

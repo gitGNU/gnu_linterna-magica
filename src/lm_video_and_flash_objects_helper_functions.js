@@ -41,13 +41,7 @@ LinternaMagica.prototype.mark_flash_object = function(element)
     // DOM. Then we just have to increment the counter.
     if (element != "extracted-from-script")
     {
-	var linterna_magica_id =  this.marked_object_template+
-	    this.found_flash_video_objects;
-
-	var original_class =  element.hasAttribute("class") ?
-	    ( element.getAttribute("class") +" "): "";
-
-	element.setAttribute("class", original_class + linterna_magica_id);
+	element.linterna_magica_id = this.found_flash_video_objects;
     }
 
     return this.found_flash_video_objects;
@@ -57,30 +51,33 @@ LinternaMagica.prototype.mark_flash_object = function(element)
 LinternaMagica.prototype.get_flash_video_object =
 function(linterna_magica_id)
 {
-    return this.getElementByClass(this.marked_object_template+
-				  linterna_magica_id);
+    // Scan the document object for object, embed and iframe objects
+    var object_list = this.create_object_list();
+
+    for (var i=0, l=object_list.length; i<l; i++)
+    {
+	var o = object_list[i];
+
+	if (o.linterna_magica_id != undefined)
+	{
+	    return o;
+	}
+    }
+
+    return null;
 }
 
 // Get the id (linterna_magica_id) of marked flash object.
 LinternaMagica.prototype.get_marked_object_id =
 function(element)
 {
-    var class_name = this.marked_object_template +"(-[A-Za-z]+-)*([0-9]+)";
-
-    var matches_class = this.object_has_css_class(element, class_name);
-
-    if (element.hasAttribute("class") && matches_class)
-    {
-	// [0-9]+. Must be the last.
-	return matches_class.split("-")[matches_class.length-1];
-    }
-	
-    return null;
+    return element.linterna_magica_id;
 }
 
 // Get the first element matching CSS class. Without the parent node
 // searches trough document.
-LinternaMagica.prototype.getElementByClass = function(className, parent)
+LinternaMagica.prototype.get_first_element_by_class =
+function(className, parent)
 {
     var top = parent ? parent : document;
 
