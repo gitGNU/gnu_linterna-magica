@@ -587,6 +587,13 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
+    // Bug #33504 https://savannah.nongnu.org/bugs/?33504
+    if (/youtube\.com/i.test(window.location.hostname))
+    {
+	object_data.parent.style.setProperty("overflow", 
+					     "visible", "important");
+    }
+
     // Temporary
     // parent.style.setProperty("border", "1px solid red", "important");
 
