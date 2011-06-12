@@ -273,8 +273,10 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 // Find the flash object width
 LinternaMagica.prototype.extract_object_width = function(element)
 {
-    if (!/HTML(embed|object)element/i.test(element))
+    if (!/HTML(embed|iframe|object)element/i.test(element))
+    {
 	return null;
+    }
     // Bug see comments in is_swf_object
     // if (typeof(element) !== "object")
     // 	return null;
@@ -315,8 +317,11 @@ LinternaMagica.prototype.extract_object_width = function(element)
 // Find the flash object height
 LinternaMagica.prototype.extract_object_height = function(element)
 {
-    if (!/HTML(embed|object)element/i.test(element))
+    if (!/HTML(embed|iframe|object)element/i.test(element))
+    {
 	return null;
+    }
+
     // Bug see comments in is_swf_object
     // if (typeof(element) !== "object")
     // 	return null;

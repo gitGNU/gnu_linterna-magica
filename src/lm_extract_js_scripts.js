@@ -69,6 +69,18 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	    continue;
 	}
 
+	if (/theonion\.com/i.test(window.location.hostname))
+	{
+	    object_data = this.extract_object_from_script_theonion();
+
+	    if (!object_data)
+	    {
+		// No other method of extraction is useful. Skip to
+		// next script.
+		continue;
+	    }
+	}
+
 	if (/youtube\.com/i.test(window.location.hostname) ||
 	    (/youtube-nocookie\.com/i.test(window.location.hostname)))
 	{
