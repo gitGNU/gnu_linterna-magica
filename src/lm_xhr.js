@@ -163,6 +163,11 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	address = "/player/cbplayer/settings.php?vid="+video_id;
     }
 
+    if (/theonion\.com/i.test(host))
+    {
+	address = "/ajax/onn/embed/"+video_id+".json";
+    }
+
     var self = this;
     client.onreadystatechange = function() {
 	var client = this;
@@ -414,6 +419,13 @@ function(client, object_data)
 	    {
 		url = path.getAttribute("value");
 	    }
+	}
+
+	if (/theonion\.com/i.test(host))
+	{
+	    var onion_data = eval("("+client.responseText+")");
+	    url = onion_data.video_url;
+	    this.capture_theonion_clip_change(object_data);
 	}
 
 	if (!url)

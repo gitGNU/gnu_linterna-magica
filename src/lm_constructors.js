@@ -136,8 +136,9 @@ function LinternaMagica(params)
     // Exception for blip.tv. This is the easiesy way to
     // support it with installed plugin.
     else if (!this.plugin_is_installed ||
-	/blip\.tv/i.test(window.location.hostname) ||
-	/myvideo\.de/i.test(window.location.hostname))
+	     /blip\.tv/i.test(window.location.hostname) ||
+	     /myvideo\.de/i.test(window.location.hostname) ||
+	     /theonion\.com/i.test(window.location.hostname))
     {
 	this.log("LinternaMagica.constructor:\n"+
 		 "Examining scripts.", 4);
