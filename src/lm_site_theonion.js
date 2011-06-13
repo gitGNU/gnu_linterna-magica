@@ -71,73 +71,16 @@ LinternaMagica.prototype.extract_object_from_script_theonion = function()
 
     if (flash_object)
     {
-	// object_data.linterna_magica_id = 
-	//     this.mark_flash_object(flash_object);
+	this.dirty_objects.push(flash_object);
     }
     else
     {
-	object_data.linterna_magica_id = 
-	    this.mark_flash_object("extracted-from-script");
+	// Ugly && dirty hack.
+	// This way we have linterna_magica_id
+	this.dirty_objects.push(null);
     }
+
+    object_data.linterna_magica_id = this.dirty_objects.length-1;
 
     return object_data;
 }
-
-// Add custom click event listeners to the buttons that change the
-// clips. This is active only on the front page.
-LinternaMagica.prototype.capture_theonion_clip_change = function(object_data)
-{
-    var list = document.getElementById("onn_recent");
-
-    if (!list || !/HTMLUListElement/i.test(list))
-    {
-	return null;
-    }
-
-    var self = this;
-    var click_function = function(ev)
-    {
-	var el = this;
-	var od = object_data;
-
-	self.theonion_clip_change_click_function.apply(self,[ev,el,od]);
-    };
-
-    var buttons = list.getElementsByTagName("li");
-
-    for (var i=0,l=buttons.length; i<l; i++)
-    {
-	var li = buttons[i];
-	li.addEventListener("click", click_function, true);
-    }
-}
-
-// Event listener for click on <li> elements, that change the iframe
-// src.
-LinternaMagica.prototype.theonion_clip_change_click_function =
-function(event,element,object_data)
-{
-    var p = element.getElementsByTagName("p");
-
-    for (var i=0, l=p.length; i<l; i++)
-    {
-	if (p[i].hasAttribute("rel") &&
-	    p[i].hasAttribute("class") &&
-	    /title/i.test(p[i].getAttribute("class")))
-	{
-	    object_data.video_id = p[i].getAttribute("rel");
-	    this.request_video_link(object_data);
-
-	    var lm = this.get_video_object(object_data.linterna_magica_id);
-	    // The whole LM wrapper
-	    lm = lm.parentNode;
-
-	    // Remove the object, because the XHR will call
-	    // create_video_object and will make new one.
-	    object_data.parent.removeChild(lm);
-	    
-	    break;
-	}
-    }
-}
-

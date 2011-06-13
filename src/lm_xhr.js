@@ -446,7 +446,6 @@ function(client, object_data)
 	{
 	    var onion_data = eval("("+client.responseText+")");
 	    url = onion_data.video_url;
-	    this.capture_theonion_clip_change(object_data);
 	}
 
 	if (!url)
