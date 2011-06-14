@@ -167,6 +167,11 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	address = "/ajax/onn/embed/"+video_id+".json";
     }
 
+    if (/blip\.tv/i.test(host))
+    {
+	address="/rss/flash/"+video_id;
+    }
+
     var self = this;
     client.onreadystatechange = function() {
 	var client = this;
@@ -446,6 +451,24 @@ function(client, object_data)
 	{
 	    var onion_data = eval("("+client.responseText+")");
 	    url = onion_data.video_url;
+	}
+
+	if (/blip\.tv/i.test(host))
+	{
+	    // All the data is available in the XML, but it is not a
+	    // good idea to support the site in two places. JSON is
+	    // easier. The drawback is two requests.
+	    var embed_id =
+		xml.getElementsByTagName("embedLookup");
+
+	    if (!embed_id)
+	    {
+		return null;
+	    }
+
+	    object_data.video_id = embed_id[0].textContent;
+	    this.request_bliptv_jsonp_data(object_data);
+	    return null;
 	}
 
 	if (!url)

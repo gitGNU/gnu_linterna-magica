@@ -50,8 +50,8 @@ function (object_data)
 // Parses the JSONP data and creates the video object in Blip.tv
 LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
 {
-    // The useful object is inside two arrays
-    data = data[0][0];
+    // The useful object
+    data = data[0].Post;
     object_data.link = data.mediaUrl;
 
     var hd_links = new Array();
@@ -60,8 +60,8 @@ LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
     // list bottom to top , low to high.
     var sort_fun = function(a, b)
     {
-	return ((a.width > b.width) ? -1 : 
-		(a.width < b.width) ? 1 :0);
+	return ((parseInt(a.media_width) > parseInt(b.media_width)) ? -1 : 
+		(parseInt(a.media_width) < parseInt(b.media_width)) ? 1 :0);
     };
 
     data.additionalMedia.sort(sort_fun);
@@ -72,7 +72,11 @@ LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
 	var link = new Object();
 	link.url = link_data.url;
 	link.label = link_data.role+
-	    " ("+link_data.width+"x"+link_data.height+")";
+	    " ("+link_data.media_width+"x"+link_data.media_height+" "+
+	    " "+link_data.description+" "+
+	    link_data.video_codec.toUpperCase()+", "+
+	    link_data.audio_codec.toUpperCase()+")";
+
 
 	hd_links.push(link);
     }
