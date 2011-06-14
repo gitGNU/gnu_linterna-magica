@@ -27,33 +27,57 @@
 
 // END OF LICENSE HEADER
 
-// Extracts hd links form Blip.tv
-LinternaMagica.prototype.extract_bliptv_hd_links = function()
+//  Makes a JSONP request that fetches the clip data in Blip.tv
+LinternaMagica.prototype.request_bliptv_jsonp_data =
+function (object_data)
 {
-    var holder = document.getElementById("SelectFormat");
+    var jsonp_request_data = new Object();
 
-    if (!holder)
-	return null;
+    jsonp_request_data.frame_id = "bliptv_jsonp_data_fetcher";
+    jsonp_request_data.parser_timeout = this.bliptv_jsonp_timeout;
+    jsonp_request_data.parser_timeout_counter = 
+	this.bliptv_jsonp_timeout_counter;
+    jsonp_request_data.jsonp_script_link = 
+	"http://blip.tv/players/episode/"+object_data.video_id+
+	"?skin=json&callback=bliptv_video_data&version=2";
+    jsonp_request_data.jsonp_function = "bliptv_video_data";
+    jsonp_request_data.parser_function = this.parse_bliptv_jsonp_data;
+    jsonp_request_data.user_data = object_data;
 
+    this.create_checker_frame(jsonp_request_data);
+}
 
-    // We have only one link
-    if (holder.options.length == 2)
-	return null;
+// Parses the JSONP data and creates the video object in Blip.tv
+LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
+{
+    // The useful object is inside two arrays
+    data = data[0][0];
+    object_data.link = data.mediaUrl;
 
     var hd_links = new Array();
 
-    // option zero is just a message, no link there
-    for (var op=1; op<holder.options.length; op++)
+    // Sort the HD links by width so they are ordered in the HD link
+    // list bottom to top , low to high.
+    var sort_fun = function(a, b)
     {
-	var link_data = holder.options[op];
+	return ((a.width > b.width) ? -1 : 
+		(a.width < b.width) ? 1 :0);
+    };
+
+    data.additionalMedia.sort(sort_fun);
+
+    for (var i=0, l=data.additionalMedia.length; i<l; i++)
+    {
+	var link_data = data.additionalMedia[i];
 	var link = new Object();
-	link.label = link_data.text;
-	var raw_url = link_data.value.split(/=/);
-	link.url = "http://blip.tv/file/get/"+raw_url[raw_url.length-1]+
-	    "?referrer=blip.tv&source=1&use_direct=1&use_documents=1";
+	link.url = link_data.url;
+	link.label = link_data.role+
+	    " ("+link_data.width+"x"+link_data.height+")";
 
 	hd_links.push(link);
     }
 
-    return hd_links;
+    object_data.hd_links = hd_links;
+    this.create_video_object(object_data);
 }
+

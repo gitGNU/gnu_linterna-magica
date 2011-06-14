@@ -27,8 +27,9 @@
 
 // END OF LICENSE HEADER
 
-// Extracts object data for flash objects created with PokkariPlayer (blip.tv)
-// flash library
+// Extracts object data for flash objects created with PokkariPlayer
+// flash library. Used to be for Blip.tv, but the site changed. Some
+// other sites might use this code.
 LinternaMagica.prototype.
     extract_object_from_script_pokkariplayer =  function ()
 {
@@ -95,10 +96,6 @@ LinternaMagica.prototype.
     object_data.link = url;
     object_data.mime = mime;
     object_data.parent = element;
-    if (/blip\.tv/i.test(window.location.hostname))
-    {
-	object_data.hd_links = this.extract_bliptv_hd_links();
-    }
 
     return object_data;
 }

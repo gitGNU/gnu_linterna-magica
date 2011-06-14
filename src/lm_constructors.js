@@ -127,10 +127,7 @@ function LinternaMagica(params)
 	this.request_video_link({video_id: window.location.pathname});
     }
     // If there is a plugin installed do not search in scripts.
-    // Exception for blip.tv. This is the easiesy way to
-    // support it with installed plugin.
     else if (!this.plugin_is_installed ||
-	     /blip\.tv/i.test(window.location.hostname) ||
 	     /myvideo\.de/i.test(window.location.hostname) ||
 	     /theonion\.com/i.test(window.location.hostname))
     {

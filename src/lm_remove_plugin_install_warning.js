@@ -122,7 +122,10 @@ LinternaMagica.prototype.remove_plugin_install_warning = function(element)
 	}
 
 	// FIXME Temporary fix for Blip.tv. Will replace the HTML5
-	// player, otherwise two are visible.
+	// player, otherwise two are visible.  14.06.2011 With the
+	// changes in Blip.tv design and logic, I am unable to find
+	// how to turn HTML5 and test this. I always get the flash
+	// player.
 	if (/blip\.tv/i.test(window.location.hostname))
 	{
 	    if (node.parentNode)
