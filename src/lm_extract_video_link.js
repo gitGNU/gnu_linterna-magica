@@ -245,7 +245,7 @@ LinternaMagica.prototype.extract_video_id = function()
 	// the data.
 	// http://wiki.blip.tv/index.php/Extract_metadata_from_our_embed_code
 	video_id_re = new RegExp(
-	    "blip\\\.tv\\\/play\\\/(.*)",
+	    "blip\\\.tv\\\/(play|rss\\\/flash)\\\/([0-9A-Za-z_%-]+)&*",
 	    "i");
     }
     else
