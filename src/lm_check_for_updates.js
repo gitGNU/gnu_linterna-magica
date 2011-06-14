@@ -100,147 +100,80 @@ LinternaMagica.prototype.check_for_updates = function()
 	return null;
     }
 
-    if (!this.updates_timeout)
-    {
-	this.updates_timeout_counter = 0;
-	var self = this;
+    var jsonp_request_data = new Object();
 
-	// Polling. The data will be retrieved in the main window =>
-	// the LinternaMagica object.
-	this.updates_timeout = 
-	    setInterval(function()
-			{
-			    self.parse_updated_version_data.apply(self);
-			}, 10);
-    }
+    jsonp_request_data.frame_id = "linterna-magica-updates-checker";
+    jsonp_request_data.parser_timeout = this.updates_timeout;
+    jsonp_request_data.parser_timeout_counter = 
+	this.updates_timeout_counter;
+    jsonp_request_data.jsonp_script_link =  this.updates_page;
+    jsonp_request_data.jsonp_function = "linterna_magica_latest_version";
+    jsonp_request_data.parser_function = this.parse_updated_version_data;
 
-    // The script is wrapped inside a data URI scheme. This way the
-    // page where the user was (referrer) is not sent. Cross-domain
-    // frame communcication with hashed messages
-    // (original-link#message=) is used to access the data.
-    var checker_frame = document.createElement("object");
-    checker_frame.setAttribute("id", "linterna-magica-updates-checker");
-
-    var frame_script = function()
-    {
-	window.linterna_magica_latest_version = function (data)
-	{
-	    var hash = /#/i.test(receiver_location) ? "" : "#";
-
-	    window.parent.location = decodeURI(receiver_location)+hash+
-		encodeURI("&linterna_magica&lm_version="+data.version+
-			  "&lm_date="+data.date+"&linterna_magica");
-	};
-    };
-
-    var frame_data = 
-	"<html><head>"+
-	"<script async='async' defer='defer' type='text/javascript'>"+
-	"var receiver_location='"+
-	encodeURI(window.location)+"';("+frame_script.toString()+")();"+
-	"</script>"+
-	"<script async='async' defer='defer' type='text/javascript' src='"+
-	this.updates_page+"'>"+
-	"</script>"+
-	"</head><body></body></html>";
-
-    checker_frame.setAttribute("data",
-			       "data:text/html;charset=UTF-8;base64,"+
-			       btoa(frame_data));
-
-    checker_frame.setAttribute("width","1px");
-    checker_frame.setAttribute("height", "1px");
-
-    document.getElementsByTagName("body")[0].appendChild(checker_frame);
+    this.create_checker_frame(jsonp_request_data);
 }
 
 // Get the new version data at window.location#<data> set by the child
 // "frame" (object)
-LinternaMagica.prototype.parse_updated_version_data = function()
+LinternaMagica.prototype.parse_updated_version_data = function(data)
 {
-    this.updates_timeout_counter++;
+    var version = data.version;
 
-    // With default timeout 10mS this will be 10 sec. Stop
-    // checking. Something must be wrong.
-    if (this.updates_timeout_counter >= 10000)
+    if ( version != this.version)
     {
-	clearInterval(this.updates_timeout);
-    }
 
-    if (/linterna_magica/i.test(window.location))
-    {
-	clearInterval(this.updates_timeout);
-	var data  = window.location.toString().split("&linterna_magica");
+	var date = data.date;
 
-	// Clear our data from the address field
-	window.location = data[0]+data[data.length-1];
+	// *** JavaScript demands mS! ***
+	date = new Date (parseInt(date)*1000);
+
+	var format_date = date.toString().replace(/[0-9]+:[0-9]+.*/,"");
 	
-	// Cleanup the checker object/frame
-	var o = document.getElementById("linterna-magica-updates-checker");
-	if (o)
+	// 0 - day name ; 1 - Month ; 2 - day of month; 3 - year
+	// 0 - Mon, Tue, Wed, Thu, Fri, Sun, Sat
+	// 1 - Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
+	// Noe, Dec
+	format_date = format_date.split(" ");
+
+	// To be used by other functions
+	this.updates_data = new Object();
+	this.updates_data.date = date;
+	this.updates_data.version = version;
+	this.updates_data.format_date = format_date;
+
+	var self = this;
+	// Add notifier in the headers of all video objects 
+	for (var n=0, l=this.found_flash_video_objects+1; n<l; n++)
 	{
-	    o.parentNode.removeChild(o);
-	}
+	    // header
+	    var h = document.getElementById("linterna-magica-header-"+n);
 
-	
-	var version = data[1].split("lm_version=")[1].split("&")[0];
+	    // container 
+	    var lm = document.getElementById("linterna-magica-"+n);
 
-	if ( version != this.version)
-	{
-
-	    var date = data[1].split("lm_date=")[1];
-
-	    // *** JavaScript demands mS! ***
-	    date = new Date (parseInt(date)*1000);
-
-	    var format_date = date.toString().replace(/[0-9]+:[0-9]+.*/,"");
-    
-	    // 0 - day name ; 1 - Month ; 2 - day of month; 3 - year
-	    // 0 - Mon, Tue, Wed, Thu, Fri, Sun, Sat
-	    // 1 - Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
-	    // Noe, Dec
-	    format_date = format_date.split(" ");
-
-	    // To be used by other functions
-	    this.updates_data = new Object();
-	    this.updates_data.date = date;
-	    this.updates_data.version = version;
-	    this.updates_data.format_date = format_date;
-
-
-	    var self = this;
-	    // Add notifier in the headers of all video objects 
-	    for (var n=0; n< this.found_flash_video_objects.length; n++)
+	    if (h && lm)
 	    {
-		// header
-		var h = document.getElementById("linterna-magica-header-"+n);
 
-		// container 
-		var lm = document.getElementById("linterna-magica-"+n);
+		var notifier = this.create_update_notifier_link(n);
+		var update_info = this.create_update_info_box(n);
 
-		if (h && lm)
+		var notifier_click_function = function(ev)
 		{
+		    var el = this;
+		    self.show_or_hide_update_info.apply(self, [ev, el]);
+		};
 
-		    var notifier = this.create_update_notifier_link(n);
-		    var update_info = this.create_update_info_box(n);
+		notifier.addEventListener("click",
+					  notifier_click_function,
+					  false);
 
-		    var notifier_click_function = function(ev)
-		    {
-			var el = this;
-			self.show_or_hide_update_info.apply(self, [ev, el]);
-		    };
-
-		    notifier.addEventListener("click",
-					      notifier_click_function,
-					      false);
-
-		    h.appendChild(notifier);
-		    lm.appendChild(update_info);
-		}
+		h.appendChild(notifier);
+		lm.appendChild(update_info);
 	    }
 	}
     }
 }
+
 
 // Create a notifier for the user in the header
 LinternaMagica.prototype.create_update_notifier_link = function(id)
