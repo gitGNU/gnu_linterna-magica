@@ -234,21 +234,39 @@ LinternaMagica.prototype.extract_video_id = function()
 
     // Fix vbox7.com (flashvars="id=...")
     data = "&"+data;
-    // 06.07.2010 Update  for vidoemo.com video3 and \\\/
-    // slashes before and after might create bugs
-    // 18.12.2010 Update is for vimeo.com : vimeo_clip_
-    // 12.02.2011 Update for myvideo.de. php&ID and \\\. This migth break
-    // 25.02.2011 Update for videoclipsdump.com
-    // player_config\\\.php\\\ must be after vid|
-    // 11.06.2011 Update for theonion.com 
-    // \\\/video_embed\\\/...
-    var video_id_re = new RegExp (
-	"(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|clip_id|video_id|"+
-	    "vid|player_config\\\.php\\\?v|"+
-	    "videoid|media_id|vkey|video3|_videoid|vimeo_clip_|php&ID|\\\/video_embed\\\/\\\?id)"+
-	    "(\\\"|\\\')*(\\\=|\\\:|,|\\\/)\\\s*(\\\"|\\\')*"+
-	    "([a-zA-Z0-9\\\-\\\_]+)",
+
+    var video_id_re = null;
+
+    if (/blip\.tv/i.test(window.location.hostname) ||
+	/blip\.tv/i.test(data))
+    {
+	// Blip.tv has a JSONP API that could be used in remote
+	// sites. That is why we cant search for blip.tv directly in
+	// the data.
+	// http://wiki.blip.tv/index.php/Extract_metadata_from_our_embed_code
+	video_id_re = new RegExp(
+	    "blip\\\.tv\\\/play\\\/(.*)",
+	    "i");
+    }
+    else
+    {
+	// 06.07.2010 Update  for vidoemo.com video3 and \\\/
+	// slashes before and after might create bugs
+	// 18.12.2010 Update is for vimeo.com : vimeo_clip_
+	// 12.02.2011 Update for myvideo.de. php&ID and \\\. This migth break
+	// 25.02.2011 Update for videoclipsdump.com
+	// player_config\\\.php\\\ must be after vid|
+	// 11.06.2011 Update for theonion.com 
+	// \\\/video_embed\\\/...
+	video_id_re = new RegExp (
+	    "(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|clip_id|video_id|"+
+		"vid|player_config\\\.php\\\?v|"+
+		"videoid|media_id|vkey|video3|_videoid|"+
+		"vimeo_clip_|php&ID|\\\/video_embed\\\/\\\?id)"+
+		"(\\\"|\\\')*(\\\=|\\\:|,|\\\/)\\\s*(\\\"|\\\')*"+
+		"([a-zA-Z0-9\\\-\\\_]+)",
 	"i");
+    }
 
     var video_id =data.match(video_id_re);
 

@@ -44,6 +44,8 @@
 //     parser_function: object,
 //     // The id for the frame
 //     frame_id: string
+//    // Custom data to be passed to the parser_function
+//    user_data: object
 // }
 LinternaMagica.prototype.create_checker_frame = function(data)
 {
@@ -158,7 +160,7 @@ LinternaMagica.prototype.jsonp_data_parser = function(data)
 	// Unpack
 	jsonp_data = this.string_to_json(atob(jsonp_data));
 
-	data.parser_function.apply(this, [jsonp_data]);
+	data.parser_function.apply(this, [jsonp_data, data.user_data]);
     }
 }
 
