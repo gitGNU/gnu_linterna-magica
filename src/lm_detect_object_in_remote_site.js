@@ -22,7 +22,7 @@
 //  @licend The above is the entire license notice for the JavaScript
 //  code in this page (or file).
 //
-// @source http://e-valkov.org/linterna-magica
+// @source http://linterna-magica.nongnu.org
 
 // END OF LICENSE HEADER
 
