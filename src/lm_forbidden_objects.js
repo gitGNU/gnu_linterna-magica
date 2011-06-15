@@ -32,7 +32,11 @@
 // video object (ads and other)
 LinternaMagica.prototype.skip_objects =
     [ "brozar[a-z0-9]+_add_scroll",
-      "flashRateObject", "VideoCharts" ];
+      "flashRateObject", "VideoCharts", 
+      // Facebook iframes in blip.tv
+      "^f[0-9a-z]+",
+      // Blip.tv objects
+      "easyXDM_DISQUS_net_default[0-9]+_provider"];
 
 // Skip objects that has id matching a regex (see above array)
 LinternaMagica.prototype.skip_object_if_id = function(id_string)

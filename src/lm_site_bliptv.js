@@ -44,6 +44,10 @@ function (object_data)
     jsonp_request_data.parser_function = this.parse_bliptv_jsonp_data;
     jsonp_request_data.user_data = object_data;
 
+    this.log("LinternaMagica.request_bliptv_jsonp_data:\n"+
+	     "Requesting (JSONP) Blip.tv video link via video_id "+
+	     object_data.video_id,1);
+
     this.create_checker_frame(jsonp_request_data);
 }
 

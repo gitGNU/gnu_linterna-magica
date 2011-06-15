@@ -438,16 +438,27 @@ function(client, object_data)
 	    // All the data is available in the XML, but it is not a
 	    // good idea to support the site in two places. JSON is
 	    // easier. The drawback is two requests.
-	    var embed_id =
-		xml.getElementsByTagName("embedLookup");
-
-	    if (!embed_id)
+	    try
 	    {
-		return null;
-	    }
+		var embed_id =
+		    xml.getElementsByTagName("embedLookup");
 
-	    object_data.video_id = embed_id[0].textContent;
-	    this.request_bliptv_jsonp_data(object_data);
+		// Firefox
+		if (embed_id && typeof(embed_id[0]) == "undefined")
+		{
+		    embed_id = 
+			xml.getElementsByTagName("blip:embedLookup");
+		}
+
+		object_data.video_id = embed_id[0].textContent;
+		this.request_bliptv_jsonp_data(object_data);
+	    }
+	    catch(e)
+	    {
+		this.log("LinternaMagica.prototype.request_video"+
+			 "_link_parse_response:\n"+
+			 "Exception in Blip.tv while parsing XML",1);
+	    }
 	    return null;
 	}
 
