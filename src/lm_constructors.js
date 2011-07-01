@@ -81,15 +81,12 @@ function LinternaMagica(params)
 	this.log_to = "console";
     }
 
-    // Skip ted.com at the front page. With Gnash installed the flash
-    // object is created. The flashvars attrubute value is 24 KB
-    // (kilo*bytes*) and Firefox and forks block 
-    if (/ted\.com/i.test(window.location.hostname) &&
-	!/[A-Za-z0-9]+/i.test(window.location.pathname))
-    {	
-	this.log("LinternaMagica.constructor:\n"+
-		 "Skipping TED front page!"+
-		 " Blocks Firefox and forks.");
+    var self = this;
+    var val = this.sites.call_site_function_at_position.apply(self,[
+	"before_options_init",
+	window.location.hostname]);
+    if (!val)
+    {
 	return null;
     }
 

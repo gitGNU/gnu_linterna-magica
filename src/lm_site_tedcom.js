@@ -55,7 +55,9 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
     var links = unescape(data).match(links_re);
 
     if (!links)
-	return;
+    {
+	return false;
+    }
 
     // Work-around for links extracted from <param> of a DOM object
     // There is a problem with generalized regular expression
@@ -105,4 +107,26 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	return hd_links;
 
     return null;
+}
+
+LinternaMagica.prototype.sites["ted.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.ted.com"] = "ted.com";
+
+LinternaMagica.prototype.sites["ted.com"].before_options_init = function()
+{
+     // Skip ted.com at the front page. With Gnash installed the flash
+    // object is created. The flashvars attrubute value is 24 KB
+    // (kilo*bytes*) and Firefox and forks block 
+    if(!/[A-Za-z0-9]+/i.test(window.location.pathname))
+    {	
+    	   this.log("LinternaMagica.constructor:\n"+
+    		    "Skipping TED front page!"+
+    		    " Blocks Firefox and forks.");
+
+    	return false;
+    }
+
+    return true;
 }
