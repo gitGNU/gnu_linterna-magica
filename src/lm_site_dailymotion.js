@@ -80,3 +80,13 @@ function()
     this.request_video_link({video_id: window.location.pathname});
     return true;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].process_cookies =
+function()
+{
+    // Dailymotion is processed twice. Once with .dailymotion.com. The
+    // second time with www.dailymotion.com. They set cookies very
+    // strange.  Also they use host= which is not documented anywhere
+    // (DOM 0,1...).
+    return "; domain=.dailymotion.com; path=/; host="+window.location.hostname+"; ";
+}

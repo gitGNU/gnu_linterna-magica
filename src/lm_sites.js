@@ -61,7 +61,22 @@ LinternaMagica.prototype.sites.__flash_plugin_installed = function()
     return true;
 }
 
-// LinternaMagica.prototype.sites.__process_cookies
+// Set the domain used to process (expire) cookies. Not required for
+// most sites. See lm_site_youtube.js:set_cookies_domain.
+LinternaMagica.prototype.sites.__set_cookies_domain = function()
+{
+    return true;
+}
+
+// Take an action while processing cookies. This is executed for every
+// cookie object. Duplicates normal cookies processing. Not needed
+// form most sites. It should return a string with domain, path and
+// other values. See lm_site_dailymotion.js:prcoess_cookies.
+LinternaMagica.prototype.sites.__process_cookies = function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__css_style_fix
 // LinternaMagica.prototype.sites.__detect_flash_ // Useless?
 // LinternaMagica.prototype.sites.__skip_video_id_extract // DM force?
@@ -91,6 +106,15 @@ function (position_name, match_site, data)
 {
     var self = this;
 
+    var debug_level  =  5;
+
+    if (position_name == "process_cookies")
+    {
+	// The process_cookies function is called inside a loop and
+	// prints too much information for debug level 5.
+	debug_level = 7;
+    }
+
     if (this.sites[match_site])
     {
 	// Recursion is used to handle references to strings.
@@ -102,7 +126,7 @@ function (position_name, match_site, data)
 
 	    this.log("LinternaMagica.call_site_function_at_position:\n"+
 		     "Calling function "+position_name+
-		     "for site (both site and function defined)",5);
+		     " for site (both site and function defined)",debug_level);
 
 	    return this.sites[match_site][position_name].apply(self,[data]);
 	}
@@ -116,7 +140,7 @@ function (position_name, match_site, data)
 	    this.log("LinternaMagica.call_site_function_at_position:\n"+
 		     "Calling referenced function "+
 		     position_name+" (site defined,"+
-		     " function reference): "+match_site+" -> "+ref_to,5);
+		     " function reference): "+match_site+" -> "+ref_to,debug_level);
 
 	    return this.call_site_function_at_position.apply(self, [
 		position_name, ref_to, data]);
@@ -129,7 +153,7 @@ function (position_name, match_site, data)
 
 	    this.log("LinternaMagica.call_site_function_at_position:\n"+
 		     "Using another site config (reference) for function "+
-		     position_name+": "+match_site+" -> "+ref_to,5);
+		     position_name+": "+match_site+" -> "+ref_to,debug_level);
 
 	    return this.call_site_function_at_position.apply(self, [
 		position_name, ref_to, data]);
@@ -143,7 +167,7 @@ function (position_name, match_site, data)
 
 	this.log("LinternaMagica.call_site_function_at_position:\n"+
 		 "Using default function "+position_name+
-		 "(no site specific config)",5);
+		 " (no site specific config)",debug_level);
 
 	return this.sites["__"+position_name].apply(self, [data]);
     }

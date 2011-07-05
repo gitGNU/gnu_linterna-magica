@@ -302,3 +302,14 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 
     return null;
 }
+
+LinternaMagica.prototype.sites["youtube.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
+
+LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
+function()
+{
+    return ".youtube.com";
+}
