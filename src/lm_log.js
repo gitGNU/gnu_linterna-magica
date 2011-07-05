@@ -54,7 +54,22 @@ LinternaMagica.prototype.log = function(message, level)
 		    date.getSeconds(), date.getMilliseconds()].join(":");
 	var host_get = window.self;
 	var host = host_get.location.hostname;
+
+	var indent = "";
+
+	if (this.log_to != "web")
+	{
+	    for (var i=0, l=level; i<l; i++)
+	    {
+		indent += "\t";
+	    }
+	}
+
 	var log_string = message + " at "+host + " time: "+str;
+	var level_string =  " ("+level+") ";
+
+	log_string = log_string.replace(/^/, indent+level_string).
+	    replace(/\n/, "\n"+indent+level_string);
 
 	try
 	{
