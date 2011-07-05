@@ -90,3 +90,13 @@ function()
     // (DOM 0,1...).
     return "; domain=.dailymotion.com; path=/; host="+window.location.hostname+"; ";
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].do_not_force_iframe_detection =
+function()
+{
+    // If Flashblock is installed, it will replace an iframe that has
+    // something to do with Twitter. We have to replace the Flashblock
+    // blocked object. Returning, false will make the logic in
+    // lm_detect_flash.js not detect the iframe as swf.
+    return false;
+}

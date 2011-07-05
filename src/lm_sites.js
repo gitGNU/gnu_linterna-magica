@@ -78,7 +78,15 @@ LinternaMagica.prototype.sites.__process_cookies = function()
 }
 
 // LinternaMagica.prototype.sites.__css_style_fix
-// LinternaMagica.prototype.sites.__detect_flash_ // Useless?
+
+// Used to skip detection (as swf) of iframes. Not used in most
+// sites. See lm_site_dailymotion.js:do_not_force_iframe_detection.
+LinternaMagica.prototype.sites.__do_not_force_iframe_detection =
+function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__skip_video_id_extract // DM force?
 // LinternaMagica.prototype.sites.__skip_xhr_if_video_id
 // LinternaMagica.prototype.sites.__wait_before_xhr
