@@ -82,7 +82,7 @@ function LinternaMagica(params)
     }
 
     var self = this;
-    var val = this.sites.call_site_function_at_position.apply(self,[
+    var val = this.call_site_function_at_position.apply(self,[
 	"before_options_init",
 	window.location.hostname]);
     if (!val)
@@ -124,21 +124,24 @@ function LinternaMagica(params)
 	this.player_timers = new Array();
     }
 
-    if (!this.plugin_is_installed &&
-	/dailymotion\.com/i.test(window.location.hostname))
+    var position_function = null ;
+    if (this.plugin_is_installed)
     {
-	this.request_video_link({video_id: window.location.pathname});
+	position_function = "flash_plugin_installed";
     }
-    // If there is a plugin installed do not search in scripts.
-    else if (!this.plugin_is_installed ||
-	     /myvideo\.de/i.test(window.location.hostname) ||
-	     /theonion\.com/i.test(window.location.hostname))
+    else
     {
-	this.log("LinternaMagica.constructor:\n"+
-		 "Examining scripts.", 4);
+	position_function = "no_flash_plugin_installed";
+    }
 
-	// video.google.* bloats in this function. It takes around 1 min
-	this.extract_objects_from_scripts();
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	position_function,
+	window.location.hostname]);
+    
+    if (!val)
+    {
+	return null;
     }
 
     this.log("LinternaMagica.constructor:\n"+

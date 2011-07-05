@@ -66,3 +66,11 @@ LinternaMagica.prototype.create_myvideode_link = function(create_from_text)
 
     return link;
 }
+
+LinternaMagica.prototype.sites["myvideo.de"] = new Object();
+
+// // Reference
+LinternaMagica.prototype.sites["www.myvideo.de"] = "myvideo.de";
+
+// Function reference
+LinternaMagica.prototype.sites["myvideo.de"].flash_plugin_installed = "theonion.com";

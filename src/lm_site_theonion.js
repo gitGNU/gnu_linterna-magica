@@ -141,3 +141,17 @@ function(event,element,object_data)
     }
 }
 
+LinternaMagica.prototype.sites["theonion.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.theonion.com"] = "theonion.com";
+
+LinternaMagica.prototype.sites["theonion.com"].flash_plugin_installed =
+function()
+{
+    // Call the default when no plugin is installed. Examine scripts.
+    this.log("LinternaMagica.sites.flash_plugin_installed:\n",
+	     "Calling default function to extract scripts");
+    return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
+}
+

@@ -121,7 +121,7 @@ LinternaMagica.prototype.sites["ted.com"].before_options_init = function()
     // (kilo*bytes*) and Firefox and forks block 
     if(!/[A-Za-z0-9]+/i.test(window.location.pathname))
     {	
-    	   this.log("LinternaMagica.constructor:\n"+
+    	   this.log("LinternaMagica.sites.before_options_init:\n"+
     		    "Skipping TED front page!"+
     		    " Blocks Firefox and forks.");
 

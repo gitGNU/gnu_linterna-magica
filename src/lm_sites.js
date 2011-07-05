@@ -32,17 +32,35 @@ LinternaMagica.prototype.sites = new Object();
 // A function returns false/null, if the calling function should
 // exit/return after this function is executed.  Otherwise it should
 // return true.
+// Take an action before options initialisation. This is the
+// earliest position where site-specific action could be
+// taken. The default config is to keep processing.
+//
+// For example, ted.com requires a different approach.
 LinternaMagica.prototype.sites.__before_options_init = function ()
 {
-    // Take an action before options initialisation. This is the
-    // earliest position where site-specific action could be
-    // taken. The default config is to keep processing.
-    //
-    // For example, ted.com requires a different approach.
     return true;
 }
 
-// LinternaMagica.prototype.sites.__no_flash_plugin_installed
+// Take an action when no flash plugin is installed
+LinternaMagica.prototype.sites.__no_flash_plugin_installed = function()
+{
+    this.log("LinternaMagica.sites.__no_flash_plugin_installed:\n"+
+	     "Examining scripts.", 4);
+
+    // video.google.* bloats in this function. It takes around 1 min
+    this.extract_objects_from_scripts();
+
+    return true;
+}
+
+// Take an action when flash plugin is installed. For example
+// myvideo.de and theonion.com have custom function.
+LinternaMagica.prototype.sites.__flash_plugin_installed = function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__process_cookies
 // LinternaMagica.prototype.sites.__css_style_fix
 // LinternaMagica.prototype.sites.__detect_flash_ // Useless?
@@ -68,35 +86,53 @@ LinternaMagica.prototype.sites.__before_options_init = function ()
 // it doesn't, call the general/default function.  A function returns
 // false/null, if the calling function should exit/return after this
 // function is executed. Otherwise it should return true.
-LinternaMagica.prototype.sites.call_site_function_at_position =
+LinternaMagica.prototype.call_site_function_at_position =
 function (position_name, match_site, data)
 {
     var self = this;
 
     if (this.sites[match_site])
     {
-	// All of the following will work when the referenced
-	// object/function is an object/function. A recursion is
-	// required to handle references to strings. 
+	// Recursion is used to handle references to strings.
 
 	if (typeof(this.sites[match_site]) == "object" &&
 	    typeof(this.sites[match_site][position_name]) == "function")
 	{
 	    // Defined site and function
+
+	    this.log("LinternaMagica.call_site_function_at_position:\n"+
+		     "Calling function "+position_name+
+		     "for site (both site and function defined)",5);
+
 	    return this.sites[match_site][position_name].apply(self,[data]);
 	}
 	else if (typeof(this.sites[match_site]) == "object" &&
 		 typeof(this.sites[match_site][position_name]) == "string")
 	{
 	    // Reference to a function of another site
+
 	    var ref_to = this.sites[match_site][position_name];
-	    return this.sites[ref_to][position_name].apply(self,[data]);
+
+	    this.log("LinternaMagica.call_site_function_at_position:\n"+
+		     "Calling referenced function "+
+		     position_name+" (site defined,"+
+		     " function reference): "+match_site+" -> "+ref_to,5);
+
+	    return this.call_site_function_at_position.apply(self, [
+		position_name, ref_to, data]);
 	}
 	else if (typeof(this.sites[match_site]) == "string")
 	{
 	    // Reference to a another site
+
 	    var ref_to = this.sites[match_site];
-	    return this.sites[ref_to][position_name].apply(self,[data]);
+
+	    this.log("LinternaMagica.call_site_function_at_position:\n"+
+		     "Using another site config (reference) for function "+
+		     position_name+": "+match_site+" -> "+ref_to,5);
+
+	    return this.call_site_function_at_position.apply(self, [
+		position_name, ref_to, data]);
 	}
     }
     else if ((this.sites[match_site] &&
@@ -104,6 +140,11 @@ function (position_name, match_site, data)
 	     !this.sites[match_site])
     {
 	// General-purpose / default function.
+
+	this.log("LinternaMagica.call_site_function_at_position:\n"+
+		 "Using default function "+position_name+
+		 "(no site specific config)",5);
+
 	return this.sites["__"+position_name].apply(self, [data]);
     }
 

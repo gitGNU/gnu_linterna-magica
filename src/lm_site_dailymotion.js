@@ -68,3 +68,15 @@ LinternaMagica.prototype.extract_dailymotion_links = function(data)
 
     return null;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.dailymotion.com"] = "dailymotion.com";
+
+LinternaMagica.prototype.sites["dailymotion.com"].no_flash_plugin_installed =
+function()
+{
+    this.request_video_link({video_id: window.location.pathname});
+    return true;
+}
