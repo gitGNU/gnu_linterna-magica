@@ -44,18 +44,6 @@ LinternaMagica.prototype.log = function(message, level)
 
     if (this.debug_level >= level)
     {
-	var w = null;
-	try
-	{
-	    // Firefox and Greasemonkey
-	    w = usafeWindow;
-	}
-	catch(e)
-	{
-	    // Epiphany and Midori
-	    w = window;
-	}
-
 	// Simple log/debug
 	// console.log(window.location.hostname+": "+message);
 
@@ -64,7 +52,7 @@ LinternaMagica.prototype.log = function(message, level)
 	var date = new Date();
 	var str =  [date.getHours(), date.getMinutes(),
 		    date.getSeconds(), date.getMilliseconds()].join(":");
-	var host_get = w.self;
+	var host_get = window.self;
 	var host = host_get.location.hostname;
 
 	var indent = "";
