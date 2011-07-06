@@ -136,7 +136,8 @@ LinternaMagica.prototype.is_swf_object = function(element)
 
 	this.log("LinternaMagica.is_swf_object:\n"+
 		 "SWF <"+element.localName+"> "+
-		 (element.id ? (" id: \""+element.id+"\" " ) :"") +
+		 (element.hasAttribute("id") ? 
+		  (" with id \""+element.getAttribute("id")+"\" " ) :"") +
 		 "detected via \""+detected_via+"\".", 2);
 
     }
