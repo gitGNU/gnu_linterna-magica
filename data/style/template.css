@@ -501,6 +501,7 @@ div.linterna-magica-web-log,
 
 .linterna-magica-web-log-messages {
                                     height: 215px !important;
+				    width: 420px !important;
                                     overflow: auto !important;
                                     padding: 5px 15px !important;
                                     line-height: 1.35em;
@@ -531,6 +532,23 @@ div.linterna-magica-web-log,
 .linterna-magica-web-log-clone-messages p {
                                             margin: 1em 0 !important;
                                             }
+
+/* New lines are replaced with span in the web log. */
+/* This shows them in new line in the web log */
+.linterna-magica-log-to-web-message span {
+    display: block;
+}
+
+/* Mesage rows */
+.linterna-magica-log-to-web-message {
+    /* Indent/margin-left and background-color are */
+    /* calculated in lm_log.js:LinternaMagica.prototype.log */
+    border-bottom: 1px solid rgb(152,152,152) !important;
+    border-left: 1px solid rgb(152,152,152) !important;
+    padding-left: 3px !important;
+    padding-bottom: 3px !important;
+}
+
 
 .linterna-magica-remote-clip-buttons  {
     position: relative !important;

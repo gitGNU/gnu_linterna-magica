@@ -78,9 +78,30 @@ LinternaMagica.prototype.log = function(message, level)
  		var row = document.createElement('p');
  		row.setAttribute("class", 
 				 "linterna-magica-log-to-web-message");
- 		var t = document.createTextNode(log_string);
 
+		var lines = log_string.split(/\n/);
+ 		var t = document.createTextNode(lines[0]);
  		row.appendChild(t);
+
+		for (var i=1,l=lines.length; i<l; i++)
+		{
+		    var span = document.createElement("span");
+		    var t = document.createTextNode(lines[i]);
+		    span.appendChild(t);
+		    row.appendChild(span);
+		}
+
+		row.style.setProperty("margin-left", 
+				      parseInt(3.5*level)+"px", "important");
+
+		//  The start color is #888888 rgb (136,136, 136).
+		//  Every next log level is two shades ( -32) darker
+		var bg_color = parseInt(136 - 32*level);
+
+		row.style.setProperty("background-color", 
+				      "rgb("+bg_color+","+bg_color+","+
+				      bg_color+")", "important");
+
  		this.logger.appendChild(row);
  	    }
  	    else
