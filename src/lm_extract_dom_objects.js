@@ -235,21 +235,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	    }
 	    else if (object_data.video_id)
 	    {
-		this.log("LinternaMagica.extract_objects_from_dom:\n"+
-			 "Requesting video link via video_id "+
-			 object_data.video_id,1);
-
-		// Wait a while for Dailymotion At the beginning it
-		// seemed that cookies are not set for few seconds.
-		if (/dailymotion\.com/i.test(window.location.hostname))
-		{
-		    var data = object_data;
-		    var self = this;
-		    setTimeout(function() {
-			self.request_video_link.apply(self,[data]);
-		    }, this.wait_dailymotion);
-		}
-		else if (!/blip\.tv/i.test(window.location.hostname) &&
+		if (!/blip\.tv/i.test(window.location.hostname) &&
 			 ((object.hasAttribute('src') &&
 			  /blip\.tv/i.test(object.getAttribute('src'))) ||
 			 (object.hasAttribute('data') && 
@@ -257,8 +243,25 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		{
 		    this.request_bliptv_jsonp_data(object_data);
 		}
+		else if (this.wait_xhr)
+		{
+		    this.log("LinternaMagica.extract_objects_from_dom:\n"+
+			     "Waiting "+this.wait_xhr+
+			     " ms ("+(this.wait_xhr/1000)+
+			     " s) before requesting video link via"+
+			     " video_id "+object_data.video_id+" ",1);
+
+		    var self = this;
+		    var data = object_data;
+		    setTimeout(function() {
+			self.request_video_link.apply(self,[data]);
+		    }, this.wait_xhr);
+		}
 		else
 		{
+		    this.log("LinternaMagica.extract_objects_from_dom:\n"+
+			     "Requesting video link via video_id "+
+			     object_data.video_id,1);
 		    this.request_video_link(object_data);
 		}
 	    }

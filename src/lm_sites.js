@@ -107,7 +107,6 @@ LinternaMagica.prototype.sites.__skip_xhr_if_video_id = function(object_data)
     return true;
 }
 
-// LinternaMagica.prototype.sites.__wait_before_xhr
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?
 // LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB

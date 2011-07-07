@@ -96,7 +96,7 @@ function LinternaMagica(params)
     this.set_autostart(params.autostart);
     this.set_controls(params.controls);
     this.set_cookies(params.cookies);
-    this.set_wait_dailymotion(params.wait_dm);
+    this.set_wait_xhr(params.wait_xhr);
     this.set_check_updates(params.updates);
     this.set_hd_link_quality(params.quality);
 

@@ -46,7 +46,7 @@ var linterna_magica_user_config = {
     "controls": "self",
     "locale": "auto",
     "cookies": "restore",
-    "wait_dm": "off",
+    "wait_xhr": "off",
 };
 
 // Do NOT edit past this line.

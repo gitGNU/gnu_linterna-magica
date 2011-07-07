@@ -75,12 +75,12 @@ var linterna_magica_options =
 	// delete: Just delete the cookies.
 	// restore: Extract and restore cookies.
 	"cookies": "restore",
-	// Timeout before background processing starts in Dailymotion in
+	// Timeout before background processing (XHR) starts  in
 	// milliseconds. 1 s = 1000 ms. If you have problems increase the
 	// value.
 	// off/no/disabled/false/0: Don't wait (defult)
         // <integer>: Wait for <integer> milliseconds.
-	"wait_dm": "off",
+	"wait_xhr": "off",
 	// Preferred video quality.
 	//
 	// low/medium/high: Automatically select the link for
