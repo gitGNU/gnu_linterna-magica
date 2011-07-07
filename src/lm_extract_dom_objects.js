@@ -77,15 +77,25 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
      	    || (this.is_swf_object(object)
      		&& !this.is_swf_object(object.parentNode)))
      	{
-	    if (/dailymotion\.com/i.test(window.location.hostname))
+	    var extracted_data = new Object();
+
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"skip_video_id_extraction",
+		window.location.hostname]);
+
+	    if (!val)
 	    {
-		var extracted_data = new Object();
-		extracted_data.video_id = window.location.pathname;
+		return null;
+	    }
+	    else if (typeof(val) == "boolean")
+	    {
+		this.create_param_list(object);
+		extracted_data = this.extract_link_from_param_list();
 	    }
 	    else
 	    {
-		this.create_param_list(object);
-		var extracted_data = this.extract_link_from_param_list();
+		extracted_data = val;
 	    }
 
 	    object_data.remote_site_link = extracted_data.remote_site_link;

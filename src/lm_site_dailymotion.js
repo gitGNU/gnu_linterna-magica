@@ -100,3 +100,13 @@ function()
     // lm_detect_flash.js not detect the iframe as swf.
     return false;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].skip_video_id_extraction =
+function ()
+{
+    // Can't extract video_id from script when flash is not
+    // isntalled. The video id is always the pathname.
+    var extracted_data = new Object();
+    extracted_data.video_id = window.location.pathname;
+    return  extracted_data;
+}

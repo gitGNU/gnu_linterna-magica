@@ -32,6 +32,7 @@ LinternaMagica.prototype.sites = new Object();
 // A function returns false/null, if the calling function should
 // exit/return after this function is executed.  Otherwise it should
 // return true.
+
 // Take an action before options initialisation. This is the
 // earliest position where site-specific action could be
 // taken. The default config is to keep processing.
@@ -87,7 +88,16 @@ function()
     return true;
 }
 
-// LinternaMagica.prototype.sites.__skip_video_id_extract // DM force?
+// Set the video_id to the returned value and skip extraction from DOM
+// object attributes. The true return value for this default function
+// does not stop extraction. See comments after
+// LinternaMagica.prototype.sites. See
+// lm_site_dailymotion.js:skip_video_id_extraction
+LinternaMagica.prototype.sites.__skip_video_id_extraction = function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__skip_xhr_if_video_id
 // LinternaMagica.prototype.sites.__wait_before_xhr
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
