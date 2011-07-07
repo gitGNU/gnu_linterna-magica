@@ -98,7 +98,15 @@ LinternaMagica.prototype.sites.__skip_video_id_extraction = function()
     return true;
 }
 
-// LinternaMagica.prototype.sites.__skip_xhr_if_video_id
+// Take an action if video_id is extracted, but link extraction could
+// not happen with XHR. See lm_site_myvideode.js:skip_xhr_if_id. The
+// true return value for this default function does not stop XHR. See
+// comments after LinternaMagica.prototype.sites.
+LinternaMagica.prototype.sites.__skip_xhr_if_video_id = function(object_data)
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__wait_before_xhr
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?

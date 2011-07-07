@@ -74,3 +74,21 @@ LinternaMagica.prototype.sites["www.myvideo.de"] = "myvideo.de";
 
 // Function reference
 LinternaMagica.prototype.sites["myvideo.de"].flash_plugin_installed = "theonion.com";
+
+LinternaMagica.prototype.sites["myvideo.de"].skip_xhr_if_video_id =
+function(object_data)
+{
+    // See the comments for this function. There is no way to access
+    // the video URL via XHR, but there is a pattern to create the
+    // video link
+    object_data.link = this.create_myvideode_link();
+
+    // Now that we have a link remove the video_id
+    // so it is not processed
+    if (object_data.link)
+    {
+	object_data.video_id = null;
+    }
+
+    return object_data ;
+}

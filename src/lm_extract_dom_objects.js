@@ -116,17 +116,20 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		continue;
 	    }
 
-	    if (/myvideo\.de/i.test(window.location.hostname) &&
-		object_data.video_id)
+	    if (object_data.video_id)
 	    {
-		// See the comments for this function
-		object_data.link = this.create_myvideode_link();
+		var self = this;
+		var val = this.call_site_function_at_position.apply(self,[
+		    "skip_xhr_if_video_id",
+		    window.location.hostname, object_data]);
 
-		// Now that we have a link remove the video_id
-		// so it is not processed
-		if (object_data.link)
+		if (!val)
 		{
-		    object_data.video_id = null;
+		    return null;
+		}
+		else if(typeof(val) != "boolean")
+		{
+		    object_data = val;
 		}
 	    }
 
