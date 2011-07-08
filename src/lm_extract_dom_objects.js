@@ -408,19 +408,16 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 		break;
 	    }
 
-	    // This bloats FF in youtube:
-	    // LinternaMagica.extract_link_from_param_list: Trying
-	    // to extract a link from param/attribute "flashvars"
-	    // at www.youtube.com time: ***14:58:59:999***
-	    // LinternaMagica.extract_link: No link found. at
-	    // www.youtube.com time: ***15:12:21:356***
-	    if (!/youtube\.com/i.test(window.location.hostname) &&
-		!/youtube-nocookie\.com/i.test(window.location.hostname))
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"skip_link_extraction",
+		window.location.hostname]);
+
+	    if (val)
 	    {
 		this.log("LinternaMagica.extract_link_from_param_list:\n"+
 			 "Trying to extract a link from"+
 			 " param/attribute \""+param.name+"\"",4);
-
 		if (!extracted.link)
 		{
 		    this.extract_link_data = param.value;

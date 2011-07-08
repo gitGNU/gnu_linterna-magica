@@ -307,9 +307,25 @@ LinternaMagica.prototype.sites["youtube.com"] = new Object();
 
 // Reference
 LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
+LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
+LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
 
 LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
 function()
 {
     return ".youtube.com";
+}
+
+LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
+{
+    // Link extraction bloats FF in youtube:
+    // LinternaMagica.extract_link_from_param_list: 
+    // Trying to extract a link from param/attribute "flashvars"
+    // at www.youtube.com time: ***14:58:59:999***
+    // LinternaMagica.extract_link: No link found. at
+    // www.youtube.com time: ***15:12:21:356***
+    this.log("LinternaMagica.sites.skip_link_extraction:\n"+
+	     "Skipping link extraction in YouTube. Might bloat "+
+	     "GNU IceCat and other forks and versions of Firefox.",4);
+    return false;
 }

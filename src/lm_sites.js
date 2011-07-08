@@ -107,6 +107,16 @@ LinternaMagica.prototype.sites.__skip_xhr_if_video_id = function(object_data)
     return true;
 }
 
+// Do not extract video link. The true return value for this default
+// function does not stop link extraction. See comments after
+// LinternaMagica.prototype.sites. See
+// lm_site_youtube.js:skip_link_extraction
+LinternaMagica.prototype.sites.__skip_link_extraction = function()
+{
+    return true;
+}
+
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?
 // LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB
@@ -176,17 +186,26 @@ function (position_name, match_site, data)
 
 	    var ref_to = this.sites[match_site];
 
-	    this.log("LinternaMagica.call_site_function_at_position:\n"+
-		     "Using another site config (reference) for function "+
-		     position_name+": "+match_site+" -> "+ref_to,debug_level);
+	    // Don't make calls to a reference if it's function is not
+	    // defined and the default one will be called anyway.
+	    if (typeof(this.sites[ref_to][position_name]) != "undefined")
+	    {
+		this.log("LinternaMagica.call_site_function_at_position:\n"+
+			 "Using another site config (reference) for function "+
+			 position_name+": "+match_site+" -> "+ref_to,debug_level);
 
-	    return this.call_site_function_at_position.apply(self, [
-		position_name, ref_to, data]);
+		return this.call_site_function_at_position.apply(self, [
+		    position_name, ref_to, data]);
+	    }
 	}
     }
-    else if ((this.sites[match_site] &&
-	      !this.sites[match_site][position_name]) ||
-	     !this.sites[match_site])
+
+    // MUST be in separate if block. Don't merge with previous
+    // one. The first if (this.sites[match_site]) will be accessed
+    // before this one.
+    if ((this.sites[match_site] &&
+	 !this.sites[match_site][position_name]) ||
+	!this.sites[match_site])
     {
 	// General-purpose / default function.
 
