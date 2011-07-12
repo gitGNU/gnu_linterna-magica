@@ -134,6 +134,15 @@ LinternaMagica.prototype.sites["ted.com"].before_options_init = function()
 LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_dom_if_link =
 function(data)
 {
+    this.log("LinternaMagica.sites.extract_hd_links_from_dom_if_link:\n"+
+	     "Trying to extract ted.com HQ links ",1);
     return this.extract_tedcom_hd_links(data);
 }
 
+LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_script_if_link =
+function(data)
+{
+    this.log("LinternaMagica.sites.extract_hd_links_from_script_if_link:\n"+
+	     "Trying to extract ted.com HQ links ",1);
+    return this.extract_tedcom_hd_links(data);
+}
