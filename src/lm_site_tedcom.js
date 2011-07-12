@@ -146,3 +146,17 @@ function(data)
 	     "Trying to extract ted.com HQ links ",1);
     return this.extract_tedcom_hd_links(data);
 }
+
+LinternaMagica.prototype.sites["ted.com"].skip_script_processing =
+function()
+{
+    if (this.script_data.length >= 15000)
+    {
+	this.log("LinternaMagca.sites.skip_script_processing:\n"+
+		 "Skipping script processing, because it is too big.");
+	// Skip the script is too big and will bloat Firefox
+	return false;
+    }
+
+    return true;
+}

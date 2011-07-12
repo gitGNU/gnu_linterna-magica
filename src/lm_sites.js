@@ -136,7 +136,12 @@ function(data)
     return true;
 }
 
-
+// Skip script processing on a condition defined in the function and
+// return value is false (or null or undefined).
+LinternaMagica.prototype.sites.__skip_script_processing = function()
+{
+    return true;
+}
 
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?

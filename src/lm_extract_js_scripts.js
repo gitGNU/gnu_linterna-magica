@@ -63,8 +63,12 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	this.script_data = scripts[s].textContent;
 	var object_data = null;
 
-	if (/ted\.com/i.test(window.location.hostname) && 
-	    this.script_data.length >=15000)
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "skip_script_processing",
+	    window.location.hostname]);
+
+	if (!val)
 	{
 	    continue;
 	}
