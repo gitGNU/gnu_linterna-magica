@@ -80,7 +80,7 @@ LinternaMagica.prototype.extract_link = function()
 	// is not accessible.
 	link_re = new RegExp (
 	    "\\\{{0}.*(video|flv_ur|streamer|file|moviepath|videourl|"+
-		"mediaurl|sdurl|videopath|flv|url|ms|nextmovie)"+
+		"mediaurl|sdurl|videopath|flv|url|ms|nextmovie|flvaddress)"+
 		"(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
 		(/clipovete\.com/i.test(window.location.hostname)
 		 ? "(.*)\\\&(video_id)=(.*)" :
