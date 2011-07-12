@@ -439,21 +439,23 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 	    }
 	}
 
-	if (/ted\.com/i.test(window.location.hostname))
+	if (extracted.link)
 	{
-	    if (extracted.link)
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"extract_hd_links_from_dom_if_link",
+		window.location.hostname, param.value]);
+	
+	    if (val)
 	    {
-		this.log("LinternaMagica.extract_link_from_param_list:\n"+
-			 "Trying to extract ted.com HD links ",1);
-		extracted.hd_links =
-		    this.extract_tedcom_hd_links(param.value);
+		extracted.hd_links = val;
 		break;
 	    }
 	}
-	else
+
+	if (extracted.link || extracted.video_id)
 	{
-	    if (extracted.link || extracted.video_id)
-		break;
+	    break;
 	}
     }
 

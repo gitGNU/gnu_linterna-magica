@@ -130,3 +130,10 @@ LinternaMagica.prototype.sites["ted.com"].before_options_init = function()
 
     return true;
 }
+
+LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_dom_if_link =
+function(data)
+{
+    return this.extract_tedcom_hd_links(data);
+}
+

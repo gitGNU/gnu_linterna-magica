@@ -116,13 +116,22 @@ LinternaMagica.prototype.sites.__skip_link_extraction = function()
     return true;
 }
 
+// Extract HD/HQ links with site specific function and code if a link
+// is extracted. See
+// lm_site_tedcom.js:extract_hd_links_from_dom_if_link. See comments
+// after LinternaMagica.prototype.sites. See
+LinternaMagica.prototype.sites.__extract_hd_links_from_dom_if_link =
+function()
+{
+    return true;
+}
 
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?
 // LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
-// LinternaMagica.prototype.sites.__extract_swfobject_hdlinks
+
 // LinternaMagica.prototype.sites.__extract_video_link_regex
 // LinternaMagica.prototype.sites.__extract_video_link_match
 // LinternaMagica.prototype.sites.__match_for_video_link
