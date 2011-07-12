@@ -446,7 +446,7 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 		"extract_hd_links_from_dom_if_link",
 		window.location.hostname, param.value]);
 	
-	    if (val && typeof(va) != "boolean")
+	    if (val && typeof(val) != "boolean")
 	    {
 		extracted.hd_links = val;
 		break;

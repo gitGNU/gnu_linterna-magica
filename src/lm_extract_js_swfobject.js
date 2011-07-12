@@ -148,7 +148,7 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 	    "extract_hd_links_from_script_if_link",
 	    window.location.hostname, data]);
 	
-	if (val && typeof(va) != "boolean")
+	if (val && typeof(val) != "boolean")
 	{
 	    object_data.hd_links = val;
 	}
