@@ -29,13 +29,10 @@
 
 // Extracts object data for flash objects created with SWFObject (v1 && v2)
 // flash library
-// This also extracts objects created with  new Flash() (novatv).bg
-// because of great simillarity in processing and arguments
 LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 {
     var constructor_re = new RegExp(
-	"(swfobject.embedSWF|(\\\w+)\\\s*=\\\s*new\\\s*SWFObject|"+
-	    "new\\\s*Flash)\\\("+
+	"(swfobject.embedSWF|(\\\w+)\\\s*=\\\s*new\\\s*SWFObject)\\\("+
 	    "([^,]+)"+
 	    "\\\s*,\\\s*([^,]+)"+
 	    "\\\s*,\\\s*([^,]+)"+
@@ -65,8 +62,7 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
     {
 	// variable_name = constructor[2]
 	var id_re = new RegExp(
-	    (/novatv\.bg/i.test(window.location.hostname)
-	     ?  "(\\.)*" : constructor[2]+"\\.")+
+	    constructor[2]+"\\."+
 		"write\\("+"("+"\\'"+'|\\"'+")*"+
 		"([A-Za-z0-9_-]+)"+"("+"\\'"+'|\\"'+")*"+
 		"\\)",
