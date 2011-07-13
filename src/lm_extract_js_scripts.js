@@ -73,44 +73,27 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	    continue;
 	}
 
-	if (/theonion\.com/i.test(window.location.hostname))
-	{
-	    object_data = this.extract_object_from_script_theonion();
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "extract_object_from_script",
+	    window.location.hostname]);
 
-	    if (!object_data)
-	    {
-		// No other method of extraction is useful. Skip to
-		// next script.
-		continue;
-	    }
+
+	if (this.sites[window.location.hostname] && !val)
+	{
+	    // Site specific code is used but no results were
+	    // returned. Can't extract object information. General
+	    // purpose extraction might not worк, so it is useless.
+	    this.log("LinternaMagica.extract_objects_from_scripts:\n"+
+		     "Site specific code did not return object data. Skipping"+
+		     " general purpose extraction",6);
+
+	    continue;
 	}
 
-	if (/youtube\.com/i.test(window.location.hostname) ||
-	    (/youtube-nocookie\.com/i.test(window.location.hostname)))
+	if (val && typeof(val) != "boolean")
 	{
-	    object_data =
-		this.extract_object_from_script_youtube();
-
-	    // Fix bloating in FF (mainly). Optimizes script
-	    // processing. No need to check the other swf constructors
-	    // in YouTube.
-	    if (!object_data)
-	    {
-		continue;
-	    }
-	}
-
-	if (/vimeo\.com/i.test(window.location.hostname))
-	{
-	    object_data =
-		this.extract_object_from_script_vimeo();
-
-	    // Optimizes script processing. No need to check the other
-	    // swf constructors in Vimeo.
-	    if (!object_data)
-	    {
-		continue;
-	    }
+	    object_data = val;
 	}
 
 	if (!object_data)

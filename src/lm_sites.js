@@ -143,6 +143,12 @@ LinternaMagica.prototype.sites.__skip_script_processing = function()
     return true;
 }
 
+// Extract object data from script
+LinternaMagica.prototype.sites.__extract_object_from_script = function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__extract_scripts_once // YT ?
 // LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB

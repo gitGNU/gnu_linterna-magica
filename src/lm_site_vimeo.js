@@ -27,6 +27,11 @@
 
 // END OF LICENSE HEADER
 
+LinternaMagica.prototype.sites["vimeo.com"] = new Object();
+
+// Reference 
+LinternaMagica.prototype.sites["www.vimeo.com"] = "vimeo.com";
+
 // Detect vimeo browser upgrade warning (no flash & h264) .This is
 // called withing setInterval. It is needed because when the elements
 // with the warning are inserted all our data that has been added
@@ -83,7 +88,7 @@ LinternaMagica.prototype.detect_vimeo_browser_upgrade = function(object_data)
 
 // Extract object data in Vimeo. This makes Firefox and forks to work
 // without plugin and without HTML5 (missing H264)
-LinternaMagica.prototype.extract_object_from_script_vimeo = function()
+LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = function()
 {
     var player_element_re = new RegExp(
 	"player[0-9]+_[0-9]+_element\\\s*=\\\s*"+

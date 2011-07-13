@@ -28,8 +28,14 @@
 
 // Support for The Onion dot com
 
+LinternaMagica.prototype.sites["theonion.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.theonion.com"] = "theonion.com";
+
 // Extracts data for the flash object in The Onion dot com from a script
-LinternaMagica.prototype.extract_object_from_script_theonion = function()
+LinternaMagica.prototype.sites["theonion.com"].extract_object_from_script =
+function()
 {
     var player_container = document.getElementById("player_container");
 
@@ -140,11 +146,6 @@ function(event,element,object_data)
 	}
     }
 }
-
-LinternaMagica.prototype.sites["theonion.com"] = new Object();
-
-// Reference
-LinternaMagica.prototype.sites["www.theonion.com"] = "theonion.com";
 
 LinternaMagica.prototype.sites["theonion.com"].flash_plugin_installed =
 function()

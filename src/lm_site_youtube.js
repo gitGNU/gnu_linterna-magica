@@ -167,9 +167,80 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
     }
 }
 
+// Extract links data for youtube from fmt_url_map
+LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
+{
+    var fmt_re = new RegExp (
+	"(\\\"|\\\'|\\\&)fmt_url_map"+
+	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
+	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?]+)");
+
+    var fmt = data.match(fmt_re);
+
+    if (fmt)
+    {
+
+	// For debug level 1
+	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
+		 "Extracted fmt_url_map.",1);
+
+	// Hash with keys fmt_ids and values video URLs
+	var map = new Object();
+
+	// There was unescape here but it broke the split by ,. How it
+	// worked it is not clear. Maybe YT changed something.
+	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
+
+	fmt = fmt.split(/,/);
+
+	for (var url=0; url<fmt.length; url++) 
+	{
+	    // fmt_id|link
+	    var m = fmt[url].split(/\|/);
+	    map[m[0]] =  m[1];
+	}
+
+	return map;
+    }
+    else
+    {
+	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
+		 "No fmt_url_map parameter found. ",1);
+    }
+
+    return null;
+}
+
+LinternaMagica.prototype.sites["youtube.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
+LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
+LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
+
+LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
+function()
+{
+    return ".youtube.com";
+}
+
+LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
+{
+    // Link extraction bloats FF in youtube:
+    // LinternaMagica.extract_link_from_param_list: 
+    // Trying to extract a link from param/attribute "flashvars"
+    // at www.youtube.com time: ***14:58:59:999***
+    // LinternaMagica.extract_link: No link found. at
+    // www.youtube.com time: ***15:12:21:356***
+    this.log("LinternaMagica.sites.skip_link_extraction:\n"+
+	     "Skipping link extraction in YouTube. Might bloat "+
+	     "GNU IceCat and other forks and versions of Firefox.",4);
+    return false;
+}
 
 // Extracts data for the flash object in youtube from a script
-LinternaMagica.prototype.extract_object_from_script_youtube = function()
+LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
+function()
 {
     var data = this.script_data;
     if (!data.match(/var\s*swfConfig/))
@@ -257,75 +328,4 @@ LinternaMagica.prototype.extract_object_from_script_youtube = function()
     object_data.linterna_magica_id = linterna_magica_id;
 
     return object_data;
-}
-
-// Extract links data for youtube from fmt_url_map
-LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
-{
-    var fmt_re = new RegExp (
-	"(\\\"|\\\'|\\\&)fmt_url_map"+
-	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
-	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?]+)");
-
-    var fmt = data.match(fmt_re);
-
-    if (fmt)
-    {
-
-	// For debug level 1
-	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
-		 "Extracted fmt_url_map.",1);
-
-	// Hash with keys fmt_ids and values video URLs
-	var map = new Object();
-
-	// There was unescape here but it broke the split by ,. How it
-	// worked it is not clear. Maybe YT changed something.
-	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
-
-	fmt = fmt.split(/,/);
-
-	for (var url=0; url<fmt.length; url++) 
-	{
-	    // fmt_id|link
-	    var m = fmt[url].split(/\|/);
-	    map[m[0]] =  m[1];
-	}
-
-	return map;
-    }
-    else
-    {
-	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
-		 "No fmt_url_map parameter found. ",1);
-    }
-
-    return null;
-}
-
-LinternaMagica.prototype.sites["youtube.com"] = new Object();
-
-// Reference
-LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
-LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
-LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
-
-LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
-function()
-{
-    return ".youtube.com";
-}
-
-LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
-{
-    // Link extraction bloats FF in youtube:
-    // LinternaMagica.extract_link_from_param_list: 
-    // Trying to extract a link from param/attribute "flashvars"
-    // at www.youtube.com time: ***14:58:59:999***
-    // LinternaMagica.extract_link: No link found. at
-    // www.youtube.com time: ***15:12:21:356***
-    this.log("LinternaMagica.sites.skip_link_extraction:\n"+
-	     "Skipping link extraction in YouTube. Might bloat "+
-	     "GNU IceCat and other forks and versions of Firefox.",4);
-    return false;
 }
