@@ -121,17 +121,6 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 		     object_data.video_id,1);
 
 	    this.request_video_link(object_data);
-
-	    if (/youtube\.com/i.test(window.location.hostname) ||
-		(/youtube-nocookie\.com/i.test(window.location.hostname)))
-	    {
-		// We assume there is only one object per page in 
-		// YouTube found trough scripts.
-		// Stop processing, so it will not bloat.
-		this.log("LinternaMagica.constructor:\n"+
-			 "Found one object in YouTube. Stopping script processing",1);
-		break;
-	    }
 	}
 
 	if (object_data && object_data.link)
@@ -159,6 +148,19 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 			self.detect_facebook_flash_upgrade.
 			    apply(self,[data]);
 		    }, 500);
+	    }
+	}
+
+	if (object_data && (object_data.video_id || object_data.link))
+	{
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"stop_if_one_extracted_object_from_script",
+		window.location.hostname]);
+
+	    if (!val)
+	    {
+		break;
 	    }
 	}
     }

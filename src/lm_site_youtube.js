@@ -329,3 +329,13 @@ function()
 
     return object_data;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].
+    stop_if_one_extracted_object_from_script =
+function()
+{
+    this.log("LinternaMagica.sites.stop_if_"+
+	     "one_extracted_object_from_script:\n"+
+ 	     "Found one object in YouTube. Stopping script processing",3);
+    return false;
+}

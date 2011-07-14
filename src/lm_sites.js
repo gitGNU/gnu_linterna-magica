@@ -149,8 +149,15 @@ LinternaMagica.prototype.sites.__extract_object_from_script = function()
     return true;
 }
 
+// If one video object is found, stop all further searches in scripts.
+LinternaMagica.prototype.sites.__stop_if_one_extracted_object_from_script =
+function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
-// LinternaMagica.prototype.sites.__extract_scripts_once // YT ?
+
 // LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
