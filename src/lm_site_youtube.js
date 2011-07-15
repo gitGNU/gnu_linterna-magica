@@ -339,3 +339,14 @@ function()
  	     "Found one object in YouTube. Stopping script processing",3);
     return false;
 }
+
+// Just return true or false. The function must be defined, so the
+// default code will not be executed. YouTube's object is created
+// after XHR.
+LinternaMagica.prototype.sites["youtube.com"].
+    replace_extracted_object_from_script = 
+function()
+{
+    return false;
+}
+

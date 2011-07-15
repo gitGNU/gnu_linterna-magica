@@ -58,3 +58,30 @@ LinternaMagica.prototype.detect_facebook_flash_upgrade = function(object_data)
 	this.create_video_object(object_data);
     }
 }
+
+LinternaMagica.prototype.sites["facebook.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.facebook.com"] = "facebook.com";
+
+LinternaMagica.prototype.sites["facebook.com"].
+    replace_extracted_object_from_script =
+function(object_data)
+{
+    if (!this.facebook_flash_upgrade_timeout)
+    {
+	this.log("LinternaMagica.sites.replace_extracted_"+
+		 "object_from_script:\n"+
+		 "Delaying video object creation in Facebook.",3);
+	this.facebook_flash_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+	this.facebook_flash_upgrade_timeout =
+	    setInterval(function() {
+	    	self.detect_facebook_flash_upgrade.
+	    	    apply(self,[data]);
+	    }, 500);
+    }
+
+    return false;
+}

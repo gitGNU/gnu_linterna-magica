@@ -156,12 +156,17 @@ function()
     return true;
 }
 
-// LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
+// Create the replacement object. See
+// lm_site_facebook.js:replace_extracted_object_from_script
+LinternaMagica.prototype.sites.__replace_extracted_object_from_script =
+function()
+{
+    return true;
+}
 
-// LinternaMagica.prototype.sites.__extract_scripts_wait_insert // FB
+// LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
-
 // LinternaMagica.prototype.sites.__extract_video_link_regex
 // LinternaMagica.prototype.sites.__extract_video_link_match
 // LinternaMagica.prototype.sites.__match_for_video_link

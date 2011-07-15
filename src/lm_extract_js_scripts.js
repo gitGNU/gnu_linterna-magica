@@ -78,7 +78,6 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	    "extract_object_from_script",
 	    window.location.hostname]);
 
-
 	if (this.sites[window.location.hostname] && !val)
 	{
 	    // Site specific code is used but no results were
@@ -125,29 +124,20 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 
 	if (object_data && object_data.link)
 	{
-	    if(!/youtube\.com/i.test(window.location.hostname) &&
-	       !/.*facebook\.com/i.test(window.location.hostname))
-	    {
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"replace_extracted_object_from_script",
+		window.location.hostname,object_data]);
 
+	    // Default
+	    if (val && typeof(val) == "boolean")
+	    {
 		this.log("LinternaMagica.extract_objects_from_scripts:\n"+
-			 "Removing plugin install warning.",2);
+	    		 "Removing plugin install warning.",2);
 
-		this.remove_plugin_install_warning(object_data.parent);
+	    	this.remove_plugin_install_warning(object_data.parent);
 
-		this.create_video_object(object_data);
-	    }
-
-	    if (/.*facebook\.com/i.test(window.location.hostname)  &&
-		!this.facebook_flash_upgrade_timeout)
-	    {
-		this.facebook_flash_upgrade_counter = 0;
-		var data = object_data;
-		var self = this;
-		this.facebook_flash_upgrade_timeout =
-		    setInterval(function() {
-			self.detect_facebook_flash_upgrade.
-			    apply(self,[data]);
-		    }, 500);
+	    	this.create_video_object(object_data);
 	    }
 	}
 
