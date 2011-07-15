@@ -32,7 +32,8 @@
 LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 {
     var constructor_re = new RegExp(
-	"(swfobject.embedSWF|(\\\w+)\\\s*=\\\s*new\\\s*SWFObject)\\\("+
+	"(swfobject.embedSWF|(\\\w+|window\\\[\\\"\\\w+\\\"\\\])\\\s*="+
+	    "\\\s*new\\\s*SWFObject)\\\("+
 	    "([^,]+)"+
 	    "\\\s*,\\\s*([^,]+)"+
 	    "\\\s*,\\\s*([^,]+)"+
@@ -61,8 +62,12 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
     if (!document.getElementById(el))
     {
 	// variable_name = constructor[2]
+	var var_name = 
+	    constructor[2].replace(/window\[\"/,"").
+	    replace(/\"\]/,"");
+
 	var id_re = new RegExp(
-	    constructor[2]+"\\."+
+	    var_name+"\\."+
 		"write\\("+"("+"\\'"+'|\\"'+")*"+
 		"([A-Za-z0-9_-]+)"+"("+"\\'"+'|\\"'+")*"+
 		"\\)",
