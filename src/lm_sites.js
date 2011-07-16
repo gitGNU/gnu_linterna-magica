@@ -131,7 +131,7 @@ function(data)
 // lm_site_tedcom.js:extract_hd_links_from_dom_if_link. See comments
 // after LinternaMagica.prototype.sites. See
 LinternaMagica.prototype.sites.__extract_hd_links_from_script_if_link =
-function(data)
+function()
 {
     return true;
 }

@@ -140,8 +140,10 @@ function(data)
 }
 
 LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_script_if_link =
-function(data)
+    function()
 {
+    var data = this.extract_link_data;
+
     this.log("LinternaMagica.sites.extract_hd_links_from_script_if_link:\n"+
 	     "Trying to extract ted.com HQ links ",1);
     return this.extract_tedcom_hd_links(data);

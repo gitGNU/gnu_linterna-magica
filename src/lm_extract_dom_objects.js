@@ -441,10 +441,11 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 
 	if (extracted.link)
 	{
+	    this.extract_link_data = param.value;
 	    var self = this;
 	    var val = this.call_site_function_at_position.apply(self,[
 		"extract_hd_links_from_dom_if_link",
-		window.location.hostname, param.value]);
+		window.location.hostname]);
 	
 	    if (val && typeof(val) != "boolean")
 	    {
