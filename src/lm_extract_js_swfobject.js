@@ -120,19 +120,28 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 	object_data.height = object_data.parent.clientHeight;
     }
 
-    if (/dailymotion\.com/i.test(window.location.hostname))
-    {
-	object_data.video_id = window.location.pathname;
-    }
-    else
-    {
-	this.extract_link_data = data;
-	object_data.link = this.extract_link();
+    this.extract_link_data = data;
+    object_data.link = this.extract_link();
 
-	if (!object_data.link)
+
+    if (!object_data.link)
+    {
+	this.extract_video_id_data = data;
+
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "libswfobject_skip_video_id_extraction",
+	    window.location.hostname,object_data]);
+
+	// Result from default function
+	if (val && typeof(val) == "boolean")
 	{
-	    this.extract_video_id_data = data;
 	    object_data.video_id = this.extract_video_id();
+	}
+	else if(val)
+	{
+	    // Result from site function
+	    object_data.video_id = val;
 	}
     }
 

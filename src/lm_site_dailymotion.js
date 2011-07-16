@@ -110,3 +110,14 @@ function ()
     extracted_data.video_id = window.location.pathname;
     return  extracted_data;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].
+    libswfobject_skip_video_id_extraction =
+function()
+{
+    this.log("LinternaMagica.sites.libswfobject_skip_video_"+
+	     "id_extraction:\n"+
+	     "Video id forced to "+window.location.pathname,1);
+
+    return window.location.pathname;
+}

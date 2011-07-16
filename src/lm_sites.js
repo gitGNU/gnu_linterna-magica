@@ -156,10 +156,18 @@ function()
     return true;
 }
 
+// Skip video_id extraction (and force it to something) in SWFObject
+// detection and extraction code.
+LinternaMagica.prototype.sites.__libswfobject_skip_video_id_extraction =
+function()
+{
+    return true;
+}
+
 // Create the replacement object. See
 // lm_site_facebook.js:replace_extracted_object_from_script
 LinternaMagica.prototype.sites.__replace_extracted_object_from_script =
-function()
+function(object_data)
 {
     return true;
 }
