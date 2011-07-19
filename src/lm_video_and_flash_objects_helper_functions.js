@@ -58,7 +58,8 @@ function(linterna_magica_id)
     {
 	var o = object_list[i];
 
-	if (o.linterna_magica_id != undefined)
+	if (o.linterna_magica_id != undefined &&
+	    o.linterna_magica_id == linterna_magica_id)
 	{
 	    return o;
 	}
