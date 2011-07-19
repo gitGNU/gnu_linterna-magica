@@ -204,12 +204,14 @@ function (position_name, match_site, data)
 {
     var self = this;
 
-    var debug_level  =  5;
+    var debug_level  =  6;
 
-    if (position_name == "process_cookies")
+    if (position_name == "process_cookies" ||
+	position_name == "extract_object_from_script" || 
+	position_name == "skip_script_processing")
     {
-	// The process_cookies function is called inside a loop and
-	// prints too much information for debug level 5.
+	// These functions are called inside a loop and
+	// prints too much information.
 	debug_level = 7;
     }
 
