@@ -27,25 +27,19 @@
 
 // END OF LICENSE HEADER
 
-LinternaMagica.prototype.sites["clipovete.com"] = new Object();
+LinternaMagica.prototype.sites["mqsto.com"] = new Object();
 
 // Reference
-LinternaMagica.prototype.sites["www.clipovete.com"] = "clipovete.com";
+LinternaMagica.prototype.sites["www.mqsto.com"] = "mqsto.com";
 
-LinternaMagica.prototype.sites["clipovete.com"].set_video_link_regex =
-function()
+LinternaMagica.prototype.sites["mqsto.com"].process_extracted_link =
+function(link)
 {
-    var result = new Object();
-    result.link_re =  new RegExp (
-	"\\\&video=(.*)\\\&(video_id)=(.*)",
-	"i");
+    // Must be just the path part othe link
+    if (!/^http/i.test(link))
+    {
+	link = "http://mqsto\.com/video/"+link;
+    }
 
-    result.link_position = 3;
-
-    return result;
-}
-
-LinternaMagica.prototype.sites["clipovete.com"].process_extracted_link = function(link)
-{
-    return  "http://storage.puiako.com/clipovete.com/videos/"+link +".flv";
+    return link;
 }

@@ -77,66 +77,18 @@ LinternaMagica.prototype.extract_link = function()
     {
 	link = unescape(link[link.length-link_position]);
 
-	// Used in Metacafe. Unescape is not helping.
+	// Used in Metacafe. Unescape is not helping. Small and not
+	// significant to be exported in src/lm_site_metacafe.js
 	link = link.replace(/\\\//g, "/");
 
-	if (/facebook\.com/i.test(window.location.hostname))
-	{
-	    // For som reason they use Unicode escape character, that
-	    // could not be converted by decodeURIComponent or
-	    // unescape directly. This workaround might break
-	    // non-ASCII strings in the link
-	    link = unescape(link.replace(/\\u0025/g, "%"));
-	}
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "process_extracted_link",
+	    window.location.hostname, link]);
 
-	if (/metacafe\.com/i.test(window.location.hostname))
+	if (val && typeof(val) != "boolean")
 	{
-	    if (/flv/i.test(link))
-	    {
-		link = link.replace(/&gdaKey/i, "?__gda__");
-	    }
-	    else
-	    {
-		var key_re = new RegExp(
-		    link.slice(link.length-15).replace(/\\\./g,"\\\\\\.")+
-			"\\\"\\\,\\\"key\\\"\\\:\\\"([0-9A-Za-z\\\_]+)\\\"",
-		    "i");
-		var key = unescape(data).match(key_re);
-
-		// Set the key
-		link = link+"?__gda__="+key[key.length-1];
-	    }
-
-	    // Escape. We cannot use escape()
-	    // because it will break the link and we have to
-	    // fix manualy characters like = : ?
-	    link = link.replace("[", "%5B").
-		replace(" ", "%20").replace("]", "%5D");
-	}
-
-	if (/clipovete\.com/i.test(window.location.hostname))
-	{
-	    link =  "http://storage.puiako.com/clipovete.com/videos/"+
-		link +".flv";
-	}
-
-	// The link is not a full path and is missing a slash.
-	if (/tv7\.bg/i.test(window.location.hostname))
-	{
-	    link = "/"+link;
-	}
-	
-	// Must be just the path part othe link
-	if (/mqsto\.com/i.test(window.location.hostname) &&
-	    !/^http/i.test(link))
-	{
-	    link = "http://mqsto\.com/video/"+link;
-	}
-
-	// The link is not full path
-	if (/friends\.bg/i.test(window.location.hostname))
-	{
-	    link = "/files/video/flv/"+link;
+	    link = val;
 	}
 
 	// Amps are not required everywhere
@@ -163,11 +115,6 @@ LinternaMagica.prototype.extract_link = function()
 	    // Abrowser/Firefox is not loading i-kat.org link
 	    // with two slashes. Strange.
 	    link = link.replace(/[^:]\/\//, "/");
-	}
-
-	if (/ted\.com/i.test(window.location.hostname))
-	{
-	    link = this.create_tedcom_link(link);
 	}
 
 	this.log("LinternaMagica.extract_link:\n"+

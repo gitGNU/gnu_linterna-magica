@@ -179,11 +179,15 @@ LinternaMagica.prototype.sites.__set_video_link_regex = function()
     return true;
 }
 
+// Make some changes to or fix/clean an extracted link.
+LinternaMagica.prototype.sites.__process_extracted_link = function(link)
+{
+    return true;
+}
 
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
-// LinternaMagica.prototype.sites.__extract_video_link_match
 // LinternaMagica.prototype.sites.__match_for_video_link
 // LinternaMagica.prototype.sites.__keep_amps_in_video_link
 // LinternaMagica.prototype.sites.__process_plugin_install_warning

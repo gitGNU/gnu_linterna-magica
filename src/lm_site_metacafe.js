@@ -27,25 +27,38 @@
 
 // END OF LICENSE HEADER
 
-LinternaMagica.prototype.sites["clipovete.com"] = new Object();
+LinternaMagica.prototype.sites["metacafe.com"] = new Object();
 
 // Reference
-LinternaMagica.prototype.sites["www.clipovete.com"] = "clipovete.com";
+LinternaMagica.prototype.sites["www.metacafe.com"] = "metacafe.com";
 
-LinternaMagica.prototype.sites["clipovete.com"].set_video_link_regex =
-function()
+LinternaMagica.prototype.sites["metacafe.com"].process_extracted_link =
+function(link)
 {
-    var result = new Object();
-    result.link_re =  new RegExp (
-	"\\\&video=(.*)\\\&(video_id)=(.*)",
-	"i");
+    // It is set in the extract_link() function.
+    var data = this.extract_link_data;
 
-    result.link_position = 3;
+    if (/flv/i.test(link))
+    {
+	link = link.replace(/&gdaKey/i, "?__gda__");
+    }
+    else
+    {
+	var key_re = new RegExp(
+	    link.slice(link.length-15).replace(/\\\./g,"\\\\\\.")+
+		"\\\"\\\,\\\"key\\\"\\\:\\\"([0-9A-Za-z\\\_]+)\\\"",
+	    "i");
+	var key = unescape(data).match(key_re);
 
-    return result;
-}
+	// Set the key
+	link = link+"?__gda__="+key[key.length-1];
+    }
 
-LinternaMagica.prototype.sites["clipovete.com"].process_extracted_link = function(link)
-{
-    return  "http://storage.puiako.com/clipovete.com/videos/"+link +".flv";
+    // Escape. We cannot use escape()
+    // because it will break the link and we have to
+    // fix manualy characters like = : ?
+    link = link.replace("[", "%5B").
+	replace(" ", "%20").replace("]", "%5D");
+
+    return link;
 }

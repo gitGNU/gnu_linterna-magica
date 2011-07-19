@@ -162,3 +162,10 @@ function()
 
     return true;
 }
+
+LinternaMagica.prototype.sites["ted.com"].process_extracted_link =
+function(link)
+{
+    link = this.create_tedcom_link(link);
+    return link;
+}

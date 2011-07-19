@@ -113,3 +113,15 @@ function()
 
     return result;
 }
+
+LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function(link)
+{
+    // For some reason they use Unicode escape character, that
+    // could not be converted by decodeURIComponent or
+    // unescape directly. This workaround might break
+    // non-ASCII strings in the link
+    link = unescape(link.replace(/\\u0025/g, "%"));
+
+    return link;
+}
+

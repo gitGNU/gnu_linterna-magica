@@ -27,25 +27,19 @@
 
 // END OF LICENSE HEADER
 
-LinternaMagica.prototype.sites["clipovete.com"] = new Object();
+LinternaMagica.prototype.sites["tv7.bg"] = new Object();
 
 // Reference
-LinternaMagica.prototype.sites["www.clipovete.com"] = "clipovete.com";
+LinternaMagica.prototype.sites["www.tv7.bg"] = "tv7.bg";
 
-LinternaMagica.prototype.sites["clipovete.com"].set_video_link_regex =
-function()
+LinternaMagica.prototype.sites["tv7.bg"].process_extracted_link =
+function(link)
 {
-    var result = new Object();
-    result.link_re =  new RegExp (
-	"\\\&video=(.*)\\\&(video_id)=(.*)",
-	"i");
+    // The link is not a full path and is missing a slash.
+    if (!/^http/i.test(link))
+    {
+	link = "/"+link;
+    }
 
-    result.link_position = 3;
-
-    return result;
-}
-
-LinternaMagica.prototype.sites["clipovete.com"].process_extracted_link = function(link)
-{
-    return  "http://storage.puiako.com/clipovete.com/videos/"+link +".flv";
+    return link;
 }

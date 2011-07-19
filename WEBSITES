@@ -94,6 +94,9 @@ http://www.arenamedia.net
 http://www.screen.bg
 http://www.crazy.bg
 http://www.friends.bg
+    - Only front page and logo are displayed.
+    - Site specific code support dropped in r141 (branch task-11216)
+      after framework changes.
 http://www.vboxbg.net/
 
 Web sites that use one of the following JavaScript libraries to create
