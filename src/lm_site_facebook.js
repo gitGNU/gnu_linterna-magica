@@ -125,3 +125,6 @@ LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function
     return link;
 }
 
+// Reference. Just returns false
+LinternaMagica.prototype.sites["facebook.com"].
+    do_not_clean_amps_in_extracted_link = "video.google.com";

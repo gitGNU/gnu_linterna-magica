@@ -91,19 +91,12 @@ LinternaMagica.prototype.extract_link = function()
 	    link = val;
 	}
 
-	// Amps are not required everywhere
-	var keep_amp_in_hosts_re = new RegExp (
-	    // Will match com de etc.
-	    "video\\\.google\\\.|"+
-		".*facebook\\\.",
-	    // this used to be cleared. now the logic is reverse
-	    // "i-kat\\\.org|video\\\.fensko\\\.com|mqsto\\\.com"+
-	    // 	"|fun-6\\\.com|videoclipsdump\\\.com|boomclips\\\.com"+
-	    // 	"|lucidclips\\\.com|reuters\\\.com|failo\\\.bg|5min\\\.com|"+
-	    // 	"mediashare\\\.bg|ted\\\.com",
-	    "i");
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "do_not_clean_amps_in_extracted_link",
+	    window.location.hostname]);
 
-	if (!keep_amp_in_hosts_re.exec(window.location.hostname))
+	if (val)
 	{
 	    // The parameters are for the player and with them the
 	    // video is no accessible
@@ -113,9 +106,21 @@ LinternaMagica.prototype.extract_link = function()
 		     " Link split at the first ampersand",3);
 
 	    // Abrowser/Firefox is not loading i-kat.org link
-	    // with two slashes. Strange.
+	    // with two slashes. Strange!
 	    link = link.replace(/[^:]\/\//, "/");
 	}
+
+	// // Amps are not required everywhere
+	// var keep_amp_in_hosts_re = new RegExp (
+	//     // Will match com de etc.
+	//     "video\\\.google\\\.|"+
+	// 	".*facebook\\\.",
+	//     // this used to be cleared. now the logic is reverse
+	//     // "i-kat\\\.org|video\\\.fensko\\\.com|mqsto\\\.com"+
+	//     // 	"|fun-6\\\.com|videoclipsdump\\\.com|boomclips\\\.com"+
+	//     // 	"|lucidclips\\\.com|reuters\\\.com|failo\\\.bg|5min\\\.com|"+
+	//     // 	"mediashare\\\.bg|ted\\\.com",
+	//     "i");
 
 	this.log("LinternaMagica.extract_link:\n"+
 		 " Extracted link: "+link,1);

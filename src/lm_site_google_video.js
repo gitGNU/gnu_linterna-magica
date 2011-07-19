@@ -45,3 +45,11 @@ function()
 
     return result;
 }
+
+LinternaMagica.prototype.sites["video.google.com"].
+    do_not_clean_amps_in_extracted_link =
+function()
+{
+    // Just return false (reverse logic)
+    return false;
+}

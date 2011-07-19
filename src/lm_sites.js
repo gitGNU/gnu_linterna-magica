@@ -185,6 +185,16 @@ LinternaMagica.prototype.sites.__process_extracted_link = function(link)
     return true;
 }
 
+// Extracted links have ampersands (&) in them which are usually
+// parameters for the flash player. Some sites need them. When this
+// function returns false, the cleaning does not occur. See
+// lm_site_google_video.js
+LinternaMagica.prototype.sites.__do_not_clean_amps_in_extracted_link =
+function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
