@@ -35,11 +35,11 @@ LinternaMagica.prototype.create_tedcom_link = function(relative_link)
     {
 	// Clean the junk
 	relative_link = relative_link.replace(/ms|hs|ls/,"").
-	    replace(/\"/g,"").replace(":","").replace("=","").
-	    replace(",","");
+	    replace(/\"/g,"").replace("mp4:","").replace(":","").
+	    replace("=","").replace(",","");
 
-	var link = "http://video.ted.com/"+
-	    relative_link;
+	var link = "http://video.ted.com/"+relative_link;
+
 	return link;
     }
 
@@ -49,7 +49,8 @@ LinternaMagica.prototype.create_tedcom_link = function(relative_link)
 LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 {
     var links_re = new RegExp (
-	"(?:\\\&)*\\\w{2}(\\\=|\\\:)*\\\s*(\\\"|\\\')*(.*\\\.flv)(\\\&|\\\",$)",
+	"(?:\\\&)*\\\w{2}(\\\=|\\\:)*\\\s*(\\\"|\\\')*"+
+	    "(.*\\\.(flv|mp4))(\\\&|\\\",$)",
 	"img");
 
     var links = unescape(data).match(links_re);
@@ -81,7 +82,7 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	var link = new Object();
 
 	link.url = this.create_tedcom_link(links[lnk]);
-	var label = link.url.match(/-(\w+)\.flv/);
+	var label = link.url.match(/-(\w+)\.(flv|mp4)/);
 
 	// Make some labels just in case the match does not work
 	if (!label)
@@ -92,7 +93,7 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	{
 	    // Capitalize the first letter because it is all lowercase
 	    // (Low/Hight/Medium)
-	    label = label[label.length-1];
+	    label = label[label.length-2];
 	    label = label.slice(0,1).toUpperCase() + label.slice(1);
 	}
 
@@ -140,7 +141,7 @@ function(data)
 }
 
 LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_script_if_link =
-    function()
+function()
 {
     var data = this.extract_link_data;
 
