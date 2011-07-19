@@ -36,82 +36,46 @@ LinternaMagica.prototype.extract_link = function()
     }
 
     var data = this.extract_link_data;
+
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"set_video_link_regex",
+	window.location.hostname]);
+
+
     var link_re = null;
+    var link_position = null;
 
-
-    if (/facebook\.com/i.test(window.location.hostname))
+    if (val && typeof(val) != "boolean")
     {
-	// Found DOM object
-	if (!this.script_data)
-	{
-	    link_re = new RegExp (
-		"thumb_url=(.*)&video_src=(.*)&(motion_log)=(.*)",
-		"i");
-	}
-	// Extracting from script
-	else
-	{
-	    link_re = new RegExp (
-		"addVariable\\\((\\\"|\\\')video_src(\\\"|\\\'),\\\s*"+
-		    "(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\')(\\\))\\\;{1}",
-		"i");
-	}
-    }
-    // Reuters
-    else if (/reuters\.com/i.test(window.location.hostname))
-    {
-	link_re = new RegExp (
-	    "videoURL=(.*)(\\\&{1})(.*)",
-	"i");
-    }
-    // Will match com,de,es, jp etc.
-    else if (/video\.google\./i.test(window.location.hostname))
-    {
-	link_re = new RegExp (
-	    "videourl=(.*)\\\&(thumbnailurl)=(.*)" ,
-	    "i");
+	link_re = val.link_re;
+	link_position = val.link_position;
     }
     else
     {
-	// FIXME: Regular expressions need rework to match
-	// flv|mp4|other|something_else|...mp3|audio
-	// 26.02.2011 added streamer| before |file. Fixes
-	// jwak.net. The file part matches resource on 8081 port which
-	// is not accessible.
 	link_re = new RegExp (
 	    "\\\{{0}.*(video|flv_ur|streamer|file|moviepath|videourl|"+
-		"mediaurl|sdurl|videopath|flv|url|ms|nextmovie|flvaddress)"+
+		"mediaurl|sdurl|videopath|flv|url|ms|"+
+		"nextmovie|flvaddress)"+
 		"(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
-		(/clipovete\.com/i.test(window.location.hostname)
-		 ? "(.*)\\\&(video_id)=(.*)" :
 	  	 "(.*\\\."+
-		 // Metacafe switched to mp4 for some videos.
-		 // FIXME: We need a general way to match mp4 and other stuff
-		 (/metacafe\.com/i.test(window.location.hostname) ?
-		  "(mp4|flv)" :"flv")+"((\\\?|\\\&)?\\\w+\\\=[A-Za-z0-9_\\\-]+"+
-		 "\\\&?)*)(?!\\\.)"),
+		"(flv|mp4)"+ // Add other extensions here
+		"((\\\?|\\\&)?\\\w+\\\=[A-Za-z0-9_\\\-]+"+
+		"\\\&?)*)(?!\\\.)",
 	    "i");
+    }
+
+    if (link_position == null ||
+	typeof(link_position) == "undefined")
+    {
+	link_position = 4;
     }
 
     var link = unescape(data).match(link_re);
 
-    // Extra debug for metacafe, because it changes often
-    if (/metacafe\.com/i.test(window.location.hostname))
+    if (link && link[link.length-link_position])
     {
-    	this.log("LinternaMagica.extract_link:\n"+
-    		 "Unescaped metacafe.com data: "+unescape(data),5);
-    }
-
-    if (link && link[link.length-3])
-    {
-	if (!/metacafe\.com/i.test(window.location.hostname))
-	{
-	    link = unescape(link[link.length-3]);
-	}
-	else
-	{
-	    link = unescape(link[link.length-4]);
-	}
+	link = unescape(link[link.length-link_position]);
 
 	// Used in Metacafe. Unescape is not helping.
 	link = link.replace(/\\\//g, "/");

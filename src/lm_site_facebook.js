@@ -85,3 +85,31 @@ function(object_data)
 
     return false;
 }
+
+LinternaMagica.prototype.sites["facebook.com"].set_video_link_regex =
+function()
+{
+    var result = new Object();
+
+    // Found DOM object
+    if (!this.script_data)
+    {
+	result.link_re = new RegExp (
+	    "thumb_url=(.*)&video_src=(.*)&(motion_log)=(.*)",
+	    "i");
+
+	result.link_position = 3;
+    }
+    // Extracting from script
+    else
+    {
+	result.link_re = new RegExp (
+	    "addVariable\\\((\\\"|\\\')video_src(\\\"|\\\'),\\\s*"+
+		"(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\')(\\\))\\\;{1}",
+	    "i");
+
+	result.link_position = 3;
+    }
+
+    return result;
+}

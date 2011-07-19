@@ -172,10 +172,17 @@ function(object_data)
     return true;
 }
 
+// Force/set the regular expression used to extract video links to
+// site specific value. Overrides the default one.
+LinternaMagica.prototype.sites.__set_video_link_regex = function()
+{
+    return true;
+}
+
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
-// LinternaMagica.prototype.sites.__extract_video_link_regex
 // LinternaMagica.prototype.sites.__extract_video_link_match
 // LinternaMagica.prototype.sites.__match_for_video_link
 // LinternaMagica.prototype.sites.__keep_amps_in_video_link
