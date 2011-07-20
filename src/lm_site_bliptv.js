@@ -89,3 +89,22 @@ LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
     this.create_video_object(object_data);
 }
 
+LinternaMagica.prototype.sites["blip.tv"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.blip.tv"] = "blip.tv";
+
+LinternaMagica.prototype.sites["blip.tv"].set_video_id_regex = function()
+{
+    var result = new Object();
+
+    result.video_id_re = new RegExp(
+	"blip\\\.tv\\\/(play|rss\\\/flash)\\\/([0-9A-Za-z_%-]+)&*",
+	"i");
+
+    // Captured video_id position from left to right. Will be
+    // subtracted from the matched arrays's lenght;
+    result.videoid_position = 1;
+
+    return result;
+}

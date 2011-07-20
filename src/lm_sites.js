@@ -195,6 +195,13 @@ function()
     return true;
 }
 
+// Force/set the regular expression used to extract video id to
+// site specific value. Overrides the default one.
+LinternaMagica.prototype.sites.__set_video_id_regex = function()
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
