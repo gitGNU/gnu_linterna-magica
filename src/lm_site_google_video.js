@@ -42,7 +42,6 @@ LinternaMagica.prototype.sites["video.google.nl"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.pl"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.es"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.co.uk"] = "video.google.com";
-LinternaMagica.prototype.sites["video.google.com"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.com.ar"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.ru"] = "video.google.com";
 
