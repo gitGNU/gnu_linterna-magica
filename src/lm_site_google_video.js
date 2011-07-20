@@ -29,8 +29,22 @@
 
 LinternaMagica.prototype.sites["video.google.com"] = new Object();
 
-// Reference
-LinternaMagica.prototype.sites["www.video.google.com"] = "video.google.com";
+// References to al Google Video domains
+// http://en.wikipedia.org/wiki/Google_Videos#International
+LinternaMagica.prototype.sites["video.google.com.au"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.com.br"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.ca"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.cn"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.fr"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.de"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.it"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.nl"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.pl"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.es"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.co.uk"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.com"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.com.ar"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.ru"] = "video.google.com";
 
 LinternaMagica.prototype.sites["video.google.com"].set_video_link_regex =
 function()
