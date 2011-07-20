@@ -235,11 +235,16 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	    }
 	    else if (object_data.video_id)
 	    {
-		if (!/blip\.tv/i.test(window.location.hostname) &&
-			 ((object.hasAttribute('src') &&
-			  /blip\.tv/i.test(object.getAttribute('src'))) ||
-			 (object.hasAttribute('data') && 
-			  /blip\.tv/i.test(object.getAttribute('data')))))
+		if ((!/blip\.tv/i.test(window.location.hostname) &&
+		     ((object.hasAttribute('src') &&
+		       /blip\.tv/i.test(object.getAttribute('src'))) ||
+		      (object.hasAttribute('data') && 
+		       /blip\.tv/i.test(object.getAttribute('data'))))) || 
+		    (/blip\.tv/i.test(window.location.hostname) && 
+		     ((object.hasAttribute('src') &&
+		       /blip\.tv\/play/i.test(object.getAttribute('src'))) ||
+		      (object.hasAttribute('data') && 
+		       /blip\.tv\/play/i.test(object.getAttribute('data'))))))
 		{
 		    this.request_bliptv_jsonp_data(object_data);
 		}
