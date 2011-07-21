@@ -102,7 +102,6 @@ LinternaMagica.prototype.remove_plugin_install_warning = function(element)
 
 		// video.fensko.com has ancor and text node that share
 		// the text. Leaving it is just irritating
-
 		if (/^a$/i.test(node.localName) &&
 		    node.nextSibling &&
 		    node.nextSibling.nodeType === 3 &&
@@ -121,29 +120,30 @@ LinternaMagica.prototype.remove_plugin_install_warning = function(element)
 	    }
 	}
 
-	// FIXME Temporary fix for Blip.tv. Will replace the HTML5
-	// player, otherwise two are visible.  14.06.2011 With the
-	// changes in Blip.tv design and logic, I am unable to find
-	// how to turn HTML5 and test this. I always get the flash
-	// player.
-	if (/blip\.tv/i.test(window.location.hostname))
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "plugin_install_warning_loop",
+	    window.location.hostname, node]);
+
+	if (val && typeof(val) != "boolean")
 	{
-	    if (node.parentNode)
-	    {
-	    	node.parentNode.removeChild(node);
-	    }
+	    // Useless for now. The place where it is used
+	    // (lm_site_bliptv.js) just removes the node on condition. 
+	    node = val;
 	}
-	
+
 	node = new_node;
     }
 
-    // Not a plugin warning, but the best place for this. Remove div
-    // element blocking the new object.
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"plugin_install_warning",
+	window.location.hostname, node]);
 
-    if (/clipovete\.com/i.test(window.location.hostname))
+    if (val && typeof(val) != "boolean")
     {
-	var ads = document.getElementById('ads_video');
-	if (ads)
-	    ads.parentNode.removeChild(ads);
+	// Useless for now. The place where it is used
+	// (lm_site_clipovetecom.js) does not change the node.
+	node = val;
     }
 }

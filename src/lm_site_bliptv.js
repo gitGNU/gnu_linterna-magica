@@ -108,3 +108,20 @@ LinternaMagica.prototype.sites["blip.tv"].set_video_id_regex = function()
 
     return result;
 }
+
+LinternaMagica.prototype.sites["blip.tv"].plugin_install_warning_loop =
+function(node)
+{
+    // FIXME Temporary fix for Blip.tv. Will replace the HTML5
+    // player, otherwise two are visible.  14.06.2011 With the
+    // changes in Blip.tv design and logic, I am unable to find
+    // how to turn HTML5 and test this. I always get the flash
+    // player.
+    if (node.parentNode)
+    {
+        node.parentNode.removeChild(node);
+    }
+
+    return null;
+}
+

@@ -49,3 +49,17 @@ LinternaMagica.prototype.sites["clipovete.com"].process_extracted_link = functio
 {
     return  "http://storage.puiako.com/clipovete.com/videos/"+link +".flv";
 }
+
+LinternaMagica.prototype.sites["blip.tv"].plugin_install_warning =
+function(node)
+{
+    // Not a plugin warning, but the best place for this. Remove div
+    // element blocking the new object.
+    var ads = document.getElementById('ads_video');
+    if (ads)
+    {
+    	ads.parentNode.removeChild(ads);
+    }
+
+    return null;
+}

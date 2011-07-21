@@ -202,12 +202,28 @@ LinternaMagica.prototype.sites.__set_video_id_regex = function()
     return true;
 }
 
+// Execute at the end of the code that removes text and image warnings
+// about missing flash plugin. See
+// lm_site_clipovetecom.js:plugin_install_warning.
+LinternaMagica.prototype.sites.__plugin_install_warning = function(node)
+{
+    return true;
+}
+
+// Run code before changing the checked DOM node to the next one in
+// the loop that removes text and image warnings about missing flash
+// plugin. See lm_site_bliptv.js:plugin_install_warning_loop
+LinternaMagica.prototype.sites.__plugin_install_warning_loop =
+function(node)
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex
 // LinternaMagica.prototype.sites.__match_for_video_link
 // LinternaMagica.prototype.sites.__keep_amps_in_video_link
-// LinternaMagica.prototype.sites.__process_plugin_install_warning
 // LinternaMagica.prototype.sites.__prepare_xhr
 // LinternaMagica.prototype.sites.__process_xhr_responce
 // LinternaMagica.prototype.sites.__insert_object_after_xhr
