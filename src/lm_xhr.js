@@ -69,108 +69,17 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	return null;
     }
 
-    if (/vbox7\.com/i.test(host))
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"prepare_xhr",
+	host, object_data]);
+
+    if (val && typeof(val) != "boolean")
     {
-	address ="/play/magare.do";
-	method = "POST";
-	data = "vid="+video_id;
-	content= "application/x-www-form-urlencoded";
-    }
-
-    if (/vimeo\.com/i.test(host))
-    {
-	address = "/moogaloop/load/clip:"+video_id;
-
-	// Remove cookies and fetch page again. See "A note on
-	// cookies".
-	// this.extract_cookies();
-	// this.expire_cookies();
-    }
-
-    if (/4videosharing\.com/i.test(host))
-    {
-	address = "/player/vConfig.php?vkey="+video_id;
-    }
-
-    // We should not be entering here anyway. It seems most objects
-    // have the mediaURL variable)
-    // if (/metacafe\.com/i.test(host))
-    // {
-    // 	address = "/fplayer.php?itemID="+video_id+"&t=embedded";
-    // }
-
-    if (/vbox\.bg/i.test(host))
-    {
-	address = "/extras/player/play.php?id="+video_id;
-    }
-
-    if (/boozho\.com/i.test(host))
-    {
-	address = "/player_playlist.php?v="+video_id;
-    }
-
-    // We have two options:
-    // 1) Use address http://embed.vidoemo.com/player/vidoemo4.php?id=
-    // and extract the flv link, then change &f= parameter fo HD links
-    // 2) Use address http://www.vidoemo.com/videodownload.php?e=
-    // and extract all links and use the FLV (if match as main link)
-    // Links differ in key and path (v3.php -dw  /v7.php -play)
-    if (/vidoemo\.com/i.test(host))
-    {
-	// Using option 2
-	address = "/videodownload.php?e="+video_id;
-    }
-
-    if (/youtube\.com/i.test(host) || 
-	/youtube-nocookie\.com/i.test(host))
-    {
-	var uri_args = null;
-	// Some clips require &skipcontrinter=1. Other might require
-	// something else.
-	if (/&/i.test(location_href))
-	{
-	    uri_args = location_href.split(/&/);
-	    // This is the host and path (http://...). We do not need
-	    // it.
-	    delete uri_args[0];
-	    uri_args = uri_args.join("&");
-	}
-
-	address = "/watch?v="+video_id +(uri_args ? ("&"+uri_args) : "");
-
-	// Remove cookies and fetch page again. See "A note on
-	// cookies".
-	this.extract_cookies();
-	this.expire_cookies();
-    }
-
-    if (/myvideo\.de/i.test(host))
-    {
-	address = "/watch/"+video_id+"/";
-    }
-
-    if (/dailymotion\.com/i.test(host))
-    {
-	this.extract_cookies();
-	this.expire_cookies();
-	// Forced this way! See lm_extract_dom_objects.js
-	// LinternaMagica.extract_objects_from_dom();
-	address = object_data.video_id;
-    }
-
-    if (/videoclipsdump\.com/i.test(host))
-    {
-	address = "/player/cbplayer/settings.php?vid="+video_id;
-    }
-
-    if (/theonion\.com/i.test(host))
-    {
-	address = "/ajax/onn/embed/"+video_id+".json";
-    }
-
-    if (/blip\.tv/i.test(host))
-    {
-	address="/rss/flash/"+video_id;
+	address = val.address ? val.address : address ;
+	method = val.method ? val.method : method;
+	data = val.data ? val.data : data;
+	content = val.content ? val.content : content;
     }
 
     var self = this;
@@ -186,7 +95,11 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	return null;
     }
 
-    address = protocol+"//"+host+address;
+    // Only set the address if it is relative
+    if (!/^http/i.test(address))
+    {
+	address = protocol+"//"+host+address;
+    }
 
     client.open(method,address ,true);
 

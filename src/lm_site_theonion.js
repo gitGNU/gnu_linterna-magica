@@ -156,3 +156,12 @@ function()
     return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
 }
 
+LinternaMagica.prototype.sites["theonion.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/ajax/onn/embed/"+object_data.video_id+".json";
+
+    return result;
+}

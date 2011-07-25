@@ -121,3 +121,19 @@ function()
 
     return window.location.pathname;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    // The video_id is forced to an address. See
+    // LinternaMagica.prototype.sites["dailymotion.com"].
+    // libswfobject_skip_video_id_extraction
+    result.address = object_data.video_id;
+
+    this.extract_cookies();
+    this.expire_cookies();
+
+    return result;
+}

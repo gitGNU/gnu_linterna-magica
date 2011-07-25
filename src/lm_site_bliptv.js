@@ -125,3 +125,14 @@ function(node)
     return null;
 }
 
+LinternaMagica.prototype.sites["blip.tv"].prepare_xhr =
+function(object_data)
+{
+    // Will be called if (when) blip.tv changes the code they use to
+    // embed clips in blip.tv. Now the JSONP method is used.
+    var result= new Object();
+
+    result.address = "/rss/flash/"+object_data.video_id;
+
+    return result;
+}

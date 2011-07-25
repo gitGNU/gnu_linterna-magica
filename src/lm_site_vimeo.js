@@ -146,3 +146,18 @@ LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = functio
 
     return null;
 }
+
+LinternaMagica.prototype.sites["vimeo.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/moogaloop/load/clip:"+object_data.video_id;
+    
+    // Remove cookies and fetch page again. See "A note on
+    // cookies".
+    // this.extract_cookies();
+    // this.expire_cookies();
+
+    return result;
+}

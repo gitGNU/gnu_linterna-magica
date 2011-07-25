@@ -350,3 +350,32 @@ function()
     return false;
 }
 
+LinternaMagica.prototype.sites["youtube.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    var location_href = window.location.href;
+
+    var uri_args = null;
+    // Some clips require &skipcontrinter=1. Other might require
+    // something else.
+    if (/&/i.test(location_href))
+    {
+	uri_args = location_href.split(/&/);
+	// This is the host and path (http://...). We do not need
+	// it.
+	delete uri_args[0];
+	uri_args = uri_args.join("&");
+    }
+
+    result.address = "/watch?v="+object_data.video_id+
+	(uri_args ? ("&"+uri_args) : "");
+
+    // Remove cookies and fetch page again. See "A note on
+    // cookies".
+    this.extract_cookies();
+    this.expire_cookies();
+
+    return result;
+}

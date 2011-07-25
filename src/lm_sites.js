@@ -219,6 +219,25 @@ function(node)
     return true;
 }
 
+// Returns the data needed to fetch a resource that has the video url.
+// Returned object 
+// {
+//     // The URL can be relative to the window.location.host. (required)
+//     address: string,
+//     // The method to be used for the request. (optional)
+//     methog: string,
+//     // The data to be send with the with the xhr.send() request :
+//     // xrh.send(data) (optional)
+//     data: string,
+//     // The Content-Type header to be used for the request. (optional)
+//     content: string,
+// }
+LinternaMagica.prototype.sites.__prepare_xhr = function(object_data)
+{
+    return false;
+}
+
+
 // LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
 // LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
 // LinternaMagica.prototype.sites.__extract_swfobject_regex

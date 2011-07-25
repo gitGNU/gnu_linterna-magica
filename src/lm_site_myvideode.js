@@ -92,3 +92,13 @@ function(object_data)
 
     return object_data ;
 }
+
+LinternaMagica.prototype.sites["myvideo.de"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/watch/"+object_data.video_id+"/";
+
+    return result;
+}
