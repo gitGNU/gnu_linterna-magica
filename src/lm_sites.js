@@ -255,6 +255,15 @@ function(args)
     return true;
 }
 
+// Run a function when duplicate object is found (being already processed)
+// before XHR.  The return value does not really matter. The caller
+// function returns null after executing this code.
+LinternaMagica.prototype.sites.__process_duplicate_object_before_xhr =
+function(object_data)
+{
+    return true;
+}
+
 // LinternaMagica.prototype.sites.__insert_object_after_xhr
 
 // Check if site specific config and function exists and call it. If

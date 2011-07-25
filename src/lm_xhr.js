@@ -56,15 +56,11 @@ LinternaMagica.prototype.request_video_link = function(object_data)
 	this.log("LinternaMagica.request_video_link:\n"+
 		 "Video with id  "+video_id+
 		 " is being processed. Skipping this request."+host,1);
-	if (/youtube\.com/i.test(window.location.hostname) ||
-	    /youtube-nocookie\.com/i.test(window.location.hostname))
-	{
-	    this.log("LinternaMagica.request_video_link:\n"+
-		     "Removing/hiding duplicate object ",1);
 
-	    this.hide_flash_video_object(object_data.linterna_magica_id,
-					 object_data.parent);
-	}
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "process_duplicate_object_before_xhr",
+	    host, object_data]);
 
 	return null;
     }

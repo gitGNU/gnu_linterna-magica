@@ -401,3 +401,16 @@ function(args)
 
     return object_data;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].
+    process_duplicate_object_before_xhr =
+function(object_data)
+{
+    this.log("LinternaMagica.sites.process_duplicate_object_before_xhr:\n"+
+	     "Removing/hiding duplicate object ",1);
+
+    this.hide_flash_video_object(object_data.linterna_magica_id,
+				 object_data.parent);
+
+    return false;
+}
