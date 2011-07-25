@@ -225,3 +225,28 @@ function(args)
 
     return object_data;
 }
+
+LinternaMagica.prototype.sites["vimeo.com"].insert_object_after_xhr =
+function(object_data)
+{
+
+    // Just return true and let the default code do its job. A special
+    // attention is needed when no plugin is installed.
+    if (this.plugin_is_installed)
+    {
+	return true;
+    }
+    
+    if (!this.vimeo_browser_upgrade_timeout)
+    {
+	this.vimeo_browser_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+	this.vimeo_browser_upgrade_timeout = setInterval(
+	    function() {
+		self.detect_vimeo_browser_upgrade.apply(self,[data]);
+	    }, 500);
+    }
+
+    return false;
+}

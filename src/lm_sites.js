@@ -264,7 +264,12 @@ function(object_data)
     return true;
 }
 
-// LinternaMagica.prototype.sites.__insert_object_after_xhr
+// Add the replacement object overriding the default code i freturn
+// value is false.
+LinternaMagica.prototype.sites.__insert_object_after_xhr = function(object_data)
+{
+    return true;
+}
 
 // Check if site specific config and function exists and call it. If
 // it doesn't, call the general/default function.  A function returns

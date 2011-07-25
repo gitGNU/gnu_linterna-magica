@@ -100,7 +100,9 @@ LinternaMagica.prototype.request_video_link = function(object_data)
     client.open(method,address ,true);
 
     if (content)
+    {
 	client.setRequestHeader("Content-Type", content);
+    }
 
     client.send(data);
 }
@@ -140,15 +142,12 @@ function(client, object_data)
 	    object_data.mime = mime;
 	}
 
-	// FIXME HTML5 in WebKit switch like for flash plugin ?
-	// In the next release 0.0.10 ?!
-	if (!/youtube\.com/i.test(window.location.host) &&
-	    !/youtube-nocookie\.com/i.test(window.location.host) &&
-	    !/vimeo\.com/i.test(window.location.host) ||
-	    ((/youtube\.com/i.test(window.location.host) ||
-	      /youtube-nocookie\.com/i.test(window.location.host) ||
-	      /vimeo\.com/i.test(window.location.host)) &&
-	     this.plugin_is_installed))
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "insert_object_after_xhr",
+	    host, object_data]);
+
+	if (val)
 	{
 	    this.log("LinternaMagica.request_video_link_parse_response:\n"+
 		     "Removing plugin install warning.",2);
@@ -156,37 +155,6 @@ function(client, object_data)
 	    this.log("LinternaMagica.request_video_link_parse response:\n"+
 		     "Creating video object with url: "+object_data.link,1);
 	    this.create_video_object(object_data)
-	}
-	else if ((/youtube\.com/i.test(window.location.host) ||
-		  /youtube-nocookie\.com/i.test(window.location.host))  &&
-		 ! this.plugin_is_installed)
-	{
-	    if (!this.youtube_flash_upgrade_timeout)
-	    {
-		this.youtube_flash_upgrade_counter = 0;
-		var data = object_data;
-		var self = this;
-		this.youtube_flash_upgrade_timeout =
-		    setInterval(function() {
-			self.detect_youtube_flash_upgrade.
-			    apply(self,[data]);
-		    }, 500);
-	    }
-	}
-	else if (/vimeo\.com/i.test(window.location.host) &&
-		 ! this.plugin_is_installed)
-	{
-	    if (!this.vimeo_browser_upgrade_timeout)
-	    {
-		this.vimeo_browser_upgrade_counter = 0;
-		var data = object_data;
-		var self = this;
-		this.vimeo_browser_upgrade_timeout =
-		    setInterval(function() {
-			self.detect_vimeo_browser_upgrade.
-			    apply(self,[data]);
-		    }, 500);
-	    }
 	}
     }
 }

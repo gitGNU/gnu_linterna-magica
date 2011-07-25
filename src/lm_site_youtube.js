@@ -414,3 +414,28 @@ function(object_data)
 
     return false;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].insert_object_after_xhr =
+function(object_data)
+{
+    // Just return true and let the default code do its job. A special
+    // attention is needed when no plugin is installed.
+    if (this.plugin_is_installed)
+    {
+	return true;
+    }
+
+    if (!this.youtube_flash_upgrade_timeout)
+    {
+	this.youtube_flash_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+
+	this.youtube_flash_upgrade_timeout = setInterval(
+	    function() {
+		self.detect_youtube_flash_upgrade.apply(self,[data]);
+	    }, 500);
+    }
+    
+    return false;
+}
