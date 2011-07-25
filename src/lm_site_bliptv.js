@@ -136,3 +136,41 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["blip.tv"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    var xml = client.responseXML;
+
+    // All the data is available in the XML, but it is not a
+    // good idea to support the site in two places. JSON is
+    // easier. The drawback is two requests.
+    try
+    {
+	var embed_id =
+	    xml.getElementsByTagName("embedLookup");
+
+	// Firefox
+	if (embed_id && typeof(embed_id[0]) == "undefined")
+	{
+	    embed_id = 
+		xml.getElementsByTagName("blip:embedLookup");
+	}
+
+	object_data.video_id = embed_id[0].textContent;
+	this.request_bliptv_jsonp_data(object_data);
+    }
+    catch(e)
+    {
+	this.log("LinternaMagica.prototype.request_video"+
+		 "_link_parse_response:\n"+
+		 "Exception in Blip.tv while parsing XML",1);
+    }
+
+    // Do not process the XHR anymore. The video object will not be
+    // created.
+    return null;
+}

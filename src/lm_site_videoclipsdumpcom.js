@@ -42,3 +42,19 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["videoclipsdump.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+    var xml = client.responseXML;
+    var path = xml.getElementsByTagName("videoPath")[0];
+
+    if (path)
+    {
+	object_data.link = path.getAttribute("value");
+    }
+
+    return object_data;
+}

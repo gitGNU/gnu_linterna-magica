@@ -137,3 +137,68 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    if (!this.plugin_is_installed &&
+	!object_data.linterna_magica_id && 
+	!object_data.parent)
+    {
+	// In Dailymotion the script that creates the flash
+	// object replaces itself. The work around here is to
+	// request the page and process it. 
+
+	// Dailymotion uses pseudo-random ids for some DOM
+	// elements of interest. We replace the body HTML with
+	// the one returned by the XHR. Then scripts are
+	// processed. The script extraction code matches the
+	// correct ID for the parentNode in DOM, that will
+	// hold the video object. The original body is
+	// restored, because some data is missing in the body
+	// data from XHR. After all data is collected, the
+	// parentNode (object_data.parent), where the video
+	// object will be inserted is replaced with the one in
+	// the original body.  Custom function to match the
+	// parent by CSS class is used, because getElementById
+	// does not support regular expressions.
+
+	var body_data = 
+	    client.responseText.split("<body")[1].
+	    replace(/>{1}/,"__SPLIT__").
+	    split("__SPLIT__")[1];
+
+	var body = document.getElementsByTagName("body")[0];
+	var original_body_data = body.innerHTML;
+
+	body.innerHTML = body_data;
+
+	this.script_data = client.responseText;
+	object_data = this.extract_object_from_script_swfobject();
+
+	body.innerHTML = original_body_data;
+
+	object_data.parent = 
+	    this.get_first_element_by_class("dmpi_video_playerv[0-9]+");
+
+	if (!object_data.parent)
+	{
+	    return null;
+	}
+    }
+
+    var hd_links = this.extract_dailymotion_links(client.responseText);
+    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+    object_data.hd_links = hd_links.length ? hd_links : null;
+
+    // See "A note on cookies"
+    if (/restore/i.test(this.process_cookies))
+    {
+	this.restore_cookies();
+    }
+
+    return object_data;
+}

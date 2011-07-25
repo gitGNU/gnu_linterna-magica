@@ -379,3 +379,25 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    var fmt = this.extract_youtube_fmt_parameter(client.responseText);
+    var maps = this.extract_youtube_fmt_url_map(client.responseText);
+
+    var hd_links = this.create_youtube_links(fmt, maps);
+    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+    object_data.hd_links = hd_links.length ? hd_links : null;
+
+    // See "A note on cookies"
+    if (/restore/i.test(this.process_cookies))
+    {
+	this.restore_cookies();
+    }
+
+    return object_data;
+}

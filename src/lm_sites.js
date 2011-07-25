@@ -237,14 +237,24 @@ LinternaMagica.prototype.sites.__prepare_xhr = function(object_data)
     return false;
 }
 
+// Process the XHR response. 
+// Arguments 
+// An object:
+// {
+//     // XHR client object
+//     client: object,
+//     // The object that holds the extracted information about the flash
+//     // object
+//     object_data: object
+// }
+// Return value
+// object_data
+LinternaMagica.prototype.sites.__process_xhr_response =
+function(args)
+{
+    return true;
+}
 
-// LinternaMagica.prototype.sites.__extract_scripts_extract_when // Condition ? DM /ted? 
-// LinternaMagica.prototype.sites.__wait_before_inserting_object_from-script // FB
-// LinternaMagica.prototype.sites.__extract_swfobject_regex
-// LinternaMagica.prototype.sites.__match_for_video_link
-// LinternaMagica.prototype.sites.__keep_amps_in_video_link
-// LinternaMagica.prototype.sites.__prepare_xhr
-// LinternaMagica.prototype.sites.__process_xhr_responce
 // LinternaMagica.prototype.sites.__insert_object_after_xhr
 
 // Check if site specific config and function exists and call it. If

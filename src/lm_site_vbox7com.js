@@ -44,3 +44,14 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["vbox7.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    object_data.link = client.responseText.split("=")[1].replace("&","");
+
+    return object_data;
+}

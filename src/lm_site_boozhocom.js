@@ -40,3 +40,17 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["boozho.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    var xml = client.responseXML;
+
+    var rel_url = xml.getElementsByTagName("movie_path")[0].textContent;
+    object_data.link = "http://www.boozho.com/"+rel_url;
+
+    return object_data;
+}

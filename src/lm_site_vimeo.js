@@ -161,3 +161,67 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["vimeo.com"].process_xhr_response =
+function(args)
+{
+    var object_data = args.object_data;
+    var client = args.client;
+    var xml = client.responseXML;
+
+    var rq_sig = xml.getElementsByTagName("request_signature");
+
+    rq_sig = rq_sig[0].textContent;
+
+    var rq_exp = xml.getElementsByTagName(
+	"request_signature_expires")[0].textContent;
+    var id = xml.getElementsByTagName("video")[0];
+    id= id.getElementsByTagName("nodeId")[0].textContent;
+
+    object_data.link = "http://www.vimeo.com/moogaloop/play/clip:"+
+	id+"/"+rq_sig+"/"+rq_exp+"/?q=sd";
+
+    // Check if there is HD clip
+    var is_hd = xml.getElementsByTagName("isHD");
+    if (is_hd && is_hd[0] && is_hd[0].textContent)
+    {
+	try
+	{
+	    is_hd=parseInt(is_hd[0].textContent);
+	}
+	catch(e)
+	{
+	    is_hd=0;
+	}
+    }
+
+    // HD links support only for clips that have it
+    if (is_hd)
+    {
+	object_data.hd_links = new Array();
+	var hd_link = new Object();
+
+	// Translate?
+	hd_link.label = "Low quality";
+	hd_link.url = object_data.link;
+	object_data.hd_links.unshift(hd_link);
+
+	hd_link = new Object();
+	// Translate?
+	hd_link.label = "High quality";
+	hd_link.url = object_data.link.replace(/q=sd/, "q=hd");
+	object_data.hd_links.unshift(hd_link);
+    }
+
+    // Vimeo web server sends the clips as
+    // video/mp4. totemNarrowSpace plugin (plays video/mp4)
+    // sends custom UA. This prevents the video to load. Must
+    // use video/flv, so totemCone plugin could start and send
+    // UA of the browser.  totemNarrowSpace/QuickTime plugin
+    // have other issues as well. Could be forced to
+    // video/flv, but there is a better fix in
+    // create_video_object();
+    object_data.mime = "video/mp4";
+
+    return object_data;
+}

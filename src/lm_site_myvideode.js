@@ -102,3 +102,24 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["myvideo.de"].process_xhr_response =
+function(args)
+{
+    var object_data = args.object_data;
+    var client = args.client;
+
+    try
+    {
+	var thumb_url = client.responseText.split(/image_src/)[1];
+	thumb_url = thumb_url.split(/\/\>/)[0].split(/\'/)[2];
+
+	object_data.link = this.create_myvideode_link(thumb_url);
+    }
+    catch(e)
+    {
+	return null;
+    }
+
+    return object_data;
+}

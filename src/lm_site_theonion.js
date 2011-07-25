@@ -165,3 +165,16 @@ function(object_data)
 
     return result;
 }
+
+LinternaMagica.prototype.sites["theonion.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+   var onion_data = eval("("+client.responseText+")");
+    object_data.link = onion_data.video_url;
+    this.capture_theonion_clip_change(object_data);
+
+    return object_data;
+}
