@@ -28,8 +28,14 @@
 
 // Support for The Onion dot com
 
+LinternaMagica.prototype.sites["theonion.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.theonion.com"] = "theonion.com";
+
 // Extracts data for the flash object in The Onion dot com from a script
-LinternaMagica.prototype.extract_object_from_script_theonion = function()
+LinternaMagica.prototype.sites["theonion.com"].extract_object_from_script =
+function()
 {
     var player_container = document.getElementById("player_container");
 
@@ -141,3 +147,34 @@ function(event,element,object_data)
     }
 }
 
+LinternaMagica.prototype.sites["theonion.com"].flash_plugin_installed =
+function()
+{
+    // Call the default when no plugin is installed. Examine scripts.
+    this.log("LinternaMagica.sites.flash_plugin_installed:\n",
+	     "Calling default function to extract scripts");
+    return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
+}
+
+LinternaMagica.prototype.sites["theonion.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/ajax/onn/embed/"+object_data.video_id+".json";
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["theonion.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+   var onion_data = eval("("+client.responseText+")");
+    object_data.link = onion_data.video_url;
+    this.capture_theonion_clip_change(object_data);
+
+    return object_data;
+}

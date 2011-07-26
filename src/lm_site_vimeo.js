@@ -27,6 +27,11 @@
 
 // END OF LICENSE HEADER
 
+LinternaMagica.prototype.sites["vimeo.com"] = new Object();
+
+// Reference 
+LinternaMagica.prototype.sites["www.vimeo.com"] = "vimeo.com";
+
 // Detect vimeo browser upgrade warning (no flash & h264) .This is
 // called withing setInterval. It is needed because when the elements
 // with the warning are inserted all our data that has been added
@@ -83,7 +88,7 @@ LinternaMagica.prototype.detect_vimeo_browser_upgrade = function(object_data)
 
 // Extract object data in Vimeo. This makes Firefox and forks to work
 // without plugin and without HTML5 (missing H264)
-LinternaMagica.prototype.extract_object_from_script_vimeo = function()
+LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = function()
 {
     var player_element_re = new RegExp(
 	"player[0-9]+_[0-9]+_element\\\s*=\\\s*"+
@@ -140,4 +145,195 @@ LinternaMagica.prototype.extract_object_from_script_vimeo = function()
     }
 
     return null;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/moogaloop/load/clip:"+object_data.video_id;
+    
+    // Remove cookies and fetch page again. See "A note on
+    // cookies".
+    // this.extract_cookies();
+    // this.expire_cookies();
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].process_xhr_response =
+function(args)
+{
+    var object_data = args.object_data;
+    var client = args.client;
+    var xml = client.responseXML;
+
+    var rq_sig = xml.getElementsByTagName("request_signature");
+
+    rq_sig = rq_sig[0].textContent;
+
+    var rq_exp = xml.getElementsByTagName(
+	"request_signature_expires")[0].textContent;
+    var id = xml.getElementsByTagName("video")[0];
+    id= id.getElementsByTagName("nodeId")[0].textContent;
+
+    object_data.link = "http://www.vimeo.com/moogaloop/play/clip:"+
+	id+"/"+rq_sig+"/"+rq_exp+"/?q=sd";
+
+    // Check if there is HD clip
+    var is_hd = xml.getElementsByTagName("isHD");
+    if (is_hd && is_hd[0] && is_hd[0].textContent)
+    {
+	try
+	{
+	    is_hd=parseInt(is_hd[0].textContent);
+	}
+	catch(e)
+	{
+	    is_hd=0;
+	}
+    }
+
+    // HD links support only for clips that have it
+    if (is_hd)
+    {
+	object_data.hd_links = new Array();
+	var hd_link = new Object();
+
+	// Translate?
+	hd_link.label = "Low quality";
+	hd_link.url = object_data.link;
+	object_data.hd_links.unshift(hd_link);
+
+	hd_link = new Object();
+	// Translate?
+	hd_link.label = "High quality";
+	hd_link.url = object_data.link.replace(/q=sd/, "q=hd");
+	object_data.hd_links.unshift(hd_link);
+    }
+
+    // Vimeo web server sends the clips as
+    // video/mp4. totemNarrowSpace plugin (plays video/mp4)
+    // sends custom UA. This prevents the video to load. Must
+    // use video/flv, so totemCone plugin could start and send
+    // UA of the browser.  totemNarrowSpace/QuickTime plugin
+    // have other issues as well. Could be forced to
+    // video/flv, but there is a better fix in
+    // create_video_object();
+    object_data.mime = "video/mp4";
+
+    return object_data;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].insert_object_after_xhr =
+function(object_data)
+{
+
+    // Just return true and let the default code do its job. A special
+    // attention is needed when no plugin is installed.
+    if (this.plugin_is_installed)
+    {
+	return true;
+    }
+    
+    if (!this.vimeo_browser_upgrade_timeout)
+    {
+	this.vimeo_browser_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+	this.vimeo_browser_upgrade_timeout = setInterval(
+	    function() {
+		self.detect_vimeo_browser_upgrade.apply(self,[data]);
+	    }, 500);
+    }
+
+    return false;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
+{
+    // The thumbnail image overlaps the toggle plugin button after our
+    // changes. This way our button is visible.
+    if (object_data.parent.firstChild)
+    {
+	// The first child should be a div with thumbnail as
+	// background. Reduce it's size so it will not overlap our
+	// button.
+	object_data.parent.firstChild.style.
+	    setProperty("height", parseInt(object_data.height)+"px",
+			"important");
+    }
+
+    // Show HD links list. 
+    object_data.parent.style.
+	setProperty("overflow", "visible", "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("overflow", "visible", "important");
+	
+    // No idea what this fixes.
+    var object_tag = 
+	document.getElementById("linterna-magica-video-object-"+
+				object_data.linterna_magica_id);
+
+    object_tag.style.setProperty("position","relative","important");
+
+    // Fixes the height of the third parent element.  Fixes
+    // replacement object visibility.
+    var third_parent = object_data.parent.parentNode.parentNode;
+
+    if (third_parent)
+    {
+	third_parent.style.setProperty("overflow", "visible",
+				       "important");
+	third_parent.style.setProperty("height", 
+				       (parseInt(object_data.height)+26+
+					// borders 1px x 2
+					2+
+					(this.controls ? 24 : 0)  )+"px",
+				       "important");
+    }
+
+    // Fixes the height of the fourth parent. Fixes replacement object
+    // visibility.
+    var fourth_parent = object_data.parent.parentNode.
+	parentNode.parentNode;
+
+    if (fourth_parent)
+    {
+	fourth_parent.style.setProperty("overflow", "visible",
+					"important");
+	fourth_parent.style.setProperty("height", 
+					(parseInt(object_data.height)+26+
+					 // borders 1px x 2
+					 2+
+					 (this.controls ? 24 : 0)  )+"px",
+					"important");
+    }
+
+    // Fix displacement of toggle_plugin link/button in vimeo
+    var toggle_plugin = 
+	document.getElementById("linterna-magica-toggle-plugin-"+
+				object_data.linterna_magica_id);
+
+    if (toggle_plugin)
+    {
+	toggle_plugin.style.setProperty("top",
+					parseInt(object_data.height)+10+
+					"px", "important");
+    }
+
+    // The CSS rules hide parts of our elements
+    object_data.parent.parentNode.style.
+	setProperty("height", (parseInt(object_data.height)+26+
+		     // borders 1px x 2
+		     2+
+		     (this.controls ? 24 : 0)  )+"px", "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("width", (parseInt(object_data.width+2))+"px",
+		    "important");
+
+    return false;
 }

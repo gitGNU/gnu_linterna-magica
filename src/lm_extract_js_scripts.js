@@ -63,50 +63,36 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	this.script_data = scripts[s].textContent;
 	var object_data = null;
 
-	if (/ted\.com/i.test(window.location.hostname) && 
-	    this.script_data.length >=15000)
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "skip_script_processing",
+	    window.location.hostname]);
+
+	if (!val)
 	{
 	    continue;
 	}
 
-	if (/theonion\.com/i.test(window.location.hostname))
-	{
-	    object_data = this.extract_object_from_script_theonion();
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "extract_object_from_script",
+	    window.location.hostname]);
 
-	    if (!object_data)
-	    {
-		// No other method of extraction is useful. Skip to
-		// next script.
-		continue;
-	    }
+	if (this.sites[window.location.hostname] && !val)
+	{
+	    // Site specific code is used but no results were
+	    // returned. Can't extract object information. General
+	    // purpose extraction might not worк, so it is useless.
+	    this.log("LinternaMagica.extract_objects_from_scripts:\n"+
+		     "Site specific code did not return object data. Skipping"+
+		     " general purpose extraction",6);
+
+	    continue;
 	}
 
-	if (/youtube\.com/i.test(window.location.hostname) ||
-	    (/youtube-nocookie\.com/i.test(window.location.hostname)))
+	if (val && typeof(val) != "boolean")
 	{
-	    object_data =
-		this.extract_object_from_script_youtube();
-
-	    // Fix bloating in FF (mainly). Optimizes script
-	    // processing. No need to check the other swf constructors
-	    // in YouTube.
-	    if (!object_data)
-	    {
-		continue;
-	    }
-	}
-
-	if (/vimeo\.com/i.test(window.location.hostname))
-	{
-	    object_data =
-		this.extract_object_from_script_vimeo();
-
-	    // Optimizes script processing. No need to check the other
-	    // swf constructors in Vimeo.
-	    if (!object_data)
-	    {
-		continue;
-	    }
+	    object_data = val;
 	}
 
 	if (!object_data)
@@ -134,44 +120,37 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 		     object_data.video_id,1);
 
 	    this.request_video_link(object_data);
-
-	    if (/youtube\.com/i.test(window.location.hostname) ||
-		(/youtube-nocookie\.com/i.test(window.location.hostname)))
-	    {
-		// We assume there is only one object per page in 
-		// YouTube found trough scripts.
-		// Stop processing, so it will not bloat.
-		this.log("LinternaMagica.constructor:\n"+
-			 "Found one object in YouTube. Stopping script processing",1);
-		break;
-	    }
 	}
 
 	if (object_data && object_data.link)
 	{
-	    if(!/youtube\.com/i.test(window.location.hostname) &&
-	       !/.*facebook\.com/i.test(window.location.hostname))
-	    {
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"replace_extracted_object_from_script",
+		window.location.hostname,object_data]);
 
+	    // Default
+	    if (val && typeof(val) == "boolean")
+	    {
 		this.log("LinternaMagica.extract_objects_from_scripts:\n"+
-			 "Removing plugin install warning.",2);
+	    		 "Removing plugin install warning.",2);
 
-		this.remove_plugin_install_warning(object_data.parent);
+	    	this.remove_plugin_install_warning(object_data.parent);
 
-		this.create_video_object(object_data);
+	    	this.create_video_object(object_data);
 	    }
+	}
 
-	    if (/.*facebook\.com/i.test(window.location.hostname)  &&
-		!this.facebook_flash_upgrade_timeout)
+	if (object_data && (object_data.video_id || object_data.link))
+	{
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"stop_if_one_extracted_object_from_script",
+		window.location.hostname]);
+
+	    if (!val)
 	    {
-		this.facebook_flash_upgrade_counter = 0;
-		var data = object_data;
-		var self = this;
-		this.facebook_flash_upgrade_timeout =
-		    setInterval(function() {
-			self.detect_facebook_flash_upgrade.
-			    apply(self,[data]);
-		    }, 500);
+		break;
 	    }
 	}
     }

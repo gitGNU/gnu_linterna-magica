@@ -167,9 +167,80 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
     }
 }
 
+// Extract links data for youtube from fmt_url_map
+LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
+{
+    var fmt_re = new RegExp (
+	"(\\\"|\\\'|\\\&)fmt_url_map"+
+	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
+	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?]+)");
+
+    var fmt = data.match(fmt_re);
+
+    if (fmt)
+    {
+
+	// For debug level 1
+	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
+		 "Extracted fmt_url_map.",1);
+
+	// Hash with keys fmt_ids and values video URLs
+	var map = new Object();
+
+	// There was unescape here but it broke the split by ,. How it
+	// worked it is not clear. Maybe YT changed something.
+	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
+
+	fmt = fmt.split(/,/);
+
+	for (var url=0; url<fmt.length; url++) 
+	{
+	    // fmt_id|link
+	    var m = fmt[url].split(/\|/);
+	    map[m[0]] =  m[1];
+	}
+
+	return map;
+    }
+    else
+    {
+	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
+		 "No fmt_url_map parameter found. ",1);
+    }
+
+    return null;
+}
+
+LinternaMagica.prototype.sites["youtube.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
+LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
+LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
+
+LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
+function()
+{
+    return ".youtube.com";
+}
+
+LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
+{
+    // Link extraction bloats FF in youtube:
+    // LinternaMagica.extract_link_from_param_list: 
+    // Trying to extract a link from param/attribute "flashvars"
+    // at www.youtube.com time: ***14:58:59:999***
+    // LinternaMagica.extract_link: No link found. at
+    // www.youtube.com time: ***15:12:21:356***
+    this.log("LinternaMagica.sites.skip_link_extraction:\n"+
+	     "Skipping link extraction in YouTube. Might bloat "+
+	     "GNU IceCat and other forks and versions of Firefox.",4);
+    return false;
+}
 
 // Extracts data for the flash object in youtube from a script
-LinternaMagica.prototype.extract_object_from_script_youtube = function()
+LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
+function()
 {
     var data = this.script_data;
     if (!data.match(/var\s*swfConfig/))
@@ -259,46 +330,175 @@ LinternaMagica.prototype.extract_object_from_script_youtube = function()
     return object_data;
 }
 
-// Extract links data for youtube from fmt_url_map
-LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
+LinternaMagica.prototype.sites["youtube.com"].
+    stop_if_one_extracted_object_from_script =
+function()
 {
-    var fmt_re = new RegExp (
-	"(\\\"|\\\'|\\\&)fmt_url_map"+
-	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
-	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?]+)");
+    this.log("LinternaMagica.sites.stop_if_"+
+	     "one_extracted_object_from_script:\n"+
+ 	     "Found one object in YouTube. Stopping script processing",3);
+    return false;
+}
 
-    var fmt = data.match(fmt_re);
+// Just return true or false. The function must be defined, so the
+// default code will not be executed. YouTube's object is created
+// after XHR.
+LinternaMagica.prototype.sites["youtube.com"].
+    replace_extracted_object_from_script = 
+function()
+{
+    return false;
+}
 
-    if (fmt)
+LinternaMagica.prototype.sites["youtube.com"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    var location_href = window.location.href;
+
+    var uri_args = null;
+    // Some clips require &skipcontrinter=1. Other might require
+    // something else.
+    if (/&/i.test(location_href))
     {
+	uri_args = location_href.split(/&/);
+	// This is the host and path (http://...). We do not need
+	// it.
+	delete uri_args[0];
+	uri_args = uri_args.join("&");
+    }
 
-	// For debug level 1
-	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
-		 "Extracted fmt_url_map.",1);
+    result.address = "/watch?v="+object_data.video_id+
+	(uri_args ? ("&"+uri_args) : "");
 
-	// Hash with keys fmt_ids and values video URLs
-	var map = new Object();
+    // Remove cookies and fetch page again. See "A note on
+    // cookies".
+    this.extract_cookies();
+    this.expire_cookies();
 
-	// There was unescape here but it broke the split by ,. How it
-	// worked it is not clear. Maybe YT changed something.
-	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
+    return result;
+}
 
-	fmt = fmt.split(/,/);
+LinternaMagica.prototype.sites["youtube.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
 
-	for (var url=0; url<fmt.length; url++) 
+    var fmt = this.extract_youtube_fmt_parameter(client.responseText);
+    var maps = this.extract_youtube_fmt_url_map(client.responseText);
+
+    var hd_links = this.create_youtube_links(fmt, maps);
+    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+    object_data.hd_links = hd_links.length ? hd_links : null;
+
+    // See "A note on cookies"
+    if (/restore/i.test(this.process_cookies))
+    {
+	this.restore_cookies();
+    }
+
+    return object_data;
+}
+
+LinternaMagica.prototype.sites["youtube.com"].
+    process_duplicate_object_before_xhr =
+function(object_data)
+{
+    this.log("LinternaMagica.sites.process_duplicate_object_before_xhr:\n"+
+	     "Removing/hiding duplicate object ",1);
+
+    this.hide_flash_video_object(object_data.linterna_magica_id,
+				 object_data.parent);
+
+    return false;
+}
+
+LinternaMagica.prototype.sites["youtube.com"].insert_object_after_xhr =
+function(object_data)
+{
+    // Just return true and let the default code do its job. A special
+    // attention is needed when no plugin is installed.
+    if (this.plugin_is_installed)
+    {
+	return true;
+    }
+
+    if (!this.youtube_flash_upgrade_timeout)
+    {
+	this.youtube_flash_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+
+	this.youtube_flash_upgrade_timeout = setInterval(
+	    function() {
+		self.detect_youtube_flash_upgrade.apply(self,[data]);
+	    }, 500);
+    }
+    
+    return false;
+}
+
+LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
+{
+    if (document.getElementById("playnav-playview"))
+    {
+	// In channels/user pages in YouTube the web controlls are
+	// overlapped by few elements.
+
+	var el = 	document.getElementById("playnav-playview");
+	el.style.setProperty("margin-top", "50px", "important");
+
+	var user_nav = document.getElementById("user_playlist_navigator");
+
+	if (user_nav)
 	{
-	    // fmt_id|link
-	    var m = fmt[url].split(/\|/);
-	    map[m[0]] =  m[1];
+	    user_nav.style.setProperty("overflow", "visible", "important");
+	    var height = document.defaultView.getComputedStyle(user_nav).
+		getPropertyValue("height");
+
+	    user_nav.style.setProperty("height",
+				       (parseInt(height)+50)+"px",
+				       "important");
 	}
 
-	return map;
-    }
-    else
-    {
-	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
-		 "No fmt_url_map parameter found. ",1);
+	var playnav_body = document.getElementById("playnav-body");
+
+	if (playnav_body)
+	{
+	    playnav_body.style.setProperty("overflow",
+					   "visible", "important");
+
+	    // A top border of 1px fixes the top displacement. Why?!
+	    var color = document.defaultView.getComputedStyle(user_nav).
+		getPropertyValue("background-color");
+
+	    color = color ? color : "#999999";
+
+	    playnav_body.style.setProperty("border-top",
+	     				   "1px solid "+color,  "important");
+	}
+
+	var playnav_play_content =
+	    document.getElementById("playnav-play-content");
+
+	if (playnav_play_content)
+	{
+	    var height = document.defaultView.
+		getComputedStyle(playnav_play_content).
+		getPropertyValue("height");
+
+	    playnav_play_content.style.
+		setProperty("height",
+			    (parseInt(height)+50)+"px",
+			    "important");
+	}
     }
 
-    return null;
+     // Bug #33504 https://savannah.nongnu.org/bugs/?33504
+    object_data.parent.style.setProperty("overflow", "visible", "important");
+
+
+    return false;
 }

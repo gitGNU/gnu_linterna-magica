@@ -132,7 +132,7 @@ LinternaMagica.prototype.set_autostart = function(autostart)
 
 // Set the timeout for Dailymotion. After this timeout background
 // processing starts
-LinternaMagica.prototype.set_wait_dailymotion = function(wait)
+LinternaMagica.prototype.set_wait_xhr = function(wait)
 {
     var set_wait_to = wait ? wait :"";
 
@@ -156,7 +156,12 @@ LinternaMagica.prototype.set_wait_dailymotion = function(wait)
 	set_wait_to = 0;
     }
 
-    this.wait_dailymotion = set_wait_to;
+    if (/[0-9]+/i.test(wait))
+    {
+	set_wait_to = parseInt(wait);
+    }
+
+    this.wait_xhr = set_wait_to;
 }
 
 // Set updates 

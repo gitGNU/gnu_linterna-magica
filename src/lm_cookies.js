@@ -49,25 +49,55 @@ LinternaMagica.prototype.store_cookies = function(expire)
     var past_date = new  Date(1983, 9, 27);
     var domain = window.location.hostname;
 
-    if (/youtube\.com/i.test(window.location.hostname))
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"set_cookies_domain",
+	window.location.hostname]);
+
+    if (!val)
     {
-	domain = ".youtube.com";
+	return null;
+    }
+    else if (typeof(val) == "string")
+    {
+	// See YouTube support.
+	domain = val;
     }
 
-    for (var i=0; i<cookies.length; i++)
+    for (var i=0, l=cookies.length; i<l; i++)
     {
-	// Host is used in dailymotion. It is not documented anywhere
-	document.cookie = cookies[i]+
-	    (expire ? "; expires="+past_date.toUTCString(): "")+
-	    "; domain="+domain+"; path=/; host="+domain+"; ";
+	 var val = this.call_site_function_at_position.apply(self,[
+	     "process_cookies",
+	     window.location.hostname]);
 
-	// Dailymotion uses www.dailymotion.com and .dailymotion.com
-	if (/dailymotion\.com/i.test(window.location.hostname))
+	try 
 	{
-	    // Host is used in dailymotion. It is not documented anywhere
+	    if (typeof(val) == "string")
+	    {
+		document.cookie = cookies[i]+
+		    (expire ? "; expires="+
+		     past_date.toUTCString(): "")+val;
+	    }
+	}
+	catch(e)
+	{
+	    this.log("LinternaMagica.store_cookies:\n"+
+		     "Exception while setting cookie with"+
+		     " site specific string: "+e,1);
+	}
+
+	try
+	{
+	    // Host is used in dailymotion. It is not documented
+	    // anywhere. It is overkill to export it.
 	    document.cookie = cookies[i]+
 		(expire ? "; expires="+past_date.toUTCString(): "")+
-		"; domain=.dailymotion.com; path=/; host="+domain+"; ";
+		"; domain="+domain+"; path=/; host="+domain+"; ";
+	}
+	catch(e)
+	{
+	    this.log("LinternaMagica.store_cookies:\n"+
+		     "Exception while setting cookie: "+e,1);
 	}
     }
 }

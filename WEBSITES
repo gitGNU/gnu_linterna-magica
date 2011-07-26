@@ -25,10 +25,6 @@ http://metacafe.com
     - It seems metacafe changes some things often. You might
     experience some trouble.
 http://www.4videosharing.com
-    - Seems their account is disabled by their hosting provider.
-http://www.vidoemo.com
-    - Seems it is disabled and redirects to random sites with sex
-      content.
 http://www.videoclipsdump.com 
     - Support re-written in 0.0.9. Everything seems to be working. 
 http://www.boomclips.com
@@ -87,13 +83,13 @@ http://fun-6.com
 http://jwak.net
 http://failo.bg
     - Hosting account suspended
-http://www.mediashare.bg
-    - Does not exist anymore.
-    - Only clips hosted at the site worked.
 http://www.arenamedia.net
 http://www.screen.bg
 http://www.crazy.bg
 http://www.friends.bg
+    - Only front page and logo are displayed.
+    - Site specific code support dropped in r141 (branch task-11216)
+      after framework changes.
 http://www.vboxbg.net/
 
 Web sites that use one of the following JavaScript libraries to create

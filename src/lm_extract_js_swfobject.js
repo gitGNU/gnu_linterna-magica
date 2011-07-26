@@ -120,52 +120,48 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 	object_data.height = object_data.parent.clientHeight;
     }
 
-    if (/dailymotion\.com/i.test(window.location.hostname))
-    {
-	object_data.video_id = window.location.pathname;
-    }
-    else
-    {
-	this.extract_link_data = data;
-	object_data.link = this.extract_link();
+    this.extract_link_data = data;
+    object_data.link = this.extract_link();
 
-	if (!object_data.link)
+
+    if (!object_data.link)
+    {
+	this.extract_video_id_data = data;
+
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "libswfobject_skip_video_id_extraction",
+	    window.location.hostname,object_data]);
+
+	// Result from default function
+	if (val && typeof(val) == "boolean")
 	{
-	    this.extract_video_id_data = data;
 	    object_data.video_id = this.extract_video_id();
+	}
+	else if(val)
+	{
+	    // Result from site function
+	    object_data.video_id = val;
 	}
     }
 
     if (object_data.video_id || object_data.link)
     {
-	// if (/dailymotion\.com/i.test(window.location.hostname))
-	// {
-	//     this.log("LinternaMagica.extract_object_from_script_swfobject:\n"+
-	// 	     "Trying to extract dailymotion.com HQ links ",1);
-	//     object_data.hd_links = this.extract_dailymotion_hd_links(data);
-
-	// }
-	// else
-	if (/ted\.com/i.test(window.location.hostname))
-	{
-	    this.log("LinternaMagica.extract_object_from_script_swfobject:\n"+
-		     "Trying to extract ted.com HQ links ",1);
-	    object_data.hd_links = this.extract_tedcom_hd_links(data);
-	}
-	// else if (/myvideo\.de/i.test(window.location.hostname))
-	// {
-	//     // See the comments for this function
-	//     object_data.link = this.create_myvideode_link();
-	//     // Now that we have a link remove the video_id
-	//     // so it is not processed
-	//     object_data.video_id = null;
-	// }
-
 	this.log("LinternaMagica.extract_object_from_script_swfobject:\n"+
 		 "SWF object extracted from script ",1);
 
 	object_data.linterna_magica_id =
 	    this.mark_flash_object("extracted-from-script");
+	
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "extract_hd_links_from_script_if_link",
+	    window.location.hostname, data]);
+	
+	if (val && typeof(val) != "boolean")
+	{
+	    object_data.hd_links = val;
+	}
 
 	return object_data;
     }

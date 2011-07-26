@@ -36,158 +36,67 @@ LinternaMagica.prototype.extract_link = function()
     }
 
     var data = this.extract_link_data;
+
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"set_video_link_regex",
+	window.location.hostname]);
+
+
     var link_re = null;
+    var link_position = null;
 
-
-    if (/facebook\.com/i.test(window.location.hostname))
+    if (val && typeof(val) != "boolean")
     {
-	// Found DOM object
-	if (!this.script_data)
-	{
-	    link_re = new RegExp (
-		"thumb_url=(.*)&video_src=(.*)&(motion_log)=(.*)",
-		"i");
-	}
-	// Extracting from script
-	else
-	{
-	    link_re = new RegExp (
-		"addVariable\\\((\\\"|\\\')video_src(\\\"|\\\'),\\\s*"+
-		    "(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\')(\\\))\\\;{1}",
-		"i");
-	}
-    }
-    // Reuters
-    else if (/reuters\.com/i.test(window.location.hostname))
-    {
-	link_re = new RegExp (
-	    "videoURL=(.*)(\\\&{1})(.*)",
-	"i");
-    }
-    // Will match com,de,es, jp etc.
-    else if (/video\.google\./i.test(window.location.hostname))
-    {
-	link_re = new RegExp (
-	    "videourl=(.*)\\\&(thumbnailurl)=(.*)" ,
-	    "i");
+	link_re = val.link_re;
+	link_position = val.link_position;
     }
     else
     {
-	// FIXME: Regular expressions need rework to match
-	// flv|mp4|other|something_else|...mp3|audio
-	// 26.02.2011 added streamer| before |file. Fixes
-	// jwak.net. The file part matches resource on 8081 port which
-	// is not accessible.
 	link_re = new RegExp (
 	    "\\\{{0}.*(video|flv_ur|streamer|file|moviepath|videourl|"+
-		"mediaurl|sdurl|videopath|flv|url|ms|nextmovie|flvaddress)"+
+		"mediaurl|sdurl|videopath|flv|url|ms|"+
+		"nextmovie|flvaddress)"+
 		"(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
-		(/clipovete\.com/i.test(window.location.hostname)
-		 ? "(.*)\\\&(video_id)=(.*)" :
 	  	 "(.*\\\."+
-		 // Metacafe switched to mp4 for some videos.
-		 // FIXME: We need a general way to match mp4 and other stuff
-		 (/metacafe\.com/i.test(window.location.hostname) ?
-		  "(mp4|flv)" :"flv")+"((\\\?|\\\&)?\\\w+\\\=[A-Za-z0-9_\\\-]+"+
-		 "\\\&?)*)(?!\\\.)"),
+		"(flv|mp4)"+ // Add other extensions here
+		"((\\\?|\\\&)?\\\w+\\\=[A-Za-z0-9_\\\-]+"+
+		"\\\&?)*)(?!\\\.)",
 	    "i");
+    }
+
+    if (link_position == null ||
+	typeof(link_position) == "undefined")
+    {
+	link_position = 4;
     }
 
     var link = unescape(data).match(link_re);
 
-    // Extra debug for metacafe, because it changes often
-    if (/metacafe\.com/i.test(window.location.hostname))
+    if (link && link[link.length-link_position])
     {
-    	this.log("LinternaMagica.extract_link:\n"+
-    		 "Unescaped metacafe.com data: "+unescape(data),5);
-    }
+	link = unescape(link[link.length-link_position]);
 
-    if (link && link[link.length-3])
-    {
-	if (!/metacafe\.com/i.test(window.location.hostname))
-	{
-	    link = unescape(link[link.length-3]);
-	}
-	else
-	{
-	    link = unescape(link[link.length-4]);
-	}
-
-	// Used in Metacafe. Unescape is not helping.
+	// Used in Metacafe. Unescape is not helping. Small and not
+	// significant to be exported in src/lm_site_metacafe.js
 	link = link.replace(/\\\//g, "/");
 
-	if (/facebook\.com/i.test(window.location.hostname))
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "process_extracted_link",
+	    window.location.hostname, link]);
+
+	if (val && typeof(val) != "boolean")
 	{
-	    // For som reason they use Unicode escape character, that
-	    // could not be converted by decodeURIComponent or
-	    // unescape directly. This workaround might break
-	    // non-ASCII strings in the link
-	    link = unescape(link.replace(/\\u0025/g, "%"));
+	    link = val;
 	}
 
-	if (/metacafe\.com/i.test(window.location.hostname))
-	{
-	    if (/flv/i.test(link))
-	    {
-		link = link.replace(/&gdaKey/i, "?__gda__");
-	    }
-	    else
-	    {
-		var key_re = new RegExp(
-		    link.slice(link.length-15).replace(/\\\./g,"\\\\\\.")+
-			"\\\"\\\,\\\"key\\\"\\\:\\\"([0-9A-Za-z\\\_]+)\\\"",
-		    "i");
-		var key = unescape(data).match(key_re);
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "do_not_clean_amps_in_extracted_link",
+	    window.location.hostname]);
 
-		// Set the key
-		link = link+"?__gda__="+key[key.length-1];
-	    }
-
-	    // Escape. We cannot use escape()
-	    // because it will break the link and we have to
-	    // fix manualy characters like = : ?
-	    link = link.replace("[", "%5B").
-		replace(" ", "%20").replace("]", "%5D");
-	}
-
-	if (/clipovete\.com/i.test(window.location.hostname))
-	{
-	    link =  "http://storage.puiako.com/clipovete.com/videos/"+
-		link +".flv";
-	}
-
-	// The link is not a full path and is missing a slash.
-	if (/tv7\.bg/i.test(window.location.hostname))
-	{
-	    link = "/"+link;
-	}
-	
-	// Must be just the path part othe link
-	if (/mqsto\.com/i.test(window.location.hostname) &&
-	    !/^http/i.test(link))
-	{
-	    link = "http://mqsto\.com/video/"+link;
-	}
-
-	// The link is not full path
-	if (/friends\.bg/i.test(window.location.hostname))
-	{
-	    link = "/files/video/flv/"+link;
-	}
-
-	// Amps are not required everywhere
-	var keep_amp_in_hosts_re = new RegExp (
-	    // Will match com de etc.
-	    "video\\\.google\\\.|"+
-		".*facebook\\\.",
-	    // this used to be cleared. now the logic is reverse
-	    // "i-kat\\\.org|video\\\.fensko\\\.com|mqsto\\\.com"+
-	    // 	"|fun-6\\\.com|videoclipsdump\\\.com|boomclips\\\.com"+
-	    // 	"|lucidclips\\\.com|reuters\\\.com|failo\\\.bg|5min\\\.com|"+
-	    // 	"mediashare\\\.bg|ted\\\.com",
-	    "i");
-
-	if (!keep_amp_in_hosts_re.exec(window.location.hostname))
+	if (val)
 	{
 	    // The parameters are for the player and with them the
 	    // video is no accessible
@@ -197,14 +106,21 @@ LinternaMagica.prototype.extract_link = function()
 		     " Link split at the first ampersand",3);
 
 	    // Abrowser/Firefox is not loading i-kat.org link
-	    // with two slashes. Strange.
+	    // with two slashes. Strange!
 	    link = link.replace(/[^:]\/\//, "/");
 	}
 
-	if (/ted\.com/i.test(window.location.hostname))
-	{
-	    link = this.create_tedcom_link(link);
-	}
+	// // Amps are not required everywhere
+	// var keep_amp_in_hosts_re = new RegExp (
+	//     // Will match com de etc.
+	//     "video\\\.google\\\.|"+
+	// 	".*facebook\\\.",
+	//     // this used to be cleared. now the logic is reverse
+	//     // "i-kat\\\.org|video\\\.fensko\\\.com|mqsto\\\.com"+
+	//     // 	"|fun-6\\\.com|videoclipsdump\\\.com|boomclips\\\.com"+
+	//     // 	"|lucidclips\\\.com|reuters\\\.com|failo\\\.bg|5min\\\.com|"+
+	//     // 	"mediashare\\\.bg|ted\\\.com",
+	//     "i");
 
 	this.log("LinternaMagica.extract_link:\n"+
 		 " Extracted link: "+link,1);
@@ -236,31 +152,38 @@ LinternaMagica.prototype.extract_video_id = function()
     data = "&"+data;
 
     var video_id_re = null;
+    var match_site = null;
+    var video_id_position = null;
 
-    if (/blip\.tv/i.test(window.location.hostname) ||
-	/blip\.tv/i.test(data))
+    if (/blip\.tv/i.test(data))
     {
 	// Blip.tv has a JSONP API that could be used in remote
 	// sites. That is why we cant search for blip.tv directly in
 	// the data.
 	// http://wiki.blip.tv/index.php/Extract_metadata_from_our_embed_code
-	video_id_re = new RegExp(
-	    "blip\\\.tv\\\/(play|rss\\\/flash)\\\/([0-9A-Za-z_%-]+)&*",
-	    "i");
+
+	match_site = "blip.tv";
     }
     else
     {
-	// 06.07.2010 Update  for vidoemo.com video3 and \\\/
-	// slashes before and after might create bugs
-	// 18.12.2010 Update is for vimeo.com : vimeo_clip_
-	// 12.02.2011 Update for myvideo.de. php&ID and \\\. This migth break
-	// 25.02.2011 Update for videoclipsdump.com
-	// player_config\\\.php\\\ must be after vid|
-	// 11.06.2011 Update for theonion.com 
-	// \\\/video_embed\\\/...
+	match_site = window.location.hostname;
+    }
+
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"set_video_id_regex",
+	match_site]);
+
+    if (val && typeof(val) !== "boolean")
+    {
+	video_id_re = val.video_id_re;
+	video_id_position = val.video_id_position;
+    }
+    else
+    {
 	video_id_re = new RegExp (
-	    "(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|clip_id|video_id|"+
-		"vid|player_config\\\.php\\\?v|"+
+	    "(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|"+
+		"clip_id|video_id|vid|player_config\\\.php\\\?v|"+
 		"videoid|media_id|vkey|video3|_videoid|"+
 		"vimeo_clip_|php&ID|\\\/video_embed\\\/\\\?id)"+
 		"(\\\"|\\\')*(\\\=|\\\:|,|\\\/)\\\s*(\\\"|\\\')*"+
@@ -268,11 +191,17 @@ LinternaMagica.prototype.extract_video_id = function()
 	"i");
     }
 
+    if (video_id_position == null ||
+	typeof(video_id_position) == "undefined")
+    {
+	video_id_position = 1;
+    }
+
     var video_id =data.match(video_id_re);
 
     if (video_id)
     {
-	video_id = video_id[video_id.length-1];
+	video_id = video_id[video_id.length-video_id_position];
 
 	this.log("LinternaMagica.extract_video_id:\n"+
 		 "Extracted video id : "+video_id,1);

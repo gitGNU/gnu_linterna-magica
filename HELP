@@ -16,7 +16,7 @@ format:
     "controls": "self",
     "locale": "auto",
     "cookies": "restore",
-    "wait_dm": "off",
+    "wait_xhr": "off",
     "quality": "low",
  };
 
@@ -95,8 +95,8 @@ Available options are:
 	    Just delete the cookies.
 	 restore
 	    Extract and restore cookies.
-  wait_dm
-      Timeout before background processing starts in Dailymotion in
+  wait_xhr
+      Timeout before background processing (XHR) starts in
       milliseconds. 1 s = 1000 ms. If you have problems increase the
       value.
         off/no/disabled/false/0
@@ -137,12 +137,15 @@ other features for sites supported this way. The browser will
 automatically set new values to some of the cookies with the
 background request. 
 
-For Dailymotion there is a timeout option. During the first tests of
-this fix there were some problems if the background request was made
-too soon. It seemed that not all cookies were set by the site and
-cleared by Linterna Mágica before the request. Later everything worked
-without timeout. If you have problems with Dailymotion increase the
-value for the "wait_dm" option.
+For Dailymotion you could use a timeout option. During the first
+tests of this fix there were some problems if the background request
+was made too soon. It seemed that not all cookies were set by the site
+and cleared by Linterna Mágica before the request. Later everything
+worked without timeout. If you have problems with Dailymotion increase
+the value for the "wait_xhr" option. 
+
+The wait_xhr option is effective for every site that is supported with
+background requests.
 
 Localisation
 

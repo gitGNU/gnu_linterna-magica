@@ -81,15 +81,12 @@ function LinternaMagica(params)
 	this.log_to = "console";
     }
 
-    // Skip ted.com at the front page. With Gnash installed the flash
-    // object is created. The flashvars attrubute value is 24 KB
-    // (kilo*bytes*) and Firefox and forks block 
-    if (/ted\.com/i.test(window.location.hostname) &&
-	!/[A-Za-z0-9]+/i.test(window.location.pathname))
-    {	
-	this.log("LinternaMagica.constructor:\n"+
-		 "Skipping TED front page!"+
-		 " Blocks Firefox and forks.");
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"before_options_init",
+	window.location.hostname]);
+    if (!val)
+    {
 	return null;
     }
 
@@ -99,7 +96,7 @@ function LinternaMagica(params)
     this.set_autostart(params.autostart);
     this.set_controls(params.controls);
     this.set_cookies(params.cookies);
-    this.set_wait_dailymotion(params.wait_dm);
+    this.set_wait_xhr(params.wait_xhr);
     this.set_check_updates(params.updates);
     this.set_hd_link_quality(params.quality);
 
@@ -127,21 +124,24 @@ function LinternaMagica(params)
 	this.player_timers = new Array();
     }
 
-    if (!this.plugin_is_installed &&
-	/dailymotion\.com/i.test(window.location.hostname))
+    var position_function = null ;
+    if (this.plugin_is_installed)
     {
-	this.request_video_link({video_id: window.location.pathname});
+	position_function = "flash_plugin_installed";
     }
-    // If there is a plugin installed do not search in scripts.
-    else if (!this.plugin_is_installed ||
-	     /myvideo\.de/i.test(window.location.hostname) ||
-	     /theonion\.com/i.test(window.location.hostname))
+    else
     {
-	this.log("LinternaMagica.constructor:\n"+
-		 "Examining scripts.", 4);
+	position_function = "no_flash_plugin_installed";
+    }
 
-	// video.google.* bloats in this function. It takes around 1 min
-	this.extract_objects_from_scripts();
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	position_function,
+	window.location.hostname]);
+    
+    if (!val)
+    {
+	return null;
     }
 
     this.log("LinternaMagica.constructor:\n"+

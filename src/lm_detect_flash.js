@@ -112,13 +112,18 @@ LinternaMagica.prototype.is_swf_object = function(element)
 	}
 	// Not a swf but best to detect remotely embedded clips with
 	// current logic.
-	else if (element.localName.toLowerCase() == "iframe" &&
-		 // Without this and if Flashblock is installed, it
-		 // will replace an iframe that has something to do
-		 // with tweeter. This way the Flashblock blocked
-		 // object is replaced.
-		 !/dailymotion\.com/i.test(window.location.hostname))
+	else if (element.localName.toLowerCase() == "iframe")
 	{
+	    var self = this;
+	    var val = this.call_site_function_at_position.apply(self,[
+		"do_not_force_iframe_detection",
+		window.location.hostname]);
+
+	    if (!val)
+	    {
+		return false;
+	    }
+
 	    is_swf = true;
 	    detected_via = "forced for iframe";
 	}

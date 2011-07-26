@@ -89,3 +89,88 @@ LinternaMagica.prototype.parse_bliptv_jsonp_data = function(data, object_data)
     this.create_video_object(object_data);
 }
 
+LinternaMagica.prototype.sites["blip.tv"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.blip.tv"] = "blip.tv";
+
+LinternaMagica.prototype.sites["blip.tv"].set_video_id_regex = function()
+{
+    var result = new Object();
+
+    result.video_id_re = new RegExp(
+	"blip\\\.tv\\\/(play|rss\\\/flash)\\\/([0-9A-Za-z_%-]+)&*",
+	"i");
+
+    // Captured video_id position from left to right. Will be
+    // subtracted from the matched arrays's lenght;
+    result.videoid_position = 1;
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["blip.tv"].plugin_install_warning_loop =
+function(node)
+{
+    // FIXME Temporary fix for Blip.tv. Will replace the HTML5
+    // player, otherwise two are visible.  14.06.2011 With the
+    // changes in Blip.tv design and logic, I am unable to find
+    // how to turn HTML5 and test this. I always get the flash
+    // player.
+    if (node.parentNode)
+    {
+        node.parentNode.removeChild(node);
+    }
+
+    return null;
+}
+
+LinternaMagica.prototype.sites["blip.tv"].prepare_xhr =
+function(object_data)
+{
+    // Will be called if (when) blip.tv changes the code they use to
+    // embed clips in blip.tv. Now the JSONP method is used.
+    var result= new Object();
+
+    result.address = "/rss/flash/"+object_data.video_id;
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["blip.tv"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    var xml = client.responseXML;
+
+    // All the data is available in the XML, but it is not a
+    // good idea to support the site in two places. JSON is
+    // easier. The drawback is two requests.
+    try
+    {
+	var embed_id =
+	    xml.getElementsByTagName("embedLookup");
+
+	// Firefox
+	if (embed_id && typeof(embed_id[0]) == "undefined")
+	{
+	    embed_id = 
+		xml.getElementsByTagName("blip:embedLookup");
+	}
+
+	object_data.video_id = embed_id[0].textContent;
+	this.request_bliptv_jsonp_data(object_data);
+    }
+    catch(e)
+    {
+	this.log("LinternaMagica.prototype.request_video"+
+		 "_link_parse_response:\n"+
+		 "Exception in Blip.tv while parsing XML",1);
+    }
+
+    // Do not process the XHR anymore. The video object will not be
+    // created.
+    return null;
+}

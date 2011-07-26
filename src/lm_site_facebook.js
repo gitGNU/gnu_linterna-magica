@@ -58,3 +58,73 @@ LinternaMagica.prototype.detect_facebook_flash_upgrade = function(object_data)
 	this.create_video_object(object_data);
     }
 }
+
+LinternaMagica.prototype.sites["facebook.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.facebook.com"] = "facebook.com";
+
+LinternaMagica.prototype.sites["facebook.com"].
+    replace_extracted_object_from_script =
+function(object_data)
+{
+    if (!this.facebook_flash_upgrade_timeout)
+    {
+	this.log("LinternaMagica.sites.replace_extracted_"+
+		 "object_from_script:\n"+
+		 "Delaying video object creation in Facebook.",3);
+	this.facebook_flash_upgrade_counter = 0;
+	var data = object_data;
+	var self = this;
+	this.facebook_flash_upgrade_timeout =
+	    setInterval(function() {
+	    	self.detect_facebook_flash_upgrade.
+	    	    apply(self,[data]);
+	    }, 500);
+    }
+
+    return false;
+}
+
+LinternaMagica.prototype.sites["facebook.com"].set_video_link_regex =
+function()
+{
+    var result = new Object();
+
+    // Found DOM object
+    if (!this.script_data)
+    {
+	result.link_re = new RegExp (
+	    "thumb_url=(.*)&video_src=(.*)&(motion_log)=(.*)",
+	    "i");
+
+	result.link_position = 3;
+    }
+    // Extracting from script
+    else
+    {
+	result.link_re = new RegExp (
+	    "addVariable\\\((\\\"|\\\')video_src(\\\"|\\\'),\\\s*"+
+		"(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\')(\\\))\\\;{1}",
+	    "i");
+
+	result.link_position = 3;
+    }
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function(link)
+{
+    // For some reason they use Unicode escape character, that
+    // could not be converted by decodeURIComponent or
+    // unescape directly. This workaround might break
+    // non-ASCII strings in the link
+    link = unescape(link.replace(/\\u0025/g, "%"));
+
+    return link;
+}
+
+// Reference. Just returns false
+LinternaMagica.prototype.sites["facebook.com"].
+    do_not_clean_amps_in_extracted_link = "video.google.com";

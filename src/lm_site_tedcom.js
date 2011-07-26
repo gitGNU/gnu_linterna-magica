@@ -35,11 +35,11 @@ LinternaMagica.prototype.create_tedcom_link = function(relative_link)
     {
 	// Clean the junk
 	relative_link = relative_link.replace(/ms|hs|ls/,"").
-	    replace(/\"/g,"").replace(":","").replace("=","").
-	    replace(",","");
+	    replace(/\"/g,"").replace("mp4:","").replace(":","").
+	    replace("=","").replace(",","");
 
-	var link = "http://video.ted.com/"+
-	    relative_link;
+	var link = "http://video.ted.com/"+relative_link;
+
 	return link;
     }
 
@@ -49,13 +49,16 @@ LinternaMagica.prototype.create_tedcom_link = function(relative_link)
 LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 {
     var links_re = new RegExp (
-	"(?:\\\&)*\\\w{2}(\\\=|\\\:)*\\\s*(\\\"|\\\')*(.*\\\.flv)(\\\&|\\\",$)",
+	"(?:\\\&)*\\\w{2}(\\\=|\\\:)*\\\s*(\\\"|\\\')*"+
+	    "(.*\\\.(flv|mp4))(\\\&|\\\",$)",
 	"img");
 
     var links = unescape(data).match(links_re);
 
     if (!links)
-	return;
+    {
+	return false;
+    }
 
     // Work-around for links extracted from <param> of a DOM object
     // There is a problem with generalized regular expression
@@ -79,7 +82,7 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	var link = new Object();
 
 	link.url = this.create_tedcom_link(links[lnk]);
-	var label = link.url.match(/-(\w+)\.flv/);
+	var label = link.url.match(/-(\w+)\.(flv|mp4)/);
 
 	// Make some labels just in case the match does not work
 	if (!label)
@@ -90,7 +93,7 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	{
 	    // Capitalize the first letter because it is all lowercase
 	    // (Low/Hight/Medium)
-	    label = label[label.length-1];
+	    label = label[label.length-2];
 	    label = label.slice(0,1).toUpperCase() + label.slice(1);
 	}
 
@@ -105,4 +108,65 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	return hd_links;
 
     return null;
+}
+
+LinternaMagica.prototype.sites["ted.com"] = new Object();
+
+// Reference
+LinternaMagica.prototype.sites["www.ted.com"] = "ted.com";
+
+LinternaMagica.prototype.sites["ted.com"].before_options_init = function()
+{
+     // Skip ted.com at the front page. With Gnash installed the flash
+    // object is created. The flashvars attrubute value is 24 KB
+    // (kilo*bytes*) and Firefox and forks block 
+    if(!/[A-Za-z0-9]+/i.test(window.location.pathname))
+    {	
+    	   this.log("LinternaMagica.sites.before_options_init:\n"+
+    		    "Skipping TED front page!"+
+    		    " Blocks Firefox and forks.");
+
+    	return false;
+    }
+
+    return true;
+}
+
+LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_dom_if_link =
+function(data)
+{
+    this.log("LinternaMagica.sites.extract_hd_links_from_dom_if_link:\n"+
+	     "Trying to extract ted.com HQ links ",1);
+    return this.extract_tedcom_hd_links(data);
+}
+
+LinternaMagica.prototype.sites["ted.com"].extract_hd_links_from_script_if_link =
+function()
+{
+    var data = this.extract_link_data;
+
+    this.log("LinternaMagica.sites.extract_hd_links_from_script_if_link:\n"+
+	     "Trying to extract ted.com HQ links ",1);
+    return this.extract_tedcom_hd_links(data);
+}
+
+LinternaMagica.prototype.sites["ted.com"].skip_script_processing =
+function()
+{
+    if (this.script_data.length >= 15000)
+    {
+	this.log("LinternaMagca.sites.skip_script_processing:\n"+
+		 "Skipping script processing, because it is too big.");
+	// Skip the script is too big and will bloat Firefox
+	return false;
+    }
+
+    return true;
+}
+
+LinternaMagica.prototype.sites["ted.com"].process_extracted_link =
+function(link)
+{
+    link = this.create_tedcom_link(link);
+    return link;
 }

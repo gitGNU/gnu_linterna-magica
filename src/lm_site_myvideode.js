@@ -66,3 +66,60 @@ LinternaMagica.prototype.create_myvideode_link = function(create_from_text)
 
     return link;
 }
+
+LinternaMagica.prototype.sites["myvideo.de"] = new Object();
+
+// // Reference
+LinternaMagica.prototype.sites["www.myvideo.de"] = "myvideo.de";
+
+// Function reference
+LinternaMagica.prototype.sites["myvideo.de"].flash_plugin_installed = "theonion.com";
+
+LinternaMagica.prototype.sites["myvideo.de"].skip_xhr_if_video_id =
+function(object_data)
+{
+    // See the comments for this function. There is no way to access
+    // the video URL via XHR, but there is a pattern to create the
+    // video link
+    object_data.link = this.create_myvideode_link();
+
+    // Now that we have a link remove the video_id
+    // so it is not processed
+    if (object_data.link)
+    {
+	object_data.video_id = null;
+    }
+
+    return object_data ;
+}
+
+LinternaMagica.prototype.sites["myvideo.de"].prepare_xhr =
+function(object_data)
+{
+    var result = new Object();
+
+    result.address = "/watch/"+object_data.video_id+"/";
+
+    return result;
+}
+
+LinternaMagica.prototype.sites["myvideo.de"].process_xhr_response =
+function(args)
+{
+    var object_data = args.object_data;
+    var client = args.client;
+
+    try
+    {
+	var thumb_url = client.responseText.split(/image_src/)[1];
+	thumb_url = thumb_url.split(/\/\>/)[0].split(/\'/)[2];
+
+	object_data.link = this.create_myvideode_link(thumb_url);
+    }
+    catch(e)
+    {
+	return null;
+    }
+
+    return object_data;
+}
