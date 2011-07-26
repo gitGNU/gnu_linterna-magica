@@ -78,8 +78,6 @@ LinternaMagica.prototype.sites.__process_cookies = function()
     return true;
 }
 
-// LinternaMagica.prototype.sites.__css_style_fix
-
 // Used to skip detection (as swf) of iframes. Not used in most
 // sites. See lm_site_dailymotion.js:do_not_force_iframe_detection.
 LinternaMagica.prototype.sites.__do_not_force_iframe_detection =
@@ -267,6 +265,15 @@ function(object_data)
 // Add the replacement object overriding the default code i freturn
 // value is false.
 LinternaMagica.prototype.sites.__insert_object_after_xhr = function(object_data)
+{
+    return true;
+}
+
+// Add syle and classes to DOM elements for various fixes.The return
+// value does not really matter. The caller function returns null
+// after executing this code. Executed after the replacement object is
+// inserted. CSS classes and DOM ids are accessible.
+LinternaMagica.prototype.sites.__css_fixes = function(object_data)
 {
     return true;
 }

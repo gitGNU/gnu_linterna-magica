@@ -439,3 +439,66 @@ function(object_data)
     
     return false;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
+{
+    if (document.getElementById("playnav-playview"))
+    {
+	// In channels/user pages in YouTube the web controlls are
+	// overlapped by few elements.
+
+	var el = 	document.getElementById("playnav-playview");
+	el.style.setProperty("margin-top", "50px", "important");
+
+	var user_nav = document.getElementById("user_playlist_navigator");
+
+	if (user_nav)
+	{
+	    user_nav.style.setProperty("overflow", "visible", "important");
+	    var height = document.defaultView.getComputedStyle(user_nav).
+		getPropertyValue("height");
+
+	    user_nav.style.setProperty("height",
+				       (parseInt(height)+50)+"px",
+				       "important");
+	}
+
+	var playnav_body = document.getElementById("playnav-body");
+
+	if (playnav_body)
+	{
+	    playnav_body.style.setProperty("overflow",
+					   "visible", "important");
+
+	    // A top border of 1px fixes the top displacement. Why?!
+	    var color = document.defaultView.getComputedStyle(user_nav).
+		getPropertyValue("background-color");
+
+	    color = color ? color : "#999999";
+
+	    playnav_body.style.setProperty("border-top",
+	     				   "1px solid "+color,  "important");
+	}
+
+	var playnav_play_content =
+	    document.getElementById("playnav-play-content");
+
+	if (playnav_play_content)
+	{
+	    var height = document.defaultView.
+		getComputedStyle(playnav_play_content).
+		getPropertyValue("height");
+
+	    playnav_play_content.style.
+		setProperty("height",
+			    (parseInt(height)+50)+"px",
+			    "important");
+	}
+    }
+
+     // Bug #33504 https://savannah.nongnu.org/bugs/?33504
+    object_data.parent.style.setProperty("overflow", "visible", "important");
+
+
+    return false;
+}

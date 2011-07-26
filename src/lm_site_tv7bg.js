@@ -43,3 +43,39 @@ function(link)
 
     return link;
 }
+
+LinternaMagica.prototype.sites["tv7.bg"].css_fixes =
+function(object_data)
+{
+    // The CSS rules hide parts of our elements
+    object_data.parent.parentNode.style.
+	setProperty("height",
+		    (parseInt(object_data.height)+26+
+		     // borders 1px x 2
+		     2+
+		     (this.controls ? 24 : 0)  )+"px",
+		    "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("width",
+		    (parseInt(object_data.width+2))+"px",
+		    "important");
+
+    // Fixes height and overflow of the third parent, so the
+    // replacement object is visible.
+    var third_parent = object_data.parent.parentNode.parentNode;
+    if (third_parent)
+    {
+	third_parent.style.setProperty("overflow", "visible", "important");
+	third_parent.style.
+	    setProperty("height", 
+			(parseInt(object_data.height)+26+
+			 // borders 1px x 2
+			 2+
+			 (this.controls ? 24 : 0)  )+"px",
+			"important");
+    }
+
+
+    return false;
+}

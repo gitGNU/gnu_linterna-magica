@@ -312,14 +312,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     {
 	toggle_plugin = this.create_toggle_plugin_link(this.priority, id);
 
-	// Fix displacement of toggle_plugin link/button in vimeo
-	if (/vimeo\.com/i.test(window.location.hostname))
-	{
-	    toggle_plugin.style.setProperty("top", 
-					    parseInt(object_data.height)+10+
-					    "px", "important");
-	}
-
 	var before = this.get_flash_video_object(id).nextSibling;
 
 	if (before)
@@ -383,72 +375,26 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
-    // Various CSS fix-ups
+    // Defaults style fixes applied always.
+    about_box.style.setProperty("overflow", "auto", "important");
+
     container.style.setProperty("height",
 				((parseInt(object_data.height)+26+
 				  (this.controls ? 24 : 0))+"px"),
 				"important");
 
-    // In channels/user pages in YouTube the web controlls are
-    // overlapped by this element.
-    if (/youtube\.com/i.test(window.location.hostname) &&
-	document.getElementById("playnav-playview"))
-    {
-	var el = 	document.getElementById("playnav-playview");
-	el.style.setProperty("margin-top", "50px", "important");
-    }
-
-    // The thumbnail image overlaps the toggle plugin button after our
-    // changes. This way our button is visible.
-    if (/vimeo\.com/i.test(window.location.hostname) && 
-	object_data.parent.firstChild)
-    {
-	// The first child should be a div with thumbnail as
-	// background. Reduce it's size so it will not overlap our
-	// button.
-	object_data.parent.firstChild.style.
-	    setProperty("height", parseInt(object_data.height)+"px",
-			"important");
-    }
-
     if (object_data.parent)
     {
-	var move_down_fb_frame = null;
-	if (/mqsto\.com/i.test(window.location.hostname))
-	{
-	    // Move the facebook comment frame in mqsto.com 100px
-	    // down. overlaps the player.
-	    move_down_fb_frame = 100;
-	}
-
 	object_data.parent.style.setProperty("height",
 					     (parseInt(object_data.height)+
-					      26+(move_down_fb_frame ? 
-						  move_down_fb_frame: 0)+
+					      26+
 					      // borders 1px x 2
 					      2+
 					      (this.controls ? 24 : 0))+"px",
 					     "important");
-
-	// Show HD links list. 
-	if (/vimeo\.com/i.test(window.location.hostname))
-	{
-	    object_data.parent.style.
-	    	setProperty("overflow", "visible", "important");
-
-	    object_data.parent.parentNode.style.
-	    	setProperty("overflow", "visible", "important");
-	}
-	// if (/vimeo\.com/i.test(window.location.hostname))
-	// {
-	//     // object_data.parent.parentNode.style.
-	//     // 	setProperty("overflow-y", "visible", "important");
-
-	//     // Hides the HD links menu
-	//     // object_data.parent.parentNode.style.
-	//     // 	setProperty("overflow-x", "hidden", "important");
-	// }
     }
+
+    
 
     var dom_object = this.get_flash_video_object(id);
     // Objects extracted from script usually does not have cloned object
@@ -458,25 +404,17 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	// Prevent the object to fill the container at 100% (if set)
 	// This way the toggle plugin link after the object is not
 	// overlaping elements.
-	dom_object.style.setProperty("height",
-						 object_data.height+"px",
-						 "important");
+	dom_object.style.setProperty("height", object_data.height+"px",
+				     "important");
     }
+
     // Prevent the video object to fill the area at 100% and overlap
     // other elements. This happends if the site CSS sets this
-    object_tag.style.setProperty("height",
-				 object_data.height+"px",
+    object_tag.style.setProperty("height", object_data.height+"px",
 				 "important");
 
-    object_tag.style.setProperty("width",
-				 object_data.width+"px",
+    object_tag.style.setProperty("width", object_data.width+"px",
 				 "important");
-
-    // No idea what this fixes.
-    if (/vimeo\.com/i.test(window.location.href))
-    {
-	object_tag.style.setProperty("position","relative","important");
-    }
 
     if (this.plugin_is_installed)
     {
@@ -500,66 +438,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // parent.parentNode is not an object
     if (object_data.parent && object_data.parent.parentNode)
     {
-
-	// The CSS hides parts of our elements
-	if (/tv7\.bg/i.test(window.location.hostname) ||
-	    /vimeo\.com/i.test(window.location.hostname))
-	{
-	    object_data.parent.parentNode.style.
-		setProperty("height",
-			    (parseInt(object_data.height)+26+
-			     // borders 1px x 2
-			     2+
-			     (this.controls ? 24 : 0)  )+"px",
-			    "important");
-
-	    object_data.parent.parentNode.style.
-		setProperty("width",
-			    (parseInt(object_data.width+2))+"px",
-			    "important");
-	}
-
-	if (/tv7\.bg/i.test(window.location.hostname) ||
-	    /vimeo\.com/i.test(window.location.hostname))
-	{
-	    var third_parent = object_data.parent.parentNode.parentNode;
-	    if (third_parent)
-	    {
-		third_parent.style.setProperty("overflow", "visible", "important");
-		third_parent.style.
-		    setProperty("height", 
-				(parseInt(object_data.height)+26+
-				 // borders 1px x 2
-				 2+
-				 (this.controls ? 24 : 0)  )+"px",
-				"important");
-	    }
-	}
-
-	if (/vimeo\.com/i.test(window.location.hostname) ||
-	    /reuters\.com/i.test(window.location.hostname))
-	{
-	    // Extra height for reuters.com. Otherwise the controlls
-	    // are hidden.
-	    var reuters = 
-		/reuters\.com/i.test(window.location.hostname) ? 100 : 0;
-
-	    var fourth_parent = object_data.parent.parentNode.parentNode.parentNode;
-	    if (fourth_parent)
-	    {
-		fourth_parent.style.setProperty("overflow", "visible", "important");
-		fourth_parent.style.
-		    setProperty("height", 
-				(parseInt(object_data.height)+26+
-				 reuters+
-				 // borders 1px x 2
-				 2+
-				 (this.controls ? 24 : 0)  )+"px",
-				"important");
-	    }
-	}
-
-
 	// dailymotion.com && metacafe.com && btn.bg
 	// These have single div inside another one
 	// which (through height) overlaps elemenst
@@ -587,16 +465,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
-    // Bug #33504 https://savannah.nongnu.org/bugs/?33504
-    if (/youtube\.com/i.test(window.location.hostname))
-    {
-	object_data.parent.style.setProperty("overflow", 
-					     "visible", "important");
-    }
-
-    // Temporary
-    // parent.style.setProperty("border", "1px solid red", "important");
-
     // Init the web controls functions
     // only if Linterna Mágica has priority
     if (this.controls &&
@@ -607,6 +475,12 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     // Examine the option for updates and check if necessary.
     this.check_for_updates();
+
+    // Various CSS fixes
+    var self = this;
+    var val = this.call_site_function_at_position.apply(self,[
+	"css_fixes",
+	window.location.hostname, object_data]);
 
     return null;
 }

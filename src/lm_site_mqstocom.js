@@ -43,3 +43,21 @@ function(link)
 
     return link;
 }
+
+LinternaMagica.prototype.sites["mqsto.com"].css_fixes =
+function(object_data)
+{
+    // Move the facebook comment frame in mqsto.com 100px
+    // down. overlaps the player.
+    var move_down_fb_frame = 100;
+
+    object_data.parent.style.setProperty("height",
+					 (parseInt(object_data.height)+
+					  26+move_down_fb_frame+
+					 // borders 1px x 2
+					 2+
+					 (this.controls ? 24 : 0))+"px",
+					 "important");
+
+    return false;
+}

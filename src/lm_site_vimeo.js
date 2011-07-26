@@ -250,3 +250,90 @@ function(object_data)
 
     return false;
 }
+
+LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
+{
+    // The thumbnail image overlaps the toggle plugin button after our
+    // changes. This way our button is visible.
+    if (object_data.parent.firstChild)
+    {
+	// The first child should be a div with thumbnail as
+	// background. Reduce it's size so it will not overlap our
+	// button.
+	object_data.parent.firstChild.style.
+	    setProperty("height", parseInt(object_data.height)+"px",
+			"important");
+    }
+
+    // Show HD links list. 
+    object_data.parent.style.
+	setProperty("overflow", "visible", "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("overflow", "visible", "important");
+	
+    // No idea what this fixes.
+    var object_tag = 
+	document.getElementById("linterna-magica-video-object-"+
+				object_data.linterna_magica_id);
+
+    object_tag.style.setProperty("position","relative","important");
+
+    // Fixes the height of the third parent element.  Fixes
+    // replacement object visibility.
+    var third_parent = object_data.parent.parentNode.parentNode;
+
+    if (third_parent)
+    {
+	third_parent.style.setProperty("overflow", "visible",
+				       "important");
+	third_parent.style.setProperty("height", 
+				       (parseInt(object_data.height)+26+
+					// borders 1px x 2
+					2+
+					(this.controls ? 24 : 0)  )+"px",
+				       "important");
+    }
+
+    // Fixes the height of the fourth parent. Fixes replacement object
+    // visibility.
+    var fourth_parent = object_data.parent.parentNode.
+	parentNode.parentNode;
+
+    if (fourth_parent)
+    {
+	fourth_parent.style.setProperty("overflow", "visible",
+					"important");
+	fourth_parent.style.setProperty("height", 
+					(parseInt(object_data.height)+26+
+					 // borders 1px x 2
+					 2+
+					 (this.controls ? 24 : 0)  )+"px",
+					"important");
+    }
+
+    // Fix displacement of toggle_plugin link/button in vimeo
+    var toggle_plugin = 
+	document.getElementById("linterna-magica-toggle-plugin-"+
+				object_data.linterna_magica_id);
+
+    if (toggle_plugin)
+    {
+	toggle_plugin.style.setProperty("top",
+					parseInt(object_data.height)+10+
+					"px", "important");
+    }
+
+    // The CSS rules hide parts of our elements
+    object_data.parent.parentNode.style.
+	setProperty("height", (parseInt(object_data.height)+26+
+		     // borders 1px x 2
+		     2+
+		     (this.controls ? 24 : 0)  )+"px", "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("width", (parseInt(object_data.width+2))+"px",
+		    "important");
+
+    return false;
+}
