@@ -248,6 +248,25 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		{
 		    this.request_bliptv_jsonp_data(object_data);
 		}
+		else if ((
+		    !/livestream\.com/i.test(window.location.hostname) &&
+			((object.hasAttribute('src') &&
+			  /livestream\.com/i.test(
+			      object.getAttribute('src'))) ||
+			 (object.hasAttribute('data') &&
+			  /livestream\.com/i.test(
+			      object.getAttribute('data'))))) ||
+			 (/livestream\.com/i.test(
+			     window.location.hostname) &&
+			  ((object.hasAttribute('src') &&
+			    /livestream\.com/i.test(
+				object.getAttribute('src'))) ||
+			   (object.hasAttribute('data') && 
+			    /livestream\.com/i.test(
+				object.getAttribute('data'))))))
+		{
+		    this.request_livestreamcom_jsonp_data(object_data);
+		}
 		else if (this.wait_xhr)
 		{
 		    this.log("LinternaMagica.extract_objects_from_dom:\n"+

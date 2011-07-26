@@ -183,7 +183,7 @@ LinternaMagica.prototype.extract_video_id = function()
     {
 	video_id_re = new RegExp (
 	    "(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|"+
-		"clip_id|video_id|vid|player_config\\\.php\\\?v|"+
+		"clip_id|clip|video_id|vid|player_config\\\.php\\\?v|"+
 		"videoid|media_id|vkey|video3|_videoid|"+
 		"vimeo_clip_|php&ID|\\\/video_embed\\\/\\\?id)"+
 		"(\\\"|\\\')*(\\\=|\\\:|,|\\\/)\\\s*(\\\"|\\\')*"+
