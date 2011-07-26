@@ -55,11 +55,11 @@ LinternaMagica.prototype.extract_link = function()
     {
 	link_re = new RegExp (
 	    "\\\{{0}.*(video|flv_ur|streamer|file|moviepath|videourl|"+
-		"mediaurl|sdurl|videopath|flv|url|ms|"+
+		"mediaurl|audio|soundfile|sdurl|videopath|flv|url|ms|"+
 		"nextmovie|flvaddress)"+
 		"(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
 	  	 "(.*\\\."+
-		"(flv|mp4)"+ // Add other extensions here
+		"(flv|mp4|mp3)"+ // Add other extensions here
 		"((\\\?|\\\&)?\\\w+\\\=[A-Za-z0-9_\\\-]+"+
 		"\\\&?)*)(?!\\\.)",
 	    "i");
@@ -183,7 +183,8 @@ LinternaMagica.prototype.extract_video_id = function()
     {
 	video_id_re = new RegExp (
 	    "(\\\"|\\\'|\\\&|\\\?|\\\;|\\\/|\\\.|\\\=)(itemid|"+
-		"clip_id|clip|video_id|vid|player_config\\\.php\\\?v|"+
+		"clip_id|audio|soundfile|clip|video_id|vid|"+
+		"player_config\\\.php\\\?v|"+
 		"videoid|media_id|vkey|video3|_videoid|"+
 		"vimeo_clip_|php&ID|\\\/video_embed\\\/\\\?id)"+
 		"(\\\"|\\\')*(\\\=|\\\:|,|\\\/)\\\s*(\\\"|\\\')*"+

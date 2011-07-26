@@ -192,12 +192,14 @@ function(linterna_magica_id, parent)
 LinternaMagica.prototype.find_started_clip = function()
 {
     var started = null;
+    var self = this;
 
     for (var i=0,l=this.found_flash_video_objects; i<l; i++)
     {
+	var state = self.player.state.apply(self,[i]);
 	// Another clip is started
 	if (this.get_video_object(i) &&
-	    this.player.state(i).string)
+	    state && state.string)
 	    {
 		started = i;
 		break;
@@ -206,4 +208,3 @@ LinternaMagica.prototype.find_started_clip = function()
 
     return started;
 }
-
