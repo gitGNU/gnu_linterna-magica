@@ -90,6 +90,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		label += "MP4";
 		break;
 	    case '43':
+	    case '44':
 	    case '45':
 		label += " WebM";
 		break;
@@ -115,6 +116,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		label += " MPEG-4 AVC (H.264), AAC";
 		break;
 	    case '43':
+	    case '44':
 	    case '45':
 		label += " VP8, Vorbis";
 		break;
