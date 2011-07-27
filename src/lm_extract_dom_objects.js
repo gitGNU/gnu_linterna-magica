@@ -92,18 +92,18 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	    {
 		this.create_param_list(object);
 		extracted_data = this.extract_link_from_param_list();
-
-		object_data.remote_site_link =
-		    extracted_data.remote_site_link;
-		object_data.link = extracted_data.link;
-		object_data.video_id = extracted_data.video_id;
-		object_data.hd_links =
-		    extracted_data.hd_links || null;
 	    }
 	    else
 	    {
 		extracted_data = val;
 	    }
+
+	    object_data.remote_site_link = extracted_data.remote_site_link;
+	    object_data.link = extracted_data.link;
+	    object_data.video_id = extracted_data.video_id;
+	    object_data.hd_links =
+		extracted_data.hd_links || null;
+
 
 	    if (!object_data.link && !object_data.video_id && 
 		!object_data.remote_site_link)
