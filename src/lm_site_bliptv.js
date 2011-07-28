@@ -104,7 +104,7 @@ LinternaMagica.prototype.sites["blip.tv"].set_video_id_regex = function()
 
     // Captured video_id position from left to right. Will be
     // subtracted from the matched arrays's lenght;
-    result.videoid_position = 1;
+    result.video_id_position = 1;
 
     return result;
 }
