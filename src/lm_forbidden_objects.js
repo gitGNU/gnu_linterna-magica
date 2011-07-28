@@ -36,7 +36,9 @@ LinternaMagica.prototype.skip_objects =
       // Facebook iframes in blip.tv
       "^f[0-9]+[a-z]+",
       // Blip.tv objects
-      "easyXDM_DISQUS_net_default[0-9]+_provider"];
+      "easyXDM_DISQUS_net_default[0-9]+_provider",
+      // livestream.com
+      "twitterIframe"];
 
 // Skip objects that has id matching a regex (see above array)
 LinternaMagica.prototype.skip_object_if_id = function(id_string)

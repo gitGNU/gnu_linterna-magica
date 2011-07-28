@@ -31,6 +31,22 @@ LinternaMagica.prototype.sites["livestream.com"] = new Object();
 // Reference
 LinternaMagica.prototype.sites["www.livestream.com"] = "livestream.com";
 
+LinternaMagica.prototype.sites["livestream.com"].set_video_id_regex =
+function()
+{
+    var result = new Object();
+
+    // Special regular expression is needed to catch live streams and
+    // recorded ones. The keys are different.
+    result.video_id_re = new RegExp(
+	"(clip|\\\&t)=(pla[_-a-zA-Z0-9]+|[0-9]+)",
+	"i");
+
+    result.video_id_position = 1;
+
+    return result;
+}
+
 //  Makes a JSONP request that fetches the clip data in Livestream.com
 LinternaMagica.prototype.request_livestreamcom_jsonp_data =
 function (object_data)
@@ -84,6 +100,9 @@ function (object_data)
 
     channel = channel[channel.length-1];
 
+    var jsonp_key =
+	/pla[_A-Za-z0-9\-]+/i.test(object_data.video_id) ? "id" : "t";
+
     var jsonp_request_data = new Object();
 
     jsonp_request_data.frame_id = "livestreamcom_jsonp_data_fetcher";
@@ -91,7 +110,7 @@ function (object_data)
     jsonp_request_data.parser_timeout_counter = 
 	this.livestream_jsonp_timeout_counter;
     jsonp_request_data.jsonp_script_link = "http://x"+channel+
-	"x.api.channel.livestream.com/3.0/getstream.json?id="+
+	"x.api.channel.livestream.com/3.0/getstream.json?"+jsonp_key+"="+
 	object_data.video_id+"&callback=livestreamcom_video_data";
 
 	"http://blip.tv/players/episode/"+object_data.video_id+
@@ -111,6 +130,53 @@ function (object_data)
 LinternaMagica.prototype.parse_livestreamcom_jsonp_data =
 function(data,object_data)
 {
-    object_data.link = data.progressiveUrl;
+    object_data.link = data.progressiveUrl ? 
+	data.progressiveUrl : data.rtspUrl;
+
+    if (data.progressiveUrl && data.rtspUrl)
+    {
+	object_data.hd_links = new Array();
+
+	var hd_link = new Object();
+	hd_link.label = this._("RTSP link");
+	hd_link.url = data.rtspUrl;
+	object_data.hd_links.push(hd_link);
+
+	hd_link = new Object();
+	hd_link.label = this._("Progressive link");
+	hd_link.url = data.progressiveUrl;
+	object_data.hd_links.push(hd_link);
+    }
+
     this.create_video_object(object_data);
+}
+
+LinternaMagica.prototype.sites["livestream.com"].css_fixes =
+function(object_data)
+{
+    var featured = document.getElementById("featured");
+    if (featured)
+    {
+	// A h2 element on front page and pages with categories of
+	// channel listings overlap the controls. It is a
+	// nextSibling.nextSibling of the featured element. Better
+	// use the third parent of the linterna magica object.
+	var lm = 
+	    document.getElementById("linterna-magica-"+
+				    object_data.linterna_magica_id);
+	if (lm)
+	{
+	    lm.parentNode.parentNode.parentNode.style.
+		setProperty("bottom", "60px", "important");
+	}
+    }
+
+    // Objects in dedicated channel pages are displaced 3px left.
+    var lm_object =
+	document.getElementById("linterna-magica-video-object-"+
+				object_data.linterna_magica_id);
+    if (lm_object)
+    {
+	lm_object.style.setProperty("left", "0px", "important");
+    }
 }
