@@ -26,11 +26,6 @@
 
 // END OF LICENSE HEADER
 
-// Used for class names of marked objects. Flash objects might have
-// id's already. It is not a good idea to replace them.
-LinternaMagica.prototype.marked_object_template =
-    "linterna-magica-processed-object-";
-
 // Increment the counter for found video flash objects, mark the
 // element with appropriate class attribute and return the new value.
 LinternaMagica.prototype.mark_flash_object = function(element)

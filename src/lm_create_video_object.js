@@ -302,8 +302,13 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				"important");
     container.appendChild(about_box);
     
-    object_tag.setAttribute("class", 
-			    this.marked_object_template+"video-"+id);
+    // Mark the object, so it is not processed and chacked after
+    // insertion. The function mark_flash_object will use new id and
+    // that might not be a good idea (object count, XHRs, duplicate
+    // objects ... ). The linterna_magica_id property is set ot a
+    // float, so it is not the same as the one of the flash object.
+    object_tag.linterna_magica_id = parseFloat(object_data.linterna_magica_id+
+					       "."+object_data.linterna_magica_id);
 
     // Add link after the object/embed
     // this.set_priority() has set this.priority
