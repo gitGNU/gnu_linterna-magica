@@ -46,7 +46,10 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	{
 	    this.log("LinternaMagica.extract_objects_from_dom:\n"+
 		     "Skipping processed object with linterna_magica_id:"+
-		     this.get_marked_object_id(object), 2);
+		     this.get_marked_object_id(object)+
+		     ", localName <"+objects[i].localName+">"+
+		     (objects[i].hasAttribute("id") ? 
+		      " and id: "+objects[i].getAttribute("id"):""),2);
 
 	    continue;
 	}
@@ -293,12 +296,10 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 	else
 	{
 	    this.log("LinternaMagica.extract_objects_from_dom:\n"+
-		     "Skipping object #"+i,1);
-
-	    // +
-	    // ". Parent node HTML: "+
-	    // objects[i].parentNode.innerHTML,5);
-
+		     "Skipping object number "+i+
+		     " with localName <"+objects[i].localName+">"+
+		     (objects[i].hasAttribute("id") ? 
+		      " and with id: "+objects[i].getAttribute("id"):""),1);
 	}
     }
 }
