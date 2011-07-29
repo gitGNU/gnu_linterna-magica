@@ -68,8 +68,8 @@ LinternaMagica.prototype.log = function(message, level)
 	var log_string = message + " at "+host + " time: "+str;
 	var level_string =  " ("+level+") ";
 
-	log_string = log_string.replace(/^/, indent+level_string).
-	    replace(/\n/, "\n"+indent+level_string);
+	log_string = log_string.replace(/^/g, indent+level_string).
+	    replace(/\n/g, "\n"+indent+level_string);
 
 	try
 	{
