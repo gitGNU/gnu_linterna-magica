@@ -307,8 +307,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // that might not be a good idea (object count, XHRs, duplicate
     // objects ... ). The linterna_magica_id property is set ot a
     // float, so it is not the same as the one of the flash object.
-    object_tag.linterna_magica_id = parseFloat(object_data.linterna_magica_id+
-					       "."+object_data.linterna_magica_id);
+    object_tag.linterna_magica_id =
+	parseFloat(object_data.linterna_magica_id+".1");
 
     // Add link after the object/embed
     // this.set_priority() has set this.priority
