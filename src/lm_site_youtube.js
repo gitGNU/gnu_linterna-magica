@@ -245,7 +245,8 @@ LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
 function()
 {
     var data = this.script_data;
-    if (!data.match(/var\s*swfConfig/))
+    if (!data.match(/var\s*swfConfig/) &&
+	!data.match(/yt\.setConfig/))
     {
  	return null;
     }
