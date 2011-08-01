@@ -62,7 +62,7 @@ LinternaMagica.prototype.extract_dailymotion_links = function(data)
 	    link.label = link_data.match(/\w+-\d+x\d+/i);
 	    link.url =  link_data.replace(/\\\//g, "/").replace(
 		    /(\"\s*:\s*\")|(\"\s*|,\s*\")|hdurl|hqurl|sdurl|\}/ig,
-		"");
+		"").replace(/hd720url|hd1080url/ig,"");
 
 	    this.log("LinternaMagica.extract_dailymotion_links:\n"+
 		     "Extracted link  : "+link.url,4);
