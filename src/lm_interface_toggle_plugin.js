@@ -27,15 +27,18 @@
 
 // END OF LICENSE HEADER
 
-// Create the link/button to switch between flash plugin and
-// Linterna Mágica
-LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id)
+// Create the link/button to switch between flash plugin or HTML5
+// player and Linterna Mágica
+LinternaMagica.prototype.create_toggle_plugin_link =
+function(not_in_header,id,switch_type)
 {
     var toggle_plugin = document.createElement("a");
     var self = this;
     var wrapper = null;
+
     toggle_plugin.setAttribute("href", "#");
-    if (plugin_priority)
+
+    if (not_in_header)
     {
 	toggle_plugin.setAttribute("class", "linterna-magica-toggle-plugin");
     }
@@ -49,7 +52,7 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     toggle_plugin.addEventListener("click",
 				   toggle_plugin_click_function, false);
 
-    if (plugin_priority)
+    if (not_in_header)
     {
 
 	toggle_plugin.textContent = "Linterna Mágica >>";
@@ -62,22 +65,39 @@ LinternaMagica.prototype.create_toggle_plugin_link = function(plugin_priority,id
     }
     else
     {
-	toggle_plugin.textContent = this._("Plugin");
+	if (/html5/i.test(switch_type))
+	{
+	    toggle_plugin.textContent = this._("HTML5");
+	}
+	else
+	{
+	    toggle_plugin.textContent = this._("Plugin");
+	}
+
 	toggle_plugin.setAttribute("class", 
 				   "linterna-magica-toggle-plugin-header");
 	toggle_plugin.setAttribute("id", 
 				   "linterna-magica-toggle-plugin-header-"+id);
     }
 
-    toggle_plugin.setAttribute("title",
-			       this._("Switch between flash plugin"+
-				 " and Linterna Mágica"));
+    if (/html5/i.test(switch_type))
+    {
+	toggle_plugin.setAttribute("title",
+				   this._("Switch between site's HTML5 "+
+					  "player and Linterna Mágica"));
+    }
+    else
+    {
+	toggle_plugin.setAttribute("title",
+				   this._("Switch between flash plugin"+
+					  " and Linterna Mágica"));
+    }
 
     return wrapper ? wrapper : toggle_plugin;
 }
 
-// Event listener function that switches between flash plugin and
-// Linterna Mágica
+// Event listener function that switches between flash plugin or HTML5
+// player and Linterna Mágica
 LinternaMagica.prototype.toggle_plugin = function(event,element)
 {
     event.preventDefault();
@@ -95,20 +115,33 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	document.getElementById("linterna-magica-video-object-"+
 				linterna_magica_id);
 
-    var flash_object = 
-	this.get_flash_video_object(linterna_magica_id,
-				    // The parent of the div holding
-				    // Linterna Mágica
-				    video_object.parentNode.parentNode);
-
-    if (!flash_object && !video_object)
+    if (!video_object)
     {
 	return null;
     }
 
+    var html5_parent = null;
+
+    var site_player = 
+	this.get_flash_video_object(linterna_magica_id,
+				    // The parent of the div holding
+				    // Linterna Mágica
+				    video_object.parentNode.parentNode);
+    if (!site_player)
+    {
+	html5_parent = video_object.parentNode.parentNode;
+	site_player = 
+	    this.find_site_html5_player_wrapper(html5_parent);
+
+	if (!site_player)
+	{
+	    return null;
+	}
+    }
+
     // Visible flash, hidden video object. Display has value (none)
     // when the object is hidden.
-    if (!flash_object.style.getPropertyValue("display") &&
+    if (!site_player.style.getPropertyValue("display") &&
 	video_object.parentNode.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
@@ -116,8 +149,16 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 		 linterna_magica_id+
 		 ") with video object.", 4);
 
-	this.hide_flash_video_object(linterna_magica_id, 
-				     flash_object.parentNode);
+	if (!html5_parent)
+	{
+	    this.hide_flash_video_object(linterna_magica_id, 
+					 site_player.parentNode);
+	}
+	else
+	{
+	    this.pause_site_html5_player(html5_parent);
+	    this.hide_site_html5_player(html5_parent);
+	}
 
 	this.show_lm_video(linterna_magica_id);
 
@@ -134,20 +175,28 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
     // Hidden flash, visible video object. Display has value (none)
     // when the object is hidden.
     else if (!video_object.parentNode.style.getPropertyValue("display") &&
-	     flash_object.style.getPropertyValue("display"))
+	     site_player.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
 		 "Replacing/hiding video object (id:"+
 		 linterna_magica_id+
 		 ") with swf object.", 4);
 
+	if (!html5_parent)
+	{
+	    this.show_flash_video_object(linterna_magica_id, 
+					 site_player.parentNode);
+
+	}
+	else
+	{
+	    this.show_site_html5_player(html5_parent);
+	}
+
 	this.hide_lm_video(linterna_magica_id);
-	this.show_flash_video_object(linterna_magica_id, 
-				     flash_object.parentNode);
 	
 	// External toggle plugin link
 	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
 	ext_toggle_wrapper.style.removeProperty("display");
-
     }
 }

@@ -203,3 +203,103 @@ LinternaMagica.prototype.find_started_clip = function()
 
     return started;
 }
+
+// Search for <video> or <canvas> (some sites use it alongside
+// <video>) in the parent and return its parentNode that is child of
+// parent.
+LinternaMagica.prototype.find_site_html5_player_wrapper =
+function(parent)
+{
+    if (!parent)
+    {
+	return null;
+    }
+
+    var html5_player_holder = null;
+    var t = null;
+
+    var video_or_canvas = parent.getElementsByTagName("video");
+
+    if (!video_or_canvas || !video_or_canvas.length)
+    {
+	// Some pages (Vimeo, Dailymotion might use a canvas tag
+	// before inserting the video tag). 
+	video_or_canvas  =  parent.getElementsByTagName("canvas");
+
+	// No more guesses
+	if (!video_or_canvas || !video_or_canvas.length)
+	{
+	    return null;
+	}
+    }
+
+    html5_player_holder = video_or_canvas[0].parentNode;
+
+    // Searching for the holder element that is placed in the
+    // parent element (parent) that holds Linterna Magica.
+    while (parent != html5_player_holder)
+    {
+	t = html5_player_holder;
+	html5_player_holder = html5_player_holder.parentNode;
+    }
+
+    if (t !== null)
+    {
+	html5_player_holder = t;
+    }
+
+    return html5_player_holder;
+}
+
+// Hide the HTML5 player wrapper found in the parent element.
+LinternaMagica.prototype.hide_site_html5_player =
+function(parent)
+{    
+    var html5_player =
+	this.find_site_html5_player_wrapper(parent);
+
+    if (!html5_player)
+    {
+	return null;
+    }
+
+    html5_player.style.setProperty("display", "none", "important");
+    return html5_player;
+}
+
+// Show the HTML5 player wrapper found in the parent element.
+LinternaMagica.prototype.show_site_html5_player =
+function(parent)
+{
+
+    var html5_player =
+	this.find_site_html5_player_wrapper(parent);
+
+    if (!html5_player)
+    {
+	return null;
+    }
+
+    html5_player.style.removeProperty("display");
+    return html5_player;
+}
+
+// Pause the first HTML5 player (<video>) found in the parent element.
+LinternaMagica.prototype.pause_site_html5_player =
+function(parent)
+{
+    if (!parent)
+    {
+	return null;
+    }
+
+    var video = parent.getElementsByTagName("video");
+
+    if (!video || !video.length)
+    {
+	return null;
+    }
+
+    video = video[0];
+    video.pause();
+}

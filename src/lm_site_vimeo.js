@@ -54,8 +54,6 @@ LinternaMagica.prototype.detect_vimeo_browser_upgrade = function(object_data)
 	// Will be cleared in if (detected)
 	// clearInterval(this.vimeo_browser_upgrade_timeout);
 	detected=1;
-	// Remove the HTML5 player in Epiphany/Midory
-	object_data.parent.removeChild(object_data.parent.lastChild);
     }
 
     var scripts = object_data.parent.getElementsByTagName("script");
@@ -85,6 +83,10 @@ LinternaMagica.prototype.detect_vimeo_browser_upgrade = function(object_data)
 	this.create_video_object(object_data);
     }
 }
+
+// Reference YT's function. Checks for HTML5 player and if found, scan
+// scripts.
+LinternaMagica.prototype.sites["vimeo.com"].flash_plugin_installed = "youtube.com";
 
 // Extract object data in Vimeo. This makes Firefox and forks to work
 // without plugin and without HTML5 (missing H264)
@@ -255,14 +257,28 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 {
     // The thumbnail image overlaps the toggle plugin button after our
     // changes. This way our button is visible.
-    if (object_data.parent.firstChild)
+    if (object_data.parent.firstChild &&
+	/HTMLDiv/i.test(object_data.parent.firstChild))
     {
 	// The first child should be a div with thumbnail as
 	// background. Reduce it's size so it will not overlap our
-	// button.
-	object_data.parent.firstChild.style.
-	    setProperty("height", parseInt(object_data.height)+"px",
-			"important");
+	// button. A size of 0 px does not hide the linterna magica
+	// header object, but moves the flash object down.  A size of
+	// object_data.height px does not hide the header, but does
+	// not move the flash object. The only option left is to
+	// remove the element. This fixes the toggle_plugin
+	// displacement, if the height of the element is changed.
+	object_data.parent.removeChild(object_data.parent.firstChild);
+
+	var flash_object = 
+	    this.get_flash_video_object(object_data.linterna_magica_id, 
+					object_data.parent);
+
+	if (flash_object)
+	{
+	    flash_object.style.setProperty("position", 
+					   "relative", "important");
+	}
     }
 
     // Show HD links list. 
@@ -277,7 +293,10 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 	document.getElementById("linterna-magica-video-object-"+
 				object_data.linterna_magica_id);
 
-    object_tag.style.setProperty("position","relative","important");
+    if (object_tag)
+    {
+	object_tag.style.setProperty("position","relative","important");
+    }
 
     // Fixes the height of the third parent element.  Fixes
     // replacement object visibility.
@@ -312,18 +331,7 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 					"important");
     }
 
-    // Fix displacement of toggle_plugin link/button in vimeo
-    var toggle_plugin = 
-	document.getElementById("linterna-magica-toggle-plugin-"+
-				object_data.linterna_magica_id);
-
-    if (toggle_plugin)
-    {
-	toggle_plugin.style.setProperty("top",
-					parseInt(object_data.height)+10+
-					"px", "important");
-    }
-
+   
     // The CSS rules hide parts of our elements
     object_data.parent.parentNode.style.
 	setProperty("height", (parseInt(object_data.height)+26+
@@ -334,6 +342,20 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
     object_data.parent.parentNode.style.
 	setProperty("width", (parseInt(object_data.width+2))+"px",
 		    "important");
+
+    var site_html5_player = 
+	this.find_site_html5_player_wrapper(object_data.parent);
+
+    if (site_html5_player)
+    {
+	// The HTML5 player's thumbnail image has black lines on top and
+	// back after adding LM. Clear them
+	site_html5_player.style.setProperty("height", "87%", "important");
+
+	// The LM switch button is too close to the thumbnail of the HTML5 player.
+	site_html5_player.style.setProperty("margin-bottom", 
+					    "5px", "important");
+    }
 
     return false;
 }

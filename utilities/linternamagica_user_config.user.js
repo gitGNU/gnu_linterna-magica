@@ -41,7 +41,7 @@ var linterna_magica_user_config = {
     "debug": 0,
     "log_to": "web",
     "updates": "1w",
-    "priority": "self",
+    "priority": "html5, self, plugin",
     "autostart": "on",
     "controls": "self",
     "locale": "auto",

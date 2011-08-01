@@ -220,6 +220,22 @@ LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
 LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
 LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
 
+// Referenced by Vimeo
+LinternaMagica.prototype.sites["youtube.com"].flash_plugin_installed =
+function()
+{
+    var site_html5_player = this.find_site_html5_player_wrapper(document);
+
+    // If there is html5 player and flash plugin is installed no SWF
+    // object will be created. We must examine scripts.
+    if (site_html5_player)
+    {
+	return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
+    }
+
+    return true;
+}
+
 LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
 function()
 {
@@ -502,6 +518,20 @@ LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
      // Bug #33504 https://savannah.nongnu.org/bugs/?33504
     object_data.parent.style.setProperty("overflow", "visible", "important");
 
+    var site_html5_player = 
+	this.find_site_html5_player_wrapper(object_data.parent);
+
+    if (site_html5_player)
+    {
+	// The HTML5 player's controlls hide the Linterna Magica switch button.
+	site_html5_player.style.setProperty("margin-bottom", "30px", "important");
+
+	// The player is too close to YT visitors counter & buttons
+	object_data.parent.style.setProperty("margin-bottom",
+						 "50px", "important");
+	
+    }
+    
 
     return false;
 }

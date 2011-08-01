@@ -11,7 +11,7 @@ format:
     "debug": 1,
     "log_to": "web",
     "updates": "1w",
-    "priority": "self",
+    "priority": "html5, self, plugin",
     "autostart": "off",
     "controls": "self",
     "locale": "auto",
@@ -58,13 +58,17 @@ Available options are:
 		d = day, w = week, m = month, y = year
 	off/disabled/no/never/false/0: Do not check
   priority
-      This options sets if Linterna Mágica should replace found
-      objects.
+      This options determines how opbject found by Linterna Mágica
+      should be played. You can set multiple values separated with
+      ",", without the quotes. The default value is "html5, self, plugin".
         self
-            Replace the flash object (default)
+            Replace the flash objects
         plugin
             Use Gnash/Swfdec. A button next to the flash object
             switches to Linterna Mágica.
+	html5
+	    Use HTML5 player if the site provides one. A button next
+	    to the player switches to Linterna Mágica.
   autostart
       Auto start playback. If more than one object is found, only the
       first one will start playback.

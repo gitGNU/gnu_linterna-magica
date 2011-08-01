@@ -30,6 +30,14 @@
 // Extract data for dailymotion video links
 LinternaMagica.prototype.extract_dailymotion_links = function(data)
 {
+    // Dailymotion links could be extracted via JSON call at
+    // http://www.dailymotion.com/json/video/<video_id>. To get the
+    // links one must use set a "fields" field for example to
+    // "stream_ogg_url,stream_h264_sd_url,stream_h264_hq_url".  When
+    // set and used with callback field the server returns an error
+    // 500. Without the callabck function the results from JSON
+    // requests are useless.
+
     var links_re = new RegExp (
 	"sdurl"+
 	    "(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
@@ -77,7 +85,43 @@ LinternaMagica.prototype.sites["www.dailymotion.com"] = "dailymotion.com";
 LinternaMagica.prototype.sites["dailymotion.com"].no_flash_plugin_installed =
 function()
 {
-    this.request_video_link({video_id: window.location.pathname});
+    var data = new Object();
+    data.video_id = window.location.pathname;
+
+    if (this.wait_xhr)
+    {
+    	this.log("LinternaMagica.extract_objects_from_dom:\n"+
+    		 "Waiting "+this.wait_xhr+
+    		 " ms ("+(this.wait_xhr/1000)+
+    		 " s) before requesting video link via"+
+    		 " video_id "+data.video_id+" ",1);
+
+    	var self = this;
+    	setTimeout(function() {
+    	    self.request_video_link.apply(self,[data]);
+    	}, this.wait_xhr);
+    }
+    else
+    {
+	this.request_video_link(data);
+    }
+
+    return true;
+}
+
+LinternaMagica.prototype.sites["dailymotion.com"].flash_plugin_installed =
+function()
+{
+    var site_html5_player = this.find_site_html5_player_wrapper(document);
+
+    // If there is html5 player and flash plugin is installed no SWF
+    // object will be created. We must examine scripts.
+    if (site_html5_player)
+    {
+	return this.sites["dailymotion.com"].
+	    no_flash_plugin_installed.apply(this, [arguments]);
+    }
+
     return true;
 }
 
@@ -135,6 +179,16 @@ function(object_data)
     this.extract_cookies();
     this.expire_cookies();
 
+    // For some strange reason the cookie that activates the HTML5
+    // player could not be expired. It must be forced to non-relevant
+    // for the site value. If it is present, the XHR does not get a
+    // flash player version of the page and no data could be
+    // extracted.
+    if (/html5_switch=1/i.test(document.cookie))
+    {
+	document.cookie = "html5_switch=0;";
+    }
+
     return result;
 }
 
@@ -143,9 +197,10 @@ function(args)
 {
     var client = args.client;
     var object_data = args.object_data;
-
-    if (!this.plugin_is_installed &&
-	!object_data.linterna_magica_id && 
+    
+    // !this.plugin_is_installed is removed so it could work when
+    //  plugin is installed and HTML5 is active.
+    if (!object_data.linterna_magica_id && 
 	!object_data.parent)
     {
 	// In Dailymotion the script that creates the flash
@@ -181,6 +236,11 @@ function(args)
 
 	body.innerHTML = original_body_data;
 
+	if (!object_data)
+	{
+	    return null;
+	}
+
 	object_data.parent = 
 	    this.get_first_element_by_class("dmpi_video_playerv[0-9]+");
 
@@ -200,5 +260,94 @@ function(args)
 	this.restore_cookies();
     }
 
+    // For some strange reason the cookie that activates the HTML5
+    // player could not be expired. It was forced to non-relevant for
+    // the site value. If it is present, the XHR does not get a flash
+    // player version of the page and no data could be extracted.  It
+    // must be restored.
+    if (/html5_switch=0/i.test(document.cookie))
+    {
+	document.cookie = "html5_switch=1;";
+    }
+
+
     return object_data;
+}
+
+LinternaMagica.prototype.sites["dailymotion.com"].insert_object_after_xhr =
+function(object_data)
+{
+    // Skip the remove_plugin_install_waring in the default object
+    // creation code after XHR. This keeps the HTML5 error screen.
+    if (/html5_switch=1/i.test(document.cookie))
+    {
+	this.log("LinternaMagica.request_video_link_parse response:\n"+
+		 "Creating video object with url: "+object_data.link,1);
+	this.create_video_object(object_data)
+	return false;
+    }
+
+    // Just exit and leave object insertion to the XHR function.
+    return true;
+}
+
+LinternaMagica.prototype.sites["dailymotion.com"].css_fixes =
+function(object_data)
+{
+    var parent = object_data.parent;
+    parent.style.setProperty("margin-bottom", "30px", "important");
+
+    var html5_error = 
+	this.get_first_element_by_class("error_screen");
+
+    if (html5_error)
+    {
+	var lm = document.getElementById("linterna-magica-"+
+					 object_data.linterna_magica_id);
+	// Hide the error screen when the LM wrapper is visible
+	if (lm && !lm.style.display)
+	{
+	    html5_error.style.setProperty("display", "none", "important");
+	}
+
+	// Hide / show on toggle_plugin clicks 
+	var toggle_header =
+	    document.getElementById("linterna-magica-toggle-plugin-header-"+
+				    object_data.linterna_magica_id);
+	var toggle_after =
+	    document.getElementById("linterna-magica-toggle-plugin-"+
+				    object_data.linterna_magica_id);
+
+	var header_fn = function(ev)
+	{
+	    var err_screen  = document.querySelector(".error_screen");
+
+	    if (!err_screen)
+	    {
+		return;
+	    }
+
+	    if (err_screen.style.display)
+	    {
+		err_screen.style.removeProperty("display");
+	    }
+	    else
+	    {
+		err_screen.style.setProperty("display", 
+					     "none", "important");
+	    }
+	};
+
+	if (toggle_header)
+	{
+	    toggle_header.addEventListener("click",header_fn,false);
+	}
+
+	if (toggle_after)
+	{
+	    toggle_after.addEventListener("click",header_fn,false);
+	}
+    }
+
+    return null;
 }
