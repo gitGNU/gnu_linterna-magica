@@ -113,13 +113,14 @@ function(client, object_data)
 {
     if (client.readyState == 4 && client.status == 200)
     {
+	var host = window.location.hostname;
+
 	// Remove marked video_id as being retrieved already.
 	if (this.requested_ids[object_data.video_id+host])
 	{
 	    delete this.requested_ids[object_data.video_id+host];
 	}
 
-	var host = window.location.hostname;
 	var url;
 	var mime= "video/flv";
 

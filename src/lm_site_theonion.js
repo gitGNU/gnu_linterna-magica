@@ -101,7 +101,7 @@ LinternaMagica.prototype.capture_theonion_clip_change = function(object_data)
     }
 
     var self = this;
-    var click_function = function(ev)
+    this.theonion_click_wrapper_function = function(ev)
     {
 	var el = this;
 	var od = object_data;
@@ -114,7 +114,8 @@ LinternaMagica.prototype.capture_theonion_clip_change = function(object_data)
     for (var i=0,l=buttons.length; i<l; i++)
     {
 	var li = buttons[i];
-	li.addEventListener("click", click_function, true);
+	li.addEventListener("click",
+			    this.theonion_click_wrapper_function, true);
     }
 }
 
@@ -174,7 +175,12 @@ function(args)
 
    var onion_data = eval("("+client.responseText+")");
     object_data.link = onion_data.video_url;
-    this.capture_theonion_clip_change(object_data);
+
+    // Only the first extracted object should add this.
+    if (!this.theonion_click_wrapper_function)
+    {
+	this.capture_theonion_clip_change(object_data);
+    }
 
     return object_data;
 }
