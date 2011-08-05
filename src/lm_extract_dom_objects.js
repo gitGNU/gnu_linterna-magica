@@ -345,7 +345,7 @@ LinternaMagica.prototype.extract_object_width = function(element)
 	width = 300;
     }
 
-    return width;
+    return parseInt(width);
 }
 
 // Find the flash object height
@@ -397,7 +397,7 @@ LinternaMagica.prototype.extract_object_height = function(element)
 	height = 150;
     }
 
-    return height;
+    return parseInt(height);
 }
 
 //  Searches through array of param and attributes
