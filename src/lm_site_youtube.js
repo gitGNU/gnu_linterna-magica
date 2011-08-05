@@ -173,9 +173,9 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 {
     var fmt_re = new RegExp (
-	"(\\\"|\\\'|\\\&)fmt_url_map"+
+	"(\\\"|\\\'|\\\&|\\\&amp;)url_encoded_fmt_stream_map"+
 	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
-	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?]+)");
+	    "([a-zA-Z0-9\\\-\\\_\\\%\\\=\\\/,\\\\\.\|:=&%\?\+]+)");
 
     var fmt = data.match(fmt_re);
 
@@ -189,20 +189,27 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	// Hash with keys fmt_ids and values video URLs
 	var map = new Object();
 
-	// There was unescape here but it broke the split by ,. How it
-	// worked it is not clear. Maybe YT changed something.
-	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
+	fmt = unescape(fmt[fmt.length-1].replace(/\\\//g, "/"));
 
 	fmt = fmt.split(/,/);
 
+	var links = 0;
+
 	for (var url=0; url<fmt.length; url++) 
 	{
-	    // fmt_id|link
-	    var m = fmt[url].split(/\|/);
-	    map[m[0]] =  m[1];
+	    // url=URL&type=video/...&itag=fmt_id
+	    var m = unescape(fmt[url]).replace(/url=/, "");
+	    m = m.split(/&type=video/);
+
+	    var fmt_id = m[1].match(/&itag=([0-9]+)/);
+	    if (fmt_id)
+	    {
+		links++;
+		map[fmt_id[fmt_id.length-1]] =  m[0];
+	    }
 	}
 
-	return map;
+	return links ? map: null;
     }
     else
     {
@@ -410,7 +417,7 @@ function(args)
 
     var hd_links = this.create_youtube_links(fmt, maps);
     object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
-    object_data.hd_links = hd_links.length ? hd_links : null;
+    object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
 
     // See "A note on cookies"
     if (/restore/i.test(this.process_cookies))
