@@ -82,8 +82,14 @@ LinternaMagica.prototype.create_checker_frame = function(data)
 	{
 	    var hash = /#/i.test(receiver_location) ? "" : "#";
 
+	    // Stringify
+	    var data = json_parser.json_to_string(request_data);
+
+	    // Protect against illegal XML characters 
+	    data = encodeURI(data);
+
 	    // Pack the data
-	    var packed_data =btoa(json_parser.json_to_string(request_data));
+	    var packed_data = btoa(data);
 
 	    // If packed_data is null, native JSON is missing. At least
 	    // updates should have backup. For updates the JSON object
@@ -158,7 +164,7 @@ LinternaMagica.prototype.jsonp_data_parser = function(data)
 	jsonp_data = jsonp_data[1].split("lm_request_data=")[1].split("&")[0];
 
 	// Unpack
-	jsonp_data = this.string_to_json(atob(jsonp_data));
+	jsonp_data = this.string_to_json(decodeURI(atob(jsonp_data)));
 
 	data.parser_function.apply(this, [jsonp_data, data.user_data]);
     }
