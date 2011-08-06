@@ -99,32 +99,39 @@ LinternaMagica.prototype.create_about_box = function(id)
     p.appendChild(license_link);
     box.appendChild(p);
 
-    var homepage = this.pack_external_link(this.homepage,
-					   this._("Linterna Mágica Home page"));
+    var homepage = 
+	this.pack_external_link(this.homepage,
+				this._("Linterna Mágica Home page"));
 
     homepage.setAttribute("title", this.homepage);
     p = document.createElement('p');
     p.appendChild(homepage);
     box.appendChild(p);
 
-    var savannah_link = this.pack_external_link(this.savannah_page,
-						this._("Linterna Mágica project page at Savannah"));
+    var savannah_link = 
+	this.pack_external_link(
+	    this.savannah_page,
+	    this._("Linterna Mágica project page at Savannah"));
 
     savannah_link.setAttribute("title", this.savannah_page);
     p = document.createElement("p");
     p.appendChild(savannah_link);
     box.appendChild(p);
 
-    var bug_report_link = this.pack_external_link(this.bug_report_link,
-						  this._("Report a bug at our Savannah project page"));
+    var bug_report_link = 
+	this.pack_external_link(
+	    this.bug_report_link,
+	    this._("Report a bug at our Savannah project page"));
 
     bug_report_link.setAttribute("title", this.bug_report_link);
     p = document.createElement("p");
     p.appendChild(bug_report_link);
     box.appendChild(p);
 
-    var microblog_link = this.pack_external_link(this.microblog_link,
-						 this._("Linterna Mágica microbloging group at Identi.ca"));
+    var microblog_link = 
+	this.pack_external_link(
+	    this.microblog_link,
+	    this._("Linterna Mágica microbloging group at Identi.ca"));
 
     microblog_link.setAttribute("title", this.microblog_link);
     p = document.createElement("p");
