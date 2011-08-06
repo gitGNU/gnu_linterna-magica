@@ -1,25 +1,11 @@
-First of all, install the Greasemonkey extension for your browser and
-activate it. For Epiphany it is part of the Epiphany-extensions
-package. For GNU IceCat, Abrowser and other versions of Firefox see
-the Greasemonkey web page.
-
-Probably these extensions are available in your GNU/Linux distribution
-as a package.
-
-First of all install the Greasemonkey extension for your browser and
-activate it. For Epiphany it is part of the Epiphany-extensions
-package. For GNU IceCat, Abrowser and other versions of Firefox see
-the Greasemonkey web page.
-
-Probably these extensions are available in your GNU/Linux distribution
-as a package.
-
-Second, install the video plugin that you prefer.
-
 Building the user script
 
 Since version 0.0.9 of Linterna Mágica the userscript have to be
-build. To do this you will need the following packets:
+build, if you have downloaded the source code tarball. If you do not
+want to build the script, visit Linterna Mágica's web site and
+download the compiled version of the script, which is ready for
+installation. To build the userscript you will need the following
+packets:
 
 * GNU make 
 * GNU sed 
@@ -63,6 +49,30 @@ To remove all the generated files and the userscript file, type:
 
    make distclean
 
+
+Installation 
+
+First of all, install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+First of all install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+Second, install the video plugin that you prefer.
+
+If you have downloaded compressed with gzip or bzip2 version of the
+userscript, decompress it to get a copy of the file ready for
+installation.
 
 Installation from the browser
 
