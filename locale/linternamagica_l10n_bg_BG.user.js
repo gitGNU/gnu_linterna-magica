@@ -28,7 +28,7 @@
 // ==UserScript==
 // @name           Linterna Mágica l10n bg_BG
 // @namespace Linterna Mágica
-// @description  Bulgarian localisation for Linterna Mágica.
+// @description  Bulgarian localisation for Linterna Mágica v0.0.10.
 // @include        http://*
 // @include        https://*
 
@@ -41,12 +41,31 @@ var LM_L10N  =
 	    __translators: ["Ивайло Вълков <ivaylo@e-valkov.org>",],
 	    __direction: "ltr",
 	    "Translation": "Превод",
+	    "Unkown container":
+	    "Непознат контейнер",
+	    "Unkown encoding":
+	    "Непознато кодиране",
+	    "RTSP link":
+	    "Връзка тип „RTSP“",
+	    "Progressive link":
+	    "Връзка тип „Progressive“",
+	    "Remove this button, if it overlaps images or text in the page.":
+	    "Премахнете този бутон, ако скрива изображения или текст от страницата.",
+	    "Report a bug at our Savannah project page":
+	    "Подайте доклад за грешка на страницата на проекта в Savannah",
+	    "Linterna Mágica project page at Savannah":
+	    "Страница на проекта Linterna Mágica в Savannah",
+	    "Linterna Mágica microbloging group at Identi.ca":
+	    "Микроблог групата на Linterna Mágicа в Identi.ca",
 	    "Download": "Запазване",
 	    "Save the video clip": "Запазване на видео клипа",
 	    "Loading video...": "Зареждане на клипа…",
 	    "Plugin": "Приставка",
+	    "HTML5": "HTML5",
 	    "Switch between flash plugin and Linterna Mágica":
 	    "Превключване между приставката за флаш и Linterna Mágica",
+	    "Switch between site's HTML5 player and Linterna Mágica":
+	    "Превключване между възпрозивеждане чрез HTML5, предоставено от страницата и Linterna Mágica",
 	    "Waiting for video plugin...":
 	    "Изчакване на приставката за видео клипове…",
 	    "About": "Относно",
@@ -64,6 +83,7 @@ var LM_L10N  =
 	    "Loading": "Зареждане",
 	    "Buffering": "Буфериране",
 	    "Higher quality": "Високо качество",
+	    "HQ": "ВК",
 	    " version: ": " версия: ",
 	    "This program is free software; ":
 	    "Тази програма е свободен софтуер. ",
