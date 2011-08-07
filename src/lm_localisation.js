@@ -57,6 +57,15 @@ LinternaMagica.prototype.set_env_lang = function()
 	// Same as GNU IceCat & Firefox without translation
 	env_lang = "en_US";
     }
+
+    // Some versions of GNU IceCat & Firefox report only two letters
+    // for the language. In this case we have to manually force the
+    // language to something useful and deducted.
+    if(!/[a-zA-Z]{2}(_|-)[a-zA-Z]{2}/.test(env_lang))
+    {
+	env_lang = env_lang.toLowerCase()+"_"+
+	    env_lang.toUpperCase();
+    }
     
     // Epiphany uses only lowercase
     env_lang = env_lang.split(/_/);

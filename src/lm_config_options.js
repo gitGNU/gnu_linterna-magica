@@ -248,6 +248,11 @@ LinternaMagica.prototype.set_locale = function(locale)
     // See lm_localisation.js
     this.set_env_lang();
 
+    if (/auto/i.test(locale))
+    {
+	locale = this.env_lang;
+    }
+
     // In case the country code is lowercase and the language code is
     // upper case
     if (/.*_.*/.test(locale))
