@@ -112,7 +112,7 @@ Epiphany-extensions. За версии на Firefox, които са свобо�
     mkdir ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/
     cp linternamagica.user.js ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/linterna_magica.user.js
 
-За дурги версии на Firefox, които са свободен софтуер:
+За други версии на Firefox, които са свободен софтуер:
 		
     mkdir ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/
     cp linternamagica.user.js ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/linterna_magica.user.js
