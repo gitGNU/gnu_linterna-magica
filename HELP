@@ -8,7 +8,7 @@ format:
 		
  var linterna_magica_options =
  {
-    "debug": 1,
+    "debug": 0,
     "log_to": "web",
     "updates": "1w",
     "priority": "html5, self, plugin",
@@ -28,10 +28,10 @@ file "linternamagica_user_condfig.user.js" from the "utilities"
 directory. To change the configuration look for
 "var linterna_magica_user_config". The format is the same as for the
 main userscript file. Have in mind that this file is not going to be
-updated and you will have to add manually newer options for feature
-versions, if you don't like the default ones. If an option is missing
-in this file, the default one provided by the main userscript will be
-used.
+updated and you will have to add manually new options implemented in
+future versions, if you don't like the default ones. If an option is
+missing in this file, the default one provided by the main userscript
+will be used.
 
 		
 Available options are:
@@ -58,11 +58,11 @@ Available options are:
 		d = day, w = week, m = month, y = year
 	off/disabled/no/never/false/0: Do not check
   priority
-      This options determines how opbject found by Linterna Mágica
-      should be played. You can set multiple values separated with
-      ",", without the quotes. The default value is "html5, self, plugin".
+      This options determines how objects found by Linterna Mágica
+      should be played. You can set multiple values separated by ",",
+      without the quotes. The default value is "html5, self, plugin".
         self
-            Replace the flash objects
+            Replace flash and HTML5 objects
         plugin
             Use Gnash/Swfdec. A button next to the flash object
             switches to Linterna Mágica.
@@ -110,14 +110,14 @@ Available options are:
   quality
       Preferred video quality.
 	low/medium/high
-	    Automatically select the link for low/medium/high from the
+	    Auto-select a link for low/medium/high from the
 	    list of links (default low)
 	<number>
 	    Start the <number> link from the list. If not available
 	    the highest quality. Use "1" for lowest quality.
 	<number>%
-	    Start the link that corresponds to <number> percent from
-	    the list. Float numbers are allowed - 34.56%, 18,6%.
+	    Start the link that equals to <number>% in
+	    the list. Fractions are accepted - 34.56%, 18,6%.
 
 A note on updates
 
@@ -153,13 +153,13 @@ background requests.
 
 Localisation
 
-Since version 0.0.10 the translations are split from the main
-userscript. Every localisation is a separate userscript in the "locale"
-directory with special structure. If there is translation for your
-language and you want to use it, you will have to install the
-userscript for it. By default Linterna Mágica tries to use the
-language of the browser interface if available. You could also set a
-custom locale by the "locale" config option.
+Since version 0.0.10 translations are split from the main
+userscript. Every localisation is a separate userscript located in the
+"locale" directory, that has special structure. If there is
+translation for your language and you want to use it, you will have to
+install the userscript for it. By default Linterna Mágica tries to use
+the language of the browser interface if available. You could also set
+a custom locale by the "locale" config option.
 
 Stop execution on every site
 
