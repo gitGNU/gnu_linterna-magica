@@ -41,8 +41,8 @@ if (typeof(unsafeWindow) == "object")
 	 var script = document.createElement("script");
 	 script.setAttribute("type", "text/javascript");
 	 script.setAttribute("src", 
-			     "data:text/javascript;charset=UTF-8,"+
-			     "("+userscript_data+")();");
+			     "data:text/javascript;charset=UTF-8;base64,"+
+			     btoa("("+userscript_data+")();"));
 
 	 var inject_data = function()
 	 {
