@@ -121,7 +121,7 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 
 		// Wait for the selected link to become the
 		// document.activeElement.
-		setTimeOut(timeout_function, 250);
+		setTimeout(timeout_function, 250);
 	    };
 
 	    element.addEventListener("blur", hd_list_blur_function, true);
