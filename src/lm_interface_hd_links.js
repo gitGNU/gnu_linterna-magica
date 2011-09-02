@@ -27,7 +27,7 @@
 
 // END OF LICENSE HEADER
 
-// Event listenr function that configs the video object
+// Event listener function that configs the video object
 // for HD links
 LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 {
@@ -101,6 +101,30 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	if (display)
 	{
 	    hd_list.style.removeProperty("display");
+
+	    var hd_list_blur_function = function(ev)
+	    {
+		var timeout_function = function()
+		{
+		    if (document.activeElement &&
+			document.activeElement.hasAttribute("id") &&
+			document.activeElement.getAttribute("id") 
+			!= "linterna-magia-selected-hd-link-0")
+		    {
+			hd_list.style.setProperty("display", 
+						  "none", "important");
+		    }
+		    element.removeEventListener("blur",
+						hd_list_blur_function,
+						true);
+		};
+
+		// Wait for the selected link to become the
+		// document.activeElement.
+		setTimeOut(timeout_function, 250);
+	    };
+
+	    element.addEventListener("blur", hd_list_blur_function, true);
 	}
 	else
 	{
