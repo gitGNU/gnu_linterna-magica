@@ -1,0 +1,852 @@
+\input texinfo @c -*-texinfo-*-
+@c
+@c This file is part of  Linterna Mágica
+@c
+@c 	Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+@c 	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+@c
+@c Linterna Mágica is free software: you can redistribute it and/or modify
+@c it under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
+@c
+@c Linterna Mágica is distributed in the hope that it will be useful,
+@c but WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
+@c
+@c You should have received a copy of the GNU General Public License
+@c along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
+@c
+@c %**start of header
+
+@setfilename linterna_magica.info
+
+@c Versioning variables
+@include version.texi
+
+@c Hacks:  acutes, IPA etc.
+@include helpers.texi
+
+
+@ifset makeinfo
+@c The @documentencoding is needed for makeinfo; texi2html 1.52
+@c doesn't recognize it.
+@documentencoding UTF-8
+@c Keep the next empty line, so po4a can recognize @documentencoding
+@c and @documentlanguage as separate strings.
+
+@documentlanguage en
+@end ifset
+@settitle Linterna M@value{AACUTE}gica
+@afourpaper
+@c %**end of header
+
+@copying
+
+This manual (updated @value{UPDATED}) is for Linterna M@value{AACUTE}gica (version
+@value{VERSION}), a userscript for watching web video clips inside a
+browser without the proprietary flash technology.@*
+@sp 1
+@ifnottex
+@b{@i{Watch video on the web in a brand new way: ``You don't need a
+glint, the magic lantern is ignited!''}}@*
+@sp 1
+@end ifnottex
+@noindent
+Copyright @copyright{} 2010, 2011  Ivaylo Valkov <@email{ivaylo@@e-valkov.org}>@*
+@noindent
+Copyright @copyright{} 2010  Anton Katsarov <@email{anton@@katsarov.org}>@*
+@sp 1
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms either@*
+@ifinfo
+@sp 1
+@end ifinfo
+@itemize
+@item
+the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any
+later version, or
+@item 
+the @acronym{GNU} Free Documentation License,
+Version 1.3 or any later version published by the Free Software
+Foundation; with no Invariant Sections, no Front-Cover Texts, and no
+Back-Cover Texts. 
+@end itemize 
+
+Copies of the licenses are included in the sections entitled
+``@acronym{GNU} General Public License'' and ``@acronym{GNU} Free
+Documentation License'' respectively.
+@end quotation
+
+@end copying
+
+@titlepage
+@title  @i{Linterna M@value{AACUTE}gica}
+@subtitle @i{A userscript for watching web video clips without the proprietary flash technology.}
+@sp 15
+@b{@i{Watch video on the web in a brand new way: ``You don't need a glint, the magic lantern is ignited!''}}
+@author @i{@b{by Ivaylo Valkov and Anton Katsarov}}
+
+@c The following two commands start the copyright page.
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Output table of contents at the beginning.
+@contents
+
+@dircategory Internet applications
+@direntry 
+* Linterna Mágica (lm). Watch web video clips without flash.
+@end direntry
+
+@ifnottex
+@node Top
+@top Linterna M@value{AACUTE}gica
+@insertcopying
+@end ifnottex
+
+@menu
+* Introduction:: Overview of Linterna M@value{AACUTE}gica.
+* Installation and building:: How to build and install.
+* Configuration:: Customizations.
+* What is supported?:: (Not) Supported browsers, plugins etc.
+* Bugs:: How to report bugs.
+* Copying this manual:: GNU GPL, GNU FDL
+* Index:: 
+@end menu
+
+@node Introduction
+@chapter Introduction to Linterna M@value{AACUTE}gica
+
+@menu
+* What is Linterna M@value{AACUTE}gica?::
+* Why it exists?::
+* Who made it?::
+* How to pronounce Linterna M@value{AACUTE}gica?::
+@end menu
+
+@node What is Linterna M@value{AACUTE}gica?
+@section What is Linterna M@value{AACUTE}gica?
+@cindex linterna m@value{AACUTE}gica, what is
+@cindex userscript
+@cindex how it works
+
+Linterna M@value{AACUTE}gica is ``tiny'' (at least it started that way)
+script written in JavaScript for the Greasemonkey extension. It
+searches web pages for flash objects with links to video clips and
+replaces them with <object> tag that is playable by browser video
+plugin. The program is named after an early version of a projection
+apparatus.
+
+@node Why it exists?
+@section Why it exists?
+@cindex why it is needed
+@cindex flash disadvantages
+@cindex free software flash plugins
+@cindex html, video
+@cindex HTML5
+
+The short answer: I had spare time and was curious is it going to
+work.@*
+@ifnottex
+@sp 1
+@end ifnottex
+The long answer: Free software flash plugins like Gnash and
+Swfdec do not work well with video flash players on every site. On top
+of that:
+
+@itemize
+@item
+Even with free software plugin you run a lot of proprietary software
+as ActionScript
+@item
+Even the free software plugins use too much resources
+@item
+Flash is proprietary technology
+@item
+Flash is not a web standard
+@item
+Most of the flash objects in a page contain useless stuff
+@end itemize
+
+Playback of video clips in a browser is technically possible since the
+existence of the <object> tag (around 1999; maybe even before
+that?!). To watch a video inside a browser the user always needs a
+plugin (HTML5 changes that a bit).  Why it should be flash plugin?
+
+Most of the time I do not have Gnash or Swfdec installed. I do not
+care about flash except, sometimes for video clips. I got tired of
+using Bash/Perl/Python@dots{} scripts to download video clips and watch
+them. Linterna M@value{AACUTE}gica was born.
+
+@node Who made it?
+@section Who made it?
+@cindex authors
+
+Original idea and programming by Ivaylo Valkov.@*
+Interface design by Anton Katsarov.
+
+@node How to pronounce  Linterna M@value{AACUTE}gica?
+@section How to pronounce  Linterna M@value{AACUTE}gica?
+@cindex pronounce, name
+@cindex pronounce, linterna m@value{AACUTE}gica
+
+The name Linterna M@value{AACUTE}gica is in Spanish. The pronunciation
+in @acronym{IPA} is @value{pronouncelm}.  You can also
+find the answer to that question by playing the Ogg Vorbis file
+@file{linterna m@value{AACUTE}gica - pronounce.ogg} located in the data
+directory.
+
+
+@node Installation and building
+@chapter Installation and building
+
+@menu
+* Building the userscript::
+* Installation::
+@end menu
+
+@node Building the userscript
+@section Building the userscript
+
+Since version 0.0.9 of Linterna M@value{AACUTE}gica the userscript have to be
+build, if you have downloaded the source code tarball. If you do not
+want to build the script, visit Linterna M@value{AACUTE}gica's web site and
+download the compiled version of the script, which is ready for
+installation. To build the userscript you will need the following
+packages:
+
+@table @samp
+@item GNU make 
+@item GNU sed 
+@item GNU grep
+@item GNU bash
+@item GNU Coreutils
+@command{ls},
+@command{cp},
+@command{rm},
+@command{cat},
+@command{tac},
+@command{head},
+@command{tail},
+@command{cut},
+@command{tr},
+@command{sort},
+@command{uniq},
+@command{base64},
+@command{basename},
+@command{mktemp},
+@command{test},
+@command{echo},
+@command{chmod}
+@end table
+
+To build the userscript, inside a terminal change the directory to
+the source code directory of Linterna M@value{AACUTE}gica and type:
+@sp 1 
+@samp{make}
+@sp 1
+If everything went fine, at the end of the building process you should
+see the following message:
+@sp 1
+@example
+  linternamagica.user.js is ready.
+@end example
+@sp 1
+To remove all the generated files without the userscript,
+type:
+@sp 1
+@samp{make clean}
+@sp 1
+To remove all the generated files and the userscript file, type:
+@sp 1
+@samp{make distclean}
+@sp 1
+
+@node Installation
+@section Installation
+
+First of all, install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+First of all install the Greasemonkey extension for your browser and
+activate it. For Epiphany it is part of the Epiphany-extensions
+package. For GNU IceCat, Abrowser and other versions of Firefox see
+the Greasemonkey web page.
+
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
+
+Second, install the video plugin that you prefer.
+
+If you have downloaded compressed with gzip or bzip2 version of the
+userscript, decompress it to get a copy of the file ready for
+installation.
+
+@menu
+* Installation from a browser::
+* Installation from a terminal::
+@end menu
+
+@node Installation from a browser
+@subsection Installation from a browser
+
+Load the path where you downloaded Linterna M@value{AACUTE}gica in your browser:
+@sp 1		
+@samp{file:///home/user/linterna-magica/}
+@sp 1
+		
+You can also start it from a terminal:
+@sp 1		
+@samp{epiphany file:///home/user/linterna-magica/}
+@sp 1		
+or
+@sp 1		
+@samp{abrowser file:///home/user/linterna-magica/}
+@sp 1
+or
+@sp 1
+@samp{icecat file:///home/user/linterna-magica/}
+@sp 1
+
+Right-click the user script and from the menu select
+
+@table @asis
+@item For Epiphany
+``Install userscript''
+
+@item For GNU IceCat and other free software versions of Firefox
+``View User Script Source''. In the new window click the Greasemonkey
+``Install'' button.
+
+@item For Midori
+Midori versions 0.2.2 and 0.2.4 do not support installation of
+userscripts from the browser.
+@end table
+
+@node Installation from a terminal
+@subsection Installation from a terminal
+
+Another option to install the userscript is to copy it from a
+terminal.
+
+For Epiphany:
+@sp 1		
+@noindent @samp{cp linternamagica.user.js \@* ~/.gnome2/epiphany/extensions/data/greasemokey/linterna_magica.user.js}
+@sp 1		
+
+For GNU IceCat:
+@sp 1		  
+@noindent @samp{mkdir ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/}@*
+@noindent @samp{cp linternamagica.user.js \@* ~/.gnuzilla/icecat/profile/gm_scripts/linterna_magica/linterna_magica.user.js}
+@sp 1
+
+For other free software versions of Firefox:
+@sp 1		
+@noindent @samp{mkdir ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/}@*
+@noindent @samp{cp linternamagica.user.js \@* ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/linterna_magica.user.js}
+@sp 1
+For Midori:
+@sp 1
+@noindent @samp{mkdir ~/.local/share/midori/scripts/}@*
+@noindent @samp{cp linternamagica.user.js \@* ~/.local/share/midori/scripts/linterna_magica.user.js}
+@sp 1
+
+@node Configuration
+@chapter Configuration
+@cindex configuration
+
+Linterna M@value{AACUTE}gica has some configuration options. The only
+way (for now) to configure it, is to edit the code of the userscript.
+
+@menu
+* Configuration options::
+* Automatic check for updates::
+* Disadvantages of the cookies hack::
+* Timed-out background requests::
+* Localisation::
+* Stop execution on every site::
+@end menu
+
+@node Configuration options
+@section Configuration options
+@cindex configuration, options
+@cindex configure
+@cindex debug, config option
+@cindex log_to, config option
+@cindex updates, config option
+@cindex priority, config option
+@cindex autostart, config option
+@cindex controls, config option
+@cindex web controls, config option
+@cindex interface, config option
+@cindex buttons, config option
+@cindex locale, config option
+@cindex cookies, config option
+@cindex wait_xhr, config option
+@cindex quality, config option
+@cindex clip quality, config option
+
+To change the configuration of Linterna M@value{AACUTE}gica open the
+userscript file and look for @code{var linterna_magica_options}. This
+is a JavaScript object that keeps configuration options in
+``option'':''value'' format:
+@example
+ var linterna_magica_options =
+ @{
+    "debug": 0,
+    "log_to": "web",
+    "updates": "1w",
+    "priority": "html5, self, plugin",
+    "autostart": "off",
+    "controls": "self",
+    "locale": "auto",
+    "cookies": "restore",
+    "wait_xhr": "off",
+    "quality": "low",
+ @};
+@end example
+
+Since version 0.0.10 it is possible to keep your configuration in
+separate userscript file. This way your preferences will stay intact
+when new version is installed. The userscript with your configuration
+must have special structure. If you want this feature, install the
+file @file{linternamagica_user_condfig.user.js} from the
+@file{utilities} directory. To change the configuration look for
+@code{var linterna_magica_user_config}. The format is the same as for
+the main userscript file. Have in mind that this file is not going to
+be updated and you will have to add manually new options implemented
+in future versions, if you don't like the default ones. If an option
+is missing in this file, the default one provided by the main
+userscript will be used.
+
+		
+Available options are:
+@table @option
+
+@item debug
+This option sets the debug level. The debug information is printed in
+the console.
+
+@table @option
+
+@item 0
+Do not print anything (default)
+
+@item 1..5
+Print debug information
+
+@end table
+
+@item log_to 
+Where to print the debugging information when debug is not zero.
+
+@table @option
+
+@item web
+Print messages in the web page (default)
+
+@item console
+Use the debugging console of the browser
+
+@end table
+
+@item updates
+Should Linterna M@value{AACUTE}gica automatically check and notify for
+updates. @xref{Automatic check for updates}.
+
+@table @option
+
+@item <time><type>
+Check at interval. (default 1w)
+
+@table @option
+
+@item <time>
+positive integer
+
+@item <type>
+d/w/m/y
+
+@item d/w/m/y
+d = day, w = week, m = month, y = year
+
+@end table
+
+@item off
+@item disabled
+@item no
+@item never
+@item false
+@item 0
+Do not check
+
+@end table
+
+
+@item  priority
+This options determines how objects found by Linterna
+M@value{AACUTE}gica should be played. You can set multiple values
+separated by ``,'', without the quotes. The default value is ``html5,
+self, plugin''.
+
+@table @option
+
+@item self
+Replace flash and HTML5 objects
+
+@item plugin
+Use Gnash/Swfdec. A button next to the flash object
+switches to Linterna M@value{AACUTE}gica.
+
+@item html5
+Use HTML5 player if the site provides one. A button next to the player
+switches to Linterna M@value{AACUTE}gica.
+
+@end table
+
+@item  autostart
+Auto start playback. If more than one object is found, only the
+first one will start playback.
+
+@table @option
+
+@item on/enabled/true
+Auto start the clip (default)
+
+@item off/disabled/false
+Do not start the clip
+
+@end table
+
+@item controls
+Buttons for controlling the video
+
+@table @option
+
+@item self
+Use controls provided by Linterna M@value{AACUTE}gica (default)
+
+@item plugin
+Use controls provided by the video plugin.
+
+@end table
+
+@item  locale
+Interface language
+
+@table @option
+
+@item auto
+Use the language of the browser interface if translation
+is available (default)
+
+@item <lc>_<CC>
+Set language to lc_CC, where
+
+@table @option
+
+@item <lc>
+language code (lowercase)
+
+@item <CC>
+country code (uppercase)
+Example: en_US, en_UK, bg_BG
+
+@end table
+
+@end table
+
+@item  cookies
+The way cookies are processed. @xref{Disadvantages of the cookies hack}.
+
+@table @option
+
+@item delete
+Just delete the cookies.
+
+@item restore
+Extract and restore cookies.
+
+@end table
+
+@item wait_xhr
+Timeout before background processing (XHR) starts in
+milliseconds. 1 s = 1000 ms. If you have problems increase the
+value. @xref{Timed-out background requests}.
+
+@table @option
+
+@item off/no/disabled/false/0
+Don't wait (default)
+
+@item <integer>
+Wait for <integer> milliseconds.
+
+@end table
+
+@item quality
+Preferred video quality.
+
+@table @option
+
+@item low/medium/high
+Auto-select a link for low/medium/high from the
+list of links (default low)
+
+@item <number>
+Start the <number> link from the list. If not available
+the highest quality. Use "1" for lowest quality.
+
+@item <number>%
+Start the link that equals to <number>% in
+the list. Fractions are accepted - 34.56%, 18,6%.
+
+@end table
+
+@end table
+
+@node Automatic check for updates
+@section Automatic check for updates
+@cindex updates, check for
+@cindex automatic updates, check for
+
+Linterna M@value{AACUTE}gica checks for updates every time the configured interval
+is reached and at the first and second day after the exact match.
+
+@node Disadvantages of the cookies hack
+@section Disadvantages of the cookies hack
+@cindex cookies, disadvantages
+
+A weird hack to get data from YouTube and Dailymotion without cookies
+is used. With cookies the video link data is garbage for Linterna
+M@value{AACUTE}gica.
+
+First the cookies are removed by setting their expiration dates in the
+past. A request on the background (XMLHttpRequest) for the video page
+(for example watch?v=x) is made. The required data is extracted and
+the replacement video object is created. Cookies values can be saved
+before the request and restored later, but not their original
+expiration dates. Restored cookies will expire when the browser is
+closed. This hack might break login/favourites/recently watched and
+other features for sites supported this way. The browser will
+automatically set new values to some of the cookies with the
+background request. 
+
+@node Timed-out background requests
+@section Timed-out background requests
+@cindex timeout, xhr
+@cindex delay
+@cindex XHR, delay
+@cindex background request
+
+For Dailymotion you could use a timeout option. During the first
+tests of this fix there were some problems if the background request
+was made too soon. It seemed that not all cookies were set by the site
+and cleared by Linterna M@value{AACUTE}gica before the request. Later
+everything worked without timeout. If you have problems with
+Dailymotion increase the value for the ``wait_xhr'' option.
+
+The wait_xhr option is effective for every site that is supported with
+background requests.
+
+
+@node Localisation
+@section Localisation
+@cindex localisation
+
+Since version 0.0.10 translations are split from the main
+userscript. Every localisation is a separate userscript located in the
+@file{locale} directory, that has special structure. If there is
+translation for your language and you want to use it, you will have to
+install the userscript for it. By default Linterna M@value{AACUTE}gica
+tries to use the language of the browser interface if available. You
+could also set a custom locale by the ``locale'' config option.
+
+@node Stop execution on every site
+@section Stop execution on every site
+@cindex exclude site
+@cindex include site
+@cindex stop execution on specific site
+
+By default Linterna M@value{AACUTE}gica will run on every site. This is something
+that you might not like. You can configure it to run only on some
+pages. Open the source file and look for @code{// @@include http://*}.
+Remove this and place the same statement for every site you wish to
+use Linterna M@value{AACUTE}gica with:
+
+@example
+ // @@include http://example.org
+ // @@include http://example2.org
+ ...
+ // @@include http://exampleN.org
+
+@end example
+
+@node What is supported?
+@chapter What is supported?
+@cindex support
+
+Linterna M@value{AACUTE}gica explicitly supports only free software
+browsers and plugins.
+
+@menu
+* Supported browsers::
+* Supported plugins::
+* Supported websites::
+* Not supported::
+@end menu
+
+@node Supported browsers
+@section Supported browsers
+@cindex browser list
+@cindex supported browsers
+@cindex browsers
+@cindex Epiphany, browser
+@cindex IceCat, browser
+@cindex GNU IceCat, browser
+@cindex Iceweasel, browser
+@cindex Web browser, browser
+@cindex Abrowser, browser
+@cindex Firefox, browser
+@cindex Midori, browser
+
+In this release (@value{VERSION}) Linterna M@value{AACUTE}gica is
+tested and kept up to date with the following browsers:
+
+@table @asis
+@item Epiphany
+Epiphany versions older than 2.30 might have problems with
+Greasemonkey.
+
+@item Free software versions of Firefox
+Free software versions of Firefox that support the Greasemonkey
+extension should work. Only GNU IceCat, Web Browser/ABrowser and
+Iceweasel are tested.
+
+@item Midori
+Only versions 0.2.2 and 0.2.4 are tested. There are reports from users
+that 0.3.2 works too.
+@end table
+
+@node Supported plugins
+@section Supported plugins
+@cindex plugin list
+@cindex supported plugin
+@cindex plugins
+@cindex Xine, plugin
+@cindex Totem, plugin
+@cindex VLC, plugin
+@cindex gecko-mediaplayer, plugin
+
+Supported video plugins that can handle "video/flv" and
+"video/mp4" should work right away.  Some plugins provide an API which
+is used in Linterna M@value{AACUTE}gica to support web controls, but this will
+require modifications to the code, if the plugin is not listed as
+supported. There is a configuration option to switch between controls
+provided by the plugin and Linterna M@value{AACUTE}gica.
+
+These plugins are known to work:
+@table @asis
+@item Totem plugin
+Versions older and equal to 2.30 does not have full API support for
+web controls. Newer versions of Totem have been patched and should
+work.
+@item VLC plugin
+No known problems.
+@item gecko-mediaplayer plugin 
+Note: Have in mind that gecko-mediaplayer depends on mplayer for
+playback. Mplayer is free software by itself, but it can load and
+recommends binary only codecs. The completely free (as in freedom)
+distribution of GNU/Linux, Trisquel provides clean version of mplayer.
+@item Xine plugin
+No known problems.
+@end table
+
+@node Supported websites
+@section Supported websites
+@cindex supported websites
+@cindex websites
+
+Linterna M@value{AACUTE}gica is programmed in such a way that it might work (and it
+does) with web sites not specifically tested and supported. This is
+achieved by regular expressions, patterns and similarities between
+video sharing and posting sites. The main idea is that very little
+should be needed to support a new site - few changes in a regular
+expression, adding an address from where the clip should be extracted
+and so on.
+
+There are more than 30 web sites, found with random web searches that
+are known to work. See the @file{WEBSITES} file for all known working
+sites and more information.
+
+@node Not supported
+@section Not supported
+@cindex not supported
+@cindex RTMP
+@cindex proprietary software, not supported
+
+Web sites that use RTMP to transfer clips @strong{do not} work.
+
+Web sites that use clips and players from remote site @strong{do not}
+work. For example YouTube video placed in a blog or a news
+article. Since version 0.0.9 some remote objects are detected and a
+link to the web page of the video is provided.
+
+Linterna M@value{AACUTE}gica is not working with specific browser or
+plugin or operating system. Is it possible to support it?
+
+Only free software will be supported. Explicit support for non-free
+software will not be provided. If Linterna M@value{AACUTE}gica is
+working with non-free software you must be very ``lucky''. Yes, that
+is sarcasm!
+
+@node Bugs
+@chapter Bugs
+@cindex bugs, reporting
+@cindex reporting bugs
+
+If you encounter bugs, or have suggestions of any kind, please report
+them at Linterna M@value{AACUTE}gica project page at Savannah 
+@url{https://savannah.nongnu.org/support/?group=linterna-magica}. Use
+the ``Tech Support Manager''/''Support'' section. The ``Bugs'' tracker
+is for developers only.
+
+@node Copying this manual
+@appendix Copying this manual
+@cindex copying, copying this manual
+@cindex license, license of this manual
+@cindex gpl, license
+@cindex fdl, license
+
+@menu
+* GNU General Public License::
+* GNU Free Documentation License::
+@end menu
+
+@node GNU General Public License
+@appendixsec GNU General Public License
+@cindex gpl, gnu general public license
+@include gpl.texi
+
+@node GNU Free Documentation License
+@appendixsec  GNU Free Documentation License
+@cindex fdl, gnu free documentation license
+@include fdl.texi
+
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@bye

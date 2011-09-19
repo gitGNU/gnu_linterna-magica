@@ -1,0 +1,1916 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the linterna_magica package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: linterna_magica svn-trunk\n"
+"POT-Creation-Date: 2011-09-19 16:55+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: include
+#: linterna_magica.texi:26
+#, no-wrap
+msgid "version.texi"
+msgstr ""
+
+#. type: include
+#: linterna_magica.texi:29
+#, no-wrap
+msgid "helpers.texi"
+msgstr ""
+
+#. type: ifset
+#: linterna_magica.texi:38
+msgid "@documentencoding UTF-8"
+msgstr ""
+
+#. type: ifset
+#: linterna_magica.texi:40
+msgid "@documentlanguage en"
+msgstr ""
+
+#. type: top
+#: linterna_magica.texi:41 linterna_magica.texi:86 linterna_magica.texi:108
+#, no-wrap
+msgid "Linterna M@value{AACUTE}gica"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:44
+msgid "@afourpaper"
+msgstr ""
+
+#. type: copying
+#: linterna_magica.texi:50
+msgid ""
+"This manual (updated @value{UPDATED}) is for Linterna M@value{AACUTE}gica "
+"(version @value{VERSION}), a userscript for watching web video clips inside "
+"a browser without the proprietary flash technology.@*"
+msgstr ""
+
+#. type: ifnottex
+#: linterna_magica.texi:54
+msgid ""
+"@b{@i{Watch video on the web in a brand new way: ``You don't need a glint, "
+"the magic lantern is ignited!''}}@*"
+msgstr ""
+
+#. type: copying
+#: linterna_magica.texi:57
+msgid ""
+"Copyright @copyright{} 2010, 2011 Ivaylo Valkov "
+"<@email{ivaylo@@e-valkov.org}>@*"
+msgstr ""
+
+#. type: copying
+#: linterna_magica.texi:59
+msgid "Copyright @copyright{} 2010 Anton Katsarov <@email{anton@@katsarov.org}>@*"
+msgstr ""
+
+#. type: quotation
+#: linterna_magica.texi:63
+msgid ""
+"Permission is granted to copy, distribute and/or modify this document under "
+"the terms either@*"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:71
+msgid ""
+"the GNU General Public License as published by the Free Software Foundation; "
+"either version 3 of the License, or (at your option) any later version, or"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:76
+msgid ""
+"the @acronym{GNU} Free Documentation License, Version 1.3 or any later "
+"version published by the Free Software Foundation; with no Invariant "
+"Sections, no Front-Cover Texts, and no Back-Cover Texts."
+msgstr ""
+
+#. type: quotation
+#: linterna_magica.texi:81
+msgid ""
+"Copies of the licenses are included in the sections entitled ``@acronym{GNU} "
+"General Public License'' and ``@acronym{GNU} Free Documentation License'' "
+"respectively."
+msgstr ""
+
+#. type: i{#1}
+#: linterna_magica.texi:87
+#, no-wrap
+msgid ""
+"A userscript for watching web video clips without the proprietary flash "
+"technology."
+msgstr ""
+
+#. type: i{#1}
+#: linterna_magica.texi:90
+msgid ""
+"Watch video on the web in a brand new way: ``You don't need a glint, the "
+"magic lantern is ignited!''"
+msgstr ""
+
+#. type: b{#1}
+#: linterna_magica.texi:90
+#, no-wrap
+msgid "by Ivaylo Valkov and Anton Katsarov"
+msgstr ""
+
+#. type: dircategory
+#: linterna_magica.texi:101
+#, no-wrap
+msgid "Internet applications"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:104
+msgid "Linterna Mágica (lm). Watch web video clips without flash."
+msgstr ""
+
+#. type: node
+#: linterna_magica.texi:107
+#, no-wrap
+msgid "Top"
+msgstr ""
+
+#. type: node
+#: linterna_magica.texi:120 linterna_magica.texi:122
+#, no-wrap
+msgid "Introduction"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "Overview of Linterna M@value{AACUTE}gica."
+msgstr ""
+
+#. type: chapter
+#: linterna_magica.texi:120 linterna_magica.texi:205 linterna_magica.texi:206
+#, no-wrap
+msgid "Installation and building"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "How to build and install."
+msgstr ""
+
+#. type: chapter
+#: linterna_magica.texi:120 linterna_magica.texi:364 linterna_magica.texi:365
+#, no-wrap
+msgid "Configuration"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "Customizations."
+msgstr ""
+
+#. type: chapter
+#: linterna_magica.texi:120 linterna_magica.texi:695 linterna_magica.texi:696
+#, no-wrap
+msgid "What is supported?"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "(Not) Supported browsers, plugins etc."
+msgstr ""
+
+#. type: chapter
+#: linterna_magica.texi:120 linterna_magica.texi:813 linterna_magica.texi:814
+#, no-wrap
+msgid "Bugs"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "How to report bugs."
+msgstr ""
+
+#. type: appendix
+#: linterna_magica.texi:120 linterna_magica.texi:824 linterna_magica.texi:825
+#, no-wrap
+msgid "Copying this manual"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:120
+msgid "GNU GPL, GNU FDL"
+msgstr ""
+
+#. type: unnumbered
+#: linterna_magica.texi:120 linterna_magica.texi:846 linterna_magica.texi:847
+#, no-wrap
+msgid "Index"
+msgstr ""
+
+#. type: chapter
+#: linterna_magica.texi:123
+#, no-wrap
+msgid "Introduction to Linterna M@value{AACUTE}gica"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:130
+msgid "What is Linterna M@value{AACUTE}gica?::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:130
+msgid "Why it exists?::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:130
+msgid "Who made it?::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:130
+msgid "How to pronounce Linterna M@value{AACUTE}gica?"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:132 linterna_magica.texi:133
+#, no-wrap
+msgid "What is Linterna M@value{AACUTE}gica?"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:134
+#, no-wrap
+msgid "linterna m@value{AACUTE}gica, what is"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:135
+#, no-wrap
+msgid "userscript"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:136
+#, no-wrap
+msgid "how it works"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:144
+msgid ""
+"Linterna M@value{AACUTE}gica is ``tiny'' (at least it started that way)  "
+"script written in JavaScript for the Greasemonkey extension. It searches web "
+"pages for flash objects with links to video clips and replaces them with "
+"<object> tag that is playable by browser video plugin. The program is named "
+"after an early version of a projection apparatus."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:145 linterna_magica.texi:146
+#, no-wrap
+msgid "Why it exists?"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:147
+#, no-wrap
+msgid "why it is needed"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:148
+#, no-wrap
+msgid "flash disadvatages"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:149
+#, no-wrap
+msgid "free software flash plugins"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:150
+#, no-wrap
+msgid "html, video"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:151
+#, no-wrap
+msgid "HTML5"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:155
+msgid "The short answer: I had spare time and was curious is it going to work.@*"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:161
+msgid ""
+"The long answer: Free software flash plugins like Gnash and Swfdec do not "
+"work well with video flash players on every site. On top of that:"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:166
+msgid ""
+"Even with free software plugin you run a lot of proprietary software as "
+"ActionScript"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:168
+msgid "Even the free software plugins use too much resources"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:170
+msgid "Flash is proprietary technology"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:172
+msgid "Flash is not a web standard"
+msgstr ""
+
+#. type: itemize
+#: linterna_magica.texi:174
+msgid "Most of the flash objects in a page contain useless stuff"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:180
+msgid ""
+"Playback of video clips in a browser is technically possible since the "
+"existence of the <object> tag (around 1999; maybe even before that?!). To "
+"watch a video inside a browser the user always needs a plugin (HTML5 changes "
+"that a bit).  Why it should be flash plugin?"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:185
+msgid ""
+"Most of the time I do not have Gnash or Swfdec installed. I do not care "
+"about flash except, sometimes for video clips. I got tired of using "
+"Bash/Perl/Python@dots{} scripts to download video clips and watch "
+"them. Linterna M@value{AACUTE}gica was born."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:186 linterna_magica.texi:187
+#, no-wrap
+msgid "Who made it?"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:188
+#, no-wrap
+msgid "authors"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:192
+msgid ""
+"Original idea and programming by Ivaylo Valkov.@* Interface design by Anton "
+"Katsarov."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:193 linterna_magica.texi:194
+#, no-wrap
+msgid "How to pronounce  Linterna M@value{AACUTE}gica?"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:195
+#, no-wrap
+msgid "pronounce, name"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:196
+#, no-wrap
+msgid "pronounce, linterna m@value{AACUTE}gica"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:203
+msgid ""
+"The name Linterna M@value{AACUTE}gica is in Spanish. The prononciation in "
+"@acronym{IPA} is @value{pronouncelm}.  You can also find the answer to that "
+"question by playing the Ogg Vorbis file @file{linterna m@value{AACUTE}gica - "
+"pronounce.ogg} located in the data directory."
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:211
+msgid "Building the userscript::"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:211 linterna_magica.texi:270 linterna_magica.texi:271
+#, no-wrap
+msgid "Installation"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:213 linterna_magica.texi:214
+#, no-wrap
+msgid "Building the userscript"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:222
+msgid ""
+"Since version 0.0.9 of Linterna M@value{AACUTE}gica the userscript have to "
+"be build, if you have downloaded the source code tarball. If you do not want "
+"to build the script, visit Linterna M@value{AACUTE}gica's web site and "
+"download the compiled version of the script, which is ready for "
+"installation. To build the userscript you will need the following packages:"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:224
+#, no-wrap
+msgid "GNU make"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:225
+#, no-wrap
+msgid "GNU sed"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:226
+#, no-wrap
+msgid "GNU grep"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:227
+#, no-wrap
+msgid "GNU bash"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:228
+#, no-wrap
+msgid "GNU Coreutils"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:246
+msgid ""
+"@command{ls}, @command{cp}, @command{rm}, @command{cat}, @command{tac}, "
+"@command{head}, @command{tail}, @command{cut}, @command{tr}, @command{sort}, "
+"@command{uniq}, @command{base64}, @command{basename}, @command{mktemp}, "
+"@command{test}, @command{echo}, @command{chmod}"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:250
+msgid ""
+"To build the userscript, inside a terminal change the directory to the "
+"source code directory of Linterna M@value{AACUTE}gica and type:"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:252
+msgid "make"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:255
+msgid ""
+"If everything went fine, at the end of the building process you should see "
+"the following message:"
+msgstr ""
+
+#. type: example
+#: linterna_magica.texi:258
+#, no-wrap
+msgid "  linternamagica.user.js is ready.\n"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:262
+msgid "To remove all the generated files without the userscript, type:"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:264
+msgid "make clean"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:266
+msgid "To remove all the generated files and the userscript file, type:"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:268
+msgid "make distclean"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:277
+msgid ""
+"First of all, install the Greasemonkey extension for your browser and "
+"activate it. For Epiphany it is part of the Epiphany-extensions package. For "
+"GNU IceCat, Abrowser and other versions of Firefox see the Greasemonkey web "
+"page."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:280 linterna_magica.texi:288
+msgid ""
+"Probably these extensions are available in your GNU/Linux distribution as a "
+"package."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:285
+msgid ""
+"First of all install the Greasemonkey extension for your browser and "
+"activate it. For Epiphany it is part of the Epiphany-extensions package. For "
+"GNU IceCat, Abrowser and other versions of Firefox see the Greasemonkey web "
+"page."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:290
+msgid "Second, install the video plugin that you prefer."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:294
+msgid ""
+"If you have downloaded compressed with gzip or bzip2 version of the "
+"userscript, decompress it to get a copy of the file ready for installation."
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:298
+msgid "Installation from a browser::"
+msgstr ""
+
+#. type: subsection
+#: linterna_magica.texi:298 linterna_magica.texi:336 linterna_magica.texi:337
+#, no-wrap
+msgid "Installation from a terminal"
+msgstr ""
+
+#. type: subsection
+#: linterna_magica.texi:300 linterna_magica.texi:301
+#, no-wrap
+msgid "Installation from a browser"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:304
+msgid ""
+"Load the path where you downloaded Linterna M@value{AACUTE}gica in your "
+"browser:"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:306
+msgid "file:///home/user/linterna-magica/"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:309
+msgid "You can also start it from a terminal:"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:311
+msgid "epiphany file:///home/user/linterna-magica/"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:313 linterna_magica.texi:317
+msgid "or"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:315
+msgid "abrowser file:///home/user/linterna-magica/"
+msgstr ""
+
+#. type: samp{#1}
+#: linterna_magica.texi:319
+msgid "icecat file:///home/user/linterna-magica/"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:322
+msgid "Right-click the user script and from the menu select"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:324
+#, no-wrap
+msgid "For Epiphany"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:326
+msgid "``Install userscript''"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:327
+#, no-wrap
+msgid "For GNU IceCat and other free software versions of Firefox"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:330
+msgid ""
+"``View User Script Source''. In the new window click the Greasemonkey "
+"``Install'' button."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:331
+#, no-wrap
+msgid "For Midori"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:334
+msgid ""
+"Midori versions 0.2.2 and 0.2.4 do not support installation of userscripts "
+"from the browser."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:341
+msgid "Another option to install the userscript is to copy it from a terminal."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:343
+msgid "For Epiphany:"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:348
+msgid "For GNU IceCat:"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:354
+msgid "For other free software versions of Firefox:"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:359
+msgid "For Midori:"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:366
+#, no-wrap
+msgid "configuration"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:370
+msgid ""
+"Linterna M@value{AACUTE}gica has some configuration options. The only way "
+"(for now) to configure it, is to edit the code of the userscript."
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:378
+msgid "Configuration options::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:378
+msgid "Automatic check for updates::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:378
+msgid "Disadvantages of the cookies hack::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:378
+msgid "Timed-out background requests::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:378
+msgid "Localisation::"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:378 linterna_magica.texi:675 linterna_magica.texi:676
+#, no-wrap
+msgid "Stop execution on every site"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:380 linterna_magica.texi:381
+#, no-wrap
+msgid "Configuration options"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:382
+#, no-wrap
+msgid "configruarion, options"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:383
+#, no-wrap
+msgid "configure"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:384
+#, no-wrap
+msgid "debug, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:385
+#, no-wrap
+msgid "log_to, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:386
+#, no-wrap
+msgid "updates, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:387
+#, no-wrap
+msgid "priority, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:388
+#, no-wrap
+msgid "autostart, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:389
+#, no-wrap
+msgid "controls, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:390
+#, no-wrap
+msgid "web controls, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:391
+#, no-wrap
+msgid "interface, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:392
+#, no-wrap
+msgid "buttons, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:393
+#, no-wrap
+msgid "locale, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:394
+#, no-wrap
+msgid "cookies, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:395
+#, no-wrap
+msgid "wait_xhr, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:396
+#, no-wrap
+msgid "quality, config option"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:397
+#, no-wrap
+msgid "clip quality, config option"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:403
+msgid ""
+"To change the configuration of Linterna M@value{AACUTE}gica open the "
+"userscript file and look for @code{var linterna_magica_options}. This is a "
+"JavaScript object that keeps configuration options in ``option'':''value'' "
+"format:"
+msgstr ""
+
+#. type: example
+#: linterna_magica.texi:417
+#, no-wrap
+msgid ""
+" var linterna_magica_options =\n"
+" @{\n"
+"    \"debug\": 0,\n"
+"    \"log_to\": \"web\",\n"
+"    \"updates\": \"1w\",\n"
+"    \"priority\": \"html5, self, plugin\",\n"
+"    \"autostart\": \"off\",\n"
+"    \"controls\": \"self\",\n"
+"    \"locale\": \"auto\",\n"
+"    \"cookies\": \"restore\",\n"
+"    \"wait_xhr\": \"off\",\n"
+"    \"quality\": \"low\",\n"
+" @};\n"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:431
+msgid ""
+"Since version 0.0.10 it is possible to keep your configuration in separate "
+"userscript file. This way your preferences will stay intact when new version "
+"is installed. The userscript with your configuration must have special "
+"structure. If you want this feature, install the file "
+"@file{linternamagica_user_condfig.user.js} from the @file{utilities} "
+"directory. To change the configuration look for @code{var "
+"linterna_magica_user_config}. The format is the same as for the main "
+"userscript file. Have in mind that this file is not going to be updated and "
+"you will have to add manually new options implemented in future versions, if "
+"you don't like the default ones. If an option is missing in this file, the "
+"default one provided by the main userscript will be used."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:434
+msgid "Available options are:"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:436
+#, no-wrap
+msgid "debug"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:439
+msgid ""
+"This option sets the debug level. The debug information is printed in the "
+"console."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:442 linterna_magica.texi:490
+#, no-wrap
+msgid "0"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:444
+msgid "Do not print anything (default)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:445
+#, no-wrap
+msgid "1..5"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:447
+msgid "Print debug information"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:450
+#, no-wrap
+msgid "log_to"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:452
+msgid "Where to print the debugging information when debug is not zero."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:455
+#, no-wrap
+msgid "web"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:457
+msgid "Print messages in the web page (default)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:458
+#, no-wrap
+msgid "console"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:460
+msgid "Use the debugging console of the browser"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:463
+#, no-wrap
+msgid "updates"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:466
+msgid ""
+"Should Linterna M@value{AACUTE}gica automatically check and notify for "
+"updates. @xref{Automatic check for updates}."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:469
+#, no-wrap
+msgid "<time><type>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:471
+msgid "Check at interval. (default 1w)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:474
+#, no-wrap
+msgid "<time>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:476
+msgid "positive integer"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:477
+#, no-wrap
+msgid "<type>"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:479 linterna_magica.texi:480
+#, no-wrap
+msgid "d/w/m/y"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:482
+msgid "d = day, w = week, m = month, y = year"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:485
+#, no-wrap
+msgid "off"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:486
+#, no-wrap
+msgid "disabled"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:487
+#, no-wrap
+msgid "no"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:488
+#, no-wrap
+msgid "never"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:489
+#, no-wrap
+msgid "false"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:492
+msgid "Do not check"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:496
+#, no-wrap
+msgid "priority"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:501
+msgid ""
+"This options determines how objects found by Linterna M@value{AACUTE}gica "
+"should be played. You can set multiple values separated by ``,'', without "
+"the quotes. The default value is ``html5, self, plugin''."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:504 linterna_magica.texi:536
+#, no-wrap
+msgid "self"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:506
+msgid "Replace flash and HTML5 objects"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:507 linterna_magica.texi:539
+#, no-wrap
+msgid "plugin"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:510
+msgid ""
+"Use Gnash/Swfdec. A button next to the flash object switches to Linterna "
+"M@value{AACUTE}gica."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:511
+#, no-wrap
+msgid "html5"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:514
+msgid ""
+"Use HTML5 player if the site provides one. A button next to the player "
+"switches to Linterna M@value{AACUTE}gica."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:517
+#, no-wrap
+msgid "autostart"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:520
+msgid ""
+"Auto start playback. If more than one object is found, only the first one "
+"will start playback."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:523
+#, no-wrap
+msgid "on/enabled/true"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:525
+msgid "Auto start the clip (default)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:526
+#, no-wrap
+msgid "off/disabled/false"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:528
+msgid "Do not start the clip"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:531
+#, no-wrap
+msgid "controls"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:533
+msgid "Buttons for controlling the video"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:538
+msgid "Use controls provided by Linterna M@value{AACUTE}gica (default)"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:541
+msgid "Use controls provided by the video plugin."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:544
+#, no-wrap
+msgid "locale"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:546
+msgid "Interface language"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:549
+#, no-wrap
+msgid "auto"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:552
+msgid ""
+"Use the language of the browser interface if translation is available "
+"(default)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:553
+#, no-wrap
+msgid "<lc>_<CC>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:555
+msgid "Set language to lc_CC, where"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:558
+#, no-wrap
+msgid "<lc>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:560
+msgid "language code (lowercase)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:561
+#, no-wrap
+msgid "<CC>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:564
+msgid "country code (uppercase)  Example: en_US, en_UK, bg_BG"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:569
+#, no-wrap
+msgid "cookies"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:571
+msgid "The way cookies are processed. @xref{Disadvantages of the cookies hack}."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:574
+#, no-wrap
+msgid "delete"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:576
+msgid "Just delete the cookies."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:577
+#, no-wrap
+msgid "restore"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:579
+msgid "Extract and restore cookies."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:582
+#, no-wrap
+msgid "wait_xhr"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:586
+msgid ""
+"Timeout before background processing (XHR) starts in milliseconds. 1 s = "
+"1000 ms. If you have problems increase the value. @xref{Timed-out background "
+"requests}."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:589
+#, no-wrap
+msgid "off/no/disabled/false/0"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:591
+msgid "Don't wait (default)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:592
+#, no-wrap
+msgid "<integer>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:594
+msgid "Wait for <integer> milliseconds."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:597
+#, no-wrap
+msgid "quality"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:599
+msgid "Preferred video quality."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:602
+#, no-wrap
+msgid "low/medium/high"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:605
+msgid "Auto-select a link for low/medium/high from the list of links (default low)"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:606
+#, no-wrap
+msgid "<number>"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:609
+msgid ""
+"Start the <number> link from the list. If not available the highest "
+"quality. Use \"1\" for lowest quality."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:610
+#, no-wrap
+msgid "<number>%"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:613
+msgid ""
+"Start the link that equals to <number>% in the list. Fractions are accepted "
+"- 34.56%, 18,6%."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:618 linterna_magica.texi:619
+#, no-wrap
+msgid "Automatic check for updates"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:620
+#, no-wrap
+msgid "updates, check for"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:621
+#, no-wrap
+msgid "automatic updates, check for"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:625
+msgid ""
+"Linterna M@value{AACUTE}gica checks for updates every time the configured "
+"interval is reached and at the first and second day after the exact match."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:626 linterna_magica.texi:627
+#, no-wrap
+msgid "Disadvantages of the cookies hack"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:628
+#, no-wrap
+msgid "cookies, disadvatages"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:633
+msgid ""
+"A weird hack to get data from YouTube and Dailymotion without cookies is "
+"used. With cookies the video link data is garbage for Linterna "
+"M@value{AACUTE}gica."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:644
+msgid ""
+"First the cookies are removed by setting their expiration dates in the "
+"past. A request on the background (XMLHttpRequest) for the video page (for "
+"example watch?v=x) is made. The required data is extracted and the "
+"replacement video object is created. Cookies values can be saved before the "
+"request and restored later, but not their original expiration "
+"dates. Restored cookies will expire when the browser is closed. This hack "
+"might break login/favourites/recently watched and other features for sites "
+"supported this way. The browser will automatically set new values to some of "
+"the cookies with the background request."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:645 linterna_magica.texi:646
+#, no-wrap
+msgid "Timed-out background requests"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:647
+#, no-wrap
+msgid "timeout, xhr"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:648
+#, no-wrap
+msgid "delay"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:649
+#, no-wrap
+msgid "XHR, delay"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:650
+#, no-wrap
+msgid "background request"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:658
+msgid ""
+"For Dailymotion you could use a timeout option. During the first tests of "
+"this fix there were some problems if the background request was made too "
+"soon. It seemed that not all cookies were set by the site and cleared by "
+"Linterna M@value{AACUTE}gica before the request. Later everything worked "
+"without timeout. If you have problems with Dailymotion increase the value "
+"for the ``wait_xhr'' option."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:661
+msgid ""
+"The wait_xhr option is effective for every site that is supported with "
+"background requests."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:663 linterna_magica.texi:664
+#, no-wrap
+msgid "Localisation"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:665
+#, no-wrap
+msgid "localisation"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:674
+msgid ""
+"Since version 0.0.10 translations are split from the main userscript. Every "
+"localisation is a separate userscript located in the @file{locale} "
+"directory, that has special structure. If there is translation for your "
+"language and you want to use it, you will have to install the userscript for "
+"it. By default Linterna M@value{AACUTE}gica tries to use the language of the "
+"browser interface if available. You could also set a custom locale by the "
+"``locale'' config option."
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:677
+#, no-wrap
+msgid "exclude site"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:678
+#, no-wrap
+msgid "include site"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:679
+#, no-wrap
+msgid "stop execution on specific site"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:686
+msgid ""
+"By default Linterna M@value{AACUTE}gica will run on every site. This is "
+"something that you might not like. You can configure it to run only on some "
+"pages. Open the source file and look for @code{// @@include http://*}.  "
+"Remove this and place the same statement for every site you wish to use "
+"Linterna M@value{AACUTE}gica with:"
+msgstr ""
+
+#. type: example
+#: linterna_magica.texi:692
+#, no-wrap
+msgid ""
+" // @@include http://example.org\n"
+" // @@include http://example2.org\n"
+" ...\n"
+" // @@include http://exampleN.org\n"
+"\n"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:697
+#, no-wrap
+msgid "support"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:701
+msgid ""
+"Linterna M@value{AACUTE}gica explicitly supports only free software browsers "
+"and plugins."
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:707
+msgid "Supported browsers::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:707
+msgid "Supported plugins::"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:707
+msgid "Supported websites::"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:707 linterna_magica.texi:792 linterna_magica.texi:793
+#, no-wrap
+msgid "Not supported"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:709 linterna_magica.texi:710
+#, no-wrap
+msgid "Supported browsers"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:711
+#, no-wrap
+msgid "browser list"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:712
+#, no-wrap
+msgid "supported browsers"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:713
+#, no-wrap
+msgid "browsers"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:714
+#, no-wrap
+msgid "Epiphany, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:715
+#, no-wrap
+msgid "IceCat, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:716
+#, no-wrap
+msgid "GNU IceCat, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:717
+#, no-wrap
+msgid "Iceweasel, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:718
+#, no-wrap
+msgid "Webrowser, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:719
+#, no-wrap
+msgid "Abrowser, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:720
+#, no-wrap
+msgid "Firefox, browser"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:721
+#, no-wrap
+msgid "Midori, browser"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:725
+msgid ""
+"In this release (@value{VERSION}) Linterna M@value{AACUTE}gica is tested and "
+"kept up to date with the following browsers:"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:727
+#, no-wrap
+msgid "Epiphany"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:730
+msgid "Epiphany versions older than 2.30 might have problems with Greasemonkey."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:731
+#, no-wrap
+msgid "Free software versions of Firefox"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:735
+msgid ""
+"Free software versions of Firefox that support the Greasemonkey extension "
+"should work. Only GNU IceCat, Web Browser/ABrowser and Iceweasel are tested."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:736
+#, no-wrap
+msgid "Midori"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:739
+msgid ""
+"Only versions 0.2.2 and 0.2.4 are tested. There are reports from users that "
+"0.3.2 works too."
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:741 linterna_magica.texi:742
+#, no-wrap
+msgid "Supported plugins"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:743
+#, no-wrap
+msgid "plugin list"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:744
+#, no-wrap
+msgid "supported plugin"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:745
+#, no-wrap
+msgid "plugins"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:746
+#, no-wrap
+msgid "Xine, plugin"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:747
+#, no-wrap
+msgid "Totem, plugin"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:748
+#, no-wrap
+msgid "VLC, plugin"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:749
+#, no-wrap
+msgid "gecko-mediaplayer, plugin"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:757
+msgid ""
+"Supported video plugins that can handle \"video/flv\" and \"video/mp4\" "
+"should work right away.  Some plugins provide an API which is used in "
+"Linterna M@value{AACUTE}gica to support web controls, but this will require "
+"modifications to the code, if the plugin is not listed as supported. There "
+"is a configuration option to switch between controls provided by the plugin "
+"and Linterna M@value{AACUTE}gica."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:759
+msgid "These plugins are known to work:"
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:760
+#, no-wrap
+msgid "Totem plugin"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:764
+msgid ""
+"Versions older and equal to 2.30 does not have full API support for web "
+"controls. Newer versions of Totem have been patched and should work."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:764
+#, no-wrap
+msgid "VLC plugin"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:766 linterna_magica.texi:773
+msgid "No known problems."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:766
+#, no-wrap
+msgid "gecko-mediaplayer plugin"
+msgstr ""
+
+#. type: table
+#: linterna_magica.texi:771
+msgid ""
+"Note: Have in mind that gecko-mediaplayer depends on mplayer for "
+"playback. Mplayer is free software by itself, but it can load and recommends "
+"binary only codecs. The completely free (as in freedom)  distribution of "
+"GNU/Linux, Trisquel provides clean version of mplayer."
+msgstr ""
+
+#. type: item
+#: linterna_magica.texi:771
+#, no-wrap
+msgid "Xine plugin"
+msgstr ""
+
+#. type: section
+#: linterna_magica.texi:775 linterna_magica.texi:776
+#, no-wrap
+msgid "Supported websites"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:777
+#, no-wrap
+msgid "supported websites"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:778
+#, no-wrap
+msgid "websites"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:787
+msgid ""
+"Linterna M@value{AACUTE}gica is programmed in such a way that it might work "
+"(and it does) with web sites not specifically tested and supported. This is "
+"achieved by regular expressions, patterns and similarities between video "
+"sharing and posting sites. The main idea is that very little should be "
+"needed to support a new site - few changes in a regular expression, adding "
+"an address from where the clip should be extracted and so on."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:791
+msgid ""
+"There are more than 30 web sites, found with random web searches that are "
+"known to work. See the @file{WEBSITES} file for all known working sites and "
+"more information."
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:794
+#, no-wrap
+msgid "not supported"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:795
+#, no-wrap
+msgid "RTMP"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:796
+#, no-wrap
+msgid "proprietary software, not supported"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:799
+msgid "Web sites that use RTMP to transfer clips @strong{do not} work."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:804
+msgid ""
+"Web sites that use clips and players from remote site @strong{do not} "
+"work. For example youtube video placed in a blog or a news article. Since "
+"version 0.0.9 some remote objects are detected and a link to the web page of "
+"the video is provided."
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:807
+msgid ""
+"Linterna M@value{AACUTE}gica is not working with specific browser or plugin "
+"or operating system. Is it possible to support it?"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:812
+msgid ""
+"Only free software will be supported. Explicit support for non-free software "
+"will not be provided. If Linterna M@value{AACUTE}gica is working with "
+"non-free software you must be very ``lucky''. Yes, that is sarcasm!"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:815
+#, no-wrap
+msgid "bugs, reporting"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:816
+#, no-wrap
+msgid "reporting bugs"
+msgstr ""
+
+#. type: Plain text
+#: linterna_magica.texi:823
+msgid ""
+"If you encounter bugs, or have suggestions of any kind, please report them "
+"at Linterna M@value{AACUTE}gica project page at Savannah "
+"@url{https://savannah.nongnu.org/support/?group=linterna-magica}. Use the "
+"``Tech Support Manager''/''Support'' section. The ``Bugs'' tracker is for "
+"developers only."
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:826
+#, no-wrap
+msgid "copying, copying this manual"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:827
+#, no-wrap
+msgid "license, license of this manual"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:828
+#, no-wrap
+msgid "gpl, license"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:829
+#, no-wrap
+msgid "fdl, license"
+msgstr ""
+
+#. type: menuentry
+#: linterna_magica.texi:834
+msgid "GNU General Public License::"
+msgstr ""
+
+#. type: appendixsec
+#: linterna_magica.texi:834 linterna_magica.texi:841 linterna_magica.texi:842
+#, no-wrap
+msgid "GNU Free Documentation License"
+msgstr ""
+
+#. type: appendixsec
+#: linterna_magica.texi:836 linterna_magica.texi:837
+#, no-wrap
+msgid "GNU General Public License"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:838
+#, no-wrap
+msgid "gpl, gnu general public license"
+msgstr ""
+
+#. type: include
+#: linterna_magica.texi:839
+#, no-wrap
+msgid "gpl.texi"
+msgstr ""
+
+#. type: cindex
+#: linterna_magica.texi:843
+#, no-wrap
+msgid "fdl, gnu free documentation license"
+msgstr ""
+
+#. type: include
+#: linterna_magica.texi:844
+#, no-wrap
+msgid "fdl.texi"
+msgstr ""

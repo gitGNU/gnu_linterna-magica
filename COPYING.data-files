@@ -1,0 +1,89 @@
+This file lists the licenses for all data files (images, audio files,
+style sheets etc.):
+
+linterna mágica - pronounce.ogg
+
+	Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-about.png
+button-fullscreen.png
+button-muted.png
+button-play.png
+button-toggle-plugin.png
+button-unmuted.png
+slider-background.png
+button-download.png
+button-higher-quality-old.png
+button-pause.png
+button-stop.png
+button-toggle-plugin-with-logo.png
+header-background.png
+slider-knob.png
+
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-close.png
+button-debug.png
+button-update.png
+button-minimize.png
+button-higher-quality.png
+
+	Copyright (C) 2011  Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+linterna mágica - interface.svg
+
+	Copyright (C) 2010, 2011 Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+template.css
+
+	Copyright (C) 2010, 2011  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+pronunce.svg
+pronounce.pdf
+
+	Copyright (C) 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of either:
+
+	* the GNU General Public License as published by the Free
+	  Software Foundation; either version 3 of the License, or (at
+	  your option) any later version, or
+
+	* the GNU Free Documentation License, Version 1.3 or any later
+	version published by the Free Software Foundation; with no
+	Invariant Sections, no Front-Cover Texts, and no Back-Cover
+	Texts.
+
+This file is part of  Linterna Mágica
+
+	Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.

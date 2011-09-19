@@ -35,13 +35,13 @@ BASENAME=/usr/bin/basename
 MKTEMP=/bin/mktemp
 CHMOD=/bin/chmod
 
-PACKAGE= linternamagica
-VERSION = svn-trunk
-
 topdir=.
 srcdir=$(topdir)/src
 builddir=$(topdir)
 styledir=$(topdir)/data/style
+docsdir=$(topdir)/doc
+
+include $(topdir)/common.mk
 
 STYLEFILE=$(styledir)/template.css
 
@@ -85,7 +85,7 @@ CSSINJSFILES=$(shell for file in $(BASE64FILES) ; do echo -n "$$file "	\
 .SUFFIXES:
 .SUFFIXES: .nhr .js .ncm .hdr .png .b64 .min .obf .syn .cmt .cjs .css
 
-.PHONY: clean distclean minimise
+.PHONY: clean distclean minimise docs-clean
 
 all: $(PACKAGE).user.js
 
@@ -134,7 +134,7 @@ $(STYLEFILE).js: $(STYLEFILE) $(CSSINJSFILES)  $(BASE64FILES) Makefile
 		"\n" ;\
 		exit 2; \
 	fi;\
-	echo "Checking sytax of $<";\
+	echo "Checking syntax of $<";\
 	result="`$(GREP) -n --color=always -E ';$$|^$$|^\s+$$' -v $< \
 	|  $(GREP) -E '(\+|\-|//\s+.*|//|\&|\{|\}|\[|\]|\)|\(|\?|\*|else|try|:|,|\.|=|\|)\s*$$' -v`" ; \
 		if test "$$result" ; then \
@@ -165,9 +165,9 @@ $(STYLEFILE).js: $(STYLEFILE) $(CSSINJSFILES)  $(BASE64FILES) Makefile
 		$(CP)  $< $@;\
 	fi
 
-userscript-header.js: $(USRSCRIPTHDR) $(JSFILES) $(STYLEFILE) README Makefile
+userscript-header.js: $(USRSCRIPTHDR) $(JSFILES) $(STYLEFILE) COPYING.data-files Makefile
 	@echo -n "Collecting authors... ";\
-	authors="`$(GREP) -E '(//)*\s*Copyright' $(JSFILES) $(USRSCRIPTHDR) $(STYLEFILE) README | $(CUT) -d ':' -f2| $(SED) -e 's/\s\s/ /g' -e 's/^[^\/]/\/\//g' -e 's/\/\/\s*/\/\/    /g' | $(SORT) | $(UNIQ) | $(TR) -d '\n'`";\
+	authors="`$(GREP) -E '(//)*\s*Copyright' $(JSFILES) $(USRSCRIPTHDR) $(STYLEFILE) COPYING.data-files | $(CUT) -d ':' -f2| $(SED) -e 's/\s\s/ /g' -e 's/^[^\/]/\/\//g' -e 's/\/\/\s*/\/\/    /g' | $(SORT) | $(UNIQ) | $(TR) -d '\n'`";\
 	up_cut="`$(CAT) $(USRSCRIPTHDR) | $(GREP) -n '//\s*Copyright' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
 	down_cut="`$(TAC) $(USRSCRIPTHDR) |$(GREP) -n '//\s*Copyright' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
 	$(HEAD) -n $$up_cut  $(USRSCRIPTHDR) > $@;\
@@ -205,6 +205,18 @@ $(PACKAGE).user.js: strip-js-comments strip-js-headers userscript-header.js $(JS
 	echo -e "\n\n  \033[1;32m$(PACKAGE).user.js\033[0m is ready.\n\n";
 
 
+docs: $(docsdir)/$(GETTEXT_PACKAGE).texi
+	@cd $(docsdir); \
+	$(MAKE) all-docs;
+
+docs-clean:
+	@cd $(docsdir); \
+	$(MAKE) clean
+
+update-readme:
+	@cd $(docsdir); \
+	$(MAKE) update-readme;
+
 # Not productional yet
 # Minimisation of code. Keep $(SED) calls separate. Had problems with
 # one call to $(SED) with various -e options
@@ -231,7 +243,7 @@ clean:
 	@$(RM) $(STRIPCOMMENTS) $(STRIPHEADERS) $(BASE64FILES) $(CSSINJSFILES) $(STYLEFILE).js userscript-header.js 2> /dev/null; exit 0
 
 # See comments for clean:
-distclean: clean
+distclean: clean docs-clean
 	@$(RM) $(PACKAGE).user.js 2> /dev/null; exit 0
 
 strip-js-headers: $(STRIPHEADERS)

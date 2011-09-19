@@ -1,0 +1,66 @@
+@c
+@c This file is part of  Linterna Mágica
+@c
+@c 	Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+@c
+@c Linterna Mágica is free software: you can redistribute it and/or modify
+@c it under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
+@c
+@c Linterna Mágica is distributed in the hope that it will be useful,
+@c but WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
+@c
+@c You should have received a copy of the GNU General Public License
+@c along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
+@c
+
+@c Valid acute in info mode with UTF-8 @documentencoding. Otherwise it
+@c will be shown as a' in info documents.
+@set AACUTE á
+
+@c Valid acute in TeX. UTF-8 encoded character does not work.
+@iftex
+@clear AACUTE
+@set AACUTE @'{a}
+@end iftex
+
+@c Valid acute in XML/Docbook
+@ifdocbook
+@clear AACUTE
+@set AACUTE &#225;
+@end ifdocbook
+
+@ifxml
+@clear AACUTE
+@set AACUTE &#225;
+@end ifxml
+
+
+@c Ugly and dirty hack to show the IPA characters with
+@c TeX/pdfTeX. When we are in info/makeinfo mode and @documentencoding
+@c is UTF-8 the following should be visible in UTF-8 capable terminal
+@c (and Emacs).
+@set pronouncelm /lintˈɛrna maxˈika/
+
+@c This will show an image instead of the text with TeX. This is
+@c because texi2dvi/TeX does not render UTF-8 characters and there is
+@c no way to insert them with commands.
+@iftex
+@clear pronouncelm
+@set pronouncelm @image{pronounce,82pt,9pt,pronounciation of linterna magica,.pdf}
+@end iftex
+
+@c Valid output for Docbook and XML
+@ifdocbook
+@clear pronouncelm
+@set pronouncelm /lint&#712;&#603;rna max&#712;ika/
+@end ifdocbook
+
+@ifxml
+@clear pronouncelm
+@set pronouncelm /lint&#712;&#603;rna max&#712;ika/
+@end ifxml
+
