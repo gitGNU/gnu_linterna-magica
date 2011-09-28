@@ -110,6 +110,12 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	if (!object_data)
 	{
 	    object_data =
+		this.extract_object_from_script_flowplayer();
+	}
+
+	if (!object_data)
+	{
+	    object_data =
 		this.extract_object_from_script_pokkariplayer();
 	}
 
