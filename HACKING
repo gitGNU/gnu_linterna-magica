@@ -59,7 +59,8 @@ Follow these rules when adding new code or editing:
   same directory as the CSS template. The build system generates
   JavaScript code from images and style sheets.
 
-* Copyrights for data files should be listed in the README file.
+* Copyrights for data files should be listed in the COPYING.data-files
+  file.
 
 * If the data file format supports embedded comments, add a copyright
   notice. For example type:
