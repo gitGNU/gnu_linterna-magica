@@ -625,7 +625,7 @@ LinternaMagica.prototype.player.toggle_mute = function (id)
 	if (!video_object.lm_player_volume)
 	{
 	    vol = video_object.GetVolume();
-	    video_object.lm_player_volume, vol;
+	    video_object.lm_player_volume = vol;
 	    video_object.SetVolume(0);
 	}
 	// unMute
