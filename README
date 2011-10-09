@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 19 September 2011) is for Linterna Mágica (version
+This manual (updated 09 October 2011) is for Linterna Mágica (version
 svn-trunk), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -80,7 +80,7 @@ Interface design by Anton Katsarov.
 The name Linterna Mágica is in Spanish. The pronunciation in IPA is
 /lintˈɛrna maxˈika/.  You can also find the answer to that question by
 playing the Ogg Vorbis file `linterna mágica - pronounce.ogg' located
-in the data directory.
+in the `data' directory.
 
 2 Installation and building
 ***************************
@@ -438,13 +438,35 @@ with background requests.
 3.5 Localisation
 ================
 
-Since version 0.0.10 translations are split from the main userscript.
-Every localisation is a separate userscript located in the `locale'
-directory, that has special structure. If there is translation for your
-language and you want to use it, you will have to install the
-userscript for it. By default Linterna Mágica tries to use the language
-of the browser interface if available. You could also set a custom
-locale by the "locale" config option.
+In version 0.0.10 translations were split from the main userscript.
+Every localisation was a separate userscript with special structure. In
+version 0.0.11 userscript files are automatically generated form PO
+files. If there is translation for your language and you want to use
+it, you will have to build and install it. Compiled userscripts are
+also available at Linterna Mágica website.
+
+   By default Linterna Mágica tries to use the language of the browser
+interface if available. You could also set a custom locale by the
+"locale" config option.
+
+   To build all the localisation userscripts in the top source directory
+type:
+
+   `make locales'
+
+   You could also build the scripts from the `po' directory:
+
+   `cd po'
+   `make'
+
+   Compilation of userscript for single language is possible. To do so,
+type:
+
+   `cd po'
+   `make linternamagica_l10n_LANGCODE.user.js'
+
+   Replace LANGCODE in the example above with the code of the desired
+supported language.
 
 3.6 Stop execution on every site
 ================================

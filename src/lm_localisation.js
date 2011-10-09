@@ -45,6 +45,19 @@ LinternaMagica.prototype._ = function (string)
 	use_lang[string] ? use_lang[string] : string : string ;
 }
 
+// Mimic gettext_noop. This is used for translatable strings that are
+// extracted from variable or objects (DOM, strings from pages,
+// browser data). Such strings have to be available somewhere in the
+// source code, so intltool-update could extract them while updating
+// PO and POT files.
+LinternaMagica.prototype.N_ = function (string)
+{
+    // Should we really bother? The intent is N_() to never be
+    // executed. It is only available for intltool-update. All data
+    // referring to it will be remove at runtime to free memory.
+    return this._(string);
+}
+
 // Examines navigator.language and sets this.env_lang (en_US, en_UK,
 // bg_BG; etc)
 LinternaMagica.prototype.set_env_lang = function()

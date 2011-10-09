@@ -19,5 +19,5 @@
 
 @set VERSION svn-trunk
 @set EDITION svn-trunk
-@set UPDATED 19 September 2011
-@set UPDATED-MONTH September
+@set UPDATED 09 October 2011
+@set UPDATED-MONTH October

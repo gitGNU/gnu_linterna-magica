@@ -82,15 +82,17 @@ function(not_in_header,id,switch_type)
 
     if (/html5/i.test(switch_type))
     {
-	toggle_plugin.setAttribute("title",
-				   this._("Switch between site's HTML5 "+
-					  "player and Linterna Mágica"));
+	var title = this.
+	    _("Switch between site's HTML5 player and Linterna Mágica");
+
+	toggle_plugin.setAttribute("title", title);
     }
     else
     {
-	toggle_plugin.setAttribute("title",
-				   this._("Switch between flash plugin"+
-					  " and Linterna Mágica"));
+	var title = this.
+	    _("Switch between flash plugin and Linterna Mágica");
+
+	toggle_plugin.setAttribute("title",title);
     }
 
     return wrapper ? wrapper : toggle_plugin;

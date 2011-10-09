@@ -172,10 +172,11 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     var a = this.pack_external_link(object_data.remote_site_link,
 				    "Linterna Mágica >>");
 
+    var title = this.
+	_("Watch this video at it's original site with Linterna Mágica");
+
     a.setAttribute("class", "linterna-magica-toggle-plugin");
-    a.setAttribute("title", this._("Watch this video at it's original"+
-     				   " site with Linterna Mágica")+
-		   " ("+object_data.remote_site_link+")");
+    a.setAttribute("title", title + " ("+object_data.remote_site_link+")");
 
     p.appendChild(a);
 

@@ -343,3 +343,80 @@ LinternaMagica.prototype.languages["C"] =
 	__direction: "ltr",
 	__translators: null,
     };
+
+// Translatable strings extracted from variables, objects or pages
+// that have to be present for intltool-update. This function is
+// remove at runtime (or build time) to free memory. These strings are
+// never used and accessed by calling this function. 
+LinternaMagica.prototype.static_strings = function()
+{
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "01/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Jan 2012.
+    this.N_("Jan");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "02/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Feb 2012.
+    this.N_("Feb");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "03/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Mar 2012.
+    this.N_("Mar");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "04/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Apr 2012.
+    this.N_("Apr");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "05/28/2012" +"%b". It is part of a
+    // release date. For example: 28 May 2012.
+    this.N_("May");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "06/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Jun 2012.
+    this.N_("Jun");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "07/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Jul 2012.
+    this.N_("Jul");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "08/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Aug 2012.
+    this.N_("Aug");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "09/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Sep 2012.
+    this.N_("Sep");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "10/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Oct 2012.
+    this.N_("Oct");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "11/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Noe 2012.
+    this.N_("Noe");
+
+    // TRANSLATORS: This is abbreviated month name. The same as
+    // the output of date --date "12/28/2012" +"%b". It is part of a
+    // release date. For example: 28 Dec 2012.
+    this.N_("Dec");
+
+    // TRANSLATORS: Add your name here and it will be visible in
+    // the about box. One person per line.
+    this.N_("__translators");
+
+    // TRANSLATORS: This is the direction of the language you are
+    // translating. It should be translated as "ltr" for left-to-right
+    // languages and "rtl" for right-to-left languages. If you don't know
+    // it is probably "ltr".
+    this.N_("__direction");
+};

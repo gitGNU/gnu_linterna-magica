@@ -38,6 +38,11 @@
 // single scope.
 function linterna_magica_init ()
 {
+    // Remove the strings marked for translation extracted from
+    // variables and objects. Needed only for inttool-update. Frees
+    // memory.
+    delete LinternaMagica.static_strings;
+
     window.linterna_magica_init_counter ++;
 
     var ready_to_init = 0;

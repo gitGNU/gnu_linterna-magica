@@ -17,29 +17,12 @@
 
 SHELL = /bin/bash
 
-GREP = /bin/grep
-RM = /bin/rm
-SED = /bin/sed
-BASE64=/usr/bin/base64
-MAKE=/usr/bin/make
-CAT=/bin/cat
-TAC=/usr/bin/tac
-CUT=/usr/bin/cut
-CP=/bin/cp
-HEAD=/usr/bin/head
-TAIL=/usr/bin/tail
-SORT=/usr/bin/sort
-UNIQ=/usr/bin/uniq
-TR=/usr/bin/tr
-BASENAME=/usr/bin/basename
-MKTEMP=/bin/mktemp
-CHMOD=/bin/chmod
-
 topdir=.
 srcdir=$(topdir)/src
 builddir=$(topdir)
 styledir=$(topdir)/data/style
 docsdir=$(topdir)/doc
+podir=$(topdir)/po
 
 include $(topdir)/common.mk
 
@@ -58,7 +41,7 @@ $(srcdir)/lm_config_options.js $(srcdir)/lm_sites.js"
 
 LASTJSFILES="$(srcdir)/lm_run.js"
 
-EXCLUDEJSFILES=
+EXCLUDEJSFILES="$(srcdir)/lm_locale_userscript_template.js"
 
 JSFILES=$(shell files="`ls $(srcdir)/*.js | $(GREP) -E \`echo		\
 	$(FIRSTJSFILES) $(LASTJSFILES) $(EXCLUDEJSFILES) | $(TR) ' '	\
@@ -209,9 +192,17 @@ docs: $(docsdir)/$(GETTEXT_PACKAGE).texi
 	@cd $(docsdir); \
 	$(MAKE) all-docs;
 
+locales:
+	@cd $(podir);\
+	$(MAKE) generate-scripts
+
 docs-clean:
 	@cd $(docsdir); \
 	$(MAKE) clean
+
+po-distclean:
+	@cd $(podir); \
+	$(MAKE) distclean;
 
 update-readme:
 	@cd $(docsdir); \
@@ -240,10 +231,10 @@ update-readme:
 # Clean without warnings for missing files. Sends errors in /dev/null
 # and returns 0 always.
 clean:
-	@$(RM) $(STRIPCOMMENTS) $(STRIPHEADERS) $(BASE64FILES) $(CSSINJSFILES) $(STYLEFILE).js userscript-header.js 2> /dev/null; exit 0
+	@$(RM) $(STRIPCOMMENTS) $(STRIPHEADERS) $(BASE64FILES) $(CSSINJSFILES) $(STYLEFILE).js userscript-header.js 2>/dev/null; exit 0
 
 # See comments for clean:
-distclean: clean docs-clean
+distclean: clean docs-clean po-distclean
 	@$(RM) $(PACKAGE).user.js 2> /dev/null; exit 0
 
 strip-js-headers: $(STRIPHEADERS)

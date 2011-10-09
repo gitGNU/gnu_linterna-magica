@@ -197,9 +197,9 @@ Interface design by Anton Katsarov.
 @cindex pronounce, linterna m@value{AACUTE}gica
 
 The name Linterna M@value{AACUTE}gica is in Spanish. The pronunciation
-in @acronym{IPA} is @value{pronouncelm}.  You can also
-find the answer to that question by playing the Ogg Vorbis file
-@file{linterna m@value{AACUTE}gica - pronounce.ogg} located in the data
+in @acronym{IPA} is @value{pronouncelm}.  You can also find the answer
+to that question by playing the Ogg Vorbis file @file{linterna
+m@value{AACUTE}gica - pronounce.ogg} located in the @file{data}
 directory.
 
 
@@ -665,13 +665,40 @@ background requests.
 @section Localisation
 @cindex localisation
 
-Since version 0.0.10 translations are split from the main
-userscript. Every localisation is a separate userscript located in the
-@file{locale} directory, that has special structure. If there is
-translation for your language and you want to use it, you will have to
-install the userscript for it. By default Linterna M@value{AACUTE}gica
-tries to use the language of the browser interface if available. You
-could also set a custom locale by the ``locale'' config option.
+In version 0.0.10 translations were split from the main
+userscript. Every localisation was a separate userscript with special
+structure. In version 0.0.11 userscript files are automatically
+generated form PO files. If there is translation for your language and
+you want to use it, you will have to build and install it. Compiled
+userscripts are also available at Linterna M@value{AACUTE}gica
+website.
+
+By default Linterna M@value{AACUTE}gica tries to use the
+language of the browser interface if available. You could also set a
+custom locale by the ``locale'' config option.
+
+To build all the localisation userscripts in the top source directory
+type:
+@sp 1
+@samp{make locales}
+@sp 1
+
+
+You could also build the scripts from the @file{po} directory:
+@sp 1
+@samp{cd po}@*
+@indent @samp{make}
+@sp 1
+
+Compilation of userscript for single language is possible. To do so,
+type:
+@sp 1
+@samp{cd po}@*
+@indent @samp{make linternamagica_l10n_@var{langcode}.user.js}
+@sp 1
+
+Replace @var{langcode} in the example above with the code of the
+desired supported language.
 
 @node Stop execution on every site
 @section Stop execution on every site

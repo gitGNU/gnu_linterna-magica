@@ -50,30 +50,33 @@ LinternaMagica.prototype.create_about_box = function(id)
 	box.appendChild(p);
     }
 
-    // Translators 
+    // Extract translators 
     if (this.languages[this.lang] &&
 	this.languages[this.lang].__translators)
     {
-	var transl = null;
+	var translation = null;
+
 	if (typeof (this.languages[this.lang].__translators) == "object")
 	{
-	    transl = this.languages[this.lang].__translators;
+	    translation = this.languages[this.lang].__translators;
 	}
 	else
 	{
-	    transl = new Array();
-	    transl.push(this.languages[this.lang].__translators);
+	    translation = new Array();
+	    translation.push(this.languages[this.lang].__translators);
 	}
 
 	p = document.createElement("p");
+
+	// Translated by
 	text = document.createTextNode(this._("Translation")+":");
 	p.appendChild(text);
 	box.appendChild(p);
 
-	for (var l=0, length=transl.length; l< length; l++)
+	for (var l=0, length=translation.length; l< length; l++)
 	{
 	    p = document.createElement("p");
-	    text = document.createTextNode(transl[l]);
+	    text = document.createTextNode(translation[l]);
 	    p.appendChild(text);
 	    box.appendChild(p);
 	}

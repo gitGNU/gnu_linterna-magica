@@ -15,24 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
 
-topdir=../
-
-include $(topdir)/common.mk
 
 SHELL=/bin/bash
 
-MAKEINFO=/usr/bin/makeinfo
-MAKE=/usr/bin/make
-LS=/bin/ls
-SED=/bin/sed
-PO4A-UPDATEPO=/usr/bin/po4a-updatepo
-PO4A-GETTEXTIZE=/usr/bin/po4a-gettextize
-PO4A-TRANSLATE=/usr/bin/po4a-translate
-TEXI2PDF=/usr/bin/texi2pdf
-TEXI2HTML=/usr/bin/texi2html
-RM=/bin/rm
-DATE=/bin/date
-CP=/bin/cp
+topdir=../
+
+include $(topdir)/common.mk
 
 .SUFIXES:
 .SUFFIXES: .info .texi .pdf .html .po .txt
@@ -53,7 +41,7 @@ all: all-docs
 	$(MAKEINFO) $(^F) -o $@; \
 	echo "done";
 
-$(MASTERDOC_FILENAME).%.texi: %.po
+$(MASTERDOC_FILENAME).%.texi: $(PODIR)/%.po
 	@echo -n "Updating $@..."; \
 	$(PO4A-TRANSLATE) -f texinfo -m $(MASTERDOC) -M UTF-8 -L UTF-8 -p $(PODIR)/$(^F) -l $@; \
 	sed -i -e "s/@setfilename $(MASTERDOC_FILENAME).info/@setfilename $(MASTERDOC_FILENAME).$*.info/g" $@; \
@@ -93,7 +81,7 @@ $(PODIR)/$(MASTERDOC).pot: $(MASTERDOC) $(topdir)/common.mk
 
 update-pot: $(PODIR)/$(MASTERDOC).pot Makefile
 
-update-po: $(POFILES) Makefile
+update-po: $(POFILES) Makefile $(MASTEDCOC)
 
 update-texi:
 	@for i in `$(LS) $(POFILES) | $(SED) -e "s/\.po/.texi/" -e "s/^po\//$(MASTERDOC_FILENAME)./"`; \
@@ -132,6 +120,8 @@ update-readme: update-txt
 	 $(CP) $$i $(topdir)/$$readme ; \
 	done;
 
+texinfo: update-texi
+texi: texinfo
 info: update-info
 pdf: update-pdf
 html: update-html
