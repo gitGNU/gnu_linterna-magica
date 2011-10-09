@@ -26,21 +26,6 @@
       - some video links have some hash key (?h=something), that might
          not be needed
 
-* A major rework is needed (in some parts):
-  - use a  framework with configs for sites (not using the general purpose way):
-        - Example:
-	      {
-		rexgexp: "bla bla | bla ",
-		// For xmlhttprequest extraction
-		method: "get",
-		"extract_url" : "url",
-		"extract_elements" : array,
-		"make_url" : "http://a.b.c/ 1+ 2 + 3" // use the above array
-	      }
-
-* The regular expression for video links needs rework. It is messy.
-
-
 This file is part of  Linterna Mágica
 
 Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
