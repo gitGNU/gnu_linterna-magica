@@ -155,6 +155,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	hd_button.setAttribute("href","#");
 	hd_button.textContent = this._("HQ");
 	hd_button.setAttribute("title", this._("Higher quality"));
+	hd_button.setAttribute("id", "linterna-magica-switch-hd-"+id);
 	hd_button.setAttribute("class", "linterna-magica-switch-hd");
 
 	var hd_button_click_function =  function(ev)

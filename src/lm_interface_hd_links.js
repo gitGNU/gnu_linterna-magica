@@ -94,6 +94,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 {
     event.preventDefault();
 
+    var id = element.getAttribute("id").split(/-/);
+    id = id[id.length-1];
+
     var hd_list = element.nextSibling;
     if (hd_list)
     {
@@ -102,6 +105,68 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	{
 	    hd_list.style.removeProperty("display");
 
+	    var top_offset = 0;
+	    var el = element;
+
+	    // Calculate the offset to the top of the window and
+	    // decrease the height of the list if needed. See
+	    // https://savannah.nongnu.org/bugs/index.php?34465
+	    while(el && !isNaN(el.offsetTop))
+	    {
+		top_offset += el.offsetTop;
+		el = el.offsetParent;
+	    }
+
+	    if (hd_list.clientHeight > top_offset)
+	    {
+		// Increase the width ~twice. Higher values than 1.85
+		// leave too much empty space at the right of the div.
+		var w = hd_list.clientWidth * 1.85 ;
+		var h = 0;
+
+		var links = hd_list.getElementsByTagName("li");
+		for (var i=0,l=links.length;i<l;i++)
+		{
+		    var li = links[i];
+		    var li_h  = (li.clientHeight ? 
+				 li.clientHeight: li.offsetHeight);
+		    h += li_h;
+		}
+
+		// Setting "float: left" in the same loop as the
+		// height calculations changes the sum.
+		for (var i=0,l=links.length;i<l;i++)
+		{
+		    var li = links[i];
+		    li.style.setProperty("float", "left", "important");
+		}
+
+		// Half the height. The "float:left" renders in two
+		// columns, so we reduce the height. Add two pixels for
+		// Epiphany, otherwise it renders scrollbars. 
+		h = h/2 + 2;
+
+		hd_list.style.setProperty("height", h+"px", "important");
+		hd_list.style.setProperty("width", w+"px", "important");
+
+		// Without hiding and showing again the div,
+		// scrollbars are visible and some of the <li>
+		// elements have weird sizes.
+		hd_list.style.setProperty("display", "none", "important");
+		var redraw_timeout_function = function(ev)
+		{
+		    var hd_list = 
+			document.getElementById("linterna-magica-hd-"+
+						"links-list-"+id);
+		    hd_list.style.removeProperty("display");
+		}
+
+		// We must wait a while for the redrawing/calculating
+		// to take effect. Immediate showing is not having the
+		// desired effect.
+		setTimeout(redraw_timeout_function, 15);
+	    }
+
 	    var hd_list_blur_function = function(ev)
 	    {
 		var timeout_function = function()
@@ -109,7 +174,7 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		    if (document.activeElement &&
 			document.activeElement.hasAttribute("id") &&
 			document.activeElement.getAttribute("id") 
-			!= "linterna-magia-selected-hd-link-0")
+			!= "linterna-magia-selected-hd-link-"+id)
 		    {
 			hd_list.style.setProperty("display", 
 						  "none", "important");
