@@ -121,7 +121,7 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	    {
 		// Increase the width ~twice. Higher values than 1.85
 		// leave too much empty space at the right of the div.
-		var w = hd_list.clientWidth * 1.85 ;
+		var w = hd_list.clientWidth * 2.085;
 		var h = 0;
 
 		var links = hd_list.getElementsByTagName("li");
@@ -139,6 +139,7 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		{
 		    var li = links[i];
 		    li.style.setProperty("float", "left", "important");
+		    li.style.setProperty("width", "270px", "important");
 		}
 
 		// Half the height. The "float:left" renders in two
