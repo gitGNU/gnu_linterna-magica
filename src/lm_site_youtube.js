@@ -73,22 +73,9 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    // http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
 
 	    var label="";
+	    var more_info = "";
 	    var fmt_id = link_data[0];
 
-	    switch (fmt_id)
-	    {
-	    case '82':
-	    case '83':
-	    case '84':
-	    case '85':
-	    case '100':
-	    case '101':
-	    case '102':
-		label += "3D ";
-		break;
-	    default:
-		"";
-	    }
 	    // Set container
 	    switch (fmt_id)
 	    {
@@ -124,11 +111,26 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		label += this._("Unkown container");
 	    }
 
+	    switch (fmt_id)
+	    {
+	    case '82':
+	    case '83':
+	    case '84':
+	    case '85':
+	    case '100':
+	    case '101':
+	    case '102':
+		label += " 3D";
+		break;
+	    default:
+		"";
+	    }
+
 	    // Set video and audio encodings
 	    switch (fmt_id)
 	    {
 	    case '5':
-		label += " Sorenson H.263, MP3";
+		more_info += "Sorenson H.263, MP3";
 		break;
 	    case '18':
 	    case '22':
@@ -140,7 +142,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '83':
 	    case '84':
 	    case '85':
-		label += " MPEG-4 AVC (H.264), AAC";
+		more_info += "MPEG-4 AVC (H.264), AAC";
 		break;
 	    case '43':
 	    case '44':
@@ -149,17 +151,18 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '100':
 	    case '101':
 	    case '102':
-		label += " VP8, Vorbis";
+		more_info += "VP8, Vorbis";
 		break;
 	    case '13':
 	    case '17':
-		label += " MPEG-4 Visual, AAC";
+		nore_info += "MPEG-4 Visual, AAC";
 		break;
 	    default:
-		label += " " + this._("Unkown encoding");
+		more_info += " " + this._("Unkown encoding");
 	    }
 
 	    link.label  = link_data[1] + " " +label;
+	    link.more_info = link.label + " " + more_info;
 
 	    if (!fmt_url_map[fmt_id])
 	    {

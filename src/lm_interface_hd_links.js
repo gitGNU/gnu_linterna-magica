@@ -119,51 +119,23 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 
 	    if (hd_list.clientHeight > top_offset)
 	    {
-		// Force every li to 300px width
-		var li_predefined_w = 300;
-		// Force div with the HD list to 120px height
-		var h = 120;
+		// Move the HD list to the left so it is not over the
+		// video. Epiphany (or WbKit keeps video plugins above
+		// all).
+		var w = parseInt(hd_list.clientWidth) + 5;
+		hd_list.style.setProperty("left","-"+w+"px",
+					  "important");
 
-		var links = hd_list.getElementsByTagName("li");
+		// Set the height of the HD list to the height of the
+		// <ul> that holds all <li> elemens. Somehow the <ul>
+		// has height but the div does not.
+		var ul_height = 
+		    hd_list.getElementsByTagName("ul")[0].clientHeight;
 
-		// Calculate the width of the HD list holder div
-		// according to the expected columns.  More than 6 li
-		// elements per column usualy do not fit.
-		var w = Math.ceil(links.length / 6) * li_predefined_w;
-		
-		var is_set = links[0].style.getPropertyValue("width");
-		is_set = parseInt(is_set);
+		hd_list.style.setProperty("height", ul_height+"px", "important");
 
-		if (!is_set)
-		{
-		    for (var i=0,l=links.length;i<l;i++)
-		    {
-			var li = links[i];
-			li.style.setProperty("float", "left", "important");
-			li.style.setProperty("width", li_predefined_w+"px",
-					     "important");
-		    }
-		}
-
-		hd_list.style.setProperty("height", h+"px", "important");
-		hd_list.style.setProperty("width", w+"px", "important");
-
-		// Without hiding and showing again the div,
-		// scrollbars are visible and some of the <li>
-		// elements have weird sizes.
-		hd_list.style.setProperty("display", "none", "important");
-		var redraw_timeout_function = function(ev)
-		{
-		    var hd_list = 
-			document.getElementById("linterna-magica-hd-"+
-						"links-list-"+id);
-		    hd_list.style.removeProperty("display");
-		}
-
-		// We must wait a while for the redrawing/calculating
-		// to take effect. Immediate showing is not having the
-		// desired effect.
-		setTimeout(redraw_timeout_function, 15);
+		// Align with the top line of LM
+		hd_list.style.setProperty("top", "-2px", "important");
 	    }
 
 	    var hd_list_blur_function = function(ev)

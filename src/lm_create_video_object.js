@@ -181,6 +181,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    var li = document.createElement("li");
 	    var button = document.createElement("a");
 	    button.setAttribute("href",object_data.hd_links[link].url);
+	    button.setAttribute("title", object_data.hd_links[link].more_info);
 	    button.textContent = object_data.hd_links[link].label;
 
 	    var button_click_function = function(ev)
