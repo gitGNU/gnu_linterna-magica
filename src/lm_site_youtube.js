@@ -75,6 +75,20 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    var label="";
 	    var fmt_id = link_data[0];
 
+	    switch (fmt_id)
+	    {
+	    case '82':
+	    case '83':
+	    case '84':
+	    case '85':
+	    case '100':
+	    case '101':
+	    case '102':
+		label += "3D ";
+		break;
+	    default:
+		"";
+	    }
 	    // Set container
 	    switch (fmt_id)
 	    {
@@ -87,14 +101,22 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '22':
 	    case '37':
 	    case '38':
+	    case '82':
+	    case '83':
+	    case '84':
+	    case '85':
 		label += "MP4";
 		break;
 	    case '43':
 	    case '44':
 	    case '45':
 	    case '46':
+	    case '100':
+	    case '101':
+	    case '102':
 		label += " WebM";
 		break;
+	    case '13':
 	    case '17':
 		label += " 3GP";
 		break;
@@ -114,14 +136,22 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '35':
 	    case '37':
 	    case '38':
+	    case '82':
+	    case '83':
+	    case '84':
+	    case '85':
 		label += " MPEG-4 AVC (H.264), AAC";
 		break;
 	    case '43':
 	    case '44':
 	    case '45':
 	    case '46':
+	    case '100':
+	    case '101':
+	    case '102':
 		label += " VP8, Vorbis";
 		break;
+	    case '13':
 	    case '17':
 		label += " MPEG-4 Visual, AAC";
 		break;
@@ -130,6 +160,15 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    }
 
 	    link.label  = link_data[1] + " " +label;
+
+	    if (!fmt_url_map[fmt_id])
+	    {
+		this.log("LinternaMagica.create_youtube_links:\n"+
+			 "Missing URL for fmt_id "+fmt_id+
+			 " in array map fmt_url_map",5);
+		continue;
+	    }
+
 	    link.url = fmt_url_map[fmt_id].replace(/\\u0026/g,"&");
 
 	    this.log("LinternaMagica.create_youtube_links:\n"+
@@ -183,7 +222,6 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 
     if (fmt)
     {
-
 	// For debug level 1
 	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
 		 "Extracted fmt_url_map.",1);
@@ -192,22 +230,20 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	var map = new Object();
 
 	fmt = unescape(fmt[fmt.length-1].replace(/\\\//g, "/"));
-
 	fmt = fmt.split(/,/);
 
 	var links = 0;
 
 	for (var url=0; url<fmt.length; url++) 
 	{
-	    // url=URL&type=video/...&itag=fmt_id
-	    var m = unescape(fmt[url]).replace(/url=/, "");
-	    m = m.split(/&type=video/);
+	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
+	    var link = fmt[url].match(/url=([^&]+)/);
+	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
 
-	    var fmt_id = m[1].match(/&itag=([0-9]+)/);
-	    if (fmt_id)
+	    if (fmt_id && link)
 	    {
 		links++;
-		map[fmt_id[fmt_id.length-1]] =  m[0];
+		map[fmt_id[fmt_id.length-1]] =  unescape(link[link.length-1]);
 	    }
 	}
 
@@ -418,6 +454,7 @@ function(args)
     var maps = this.extract_youtube_fmt_url_map(client.responseText);
 
     var hd_links = this.create_youtube_links(fmt, maps);
+
     object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
     object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
 
