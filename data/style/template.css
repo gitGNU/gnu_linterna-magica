@@ -143,7 +143,7 @@ div.linterna-magica-controls,
 .linterna-magica-controls {
                             background: gray url('header-background.png') 0 0 repeat-x !important;
                             border-color: #666666  !important;
-                            boder-style: solid !important;
+                            border-style: solid !important;
                             border-width: 1px 0px  !important;
                             color: black !important;
                             height: 24px !important;
