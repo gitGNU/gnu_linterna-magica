@@ -119,33 +119,31 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 
 	    if (hd_list.clientHeight > top_offset)
 	    {
-		// Increase the width ~twice. Higher values than 1.85
-		// leave too much empty space at the right of the div.
-		var w = hd_list.clientWidth * 2.085;
-		var h = 0;
+		// Force every li to 300px width
+		var li_predefined_w = 300;
+		// Force div with the HD list to 120px height
+		var h = 120;
 
 		var links = hd_list.getElementsByTagName("li");
-		for (var i=0,l=links.length;i<l;i++)
-		{
-		    var li = links[i];
-		    var li_h  = (li.clientHeight ? 
-				 li.clientHeight: li.offsetHeight);
-		    h += li_h;
-		}
 
-		// Setting "float: left" in the same loop as the
-		// height calculations changes the sum.
-		for (var i=0,l=links.length;i<l;i++)
-		{
-		    var li = links[i];
-		    li.style.setProperty("float", "left", "important");
-		    li.style.setProperty("width", "270px", "important");
-		}
+		// Calculate the width of the HD list holder div
+		// according to the expected columns.  More than 6 li
+		// elements per column usualy do not fit.
+		var w = Math.ceil(links.length / 6) * li_predefined_w;
+		
+		var is_set = links[0].style.getPropertyValue("width");
+		is_set = parseInt(is_set);
 
-		// Half the height. The "float:left" renders in two
-		// columns, so we reduce the height. Add two pixels for
-		// Epiphany, otherwise it renders scrollbars. 
-		h = h/2 + 2;
+		if (!is_set)
+		{
+		    for (var i=0,l=links.length;i<l;i++)
+		    {
+			var li = links[i];
+			li.style.setProperty("float", "left", "important");
+			li.style.setProperty("width", li_predefined_w+"px",
+					     "important");
+		    }
+		}
 
 		hd_list.style.setProperty("height", h+"px", "important");
 		hd_list.style.setProperty("width", w+"px", "important");
