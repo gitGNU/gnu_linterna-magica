@@ -101,6 +101,28 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	if (display)
 	{
 	    hd_list.style.removeProperty("display");
+
+	    var top_offset = 0;
+	    var el = element;
+
+	    // Calculate the offset to the top of the window and
+	    // decrease the height of the list if needed. See
+	    // https://savannah.nongnu.org/bugs/index.php?34465
+	    while(el && !isNaN(el.offsetTop))
+	    {
+		top_offset += el.offsetTop;
+		el = el.offsetParent;
+	    }
+
+	    // Temporary fix for 
+	    // https://savannah.nongnu.org/bugs/?34465
+	    // in 0.0.10 branch!
+	    if (hd_list.clientHeight > top_offset)
+	    {
+		hd_list.style.setProperty("overflow-y",
+					  "scroll", "important");
+		hd_list.style.setProperty("height", "115px", "important");
+	    }
 	}
 	else
 	{
