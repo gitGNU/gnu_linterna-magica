@@ -36,7 +36,7 @@ MKTEMP=/bin/mktemp
 CHMOD=/bin/chmod
 
 PACKAGE= linternamagica
-VERSION = 0.0.10-2-svn-pre
+VERSION = 0.0.10-2
 
 topdir=.
 srcdir=$(topdir)/src
