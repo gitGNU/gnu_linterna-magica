@@ -54,5 +54,9 @@ if (typeof(unsafeWindow) == "object")
 	 setTimeout(inject_data, 0);
      })();
 
-    return;
+    // A return breaks the syntax in newer versions of Epiphany. Only
+    // in Greasemonkey the scope of the script is really a function
+    // and a return does not break syntax.
+    throw "Linterna Mágica left the Greasemonkey scope!"+
+	" Script was injected in page.";
 }
