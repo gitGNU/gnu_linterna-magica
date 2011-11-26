@@ -92,6 +92,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '43':
 	    case '44':
 	    case '45':
+	    case '46':
 		label += " WebM";
 		break;
 	    case '17':
@@ -118,6 +119,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 	    case '43':
 	    case '44':
 	    case '45':
+	    case '46':
 		label += " VP8, Vorbis";
 		break;
 	    case '17':
