@@ -257,8 +257,10 @@ LinternaMagica.prototype.player.init = function(id)
 
     var started_clip = this.find_started_clip();
 
-    // Only start the clip, if not other is playing.
-    if (this.autostart && started_clip == null)
+    // Start the clip, if no other clip is playing or the started
+    // clip is this one.
+    if (this.autostart &&
+	(started_clip == null || started_clip == id))
     {
 	// Sometimes it skips seconds if the
 	// interval is 1sec
@@ -268,7 +270,7 @@ LinternaMagica.prototype.player.init = function(id)
 			    self.ticker.apply(self,[id]);
 			}, 500);
     }
-
+    
     var volume_interval_function =    function()
     {
 	var knob =
