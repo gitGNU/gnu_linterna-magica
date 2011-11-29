@@ -79,6 +79,22 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 	// timer/interval when there is no acces to the object.
 	this.player.init.apply(this,[id]);
 
+	var control_id = "linterna-magica-controls-button-play-"+id;
+	var play = document.getElementById(control_id);
+
+	if (play)
+	{
+	    play.style.setProperty("display", "none", "important");
+	}
+
+	control_id = "linterna-magica-controls-button-pause-"+id;
+	var pause = document.getElementById(control_id);
+
+	if (pause)
+	{
+	    pause.style.removeProperty("display");
+	}
+
 	// Set the new selected link in the list and clear the old one
 	if (selected_link)
 	{
