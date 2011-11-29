@@ -273,12 +273,12 @@ LinternaMagica.prototype.player.state = function(id)
     }
 
     var sec_pos = Math.round(time.position) % 60;
-    var min_pos = Math.round(time.position / 60) % 60;
-    var hour_pos = Math.round(time.position / 3600);
+    var min_pos = Math.floor(time.position / 60) % 60;
+    var hour_pos = Math.floor(time.position / 3600);
 
     var sec_dur = Math.round(time.duration) % 60;
-    var min_dur = Math.round(time.duration / 60) % 60;
-    var hour_dur = Math.round(time.duration / 3600);
+    var min_dur = Math.floor(time.duration / 60) % 60;
+    var hour_dur = Math.floor(time.duration / 3600);
 
     time.string = (hour_pos ?
 		   (hour_pos+":") : "")+
