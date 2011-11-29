@@ -114,9 +114,10 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		var timeout_function = function()
 		{
 		    if (document.activeElement &&
-			document.activeElement.hasAttribute("id") &&
+			((document.activeElement.hasAttribute("id") &&
 			document.activeElement.getAttribute("id") 
-			!= "linterna-magia-selected-hd-link-"+id)
+			  != "linterna-magia-selected-hd-link-"+id) ||
+			 !document.activeElement.hasAttribute("id")))
 		    {
 			hd_list.style.setProperty("display", 
 						  "none", "important");
