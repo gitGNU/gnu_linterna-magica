@@ -178,6 +178,68 @@ LinternaMagica.prototype.create_controls = function(object_data)
 				fullscreen_click_function, false);
     controls.appendChild(fullscreen);
 
+    if (object_data.hd_links)
+    {
+	var hd_links = this.create_hd_links_button(object_data);
+	controls.appendChild(hd_links);
+
+	// For RTL pages and LM translations we order the controls
+	// from right to left. 
+
+	// For RTL translations we are using Totem
+	// (LANGUAGE=ar_SA.utf8 totem) for reference. Any RTL LANGUAGE
+	// should do.
+
+	// For RTL pages it is needed, because otherwise in YouTube
+	// the HD links list is rendered at the right end of the
+	// screen, where it might not be visible.
+
+	if (this.get_document_direction() == "rtl" || 
+	    this.languages[this.lang].__direction == "rtl")
+	{
+	    controls.setAttribute("dir", "rtl");
+
+	    var children = controls.childNodes;
+
+	    var class_b = "linterna-magica-controls-buttons";
+	    var class_hs = "linterna-magica-controls-horizontal-slider";
+	    var hd_wrapper_id = "linterna-magica-hd-wrapper-"+id;
+
+	    for(var b=0,l=children.length; b<l; b++)
+	    {
+		var child = children[b];
+
+		var has_b_class = 
+		    this.object_has_css_class(child, class_b);
+
+		var has_hs_class = 
+		    this.object_has_css_class(child, class_hs);
+
+		var is_hd_wrapper = (child.hasAttribute("id") && 
+				     child.getAttribute("id") ==
+				     hd_wrapper_id) ? true : false;
+
+		if (has_b_class || has_hs_class)
+		{
+		    child.style.setProperty("float", "right", "important");
+		}
+
+		if (is_hd_wrapper)
+		{
+		    // HD list
+		    // If the CSS changes the 100.5% value should be
+		    // changed.
+		    child.lastChild.style.setProperty("right",
+					    "100.5%", "important");
+
+		    // HD switch 
+		    child.firstChild.style.setProperty("float", "right",
+						       "important");
+		}
+	    }
+	}
+    }
+
     return controls;
 }
 
@@ -334,27 +396,31 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
 
     // The slider width is calculated from the object width.
     // 
-    // We have 6 buttons (width + border +padding + margin).
+    // We have 5 (4) buttons (width + border +padding + margin).
     //
     // Remove the padding, margin, border for each slider (2): 2*x
     // (padding + border + margin)
-    //
+
+    var buttons = object_data.hd_links ? 5 : 4;
+
     // The time slider uses 3/4 of the space
-    var time_width = parseInt(((object_data.width - (4 * 21)) * 3/4)-12);
+    var time_width = parseInt(((object_data.width - (buttons * 21)) * 3/4)-12);
     time_slider.style.setProperty("width", time_width+"px", "important");
 
     time_slider.style.setProperty("position", "relative", "important");
 
     var time_knob_move = null;
 
-    if (this.languages[this.lang].__direction == "ltr" ||
-	this.languages[this.lang].__direction !== "rtl")
-    {
-	time_knob_move = "left";
-    }
-    else if (this.languages[this.lang].__direction == "rtl")
+    var doc_dir = this.get_document_direction();
+
+    if (doc_dir == "rtl" ||
+	this.languages[this.lang].__direction == "rtl")
     {
 	time_knob_move = "right";
+    }
+    else
+    {
+	time_knob_move = "left";
     }
 
     var time_knob = document.createElement("a");
@@ -456,27 +522,32 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
 
     // The slider width is calculated from the object width.
     // 
-    // We have 6 buttons (width + border +padding + margin)
+    // We have 5 (4) buttons (width + border +padding + margin)
     // 
     // Remove the padding, margin, border for each slider (2): 2 * x
     // (padding + border + margin)
-    //
+
+    var buttons = object_data.hd_links ? 5 : 4;
+
     // The volume slider uses 1/4 of the space
-    var volume_width = parseInt(((object_data.width - (4 * 21)) * 1/4)-12);
+    var volume_width = parseInt(((object_data.width -
+				  (buttons * 21)) * 1/4)-12);
+
     volume_slider.style.setProperty("width",
 				    volume_width+"px",
 				    "important");
 
     var volume_knob_move = null;
 
-    if (this.languages[this.lang].__direction == "ltr" ||
-	this.languages[this.lang].__direction !== "rtl")
-    {
-	volume_knob_move = "left";
-    }
-    else if (this.languages[this.lang].__direction == "rtl")
+    var doc_dir = this.get_document_direction();
+    if (doc_dir == "rtl" ||
+	this.languages[this.lang].__direction == "rtl")
     {
 	volume_knob_move = "right";
+    }
+    else
+    {
+	volume_knob_move = "left";
     }
 
     var volume_knob = document.createElement("a");

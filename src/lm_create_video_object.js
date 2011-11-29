@@ -140,77 +140,20 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // Create HD links
     if (object_data.hd_links)
     {
-	var preferred_link = 
+	var p = 
 	    this.compute_preferred_hd_link(object_data.hd_links);
 
 	// No link is calculated. Set to lowest.
-	if (preferred_link == null || isNaN(preferred_link))
+	if (p == null || isNaN(p))
 	{
-	    preferred_link = 
-		object_data.hd_links[object_data.hd_links.length-1];
+	    p = object_data.hd_links[object_data.hd_links.length-1];
 	}
+	
+	object_data.preferred_link = p;
 
-	var hd_wrapper = document.createElement("div");
-	var hd_button = document.createElement("a");
-	hd_button.setAttribute("href","#");
-	hd_button.textContent = this._("HQ");
-	hd_button.setAttribute("title", this._("Higher quality"));
-	hd_button.setAttribute("id", "linterna-magica-switch-hd-"+id);
-	hd_button.setAttribute("class", "linterna-magica-switch-hd");
-
-	var hd_button_click_function =  function(ev)
-	{
-	    var el = this;
-	    self.show_or_hide_hd_links.apply(self, [ev, el]);
-	};
-
-	hd_button.addEventListener("click",
-				   hd_button_click_function, false);
-
-	hd_wrapper.appendChild(hd_button);
-
-	var hd_links = document.createElement("div");
-	hd_links.setAttribute("id", "linterna-magica-hd-links-list-"+id);
-	hd_links.setAttribute("class", "linterna-magica-hd-links-list");
-	hd_links.style.setProperty("display","none","important");
-
-	var ul = document.createElement("ul");
-
-	for(var link=0; link<object_data.hd_links.length; link++)
-	{
-	    var li = document.createElement("li");
-	    var button = document.createElement("a");
-	    button.setAttribute("href",object_data.hd_links[link].url);
-	    button.setAttribute("title", object_data.hd_links[link].more_info);
-	    button.textContent = object_data.hd_links[link].label;
-
-	    var button_click_function = function(ev)
-	    {
-		var el = this;
-		self.switch_to_hd_link.apply(self, [ev, el]);
-	    };
-
-	    button.addEventListener("click",
-				    button_click_function , false);
-
-	    // Preferred link 
-	    if (link == preferred_link)
-	    {
-		// Set the link in the interface
-		this.select_hd_link_in_list(button,id);
-
-		// Set the link for the player and download link.
-		object_data.link = object_data.hd_links[link].url;
-		dw_link.setAttribute("href",
-				     object_data.hd_links[link].url);
-	    }
-
-	    li.appendChild(button);
-	    ul.appendChild(li);
-	}
-	hd_links.appendChild(ul);
-	hd_wrapper.appendChild(hd_links);
-	header.appendChild(hd_wrapper);
+	// Set the link for the player and download link.
+	object_data.link = object_data.hd_links[p].url;
+	dw_link.setAttribute("href", object_data.hd_links[p].url);
     }
 
     header.appendChild(script_name);

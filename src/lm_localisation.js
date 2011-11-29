@@ -92,3 +92,26 @@ LinternaMagica.prototype.set_env_lang = function()
 
     this.env_lang = env_lang;
 }
+
+// Get (guess) the language direction of the document (RTL/LTR)
+LinternaMagica.prototype.get_document_direction = function()
+{
+    var html = document.getElementsByTagName("html");
+
+    var dir = html[0].hasAttribute("dir") ? 
+	html[0].getAttribute("dir") : null;
+
+    if (!dir)
+    {
+	var body = document.getElementsByTagName("body");
+	dir = body[0].hasAttribute("dir") ? 
+	    body[0].getAttribute("dir") : null;
+    }
+
+    if (!dir || (dir.toLowerCase() !== "rtl" &&
+		 dir.toLowerCase() !== "ltr"))    {
+	dir = "ltr";
+    }
+
+    return dir.toLowerCase();
+}

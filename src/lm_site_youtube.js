@@ -161,9 +161,8 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		more_info += " " + this._("Unkown encoding");
 	    }
 
-	    link.label  = link_data[1] + " " +label;
-	    link.more_info = link.label + " " + more_info;
-
+	    link.label  = link_data[1].split(/x/)[1] + "p " +label;
+	    link.more_info = link_data[1] + " " +label+ " " + more_info;
 	    if (!fmt_url_map[fmt_id])
 	    {
 		this.log("LinternaMagica.create_youtube_links:\n"+

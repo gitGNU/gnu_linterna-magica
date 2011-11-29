@@ -696,14 +696,17 @@ LinternaMagica.prototype.slider_control = function(event)
     }
 
     var move = null;
-    if (this.languages[this.lang].__direction == "ltr" ||
-	this.languages[this.lang].__direction !== "rtl")
-    {
-	move = "left";
-    }
-    else if (this.languages[this.lang].__direction == "rtl")
+
+    var doc_dir =  this.get_document_direction();
+
+    if (doc_dir == "rtl" ||
+	this.languages[this.lang].__direction == "rtl")
     {
 	move = "right";
+    }
+    else
+    {
+	move = "left";
     }
 
     var old_position = parseInt(knob.style.getPropertyValue(move));

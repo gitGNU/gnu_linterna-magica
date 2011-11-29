@@ -154,7 +154,10 @@ div.linterna-magica-controls,
                             display: block !important;
                             bottom: 0px !important;
                             position: absolute !important;
-                            overflow: hidden !important;
+			    /* Hides the HD links list. The HD list was */
+			    /* moved to the controls footer, because of */
+			    /* https://savannah.nongnu.org/bugs/?34465 */
+                            /* overflow: hidden !important; */
                             text-align: center !important;
                             color: #333333  !important;
                             }
@@ -313,12 +316,20 @@ div#top_content_box div.dmpi_video_playerv4 div
 /* ^^^ Fix background: none in dailymotion */
 div.linterna-magica-hd-links-list,
 .linterna-magica-hd-links-list {
-                                 width: auto !important;
+				 /* The HD list is part of the controls */
+				 /* footer, because of */
+				 /* https://savannah.nongnu.org/bugs/?34465. */
+				 /* The value for width was "auto", but */
+				 /* most links are rendered on two lines, */
+				 /* which is not what we want. At 16% it */
+				 /* is fine with YouTube and Vimeo, not */
+				 /* too wide. */
+                                 width: 16% !important;
                                  height: auto !important;
                                  /* ^^^Fix height and width in dailymotion: The site sets them to */
                                  /* 100% but the list shows partly under the header */
-                                 bottom: 25px !important;
-                                 left: 53px !important;
+                                 bottom: -2px !important;
+                                 left: 100.5% !important;
                                  overflow-y: auto !important;
                                  /* Hide scrollbars for HD links in YouTube */
                                  overflow-x: hidden !important;

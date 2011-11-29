@@ -105,39 +105,6 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	{
 	    hd_list.style.removeProperty("display");
 
-	    var top_offset = 0;
-	    var el = element;
-
-	    // Calculate the offset to the top of the window and
-	    // decrease the height of the list if needed. See
-	    // https://savannah.nongnu.org/bugs/index.php?34465
-	    while(el && !isNaN(el.offsetTop))
-	    {
-		top_offset += el.offsetTop;
-		el = el.offsetParent;
-	    }
-
-	    if (hd_list.clientHeight > top_offset)
-	    {
-		// Move the HD list to the left so it is not over the
-		// video. Epiphany (or WbKit keeps video plugins above
-		// all).
-		var w = parseInt(hd_list.clientWidth) + 5;
-		hd_list.style.setProperty("left","-"+w+"px",
-					  "important");
-
-		// Set the height of the HD list to the height of the
-		// <ul> that holds all <li> elemens. Somehow the <ul>
-		// has height but the div does not.
-		var ul_height = 
-		    hd_list.getElementsByTagName("ul")[0].clientHeight;
-
-		hd_list.style.setProperty("height", ul_height+"px", "important");
-
-		// Align with the top line of LM
-		hd_list.style.setProperty("top", "-2px", "important");
-	    }
-
 	    var hd_list_blur_function = function(ev)
 	    {
 		var timeout_function = function()
@@ -217,4 +184,95 @@ LinternaMagica.prototype.unselect_hd_link_in_list = function(element)
     }
 
     return element;
+}
+
+// Creates the HD links button and list packed in a div
+LinternaMagica.prototype.create_hd_links_button = function(object_data)
+{
+    var id = object_data.linterna_magica_id;
+    var self = this;
+    var hd_links = this.create_hd_links_list(object_data);
+
+    var hd_wrapper = document.createElement("div");
+    hd_wrapper.setAttribute("id", "linterna-magica-hd-wrapper-"+id);
+
+    var hd_button = document.createElement("a");
+
+    hd_button.setAttribute("href","#");
+    hd_button.textContent = this._("HQ");
+    hd_button.setAttribute("title", this._("Higher quality"));
+    hd_button.setAttribute("id", "linterna-magica-switch-hd-"+id);
+    hd_button.setAttribute("class", "linterna-magica-switch-hd");
+
+    var hd_button_click_function =  function(ev)
+    {
+	var el = this;
+	self.show_or_hide_hd_links.apply(self, [ev, el]);
+    };
+
+    hd_button.addEventListener("click",
+			       hd_button_click_function, false);
+
+    hd_wrapper.appendChild(hd_button);
+    hd_wrapper.appendChild(hd_links);
+    return hd_wrapper;
+}
+
+// Creates the HD links list HTML structure
+LinternaMagica.prototype.create_hd_links_list = function(object_data)
+{
+    var id = object_data.linterna_magica_id;
+    var self = this;
+    var hd_links = document.createElement("div");
+
+    // Computed in create_video_object(). The download link have to be
+    // set there.
+    var preferred_link =  object_data.preferred_link;
+
+    hd_links.setAttribute("id", "linterna-magica-hd-links-list-"+id);
+    hd_links.setAttribute("class", "linterna-magica-hd-links-list");
+    hd_links.style.setProperty("display","none","important");
+
+    var ul = document.createElement("ul");
+
+    for(var link=0; link<object_data.hd_links.length; link++)
+    {
+	var li = document.createElement("li");
+	var button = document.createElement("a");
+	button.setAttribute("href",object_data.hd_links[link].url);
+
+	if (object_data.hd_links[link].more_info)
+	{
+	    button.setAttribute("title",
+				object_data.hd_links[link].more_info);
+	}
+
+	button.textContent = object_data.hd_links[link].label;
+
+	var button_click_function = function(ev)
+	{
+	    var el = this;
+	    self.switch_to_hd_link.apply(self, [ev, el]);
+	};
+
+	button.addEventListener("click",
+				button_click_function , false);
+
+	// Preferred link 
+	if (link == preferred_link)
+	{
+	    // Set the link in the interface
+	    this.select_hd_link_in_list(button,id);
+
+	    // Set the link for the player and download link.
+	    object_data.link = object_data.hd_links[link].url;
+	    // 			 object_data.hd_links[link].url);
+	}
+
+	li.appendChild(button);
+	ul.appendChild(li);
+    }
+    hd_links.appendChild(ul);
+
+    return hd_links;
 }
