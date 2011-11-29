@@ -75,6 +75,10 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 	    parent.appendChild(new_video);
 	}
 
+	// The ticker function stops and deletes the previous
+	// timer/interval when there is no acces to the object.
+	this.player.init.apply(this,[id]);
+
 	// Set the new selected link in the list and clear the old one
 	if (selected_link)
 	{
