@@ -122,14 +122,12 @@ LinternaMagica.prototype.extract_link = function()
 	//     // 	"mediashare\\\.bg|ted\\\.com",
 	//     "i");
 
-	console.log("Bui hu hu "+data);
 
 	// Some links used with flowplayer are relative
 	if (data.match(/.*flowplayer.*/))
 	{
 	    link = this.fix_flowplayer_links(link);
 	}
-	console.log("wee! But now what? ");
 
 	this.log("LinternaMagica.extract_link:\n"+
 		 " Extracted link: "+link,1);
