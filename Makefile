@@ -208,26 +208,6 @@ update-readme:
 	@cd $(docsdir); \
 	$(MAKE) update-readme;
 
-# Not productional yet
-# Minimisation of code. Keep $(SED) calls separate. Had problems with
-# one call to $(SED) with various -e options
-# .js.min: Makefile
-# 	@$(CAT) $< | $(TR) -d '\n' | $(SED) -e 's/\s\{2,\}\|\t\{1,\}/ /g' | $(SED)  -e "s#\s*\(:\|!\|{\|;\|}\|,\|\.\|?\|+\|=\|&\|(\|)\||\|<\)\s*#\1#g" | $(SED)  -e 's#;}#}#g ' |  $(SED) -e 's#\"+\"##g' | $(SED)  -e 's#\([^?]\)"\(\w\+\)"\:#\1\2:#g' | $(SED) -e  's#}\(\w\)#};\1#g'  | $(SED) -e 's#;\(catch\|else\)#\1#g' | $(SED) -e  's#};while#}while#g'  >$@;
-
-# $(PACKAGE).js: $(PACKAGE).user.js
-# 	@echo "raw js T $< D $@";
-# 	@down_cut="`$(TAC) $< |$(GREP) -n $(NOMINIMISATIONLINE)  -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
-# 	$(TAIL) -n $$down_cut  $< > $@;
-
-# minimise: $(PACKAGE).js $(PACKAGE).min userscript-header.js
-# 	@echo -e "Minimising code ... ";\
-# 	up_cut="`$(CAT) $(PACKAGE).user.js | $(GREP) -n $(NOMINIMISATIONLINE) -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
-# 	echo "upcut minimisie $$up_cut";\
-# 	$(HEAD) -n $$up_cut $(PACKAGE).user.js > $(PACKAGE).min.user.js;\
-# 	$(CAT) $(PACKAGE).min >>  $(PACKAGE).min.user.js;\
-# 	$(RM) $(PACKAGE).js $(PACKAGE).min;
-# 	@echo "done";
-
 # Clean without warnings for missing files. Sends errors in /dev/null
 # and returns 0 always.
 clean:
