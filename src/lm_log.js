@@ -117,8 +117,6 @@ LinternaMagica.prototype.log = function(message, level)
 	    }
 	    catch(e)
 	    {
-		alert("Linterna Mágica: Unexpected error occured."+
-		      "Disabling log.\n\nException: "+e);
 		this.disabled_log = true;
 	    }
 	}
