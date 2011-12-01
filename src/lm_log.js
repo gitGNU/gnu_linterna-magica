@@ -32,7 +32,7 @@
 LinternaMagica.prototype.log = function(message, level)
 {
     // No debug set by the user
-    if (!this.debug_level)
+    if (!this.debug_level || this.disabled_log)
     {
 	return;
     }
@@ -111,7 +111,16 @@ LinternaMagica.prototype.log = function(message, level)
 	}
 	catch(e)
 	{
-	    console.log(log_string);
+	    try
+	    {
+		console.log(log_string);
+	    }
+	    catch(e)
+	    {
+		alert("Linterna Mágica: Unexpected error occured."+
+		      "Disabling log.\n\nException: "+e);
+		this.disabled_log = true;
+	    }
 	}
     }
 }
