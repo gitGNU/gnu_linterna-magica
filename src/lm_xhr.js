@@ -155,7 +155,7 @@ function(client, object_data)
 	    this.remove_plugin_install_warning(object_data.parent);
 	    this.log("LinternaMagica.request_video_link_parse response:\n"+
 		     "Creating video object with url: "+object_data.link,1);
-	    this.create_video_object(object_data)
+	    this.create_video_object(object_data);
 	}
     }
 }

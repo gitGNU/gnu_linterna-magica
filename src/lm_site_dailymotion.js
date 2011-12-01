@@ -283,7 +283,7 @@ function(object_data)
     {
 	this.log("LinternaMagica.request_video_link_parse response:\n"+
 		 "Creating video object with url: "+object_data.link,1);
-	this.create_video_object(object_data)
+	this.create_video_object(object_data);
 	return false;
     }
 

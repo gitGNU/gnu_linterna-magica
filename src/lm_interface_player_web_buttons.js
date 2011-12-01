@@ -397,7 +397,7 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     // The slider width is calculated from the object width.
     // 
     // We have 5 (4) buttons (width + border +padding + margin).
-    //
+    // 
     // Remove the padding, margin, border for each slider (2): 2*x
     // (padding + border + margin)
 
