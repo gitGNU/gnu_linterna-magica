@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 18:19+0300\n"
+"POT-Creation-Date: 2011-12-05 20:33+0200\n"
 "PO-Revision-Date: 2011-10-09 16:36+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
@@ -109,90 +109,90 @@ msgstr "Копие на лиценза можете да изтеглите от
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "01/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jan 2012.
-#: ../src/lm_constructors.js:356
+#: ../src/lm_constructors.js:358
 msgid "Jan"
 msgstr "яну"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "02/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Feb 2012.
-#: ../src/lm_constructors.js:361
+#: ../src/lm_constructors.js:363
 msgid "Feb"
 msgstr "фев"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "03/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Mar 2012.
-#: ../src/lm_constructors.js:366
+#: ../src/lm_constructors.js:368
 msgid "Mar"
 msgstr "мар"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "04/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Apr 2012.
-#: ../src/lm_constructors.js:371
+#: ../src/lm_constructors.js:373
 msgid "Apr"
 msgstr "апр"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "05/28/2012" +"%b". It is part of a
 #. release date. For example: 28 May 2012.
-#: ../src/lm_constructors.js:376
+#: ../src/lm_constructors.js:378
 msgid "May"
 msgstr "май"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "06/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jun 2012.
-#: ../src/lm_constructors.js:381
+#: ../src/lm_constructors.js:383
 msgid "Jun"
 msgstr "юни"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "07/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jul 2012.
-#: ../src/lm_constructors.js:386
+#: ../src/lm_constructors.js:388
 msgid "Jul"
 msgstr "юли"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "08/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Aug 2012.
-#: ../src/lm_constructors.js:391
+#: ../src/lm_constructors.js:393
 msgid "Aug"
 msgstr "авг"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "09/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Sep 2012.
-#: ../src/lm_constructors.js:396
+#: ../src/lm_constructors.js:398
 msgid "Sep"
 msgstr "сеп"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "10/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Oct 2012.
-#: ../src/lm_constructors.js:401
+#: ../src/lm_constructors.js:403
 msgid "Oct"
 msgstr "окт"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "11/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Noe 2012.
-#: ../src/lm_constructors.js:406
+#: ../src/lm_constructors.js:408
 msgid "Noe"
 msgstr "ное"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "12/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Dec 2012.
-#: ../src/lm_constructors.js:411
+#: ../src/lm_constructors.js:413
 msgid "Dec"
 msgstr "дек"
 
 #. TRANSLATORS: Add your name here and it will be visible in
 #. the about box. One person per line.
-#: ../src/lm_constructors.js:415
+#: ../src/lm_constructors.js:417
 msgid "__translators"
 msgstr "Ивайло Вълков <ivaylo@e-valkov.org>"
 
@@ -200,7 +200,7 @@ msgstr "Ивайло Вълков <ivaylo@e-valkov.org>"
 #. translating. It should be translated as "ltr" for left-to-right
 #. languages and "rtl" for right-to-left languages. If you don't know
 #. it is probably "ltr".
-#: ../src/lm_constructors.js:421
+#: ../src/lm_constructors.js:423
 msgid "__direction"
 msgstr "ltr"
 
@@ -216,19 +216,11 @@ msgstr "Запазване"
 msgid "Save the video clip"
 msgstr "Запазване на видео клипа"
 
-#: ../src/lm_create_video_object.js:156
-msgid "HQ"
-msgstr "ВК"
-
-#: ../src/lm_create_video_object.js:157
-msgid "Higher quality"
-msgstr "Високо качество"
-
-#: ../src/lm_create_video_object.js:239
+#: ../src/lm_create_video_object.js:184
 msgid "Loading video..."
 msgstr "Зареждане на клипа…"
 
-#: ../src/lm_create_video_object.js:266
+#: ../src/lm_create_video_object.js:211
 msgid "Waiting for video plugin..."
 msgstr "Изчакване на приставката за видео клипове…"
 
@@ -240,26 +232,34 @@ msgstr "Гледайте този видео клип на неговата уе
 msgid "Remove this button, if it overlaps images or text in the page."
 msgstr "Премахнете този бутон, ако скрива изображения или текст от страницата."
 
+#: ../src/lm_interface_hd_links.js:223
+msgid "HQ"
+msgstr "ВК"
+
+#: ../src/lm_interface_hd_links.js:224
+msgid "Higher quality"
+msgstr "Високо качество"
+
 #. TRANSLATORS: This showed as tooltip when the mouse cursor is
 #. above the play button.
-#: ../src/lm_interface_player_web_buttons.js:197
+#: ../src/lm_interface_player_web_buttons.js:259
 msgid "Play"
 msgstr "Изпълнение"
 
 #. TRANSLATORS: This is showed as tooltip when the mouse cursor is
 #. above the pause button.
-#: ../src/lm_interface_player_web_buttons.js:244
+#: ../src/lm_interface_player_web_buttons.js:306
 msgid "Pause"
 msgstr "Пауза"
 
 #. TRANSLATORS: This is showed as a tooltip when the mouse cursor
 #. is above the stop button.
-#: ../src/lm_interface_player_web_buttons.js:284
+#: ../src/lm_interface_player_web_buttons.js:346
 msgid "Stop"
 msgstr "Спиране"
 
-#: ../src/lm_interface_player_web_buttons.js:328
-#: ../src/lm_interface_player_web_buttons.js:361
+#: ../src/lm_interface_player_web_buttons.js:390
+#: ../src/lm_interface_player_web_buttons.js:427
 msgid "Time"
 msgstr "Време"
 
@@ -269,10 +269,10 @@ msgstr "Време"
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the volume slider knob and the sound is
 #. *not* muted.
-#: ../src/lm_interface_player_web_buttons.js:455
-#: ../src/lm_interface_player_web_buttons.js:490
-#: ../src/lm_interface_player_web_buttons.js:642
-#: ../src/lm_interface_player_web_buttons.js:647
+#: ../src/lm_interface_player_web_buttons.js:521
+#: ../src/lm_interface_player_web_buttons.js:561
+#: ../src/lm_interface_player_web_buttons.js:713
+#: ../src/lm_interface_player_web_buttons.js:718
 msgid "Volume control"
 msgstr "Сила на звука"
 
@@ -281,14 +281,14 @@ msgstr "Сила на звука"
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the mute button and the sound is *not*
 #. muted.
-#: ../src/lm_interface_player_web_buttons.js:565
-#: ../src/lm_interface_player_web_buttons.js:630
+#: ../src/lm_interface_player_web_buttons.js:636
+#: ../src/lm_interface_player_web_buttons.js:701
 msgid "Mute"
 msgstr "Заглушаване"
 
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the mute button and the sound is muted.
-#: ../src/lm_interface_player_web_buttons.js:602
+#: ../src/lm_interface_player_web_buttons.js:673
 msgid "Unmute"
 msgstr "Премахване на заглушаването"
 
@@ -300,15 +300,15 @@ msgstr "Премахване на заглушаването"
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the volume slider knob and the sound is
 #. muted.
-#: ../src/lm_interface_player_web_buttons.js:613
-#: ../src/lm_interface_player_web_buttons.js:617
-#: ../src/lm_interface_player_web_buttons.js:622
+#: ../src/lm_interface_player_web_buttons.js:684
+#: ../src/lm_interface_player_web_buttons.js:688
+#: ../src/lm_interface_player_web_buttons.js:693
 msgid "Muted"
 msgstr "Заглушен"
 
 #. TRANSLATORS: This is showed as a tooltip when the mouse cursor
 #. is above the fullscreen button.
-#: ../src/lm_interface_player_web_buttons.js:666
+#: ../src/lm_interface_player_web_buttons.js:737
 msgid "Fullscreen"
 msgstr "На цял екран"
 
@@ -330,19 +330,19 @@ msgstr ""
 msgid "Switch between flash plugin and Linterna Mágica"
 msgstr "Превключване между приставката за флаш и Linterna Mágica"
 
-#: ../src/lm_log.js:146 ../src/lm_log.js:230
+#: ../src/lm_log.js:153 ../src/lm_log.js:237
 msgid "Linterna Mágica error and debug messages"
 msgstr "Съобщения за отстраняване на грешки в Linterna Mágica"
 
-#: ../src/lm_log.js:154
+#: ../src/lm_log.js:161
 msgid "Remove log"
 msgstr "Премахване на обекта"
 
-#: ../src/lm_log.js:170
+#: ../src/lm_log.js:177
 msgid "Show/hide debug messages"
 msgstr "Показване/скриване на съобщенията за отстраняване на грешки"
 
-#: ../src/lm_log.js:234
+#: ../src/lm_log.js:241
 msgid "Debug messages"
 msgstr "Отстраняване на грешки"
 
@@ -370,10 +370,10 @@ msgstr "Връзка тип „RTSP“"
 msgid "Progressive link"
 msgstr "Връзка тип „Progressive“"
 
-#: ../src/lm_site_youtube.js:101
+#: ../src/lm_site_youtube.js:111
 msgid "Unkown container"
 msgstr "Непознат контейнер"
 
-#: ../src/lm_site_youtube.js:127
+#: ../src/lm_site_youtube.js:161
 msgid "Unkown encoding"
 msgstr "Непознато кодиране"
