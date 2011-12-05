@@ -278,6 +278,23 @@ LinternaMagica.prototype.sites.__css_fixes = function(object_data)
     return true;
 }
 
+// Skip matching for flowplayer and fixing links. See
+// lm_site_dailymotion.js:skip_flowplayer_links_fix()
+LinternaMagica.prototype.sites.__skip_flowplayer_links_fix =
+function(object_data)
+{
+    return true;
+}
+
+// Site specific code (rule) used to find the site HTML5 player
+// element in the parent element. See
+// lm_site_dailymotion.js:custom_html5_player_finder()
+LinternaMagica.prototype.sites.__custom_html5_player_finder =
+function(parent)
+{
+    return true;
+}
+
 // Check if site specific config and function exists and call it. If
 // it doesn't, call the general/default function.  A function returns
 // false/null, if the calling function should exit/return after this

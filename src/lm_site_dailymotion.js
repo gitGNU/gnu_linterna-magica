@@ -351,3 +351,29 @@ function(object_data)
 
     return null;
 }
+
+LinternaMagica.prototype.sites["dailymotion.com"].skip_flowplayer_links_fix =
+function(object_data)
+{
+    // Must return false to skip the fix.
+    return false;
+}
+
+LinternaMagica.prototype.sites["dailymotion.com"].custom_html5_player_finder =
+function(parent)
+{
+    var html5_player_element = null;
+
+    if (parent.hasAttribute("id"))
+    {
+	var token = parent.getAttribute("id").split("_");
+
+	if (token && token[1])
+	{
+	    html5_player_element = 
+		document.getElementById("container_player_"+token[1]);
+	}
+    }
+
+    return html5_player_element;
+}

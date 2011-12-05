@@ -123,10 +123,18 @@ LinternaMagica.prototype.extract_link = function()
 	//     "i");
 
 
-	// Some links used with flowplayer are relative
-	if (data.match(/.*flowplayer.*/))
+	self = this;
+	val = this.call_site_function_at_position.apply(self,[
+	    "skip_flowplayer_links_fix",
+	    window.location.hostname]);
+
+	if (val)
 	{
-	    link = this.fix_flowplayer_links(link);
+	    // Some links used with flowplayer are relative
+	    if (data.match(/.*flowplayer.*/))
+	    {
+		link = this.fix_flowplayer_links(link);
+	    }
 	}
 
 	this.log("LinternaMagica.extract_link:\n"+

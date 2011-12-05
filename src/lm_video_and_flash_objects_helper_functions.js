@@ -215,25 +215,41 @@ function(parent)
 	return null;
     }
 
+    var self = this;
     var html5_player_holder = null;
     var t = null;
 
-    var video_or_canvas = parent.getElementsByTagName("video");
+    var html5_player_element = null;
 
-    if (!video_or_canvas || !video_or_canvas.length)
+    var val = this.call_site_function_at_position.apply(self,[
+	"custom_html5_player_finder",
+	window.location.hostname, parent]);
+
+    if (val && typeof(val) != "boolean")
     {
-	// Some pages (Vimeo, Dailymotion might use a canvas tag
-	// before inserting the video tag). 
-	video_or_canvas  =  parent.getElementsByTagName("canvas");
+	html5_player_element = val;
+    }
+    else 
+    {
+	html5_player_element = parent.getElementsByTagName("video");
 
-	// No more guesses
-	if (!video_or_canvas || !video_or_canvas.length)
+	if (!html5_player_element || !html5_player_element.length)
 	{
-	    return null;
+	    // Some pages (Vimeo, Dailymotion (now uses iframe) might
+	    // use a canvas tag before inserting the video tag).
+	    html5_player_element  =  parent.getElementsByTagName("canvas");
+
+	    // No more guesses
+	    if (!html5_player_element || !html5_player_element.length)
+	    {
+		return null;
+	    }
 	}
+
+	html5_player_element = html5_player_element[0];
     }
 
-    html5_player_holder = video_or_canvas[0].parentNode;
+    html5_player_holder = html5_player_element.parentNode;
 
     // Searching for the holder element that is placed in the
     // parent element (parent) that holds Linterna Magica.
@@ -246,6 +262,13 @@ function(parent)
     if (t !== null)
     {
 	html5_player_holder = t;
+    }
+
+    // We don't want to hide the LM player as well. The wrapper should
+    // be the HTML5 player itself.
+    if (html5_player_holder == parent)
+    {
+	html5_player_holder = html5_player_element;
     }
 
     return html5_player_holder;
