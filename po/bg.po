@@ -1,15 +1,15 @@
 # Bulgarian translation of linterna_magica.pot file
-# Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+# Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 # Copyright (C) 2010 Anton Katsarov <anton@katsarov.org> 
 # This file is distributed under the same license as the linterna_magica package.
-# Ivaylo Valkov <ivaylo@e-valkov.org>, 2010, 2011.
+# Ivaylo Valkov <ivaylo@e-valkov.org>, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-05 20:33+0200\n"
-"PO-Revision-Date: 2011-10-09 16:36+0300\n"
+"POT-Creation-Date: 2012-01-08 21:58+0200\n"
+"PO-Revision-Date: 2012-01-08 22:00+0200\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -232,6 +232,12 @@ msgstr "Гледайте този видео клип на неговата уе
 msgid "Remove this button, if it overlaps images or text in the page."
 msgstr "Премахнете този бутон, ако скрива изображения или текст от страницата."
 
+#. Translators: This is a label for HD link. It is
+#. followed by a number.
+#: ../src/lm_extract_js_jwplayer.js:145 ../src/lm_site_tedcom.js:92
+msgid "Link"
+msgstr "Връза"
+
 #: ../src/lm_interface_hd_links.js:223
 msgid "HQ"
 msgstr "ВК"
@@ -312,21 +318,21 @@ msgstr "Заглушен"
 msgid "Fullscreen"
 msgstr "На цял екран"
 
-#: ../src/lm_interface_toggle_plugin.js:70
+#: ../src/lm_interface_toggle_plugin.js:71
 msgid "HTML5"
 msgstr "HTML5"
 
-#: ../src/lm_interface_toggle_plugin.js:74
+#: ../src/lm_interface_toggle_plugin.js:75
 msgid "Plugin"
 msgstr "Приставка"
 
-#: ../src/lm_interface_toggle_plugin.js:86
+#: ../src/lm_interface_toggle_plugin.js:87
 msgid "Switch between site's HTML5 player and Linterna Mágica"
 msgstr ""
 "Превключване между възпрозивеждане чрез HTML5, предоставено от страницата и "
 "Linterna Mágica"
 
-#: ../src/lm_interface_toggle_plugin.js:93
+#: ../src/lm_interface_toggle_plugin.js:94
 msgid "Switch between flash plugin and Linterna Mágica"
 msgstr "Превключване между приставката за флаш и Linterna Mágica"
 
