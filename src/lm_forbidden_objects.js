@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -35,6 +35,8 @@ LinternaMagica.prototype.skip_objects =
       "flashRateObject", "VideoCharts", 
       // Facebook iframes in blip.tv
       "^f[0-9]+[a-z]+",
+      // Facebook frame at Indieflix.com
+      "^fb[0-9]+[a-z]+",
       // Blip.tv objects
       "easyXDM_DISQUS_net_default[0-9]+_provider",
       // livestream.com

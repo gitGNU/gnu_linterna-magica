@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -256,6 +256,15 @@ function(parent)
     while (parent != html5_player_holder)
     {
 	t = html5_player_holder;
+
+	// Fix crashing and strange behaviour in Midori 0.4.0
+	// Complains on html5_player_holder.parentNode; about
+	// html5_player_holder not being an object.
+	if (!html5_player_holder)
+	{
+	    continue;
+	}
+
 	html5_player_holder = html5_player_holder.parentNode;
     }
 

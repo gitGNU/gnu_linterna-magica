@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -111,6 +111,12 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 	{
 	    object_data =
 		this.extract_object_from_script_flowplayer();
+	}
+
+	if (!object_data)
+	{
+	    object_data =
+		this.extract_object_from_script_jwplayer();
 	}
 
 	if (!object_data)

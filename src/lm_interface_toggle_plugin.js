@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -62,6 +62,7 @@ function(not_in_header,id,switch_type)
 	wrapper = document.createElement("p");
 	wrapper.appendChild(toggle_plugin);
 	wrapper.style.setProperty("position", "relative", "important");
+	wrapper.style.setProperty("z-index", "999999", "important");
     }
     else
     {
