@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -87,7 +87,9 @@ LinternaMagica.prototype.extract_tedcom_hd_links = function(data)
 	// Make some labels just in case the match does not work
 	if (!label)
 	{
-	    label = "Link "+lnk+1;
+	    // Translators: This is a label for HD link. It is
+	    // followed by a number.
+	    label = this._("Link")+" "+lnk+1;
 	}
 	else
 	{
