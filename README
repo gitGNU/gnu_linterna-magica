@@ -1,18 +1,18 @@
 Linterna Mágica
 *****************
 
-This manual (updated 09 October 2011) is for Linterna Mágica (version
+This manual (updated 15 January 2012) is for Linterna Mágica (version
 svn-trunk), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
 Watch video on the web in a brand new way: "You don't need a glint, the
 magic lantern is ignited!"
 
-Copyright (C) 2010, 2011  Ivaylo Valkov <<ivaylo@e-valkov.org>>
+Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <<ivaylo@e-valkov.org>>
 Copyright (C) 2010  Anton Katsarov <<anton@katsarov.org>>
 
      Permission is granted to copy, distribute and/or modify this
-     document under the terms either
+     document under the terms of either
 
         * the GNU General Public License as published by the Free
           Software Foundation; either version 3 of the License, or (at
@@ -129,30 +129,25 @@ should see the following message:
 2.2 Installation
 ================
 
-First of all, install the Greasemonkey extension for your browser and
+First of all install the Greasemonkey extension for your browser and
 activate it. For Epiphany it is part of the Epiphany-extensions
 package. For GNU IceCat, Abrowser and other versions of Firefox see the
 Greasemonkey web page.
 
-   Probably these extensions are available in your GNU/Linux
-distribution as a package.
 
-   First of all install the Greasemonkey extension for your browser and
-activate it. For Epiphany it is part of the Epiphany-extensions
-package. For GNU IceCat, Abrowser and other versions of Firefox see the
-Greasemonkey web page.
+Probably these extensions are available in your GNU/Linux distribution
+as a package.
 
-   Probably these extensions are available in your GNU/Linux
-distribution as a package.
 
-   Second, install the video plugin that you prefer.
+Second, install the video plugin that you prefer.
 
-   If you have downloaded compressed with gzip or bzip2 version of the
-userscript, decompress it to get a copy of the file ready for
+
+If you have downloaded version of the userscript compressed with gzip
+or bzip2, decompress it to get a copy of the file ready for
 installation.
 
-2.2.1 Installation from a browser
----------------------------------
+2.2.1 Installation from browser
+-------------------------------
 
 Load the path where you downloaded Linterna Mágica in your browser:
 
@@ -180,11 +175,14 @@ For GNU IceCat and other free software versions of Firefox
      "Install" button.
 
 For Midori
-     Midori versions 0.2.2 and 0.2.4 do not support installation of
+     For Midori version 0.4.0 and above select "Open Link in Bew Tab".
+     In the new tab click "Install user script" button. Versions before
+     0.4.0 do not support instala do not support installation of
      userscripts from the browser.
 
-2.2.2 Installation from a terminal
-----------------------------------
+
+2.2.2 Installation from terminal
+--------------------------------
 
 Another option to install the userscript is to copy it from a terminal.
 
