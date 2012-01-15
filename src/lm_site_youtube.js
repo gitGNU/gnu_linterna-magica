@@ -440,8 +440,8 @@ function(object_data)
 
     // Remove cookies and fetch page again. See "A note on
     // cookies".
-    this.extract_cookies();
-    this.expire_cookies();
+    // this.extract_cookies();
+    // this.expire_cookies();
 
     return result;
 }
@@ -461,10 +461,10 @@ function(args)
     object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
 
     // See "A note on cookies"
-    if (/restore/i.test(this.process_cookies))
-    {
-	this.restore_cookies();
-    }
+    // if (/restore/i.test(this.process_cookies))
+    // {
+    // 	this.restore_cookies();
+    // }
 
     return object_data;
 }
