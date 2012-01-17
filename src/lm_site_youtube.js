@@ -438,11 +438,6 @@ function(object_data)
     result.address = "/watch?v="+object_data.video_id+
 	(uri_args ? ("&"+uri_args) : "");
 
-    // Remove cookies and fetch page again. See "A note on
-    // cookies".
-    // this.extract_cookies();
-    // this.expire_cookies();
-
     return result;
 }
 
@@ -459,12 +454,6 @@ function(args)
 
     object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
     object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
-
-    // See "A note on cookies"
-    // if (/restore/i.test(this.process_cookies))
-    // {
-    // 	this.restore_cookies();
-    // }
 
     return object_data;
 }
