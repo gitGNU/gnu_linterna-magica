@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 15 January 2012) is for Linterna Mágica (version
+This manual (updated 17 January 2012) is for Linterna Mágica (version
 svn-trunk), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -407,7 +407,8 @@ is reached and at the first and second day after the exact match.
 
 A weird hack to get data from YouTube and Dailymotion without cookies
 is used. With cookies the video link data is garbage for Linterna
-Mágica.
+Mágica. Since version 0.0.11, the hack is not needed for YouTube, and
+it is not used.
 
    First the cookies are removed by setting their expiration dates in
 the past. A request on the background (XMLHttpRequest) for the video

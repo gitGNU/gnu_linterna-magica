@@ -643,7 +643,8 @@ is reached and at the first and second day after the exact match.
 
 A weird hack to get data from YouTube and Dailymotion without cookies
 is used. With cookies the video link data is garbage for Linterna
-M@value{AACUTE}gica.
+M@value{AACUTE}gica. Since version 0.0.11, the hack is not needed for
+YouTube, and it is not used.
 
 First the cookies are removed by setting their expiration dates in the
 past. A request on the background (XMLHttpRequest) for the video page
