@@ -267,7 +267,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // Add link after the object/embed
     // this.set_priority() has set this.priority
     // to self if there is no plugin
-	if (this.plugin_is_installed || site_html5_player)
+    if (this.plugin_is_installed || site_html5_player)
     {
 	toggle_plugin =
 	    this.create_toggle_plugin_link("link-not-in-header", id,
@@ -277,7 +277,13 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
 	if (this.plugin_is_installed && !site_html5_player)
 	{
-	    before = this.get_flash_video_object(id).nextSibling;
+	    // Vimeo with Flash plugin installed crashes on
+	    // this.get_flash_video_object(id).nextSibling stating
+	    // this.get_flash_video_object(id) is null. This prevents
+	    // it.
+	    before = ( this.get_flash_video_object(id) &&
+		       this.get_flash_video_object(id).nextSibling) ? 
+		this.get_flash_video_object(id).nextSibling : null;
 	}
 	else if (site_html5_player)
 	{

@@ -357,5 +357,46 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 					    "5px", "important");
     }
 
+    // The previousSibling of the Linterna Magica div is a mysterious
+    // div (stays white) with class="s bu" that has height set to
+    // 100%. This displaces LM. This div should hold the SWF object,
+    // but it is missing.
+
+    var lm = document.getElementById("linterna-magica-"+
+     				     object_data.linterna_magica_id);
+ 
+    if (lm)
+    {
+    	var div_sbu = lm.previousSibling;
+    	if (/HTMLDiv/i.test(div_sbu) && 
+	    div_sbu.hasAttribute("class") && 
+	    /s bu/i.test(div_sbu.getAttribute("class")) &&
+	    !site_html5_player)
+    	{
+    	    div_sbu.parentNode.removeChild(div_sbu);
+    	}
+    } 
+
     return false;
+}
+
+// Sometimes IceCat renders two Linterna Magica
+// players. The following tries to prevent it.
+LinternaMagica.prototype.sites["vimeo.com"].
+    process_duplicate_object_before_xhr =
+function(object_data)
+{
+    this.log("LinternaMagica.sites.process_duplicate_object_before_xhr:\n"+
+             "Removing/hiding duplicate object ",1);
+
+    this.hide_flash_video_object(object_data.linterna_magica_id,
+                                 object_data.parent);
+
+    return false;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].
+    skip_video_id_extraction = function()
+{
+    return null;
 }

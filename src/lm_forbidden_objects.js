@@ -31,7 +31,7 @@
 // For example objects that have video id but are not the
 // video object (ads and other)
 LinternaMagica.prototype.skip_objects =
-    [ "brozar[a-z0-9]+_add_scroll",
+    [ "brozar[a-z0-9]+_.*_scroll",
       "flashRateObject", "VideoCharts", 
       // Facebook iframes in blip.tv
       "^f[0-9]+[a-z]+",
