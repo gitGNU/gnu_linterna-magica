@@ -171,7 +171,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		continue;
 	    }
 
-	    link.url = fmt_url_map[fmt_id].replace(/\\u0026/g,"&");
+	    link.url = fmt_url_map[fmt_id];
 
 	    this.log("LinternaMagica.create_youtube_links:\n"+
 		     "Extracted link  : "+link.url,4);
@@ -185,7 +185,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
     return null;
 }
 
-// Detect youtube flash upgrade warning This is called withing
+// Detect youtube flash upgrade warning. This is called withing
 // setInterval. It is needed because when the elements with the
 // warning are inserted all our data that has been added before that
 // is removed.
@@ -231,13 +231,14 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	// Hash with keys fmt_ids and values video URLs
 	var map = new Object();
 
-	fmt = unescape(fmt[fmt.length-1].replace(/\\\//g, "/"));
+	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
 	fmt = fmt.split(/,/);
 
 	var links = 0;
 
 	for (var url=0; url<fmt.length; url++) 
 	{
+	    // Usually the links have the following pattern
 	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
 	    var link = fmt[url].match(/url=([^&]+)/);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
@@ -245,7 +246,10 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	    if (fmt_id && link)
 	    {
 		links++;
-		map[fmt_id[fmt_id.length-1]] =  unescape(link[link.length-1]);
+		link = unescape(link[link.length-1]);
+		link = link.split(/\\u0026/)[0];
+
+		map[fmt_id[fmt_id.length-1]] =  link;
 	    }
 	}
 
@@ -271,22 +275,12 @@ LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
 LinternaMagica.prototype.sites["youtube.com"].flash_plugin_installed =
 function()
 {
-    var site_html5_player = this.find_site_html5_player_wrapper(document);
-
-    // If there is html5 player and flash plugin is installed no SWF
-    // object will be created. We must examine scripts.
-    if (site_html5_player)
-    {
-	return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
-    }
-
-    return true;
-}
-
-LinternaMagica.prototype.sites["youtube.com"].set_cookies_domain =
-function()
-{
-    return ".youtube.com";
+    // We must examine scripts because searching for links in DOM
+    // objects in YouTube bloats GNU IceCat. The other option is to
+    // use the matched video_id and XHR the page again from where to
+    // get the links. That is not acceptable. No need to duplicate the
+    // code in __no_flash_plugin_installed().
+    return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
 }
 
 LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
@@ -318,12 +312,17 @@ function()
     var width = data.match(/\"width\"\:\s*\"([0-9]+)\"/);
 
     this.extract_video_id_data = data;
-    var video_id = this.extract_video_id();
+
+    var fmt = this.extract_youtube_fmt_parameter(data);
+    var maps = this.extract_youtube_fmt_url_map(data);
+
+    var hd_links = this.create_youtube_links(fmt, maps);
+    var link = (hd_links && hd_links.length) ? hd_links : null;
 
     var embed_id = data.match(/\"id\"\:\s*\"([a-zA-Z0-9_\-]+)\"/);
 
-    // We do not have any links!
-    if (!video_id)
+    // We do not have any links! Give up.
+    if (!link)
     {
 	return null;
     }
@@ -364,7 +363,8 @@ function()
 
     object_data.width= width;
     object_data.height= height;
-    object_data.video_id=video_id;
+    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+    object_data.hd_links = link;
 
     if (embed_id)
     {
@@ -391,6 +391,7 @@ function()
 
 	object_data.parent = document.getElementById("watch-player");
     }
+
     object_data.linterna_magica_id = linterna_magica_id;
 
     return object_data;
@@ -406,80 +407,14 @@ function()
     return false;
 }
 
-// Just return true or false. The function must be defined, so the
-// default code will not be executed. YouTube's object is created
-// after XHR.
 LinternaMagica.prototype.sites["youtube.com"].
     replace_extracted_object_from_script = 
-function()
-{
-    return false;
-}
-
-LinternaMagica.prototype.sites["youtube.com"].prepare_xhr =
 function(object_data)
 {
-    var result = new Object();
-
-    var location_href = window.location.href;
-
-    var uri_args = null;
-    // Some clips require &skipcontrinter=1. Other might require
-    // something else.
-    if (/&/i.test(location_href))
-    {
-	uri_args = location_href.split(/&/);
-	// This is the host and path (http://...). We do not need
-	// it.
-	delete uri_args[0];
-	uri_args = uri_args.join("&");
-    }
-
-    result.address = "/watch?v="+object_data.video_id+
-	(uri_args ? ("&"+uri_args) : "");
-
-    return result;
-}
-
-LinternaMagica.prototype.sites["youtube.com"].process_xhr_response =
-function(args)
-{
-    var client = args.client;
-    var object_data = args.object_data;
-
-    var fmt = this.extract_youtube_fmt_parameter(client.responseText);
-    var maps = this.extract_youtube_fmt_url_map(client.responseText);
-
-    var hd_links = this.create_youtube_links(fmt, maps);
-
-    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
-    object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
-
-    return object_data;
-}
-
-LinternaMagica.prototype.sites["youtube.com"].
-    process_duplicate_object_before_xhr =
-function(object_data)
-{
-    this.log("LinternaMagica.sites.process_duplicate_object_before_xhr:\n"+
-	     "Removing/hiding duplicate object ",1);
-
-    this.hide_flash_video_object(object_data.linterna_magica_id,
-				 object_data.parent);
-
-    return false;
-}
-
-LinternaMagica.prototype.sites["youtube.com"].insert_object_after_xhr =
-function(object_data)
-{
-    // Just return true and let the default code do its job. A special
-    // attention is needed when no plugin is installed.
-    if (this.plugin_is_installed)
-    {
-	return true;
-    }
+    // This function used to exit if flash plugin was installed,
+    // because no workarounds were needed. Now Epiphany requires this
+    // delay, because it prevents LM to be inserted before the HTML5
+    // player, in which case they are both playing and overlapping.
 
     if (!this.youtube_flash_upgrade_timeout)
     {
@@ -496,7 +431,8 @@ function(object_data)
     return false;
 }
 
-LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
+LinternaMagica.prototype.sites["youtube.com"].css_fixes =
+function(object_data)
 {
     if (document.getElementById("playnav-playview"))
     {
@@ -552,7 +488,7 @@ LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
 	}
     }
 
-     // Bug #33504 https://savannah.nongnu.org/bugs/?33504
+    // Bug #33504 https://savannah.nongnu.org/bugs/?33504
     object_data.parent.style.setProperty("overflow", "visible", "important");
 
     var site_html5_player = 
@@ -568,7 +504,30 @@ LinternaMagica.prototype.sites["youtube.com"].css_fixes = function(object_data)
 						 "50px", "important");
 	
     }
+
+    // Sometimes the toggle plugin button that should be bellow the
+    // HTML5/Flash player shows on top. The following tries to fix
+    // this.  Most of the time the bug occurs in Epiphany.s
+
+    var id = object_data.linterna_magica_id;
+    var toggle_plugin = document.getElementById("linterna-magica-toggle-plugin-"+id);
     
+    if (toggle_plugin)
+    {
+	var lm = document.getElementById("linterna-magica-"+id);
+	var h_lm = parseInt(lm.style.getPropertyValue("height"));
+
+	toggle_plugin = toggle_plugin.parentNode;
+	var display = toggle_plugin.style.getPropertyValue("display");
+	var top = toggle_plugin.offsetTop;
+
+	if (!display && !top)
+	{
+	    toggle_plugin.style.setProperty("top", 
+					    (h_lm +30)+"px",
+					    "important");
+	}
+    }
 
     return false;
 }
