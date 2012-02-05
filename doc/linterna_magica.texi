@@ -340,9 +340,9 @@ Right-click the user script and from the menu select
 ``Install'' button.
 
 @item For Midori
-For Midori version 0.4.0 and above select ``Open Link in Bew Tab''. In
+For Midori version 0.3.0 and above select ``Open Link in Bew Tab''. In
 the new tab click ``Install user script'' button. Versions before
-0.4.0 do not support instala do not support installation of
+0.3.0 do not support instala do not support installation of
 userscripts from the browser.
 
 @end table
@@ -776,8 +776,7 @@ extension should work. Only GNU IceCat, Web Browser/ABrowser and
 Iceweasel are tested.
 
 @item Midori
-Only versions 0.2.2 and 0.2.4 are tested. There are reports from users
-that 0.3.2 works too.
+
 @end table
 
 @node Supported plugins

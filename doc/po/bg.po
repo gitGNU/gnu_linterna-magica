@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linterna magica 0.0.10\n"
-"POT-Creation-Date: 2012-01-17 10:54+0200\n"
-"PO-Revision-Date: 2012-01-17 10:58+0200\n"
+"POT-Creation-Date: 2012-02-05 15:47+0200\n"
+"PO-Revision-Date: 2012-02-05 15:47+0200\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -211,7 +211,7 @@ msgid "(Not) Supported browsers, plugins etc."
 msgstr "(Не) Поддържани браузъри, пристави и т.н."
 
 #. type: chapter
-#: linterna_magica.texi:133 linterna_magica.texi:855 linterna_magica.texi:856
+#: linterna_magica.texi:133 linterna_magica.texi:854 linterna_magica.texi:855
 #, no-wrap
 msgid "Bugs"
 msgstr "Грешки"
@@ -222,7 +222,7 @@ msgid "How to report bugs."
 msgstr "Докладване на грешки."
 
 #. type: appendix
-#: linterna_magica.texi:133 linterna_magica.texi:866 linterna_magica.texi:867
+#: linterna_magica.texi:133 linterna_magica.texi:865 linterna_magica.texi:866
 #, no-wrap
 msgid "Copying this manual"
 msgstr "Копиране и разпространение на това ръководство"
@@ -233,7 +233,7 @@ msgid "GNU GPL, GNU FDL"
 msgstr "GNU GPL, GNU FDL"
 
 #. type: unnumbered
-#: linterna_magica.texi:133 linterna_magica.texi:888 linterna_magica.texi:889
+#: linterna_magica.texi:133 linterna_magica.texi:887 linterna_magica.texi:888
 #, no-wrap
 msgid "Index"
 msgstr "Индекс"
@@ -727,12 +727,12 @@ msgstr "за Midori:"
 #. type: table
 #: linterna_magica.texi:347
 msgid ""
-"For Midori version 0.4.0 and above select ``Open Link in Bew Tab''. In the "
-"new tab click ``Install user script'' button. Versions before 0.4.0 do not "
+"For Midori version 0.3.0 and above select ``Open Link in Bew Tab''. In the "
+"new tab click ``Install user script'' button. Versions before 0.3.0 do not "
 "support instala do not support installation of userscripts from the browser."
 msgstr ""
-"За версия 0.4.0 и по-нови изберете „Open Link in New Tab“. В новия "
-"подпрозорец натиснете бутона „Install user script“. Версиите преди 0.4.0 не "
+"За версия 0.3.0 и по-нови изберете „Open Link in New Tab“. В новия "
+"подпрозорец натиснете бутона „Install user script“. Версиите преди 0.3.0 не "
 "поддържат инсталация на потребителски скриптове през браузъра."
 
 #. type: Plain text
@@ -1750,7 +1750,7 @@ msgid "Supported websites::"
 msgstr "Поддържани уеб страници::"
 
 #. type: section
-#: linterna_magica.texi:749 linterna_magica.texi:834 linterna_magica.texi:835
+#: linterna_magica.texi:749 linterna_magica.texi:833 linterna_magica.texi:834
 #, no-wrap
 msgid "Not supported"
 msgstr "Какво не се поддържа?"
@@ -1872,65 +1872,56 @@ msgstr ""
 msgid "Midori"
 msgstr "Midori"
 
-#. type: table
-#: linterna_magica.texi:781
-msgid ""
-"Only versions 0.2.2 and 0.2.4 are tested. There are reports from users that "
-"0.3.2 works too."
-msgstr ""
-"Изпробвани са само версии 0.2.2 и 0.2.4. Има потвърждение от потребители, че "
-"0.3.2 също работи."
-
 #. type: section
-#: linterna_magica.texi:783 linterna_magica.texi:784
+#: linterna_magica.texi:782 linterna_magica.texi:783
 #, no-wrap
 msgid "Supported plugins"
 msgstr "Поддържани приставки"
 
 #. type: cindex
-#: linterna_magica.texi:785
+#: linterna_magica.texi:784
 #, no-wrap
 msgid "plugin list"
 msgstr "приставки, списък"
 
 #. type: cindex
-#: linterna_magica.texi:786
+#: linterna_magica.texi:785
 #, no-wrap
 msgid "supported plugin"
 msgstr "поддържани приставки"
 
 #. type: cindex
-#: linterna_magica.texi:787
+#: linterna_magica.texi:786
 #, no-wrap
 msgid "plugins"
 msgstr "приставки"
 
 #. type: cindex
-#: linterna_magica.texi:788
+#: linterna_magica.texi:787
 #, no-wrap
 msgid "Xine, plugin"
 msgstr "Xine, приставка"
 
 #. type: cindex
-#: linterna_magica.texi:789
+#: linterna_magica.texi:788
 #, no-wrap
 msgid "Totem, plugin"
 msgstr "Totem, приставка"
 
 #. type: cindex
-#: linterna_magica.texi:790
+#: linterna_magica.texi:789
 #, no-wrap
 msgid "VLC, plugin"
 msgstr "VLC, приставка"
 
 #. type: cindex
-#: linterna_magica.texi:791
+#: linterna_magica.texi:790
 #, no-wrap
 msgid "gecko-mediaplayer, plugin"
 msgstr "gecko-mediaplayer, приставка"
 
 #. type: Plain text
-#: linterna_magica.texi:799
+#: linterna_magica.texi:798
 msgid ""
 "Supported video plugins that can handle \"video/flv\" and \"video/mp4\" "
 "should work right away.  Some plugins provide an API which is used in "
@@ -1947,18 +1938,18 @@ msgstr ""
 "бутоните ще използвате – от приставката или от Linterna Mágica."
 
 #. type: Plain text
-#: linterna_magica.texi:801
+#: linterna_magica.texi:800
 msgid "These plugins are known to work:"
 msgstr "Linterna Mágica е изпробвана и работи със следните приставки:"
 
 #. type: item
-#: linterna_magica.texi:802
+#: linterna_magica.texi:801
 #, no-wrap
 msgid "Totem plugin"
 msgstr "Totem"
 
 #. type: table
-#: linterna_magica.texi:806
+#: linterna_magica.texi:805
 msgid ""
 "Versions older and equal to 2.30 does not have full API support for web "
 "controls. Newer versions of Totem have been patched and should work."
@@ -1967,24 +1958,24 @@ msgstr ""
 "управление на клипа. По-новите версии са поправени и би трябвало да работят."
 
 #. type: item
-#: linterna_magica.texi:806
+#: linterna_magica.texi:805
 #, no-wrap
 msgid "VLC plugin"
 msgstr "VLC"
 
 #. type: table
-#: linterna_magica.texi:808 linterna_magica.texi:815
+#: linterna_magica.texi:807 linterna_magica.texi:814
 msgid "No known problems."
 msgstr "Не са известни проблеми с тази приставка."
 
 #. type: item
-#: linterna_magica.texi:808
+#: linterna_magica.texi:807
 #, no-wrap
 msgid "gecko-mediaplayer plugin"
 msgstr "gecko-mediaplayer"
 
 #. type: table
-#: linterna_magica.texi:813
+#: linterna_magica.texi:812
 msgid ""
 "Note: Have in mind that gecko-mediaplayer depends on mplayer for playback. "
 "Mplayer is free software by itself, but it can load and recommends binary "
@@ -1998,31 +1989,31 @@ msgstr ""
 "предоставя изчистена версия на mplayer."
 
 #. type: item
-#: linterna_magica.texi:813
+#: linterna_magica.texi:812
 #, no-wrap
 msgid "Xine plugin"
 msgstr "Xine"
 
 #. type: section
-#: linterna_magica.texi:817 linterna_magica.texi:818
+#: linterna_magica.texi:816 linterna_magica.texi:817
 #, no-wrap
 msgid "Supported websites"
 msgstr "Поддържани уеб страници"
 
 #. type: cindex
-#: linterna_magica.texi:819
+#: linterna_magica.texi:818
 #, no-wrap
 msgid "supported websites"
 msgstr "поддържани уеб страници"
 
 #. type: cindex
-#: linterna_magica.texi:820
+#: linterna_magica.texi:819
 #, no-wrap
 msgid "websites"
 msgstr "уеб страници"
 
 #. type: Plain text
-#: linterna_magica.texi:829
+#: linterna_magica.texi:828
 msgid ""
 "Linterna M@value{AACUTE}gica is programmed in such a way that it might work "
 "(and it does) with web sites not specifically tested and supported. This is "
@@ -2040,7 +2031,7 @@ msgstr ""
 "извлече видео клипа и т.н."
 
 #. type: Plain text
-#: linterna_magica.texi:833
+#: linterna_magica.texi:832
 msgid ""
 "There are more than 30 web sites, found with random web searches that are "
 "known to work. See the @file{WEBSITES} file for all known working sites and "
@@ -2051,32 +2042,32 @@ msgstr ""
 "да видите всички известни работещи страници и по-подробна информация."
 
 #. type: cindex
-#: linterna_magica.texi:836
+#: linterna_magica.texi:835
 #, no-wrap
 msgid "not supported"
 msgstr "неподдържани"
 
 #. type: cindex
-#: linterna_magica.texi:837
+#: linterna_magica.texi:836
 #, no-wrap
 msgid "RTMP"
 msgstr "RTMP"
 
 #. type: cindex
-#: linterna_magica.texi:838
+#: linterna_magica.texi:837
 #, no-wrap
 msgid "proprietary software, not supported"
 msgstr "собственически софтуер, не се поддържа"
 
 #. type: Plain text
-#: linterna_magica.texi:841
+#: linterna_magica.texi:840
 msgid "Web sites that use RTMP to transfer clips @strong{do not} work."
 msgstr ""
 "Уеб страници, които използват RTMP за предаване на видео клиповете @strong"
 "{не} работят."
 
 #. type: Plain text
-#: linterna_magica.texi:846
+#: linterna_magica.texi:845
 msgid ""
 "Web sites that use clips and players from remote site @strong{do not} work. "
 "For example YouTube video placed in a blog or a news article. Since version "
@@ -2090,7 +2081,7 @@ msgstr ""
 "клипа."
 
 #. type: Plain text
-#: linterna_magica.texi:849
+#: linterna_magica.texi:848
 msgid ""
 "Linterna M@value{AACUTE}gica is not working with specific browser or plugin "
 "or operating system. Is it possible to support it?"
@@ -2099,7 +2090,7 @@ msgstr ""
 "работи с Linterna Mágica. Възможно ли е да бъдат поддържани?"
 
 #. type: Plain text
-#: linterna_magica.texi:854
+#: linterna_magica.texi:853
 msgid ""
 "Only free software will be supported. Explicit support for non-free software "
 "will not be provided. If Linterna M@value{AACUTE}gica is working with non-"
@@ -2110,19 +2101,19 @@ msgstr ""
 "несвободни програми, Вие сигурно сте голям „късметлия“. Да, това е сарказъм!"
 
 #. type: cindex
-#: linterna_magica.texi:857
+#: linterna_magica.texi:856
 #, no-wrap
 msgid "bugs, reporting"
 msgstr "грешки, докладване"
 
 #. type: cindex
-#: linterna_magica.texi:858
+#: linterna_magica.texi:857
 #, no-wrap
 msgid "reporting bugs"
 msgstr "докладване на грешки"
 
 #. type: Plain text
-#: linterna_magica.texi:865
+#: linterna_magica.texi:864
 msgid ""
 "If you encounter bugs, or have suggestions of any kind, please report them "
 "at Linterna M@value{AACUTE}gica project page at Savannah @url{https://"
@@ -2135,66 +2126,66 @@ msgstr ""
 "„Support“. Разделът „Bugs“ е само за разработчици."
 
 #. type: cindex
-#: linterna_magica.texi:868
+#: linterna_magica.texi:867
 #, no-wrap
 msgid "copying, copying this manual"
 msgstr "копиране, разпространение на това ръководство"
 
 #. type: cindex
-#: linterna_magica.texi:869
+#: linterna_magica.texi:868
 #, no-wrap
 msgid "license, license of this manual"
 msgstr "лиценз, лиценз на ръководството"
 
 #. type: cindex
-#: linterna_magica.texi:870
+#: linterna_magica.texi:869
 #, no-wrap
 msgid "gpl, license"
 msgstr "gpl, лиценз"
 
 #. type: cindex
-#: linterna_magica.texi:871
+#: linterna_magica.texi:870
 #, no-wrap
 msgid "fdl, license"
 msgstr "fdl, лиценз"
 
 #. type: menuentry
-#: linterna_magica.texi:876
+#: linterna_magica.texi:875
 msgid "GNU General Public License::"
 msgstr "GNU General Public License::"
 
 #. type: appendixsec
-#: linterna_magica.texi:876 linterna_magica.texi:883 linterna_magica.texi:884
+#: linterna_magica.texi:875 linterna_magica.texi:882 linterna_magica.texi:883
 #, no-wrap
 msgid "GNU Free Documentation License"
 msgstr "GNU Free Documentation License"
 
 #. type: appendixsec
-#: linterna_magica.texi:878 linterna_magica.texi:879
+#: linterna_magica.texi:877 linterna_magica.texi:878
 #, no-wrap
 msgid "GNU General Public License"
 msgstr "GNU General Public License"
 
 #. type: cindex
-#: linterna_magica.texi:880
+#: linterna_magica.texi:879
 #, no-wrap
 msgid "gpl, gnu general public license"
 msgstr "gpl, gnu general public license"
 
 #. type: include
-#: linterna_magica.texi:881
+#: linterna_magica.texi:880
 #, no-wrap
 msgid "gpl.texi"
 msgstr "gpl.texi"
 
 #. type: cindex
-#: linterna_magica.texi:885
+#: linterna_magica.texi:884
 #, no-wrap
 msgid "fdl, gnu free documentation license"
 msgstr "fdl, gnu free documentation license"
 
 #. type: include
-#: linterna_magica.texi:886
+#: linterna_magica.texi:885
 #, no-wrap
 msgid "fdl.texi"
 msgstr "fdl.texi"
