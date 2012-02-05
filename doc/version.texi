@@ -29,7 +29,7 @@
 @c not, see <http://www.gnu.org/licenses/>.
 @c
 
-@set VERSION svn-trunk
-@set EDITION svn-trunk
+@set VERSION 0.0.11
+@set EDITION 0.0.11
 @set UPDATED 05 February 2012
 @set UPDATED-MONTH February
