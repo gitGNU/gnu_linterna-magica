@@ -109,22 +109,6 @@ function()
     return true;
 }
 
-LinternaMagica.prototype.sites["dailymotion.com"].flash_plugin_installed =
-function()
-{
-    var site_html5_player = this.find_site_html5_player_wrapper(document);
-
-    // If there is html5 player and flash plugin is installed no SWF
-    // object will be created. We must examine scripts.
-    if (site_html5_player)
-    {
-	return this.sites["dailymotion.com"].
-	    no_flash_plugin_installed.apply(this, [arguments]);
-    }
-
-    return true;
-}
-
 LinternaMagica.prototype.sites["dailymotion.com"].process_cookies =
 function()
 {
