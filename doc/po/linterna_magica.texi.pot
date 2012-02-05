@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) YEAR linterna_magica's copyright holders
 # This file is distributed under the same license as the linterna_magica package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
-"POT-Creation-Date: 2012-01-17 10:53+0200\n"
+"POT-Creation-Date: 2012-02-05 14:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"

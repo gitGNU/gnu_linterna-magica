@@ -59,10 +59,12 @@ version.texi: version.texi.in $(MASTERDOC) $(topdir)/common.mk
 	$(PO4A-UPDATEPO) -f texinfo -m $(MASTERDOC) -M UTF-8 -p $@; \
 	echo "done";
 
-$(PODIR)/$(MASTERDOC).pot: $(MASTERDOC) $(topdir)/common.mk
+$(PODIR)/$(MASTERDOC).pot: Makefile $(MASTERDOC) $(topdir)/common.mk
 	@echo -n "Updating $@ ...";\
 	$(PO4A-GETTEXTIZE) --package-version $(VERSION) \
-	--package-name "$(GETTEXT_PACKAGE)" -f texinfo \
+	--package-name "$(GETTEXT_PACKAGE)" \
+	--copyright-holder "$(GETTEXT_PACKAGE)'s copyright holders" \
+	-f texinfo \
 	-m $(MASTERDOC) -M UTF-8 -p $@; \
 	echo "done";
 
