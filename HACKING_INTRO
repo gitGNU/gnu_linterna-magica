@@ -1,0 +1,374 @@
+Introduction
+
+This guide is meant as an introduction to Linterna Mágica internals
+and hacking. Have in mind that when you read this, it might be
+inaccurate or even obsolete. This is because sometimes, if not always,
+improvements, catching up with websites and new features require fast
+decisions and changes in Linterna Mágica's design. With that said,
+note that Linterna Mágica is always work in progress and as such it
+might have ugly design, flawed logic and other unpleasant features,
+although it is taken care for this to not happen. The Tasks section at
+our Savannah project page [1] is always a good place to look for
+information. Design changes are usually documented to some extent
+there.
+
+[1] https://savannah.nongnu.org/task/?group=linterna-magica
+
+Before start hacking it is recommended to read the HACKING file for
+naming and formatting guidance.
+
+Linterna Mágica internals.
+
+Because there are different ways websites add and activate flash based
+video players, Linterna Mágica uses several different approaches to
+find those players. At the beginning all was captured with one big
+regular expression, but the project migrated to website specific code
+for pages that do not fit the common logic in some fraction of the
+code. Still, it is desirable to put new code in a place accessible to
+all websites, if what it does looks universal. This will prevent
+explicitly coding support for new web pages with the same feature.
+
+Code design
+
+From programmer's point of view Linterna Mágica is a custom JavaScript
+object (LinternaMagica). Almost all code is added as properties and
+methods to that object. Here is an example:
+
+LinternaMagica.prototype.new_message = "Hello World!";
+
+LinternaMagica.prototype.new_method = function ()
+{
+	this.log(this.new_message);
+};
+
+Of course the new_method() had to be called somewhere in the code for
+it to take effect.
+
+Entry points
+
+The code in lm_inject_script_in_page.js is the first thing that is
+executed by the browser. It is of great importance for GNU IceCat and
+other forks and versions of Firefox. The Greasemonkey extension for
+GNU IceCat runs scripts in a special sandbox, which has its benefits
+and limitations. Since there is no access to the functions of the
+JavaScript API of the video plugin from within the Greasemonkey
+sandbox, the code in the file mentioned earlier injects Linterna
+Mágica into the web page. This way all Linterna Mágica code is run in
+the page scope afterwords. Userscripts implementations for other
+browsers just run scripts in the web page scope.
+
+The code in lm_run.js is what makes use of the LinternaMagica
+JavaScript object. It creates a copy of the defined LinternaMagica
+object and initializes. Probably you will never have to touch anything
+in that file.
+
+The next file of importance is the lm_constructors.js. This is where
+the constructor of the LinternaMagica object is resided. This
+constructor activates the methods of detection mentioned earlier. The
+code in the constructor is what initializes the useful code of
+Linterna Mágica.
+
+Main logic
+
+The methods of detection described bellow are all started from the
+constructor of Linterna Mágica.
+
+Script processing
+
+First it is determined, if there is a flash plugin installed. If such
+is not found, the page JavaScript is parsed as data. Linterna Mágica
+does not depend on site JavaScript to be executed. All JavaScript is
+examined as text, not as initialized objects. The logic for this
+approach is in the lm_extract_js_scripts.js file. The function
+extract_objects_from_scripts(), that is the main entry point for
+script processing, is called from the code in the lm_sites.js
+file. The purpose of this file will be explained later.
+
+The script processing approach is used because usually websites depend
+on JavaScript libraries for inserting SWF/flash objects. If the
+library cannot detect installed flash plugin, it does not insert the
+SWF object in the page DOM tree. These libraries have a pattern for
+their constructors, which is used to detect them amongst different
+pages. Every supported library has its own file named after it. For
+example:
+
+lm_extract_js_swfobject.js
+
+The code for the JavaScript libraries is executed by the
+extract_objects_from_scripts() function mentioned earlier. When a
+constructor is found, the same script body is searched for the
+placement, width and height of the SWF object that should be created
+by the script. If all necessary data is found, the script body is
+searched for video links and video_ids.
+
+If a video link is extracted, the replacement object is created - the
+extract_objects_from_scripts() function is calling the
+create_video_object() function from the lm_create_video_object.js
+file.
+
+Another scenario is when a video_id is extracted. A video_id is some
+kind of identifier that the website uses to address the video. Usually
+for such websites the link is not delivered with the page (X)HTML and
+JavaScript code. An attempt for XMLHttpRequest (XHR) is made. If no
+address is defined for the website, Linterna Mágica quits complaining
+that it is not known how to continue. The XHR is made to an address
+with the video_id as a parameter. The response contains the video link
+or data for it to be created. This approach is not automatic. The
+address to which the video_id must be appended, the processing of
+requests and responses must be explicitly programmed. If a links is
+created or extracted this way, a call to the create_video_object()
+function is made.
+
+Processing on node insertion
+
+After scripts are processed, or if it was not necessary (a flash
+plugin was installed), the constructor code adds an event listener
+that triggers on insertion of new nodes in the DOM. The purpose of
+this is to catch the insertion of SWF objects by JavaScript libraries
+used to create flash video players. Libraries usually insert objects
+after some time had passed and this usually occurs after Linterna
+Mágica had already scanned the DOM on initialisation. The listener
+actually relies on the approach in the next paragraph used to scan the
+DOM tree for objects.
+
+DOM scanning
+
+When the event listener is attached, the constructor code scans the
+document object of the page for SWF object, by calling the
+extract_objects_from_dom() function. A list of the <object/>, <embed/>
+and <iframe/> elements in the page is created. For every item in the
+list it is first determined, is it a SWF/flash object. The logic for
+that is placed in the is_swf_object() function. When an object is
+detected as a possible flash video player holder, its parameters and
+attributes (flashvars|movie|data|src) are examined for video links or
+video_ids. If a video_id or a link is found, the width, height and
+placement of the object are collected. Again as in the script parsing
+approach, if a video_id key is found, an attempt for XHR is made. If
+all data is available, the replacement video object is created by
+calling the create_video_object() function.
+
+The code in the constructor is probably the only part that is linear.
+
+Data transfer between functions
+
+All functions that collect or process data about the SWF object and
+its replacement, communicate by a JavaScript object that is passed as
+an argument and returned on function exit. For convenience it is
+called object_data in all functions. It has the following format:
+ 
+object_data: {
+    // An array that holds objects with all extracted HD link
+    hd_links: array,
+    // The extracted height of the object
+    height: integer/string,
+    // The extracted link. The calculated preferred link when a
+    // website has HD links.
+    link: string,
+    // An ID used to mark scanned and processed objects. It is
+    // assigned automatically most of the time.
+    linterna_magica_id: integer,
+    // The mime-type of the video. If it is not explicitly set, by
+    // default is video/flv. It will be the value of the type argument
+    // for the replacement <object />. Determines which video plugin
+    // will render the video.
+    mime: string,
+    // The parentNode object that holds the SWF object. Used for the
+    // insertion of the replacement object as well.
+    parent: DOM object,
+    // Automatically calculated link from the hd_links list, by taking
+    // into account the "quality" configuration option.
+    preferred_link: integer,
+    // The extracted with of the object
+    width: integer/string,
+    // The extracted video_id key
+    video_id: string,
+    // Extracted link that points to a dedicated video web page. These
+    // links are extracted in remote websites that have embedded players
+    // from other pages.
+    remote_site_link: string,
+};
+
+Not all properties are mandatory. The bare minimum for a replacement
+object to be created is the link, width, height and parent properties
+to be extracted and the linterna_magica_id to be set.
+
+The linterna_magica_id has a key role when the DOM is scanned more
+than once. It is used to mark processed objects. All marked objects
+are skipped with the intent to save time and not bloat the
+browser. The linterna_magica_id is also used in the IDs of all HTML
+elements created by Linterna Mágica. For example the main <div> that
+holds all Linterna Mágica elements uses
+linterna-magica-<linterna_magica_id> for its ID and the <object/> that
+holds the video - linterna-magica-video-object-<linterna_magica_id>.
+
+The hd_links array has the following format:
+
+hd_links: [
+    {
+	// The text shown in the HD list
+	label: string,
+	// The URL for the link
+	url: string,
+	// A tooltip for the link in the HD list. Not mandatory.
+	more_info: string,
+    },
+    {
+	label: string,
+	url: string,
+	more_info: string,
+    },
+    ...
+];
+
+
+At first all JavaScript code and HTML elements attributes in which
+data was matched were passed as arguments to functions. This turned
+out to be problematic in websites with *huge* scripts and element
+attributes, because it caused slowdown. Especially when those
+functions were called in loops. Functions that match strings in data
+from the web page, should not take it as an argument. Instead there
+are few variables/properties in the LinternaMagica object that should
+be used. These properties are set before calling the functions that
+depend on them. The this.extract_link_data property is used with the
+extract_link() function, which holds the main logic and regular
+expressions for video link extraction. The this.extract_video_id_data
+property is used with the extract_video_id() function, which holds the
+main logic and regular expressions for video_id extraction. The
+this.script_data property is set in the extract_objects_from_scripts()
+function and is used with most of the script processing code that
+detects JavaScript libraries in the lm_extract_js_*.js files.
+
+
+Localisation
+
+Every translatable string should be typed as an argument to the
+this._() function: this._("Hello world!"). This way the localisation
+tools (mainly the Gettext package) can detect the strings and update
+the PO and POT files.
+
+Site specific code
+
+All that was explained so far was meant to introduce you to the
+general concept in Linterna Mágica. Of course not everything fits the
+pattern, so there is a built-in framework in aid to site specific code
+and workarounds. The code for that is located mainly in the
+lm_sites.js and lm_site_*.js files. This section explains what most
+new developers will need to do to support new website.
+
+The idea is to keep the logic common to websites as a framework and
+run site specific code where needed. In the lm_sites.js file a special
+object/property is defined to the LinternaMagica object, called sites
+(LinternaMagica.prototype.sites). It holds specially named functions
+that are executed at predefined locations in the rest of the
+code. These are called default functions. Most of them just return
+true or false. Site specific code is meant to be executed instead of
+these default functions, if the site has the function with the same
+name defined. All site specific code resides as properties of the
+sites (LinternaMagica.prototype.sites) object.
+
+The configuration/code for websites is kept in the sites object by
+using the website name as a key:
+
+LinternaMagica.prototype.sites["example.org"] = new Object();
+
+For convenience references can (should) be defined:
+
+LinternaMagica.prototype.sites["www.example.org"] = "example.org";
+
+All the specially named functions for the website must be defined as
+methods to the new website config object:
+
+LinternaMagica.prototype.sites["example.org"].extract_object_from_script =
+function()
+{
+  // Code 
+  return true;
+};
+
+A function can point to the function with the same name defined for
+another website. This way code is not duplicated. For example:
+
+LinternaMagica.prototype.sites["site.org"].flash_plugin_installed = "page.com";
+
+A function returns false/null, if the calling function should
+exit/return after this function is executed. Otherwise it should
+return true. The general case is that if a function returns a value
+and it is not boolean (true/false), the default code will be skipped.
+
+All the named functions have comments in the lm_sites.js file. When
+adding new website support, check these functions to find out, if
+there is a way to workaround the default code. New named functions can
+and will be defined where and if needed.
+
+Usually Linterna Mágica should have extracted almost all information
+needed for a website and you will have to add the code to extract the
+links.
+
+Build system
+
+Linterna Mágica uses a custom build system around GNU Make and GNU
+Coreutils. Usually you don't have to touch anything when adding new
+files. The Makefile is constructed in such a way that it builds all
+JavaScript files in the src/ directory. There is no specific order for
+the files, except for few and it is defined in the Makefile.
+
+Upon build time all comments from the files are stripped. All
+copyright holders are collected and added to the build
+linternamagica.user.js file. A special JavaScript variable with all
+copyright holders is added in the code, so they are properly displayed
+in the interface. 
+
+The documentation section "Building the userscript" contains
+information how to use the build system, though it is as simple as
+make, make clean, make distclean.
+
+Bugs
+
+If you find mistakes of any kind in this document, please report them
+at https://savannah.nongnu.org/support/?group=linterna-magica. Use the
+"Tech Support Manager"/"Support" section and set the Category to
+"Documentation bug". Thank you in advance.
+
+Getting more information
+
+The information in this file is considered a bare minimum required to
+understand how Linterna Magica works and eventually start coding. For
+the rest you should examine the code for already supported
+websites. If things are still unclear, or you have questions, ask
+them. They will be answered as soon as possible.
+
+For the moment there is no developers mailing list, but feel free to
+write to the users mailing list at linterna-magica-users at nongnu dot
+org. For short questions you can also send a notice to our microblog
+group at Identi.ca: https://identi.ca/group/linternamagica
+
+Happy hacking! ;)
+
+This file is part of Linterna Mágica
+
+Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+Linterna Mágica is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Linterna Mágica is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Permission is granted to copy, distribute and/or modify this file
+under the terms of either:
+
+   * the GNU General Public License as published by the Free Software
+     Foundation; either version 3 of the License, or (at your option) any
+     later version, or
+
+   * the GNU Free Documentation License, Version 1.3 or any later version
+     published by the Free Software Foundation; with no Invariant Sections,
+     no Front-Cover Texts, and no Back-Cover Texts.
+
+You should have received a copy of the GNU General Public License and
+the GNU Free Documentation License along with Linterna Mágica.  If
+not, see <http://www.gnu.org/licenses/>.
