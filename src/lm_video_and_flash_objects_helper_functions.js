@@ -34,7 +34,8 @@ LinternaMagica.prototype.mark_flash_object = function(element)
 
     // Video objects extracted from scripts usually do not exist in
     // DOM. Then we just have to increment the counter.
-    if (element != "extracted-from-script")
+    if (element != "extracted-from-script" ||
+	element != "extracted-by-code")
     {
 	element.linterna_magica_id = this.found_flash_video_objects;
     }
