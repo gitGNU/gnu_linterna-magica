@@ -529,5 +529,28 @@ function(object_data)
 	}
     }
 
+    // When YouTube's HTML5 player detects that the browser does not
+    // have support for any clip, a warning div is displayed. It must
+    // be hidden or it displaces Linterna Magica.
+
+    // The <video/> element is missing because of the
+    // error. this.find_site_html5_wrapper() will not
+    // work. Implementing custom_html5_player_finder() is not so good
+    // idea.
+    var html5_wrapper = document.getElementById("movie_player-html5");
+
+    if (html5_wrapper)
+    {
+	var html5_warning = html5_wrapper.querySelector(".video-fallback");
+
+	if (html5_warning &&
+	    !/none/i.test(html5_warning.style.getPropertyValue('display')))
+	{
+	    // Must hide the entire HTML5 wrapper, so Linterna Magica
+	    // will not be displaced.
+	    html5_wrapper.style.setProperty('display', "none", "important");
+	}
+    }
+
     return false;
 }
