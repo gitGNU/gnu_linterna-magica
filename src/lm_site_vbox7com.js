@@ -51,7 +51,7 @@ function(args)
     var client = args.client;
     var object_data = args.object_data;
 
-    object_data.link = client.responseText.split("=")[1].replace("&","");
+    object_data.link = client.responseText.split(/videoFile=/i)[1].split("&")[0];
 
     return object_data;
 }
