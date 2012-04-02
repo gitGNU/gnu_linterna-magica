@@ -193,10 +193,30 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 {
     this.youtube_flash_upgrade_counter++;
 
-    // With default timeout 500mS this will be 3 sec. Stop checking and insert.    
+    // Fancy flash upgrade message. The element with id flash-upgrade
+    // might be obsolete now.
+    var watch_player = document.getElementById("watch-player");
+    var fancy_alert = null;
+
+    if(watch_player && watch_player.hasAttribute("class") &&
+       /flash-player/i.test(watch_player.getAttribute("class")))
+    {
+	var alert = watch_player.querySelector(".yt-alert-message");
+
+	if (alert && /flash player/i.test(alert.textContent))
+	{
+	    fancy_alert = true;
+	}
+	
+    }
+    
+
+    // With default timeout 500mS this will be 6 sec. Stop checking and insert.    
     // Might be flashblock
     if (document.getElementById("flash-upgrade") ||
-	this.youtube_flash_upgrade_counter >= 6 )
+	document.getElementById("movie_player-html5") ||
+	fancy_alert ||
+	this.youtube_flash_upgrade_counter >= 12 )
     {
 	clearInterval(this.youtube_flash_upgrade_timeout);
 
@@ -543,12 +563,39 @@ function(object_data)
     {
 	var html5_warning = html5_wrapper.querySelector(".video-fallback");
 
+	// The clips that are displayed as unavailable have different
+	// class. Sometimes?
+	//
+	// Fixes bug #35992 https://savannah.nongnu.org/bugs/?35992
+	if (!html5_warning)
+	{
+	    html5_warning =
+		html5_wrapper.querySelector(".html5-video-fallback");
+	}
+
 	if (html5_warning &&
 	    !/none/i.test(html5_warning.style.getPropertyValue('display')))
 	{
 	    // Must hide the entire HTML5 wrapper, so Linterna Magica
 	    // will not be displaced.
 	    html5_wrapper.style.setProperty('display', "none", "important");
+
+	    // Hide site controls and video container. Should not
+	    // overlap with Linterna Magica now. Fixes the overlapping
+	    // of HTML5 player and LM.
+	    var controls = html5_wrapper.querySelector(".html5-video-controls");
+	    var container = html5_wrapper.querySelector(".html5-video-container");
+
+	    if (controls)
+	    {
+		controls.style.setProperty("display", "none", "important");
+	    }
+
+	    if (container)
+	    {
+		container.style.setProperty("display", "none", "important");
+	    }
+
 	}
     }
 
