@@ -174,7 +174,7 @@ $(PACKAGE).user.js: strip-js-comments strip-js-headers userscript-header.js $(JS
 	$(TAIL) -n $$rights_down_cut $@ >> $$tmp;\
 	$(CP) $$tmp $@;\
 	$(RM) $$tmp;\
-	echo -n "Mering style sheet ... ";\
+	echo -n "Merging style sheet ... ";\
 	tmp="`$(MKTEMP)`";\
 	css_up_cut="`$(CAT) $@ | $(GREP) -n 'var css_data;' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
 	css_down_cut="`$(TAC) $@ |$(GREP) -n 'var css_data;' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
