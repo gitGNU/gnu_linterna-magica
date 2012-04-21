@@ -164,7 +164,9 @@ $(PACKAGE).user.js: strip-js-comments strip-js-headers userscript-header.js $(JS
 	$(SED) -e							\
 	's/^\/\/\s*/LinternaMagica.prototype.copyrights.push\(\"/g' -e	\
 	's/$$/\"\);\n/g'`";\
+	echo "(function(){" >> $@;\
 	$(CAT)  $(STRIPCOMMENTS) >> $@;\
+	echo "})();" >> $@;\
 	$(SED) -i -e 's/@VERSION@/$(VERSION)/g' $@;\
 	tmp="`$(MKTEMP)`";\
 	rights_up_cut="`$(CAT) $@ | $(GREP) -n $(PUSHCOPYRIGHTLINE)  |$(HEAD) -n 1| $(CUT) -d':' -f1`";\
