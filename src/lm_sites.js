@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -109,6 +109,10 @@ LinternaMagica.prototype.sites.__skip_xhr_if_video_id = function(object_data)
 // function does not stop link extraction. See comments after
 // LinternaMagica.prototype.sites. See
 // lm_site_youtube.js:skip_link_extraction
+//
+// If the returned value is true and not boolean it will be used as
+// the object that has extracted data. See
+// lm_site_priorg.js:skip_link_extraction
 LinternaMagica.prototype.sites.__skip_link_extraction = function()
 {
     return true;

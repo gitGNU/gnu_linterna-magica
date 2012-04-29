@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -438,7 +438,7 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 		"skip_link_extraction",
 		window.location.hostname]);
 
-	    if (val)
+	    if (val && typeof(val) == "boolean")
 	    {
 		this.log("LinternaMagica.extract_link_from_param_list:\n"+
 			 "Trying to extract a link from"+
@@ -448,6 +448,10 @@ LinternaMagica.prototype.extract_link_from_param_list = function()
 		    this.extract_link_data = param.value;
 		    extracted.link = this.extract_link();
 		}
+	    }
+	    else if (typeof(val) != "boolean")
+	    {
+		extracted = val;
 	    }
 
 	    if (!extracted.link)
