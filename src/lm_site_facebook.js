@@ -128,3 +128,24 @@ LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function
 // Reference. Just returns false
 LinternaMagica.prototype.sites["facebook.com"].
     do_not_clean_amps_in_extracted_link = "video.google.com";
+
+// See bug #108013:
+// https://savannah.nongnu.org/support/index.php?108013
+LinternaMagica.prototype.sites["facebook.com"].
+skip_script_processing = function()
+{
+    if (/video\.php/i.test(window.location.href) &&
+	this.script_data.length >= 15360 )
+    {
+	// Skip scripts larger than 15 KB on video pages.
+	return false;
+    }
+    else if (!/video\.php/i.test(window.location.href) &&
+	     this.script_data.length >= 5120)
+    {
+	// Skip scripts larger than 5 KB on non-video pages.
+	return false;
+    }
+
+    return true;
+}

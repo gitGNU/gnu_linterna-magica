@@ -142,6 +142,21 @@ function()
 // return value is false (or null or undefined).
 LinternaMagica.prototype.sites.__skip_script_processing = function()
 {
+
+    // Skip scripts larger than 17KB by default
+    if (this.script_data.length >= 17408)
+    {
+	this.log("LinternaMagica.sites.__skip_script_processng:\n"+
+		 "Skipping script with size "+this.script_data.length,5);
+	return false;
+    }
+    else
+    {
+	this.log("LinternaMagica.sites.__skip_script_processng:\n"+
+		 "Processing script with size "+this.script_data.length,5);
+    }
+
+
     return true;
 }
 

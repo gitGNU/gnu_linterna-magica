@@ -65,7 +65,26 @@ LinternaMagica.prototype.remove_plugin_install_warning = function(element)
     while (node)
     {
 	remove = false;
+	
+	// Skip nodes with large sizes. Optimizes YouTube in Abrowser
+	// 12.0 See bug #108013:
+	// https://savannah.nongnu.org/support/index.php?108013
+	var size = null;
+	try {
+	    size = (new XMLSerializer().serializeToString(node)).length;
+	}
+	catch(e)
+	{
+	    continue;
+	}
 
+	// Skip nodes larger than 5 KB
+	if (size > 5120)
+	{
+	    node = node.nextSibling || null;
+	    continue;
+	}
+	
 	this.log("LinternaMagica.remove_plugin_install_warning:\n"+
 		 "elements "+element.childNodes.length+
 		 " node "+node,5);

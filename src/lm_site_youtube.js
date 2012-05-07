@@ -303,6 +303,16 @@ function()
     return this.sites.__no_flash_plugin_installed.apply(this, [arguments]);
 }
 
+LinternaMagica.prototype.sites["youtube.com"].skip_script_processing =
+function()
+{
+    // See bug #108013:
+    // https://savannah.nongnu.org/support/index.php?108013
+    // Do not skip script processing in youtube. The default function
+    // might skip scripts in some browsers.
+    return true;
+}
+
 LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
 {
     // Link extraction bloats FF in youtube:
