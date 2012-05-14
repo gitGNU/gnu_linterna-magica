@@ -34,6 +34,7 @@ LinternaMagica.prototype.sites["video.google.com"] = new Object();
 LinternaMagica.prototype.sites["video.google.com.au"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.com.br"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.ca"] = "video.google.com";
+LinternaMagica.prototype.sites["video.google.bg"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.cn"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.fr"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.de"] = "video.google.com";
@@ -49,6 +50,21 @@ LinternaMagica.prototype.sites["video.google.ru"] = "video.google.com";
 // (images, video) See skip_script_processing().
 LinternaMagica.prototype.sites["encrypted.google.com"] = "video.google.com";
 LinternaMagica.prototype.sites["www.google.com"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.com.au"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.com.br"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.ca"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.bg"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.cn"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.fr"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.de"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.it"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.nl"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.pl"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.es"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.co.uk"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.com.ar"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.ru"] = "video.google.com";
+LinternaMagica.prototype.sites["images.google.com"] = "video.google.com";
 
 // See bug #108013:
 // https://savannah.nongnu.org/support/index.php?108013
