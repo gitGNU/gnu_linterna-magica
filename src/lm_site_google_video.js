@@ -45,6 +45,20 @@ LinternaMagica.prototype.sites["video.google.co.uk"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.com.ar"] = "video.google.com";
 LinternaMagica.prototype.sites["video.google.ru"] = "video.google.com";
 
+// Needet to prevent blocking of the browser in the web search engine
+// (images, video) See skip_script_processing().
+LinternaMagica.prototype.sites["encrypted.google.com"] = "video.google.com";
+LinternaMagica.prototype.sites["www.google.com"] = "video.google.com";
+
+// See bug #108013:
+// https://savannah.nongnu.org/support/index.php?108013
+LinternaMagica.prototype.sites["video.google.com"].
+skip_script_processing = function()
+{
+    // Skip script procerssing at all.
+    return false;
+}
+
 LinternaMagica.prototype.sites["video.google.com"].set_video_link_regex =
 function()
 {
