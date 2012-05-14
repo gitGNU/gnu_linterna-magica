@@ -60,7 +60,7 @@ LinternaMagica.prototype.sites["pri.org"].skip_link_extraction = function()
 	var cnt = parseInt(pl+1);
 	link.url = "http://pri-ice.streamguys.biz/"+links[pl];
 	link.label = this._("Link")+" "+cnt;
-	link.more_info = "Public Radio International #"+cnt;
+	link.more_info = "Public Radio International #"+cnt+" - "+(cnt > 1 ? 32 : 64)+"kbs";
 	extracted_data.hd_links.push(link);
     }
 
