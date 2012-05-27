@@ -196,7 +196,7 @@ function()
 
 
 	    link.label = (hd_string == "lowqual_src") ?
-		this._("Low quality") : this._("Hight quality");
+		this._("Low quality") : this._("High quality");
 
 	    hd_links.push(link);
 	} else {

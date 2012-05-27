@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-08 21:58+0200\n"
-"PO-Revision-Date: 2012-01-08 22:00+0200\n"
+"POT-Creation-Date: 2012-05-27 18:26+0300\n"
+"PO-Revision-Date: 2012-05-27 18:28+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -234,7 +234,8 @@ msgstr "Премахнете този бутон, ако скрива изобр
 
 #. Translators: This is a label for HD link. It is
 #. followed by a number.
-#: ../src/lm_extract_js_jwplayer.js:145 ../src/lm_site_tedcom.js:92
+#: ../src/lm_extract_js_jwplayer.js:145 ../src/lm_site_priorg.js:62
+#: ../src/lm_site_tedcom.js:92
 msgid "Link"
 msgstr "Връза"
 
@@ -367,6 +368,14 @@ msgstr "Буфериране"
 #: ../src/lm_player_button_functions.js:240
 msgid "Waiting plugin"
 msgstr "Изчакване на приставката"
+
+#: ../src/lm_site_facebook.js:199 ../src/lm_site_vimeo.js:206
+msgid "Low quality"
+msgstr "Ниско качество"
+
+#: ../src/lm_site_facebook.js:199 ../src/lm_site_vimeo.js:212
+msgid "High quality"
+msgstr "Високо качество"
 
 #: ../src/lm_site_livestreamcom.js:141
 msgid "RTSP link"

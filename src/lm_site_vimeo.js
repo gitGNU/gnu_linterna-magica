@@ -203,13 +203,12 @@ function(args)
 	object_data.hd_links = new Array();
 	var hd_link = new Object();
 
-	// Translate?
 	hd_link.label = this._("Low quality");
 	hd_link.url = object_data.link;
 	object_data.hd_links.unshift(hd_link);
 
 	hd_link = new Object();
-	// Translate?
+
 	hd_link.label = this._("High quality");
 	hd_link.url = object_data.link.replace(/q=sd/, "q=hd");
 	object_data.hd_links.unshift(hd_link);
