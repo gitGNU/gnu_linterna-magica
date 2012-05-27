@@ -45,49 +45,96 @@ LinternaMagica.prototype.extract_object_from_script_swfobject = function()
 	    "(\\\s*,\\\s*([^,\\\)]+)){0,1}"+
 	    "(\\\s*,\\\s*([^,\\\)]+)){0,1}"+
 	    "\\\)",
-	"im");
+	"img");
 
     var data = this.script_data;
-    var constructor = data.match(constructor_re);
-    var height, width, el;
-    var object_data= new Object() ;
+    var constructor = null;
+    var var_name = null;
+    var id_re = null;
+    var el = null;
+    var count = 0;
+    var last_constructor = null;
 
-    if (!constructor)
+    while (constructor = constructor_re.exec(data))
+    {
+	last_constructor = constructor;
+	el = constructor[4].replace(/\'|\"/g, "");
+
+	if (!document.getElementById(el))
+	{
+	    // variable_name = constructor[2]
+	    var_name = 
+		constructor[2].replace(/window\[\"/,"").
+		replace(/\"\]/,"");
+
+	    id_re = new RegExp(
+		var_name+"\\."+
+		    "write\\("+"("+"\\'"+'|\\"'+")*"+
+		    "([A-Za-z0-9_-]+)"+"("+"\\'"+'|\\"'+")*"+
+		    "\\)",
+		"ig");
+	    
+	    el = null;
+	    var inner_count = 0;
+
+	    while (el = id_re.exec(data))
+	    {
+		// If there are more than two SWFObject object in the
+		// same <script> tag, we need the id of the DOM
+		// element where the current matched SWF object will
+		// write the SWF object. Theoretically the first match
+		// of a SWFObject constructor should be related to the
+		// first match for the SWFObject write method, the
+		// second construcor to the second write method and so
+		// on. This way we should be able to match the exact
+		// id.
+		//
+		// See bug #108050:
+		// https://savannah.nongnu.org/support/?108050
+		if (inner_count >= count)
+		    
+		{
+		    break;
+		}
+		
+		inner_count++;
+	    }
+
+	    // Do not know where the object should be
+	    if (!el)
+	    {
+		this.log("LinternaMagica.extract_object_from_script_"+
+			 "swfobject:\n"+
+			 "No id extracted from SWFObject.write method "+
+			 "id_re" +id_re,4);
+
+		continue;
+	    }
+
+	    el = el[el.length-2];
+	    
+	    // We have an element that will hold LM, break.
+	    //
+	    // See bug #108050:
+	    // https://savannah.nongnu.org/support/?108050
+	    if (document.getElementById(el))
+	    {
+		break;
+	    }
+	}
+	count++;
+    }
+
+    constructor = last_constructor;
+
+    // All attempts to find where to place LM failed. Exit.
+    if (!document.getElementById(el))
     {
 	return null;
     }
 
-    el = constructor[4].replace(/\'|\"/g, "");
-
-    if (!document.getElementById(el))
-    {
-	// variable_name = constructor[2]
-	var var_name = 
-	    constructor[2].replace(/window\[\"/,"").
-	    replace(/\"\]/,"");
-
-	var id_re = new RegExp(
-	    var_name+"\\."+
-		"write\\("+"("+"\\'"+'|\\"'+")*"+
-		"([A-Za-z0-9_-]+)"+"("+"\\'"+'|\\"'+")*"+
-		"\\)",
-	    "i");
-
-	el = data.match(id_re);
-
-	// Do not know where the object should be
-	if (!el)
-	{
-	    this.log("LinternaMagica.extract_object_from_script_"+
-		     "swfobject:\n"+
-		     "No id extracted from SWFObject.write method "+data+
-		     "id_re" +id_re,4);
-
-	    return null;
-	}
-
-	el = el[el.length-2];
-    }
+    var height, width;
+    var object_data= new Object();
 
     if (this.skip_object_if_id(el))
     {

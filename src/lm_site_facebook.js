@@ -92,6 +92,19 @@ function()
     var result = new Object();
 
     // Found DOM object
+    // Might not work anymore. Can't test it.
+    // 
+    // While fixing bug #108050, even when Gnash was installed the
+    // browser didn't render it where the clip should be. Manually
+    // setting higher flash version in Gnash settings did not help
+    // either.
+    //
+    // Also the fix for bug #108050 introduced the
+    // flash_plugin_installed(), so clips are always extracted from
+    // script tags. This fragment should probably be removed.
+    //
+    // See bug #108050:
+    // https://savannah.nongnu.org/support/?108050
     if (!this.script_data)
     {
 	result.link_re = new RegExp (
@@ -104,11 +117,9 @@ function()
     else
     {
 	result.link_re = new RegExp (
-	    "addVariable\\\((\\\"|\\\')video_src(\\\"|\\\'),\\\s*"+
-		"(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\')(\\\))\\\;{1}",
+	    "(\\\"|\\\')video_src(\\\"|\\\'),\\\s*(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\'){1}",
 	    "i");
-
-	result.link_position = 3;
+	result.link_position = 2;
     }
 
     return result;
@@ -127,25 +138,109 @@ LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function
 
 // Reference. Just returns false
 LinternaMagica.prototype.sites["facebook.com"].
-    do_not_clean_amps_in_extracted_link = "video.google.com";
+do_not_clean_amps_in_extracted_link = "video.google.com";
 
 // See bug #108013:
 // https://savannah.nongnu.org/support/index.php?108013
 LinternaMagica.prototype.sites["facebook.com"].
 skip_script_processing = function()
 {
-    if (/video\.php/i.test(window.location.href) &&
-	this.script_data.length >= 15360 )
+    if (/(video|photo)\.php/i.test(window.location.href) &&
+	this.script_data.length >= 26214400 )
     {
-	// Skip scripts larger than 15 KB on video pages.
+	// Skip scripts larger than 25 KB on video pages.
 	return false;
     }
-    else if (!/video\.php/i.test(window.location.href) &&
-	     this.script_data.length >= 5120)
+    else if (!/(video|photo)\.php/i.test(window.location.href) &&
+    	     this.script_data.length >= 5120)
     {
-	// Skip scripts larger than 5 KB on non-video pages.
-	return false;
+    	// Skip scripts larger than 5 KB on non-video pages.
+    	return false;
     }
 
     return true;
 }
+
+LinternaMagica.prototype.sites["facebook.com"].
+extract_hd_links_from_script_if_link =
+function()
+{
+    var data = this.script_data;
+
+    var hd_strings = ["lowqual_src", "highqual_src" ];
+    var hd_links = new Array();
+    var l,i;
+
+    for(i=0, l=hd_strings.length; i<=l; i++)
+    {
+	var hd_string = hd_strings[i];
+	var link_re = new RegExp (
+	    "(\\\"|\\\')"+hd_string+"(\\\"|\\\'),\\\s*(\\\"|\\\')"+
+		"([^\\\"\\\']+)(\\\"|\\\'){1}",
+	    "i");
+
+	var match = data.match(link_re);
+
+	if (match && match[match.length-2])
+	{
+	    var link = new Object();
+	    // The # at the end of hte link is needed, because
+	    // Facebook adds some event listenerers for click events
+	    // for anchor elements that break the default browser
+	    // behaviour. This causes the HD links to load directly in
+	    // the browser. This work-around works because ... ? I
+	    // suppose they filter links with #.
+	    link.url = 
+		this.sites["facebook.com"].
+		process_extracted_link(match[match.length-2])+"#";
+
+
+	    link.label = (hd_string == "lowqual_src") ?
+		this._("Low quality") : this._("Hight quality");
+
+	    hd_links.push(link);
+	} else {
+	    break;
+	}
+    }
+
+    if (hd_links.length > 0)
+    {
+	return hd_links;
+    }
+
+    return null;
+}
+
+LinternaMagica.prototype.sites["facebook.com"].css_fixes =
+function(object_data)
+{
+    // Facebook adds some event listenerers for click events for the
+    // naviation (next/prev video/photo) anchor elements that break
+    // the default browser behaviour. It is suspected that the page is
+    // requested at the background and injected in the DOM. Linterna
+    // Magica does not load for next or previous clips. The
+    // work-around is to force the browser to load the link as if it
+    // was no Facebook JavaScript - on the foreground.
+
+    var next = document.querySelector(".photoPageNextNav");
+    var prev = document.querySelector(".photoPagePrevNav");
+
+    var fb_nav_click_fn = function(ev)
+    {
+	window.location = this.getAttribute("href");
+    }
+
+    if (next)
+    {
+	next.addEventListener("click", fb_nav_click_fn, false);
+    }
+
+    if (prev)
+    {
+	prev.addEventListener("click", fb_nav_click_fn, false);
+    }
+}
+ 
+// Reference. Calls the logic that processes <script> tags
+LinternaMagica.prototype.sites["facebook.com"].flash_plugin_installed = "youtube.com";
