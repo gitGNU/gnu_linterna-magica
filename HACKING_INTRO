@@ -332,7 +332,7 @@ at https://savannah.nongnu.org/support/?group=linterna-magica. Use the
 Getting more information
 
 The information in this file is considered a bare minimum required to
-understand how Linterna Magica works and eventually start coding. For
+understand how Linterna Mágica works and eventually start coding. For
 the rest you should examine the code for already supported
 websites. If things are still unclear, or you have questions, ask
 them. They will be answered as soon as possible.
@@ -341,6 +341,12 @@ For the moment there is no developers mailing list, but feel free to
 write to the users mailing list at linterna-magica-users at nongnu dot
 org. For short questions you can also send a notice to our microblog
 group at Identi.ca: https://identi.ca/group/linternamagica
+
+Sending patches and code
+
+If you want your code and patches to be included in Linterna Mágica,
+file a bug report and attach them, or send them to the users mailing
+list at linterna-magica-users at nongnu dot org.
 
 Happy hacking! ;)
 
