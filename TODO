@@ -20,12 +20,6 @@
 
 * Try to support http://mbox4u.com (the player is in iframe)
 
-* Facebook needs HD support.  Public videos work.
-      - The URL is given by video_src=
-      - There are highqual_src and lowqual_src URLs
-      - some video links have some hash key (?h=something), that might
-         not be needed
-
 This file is part of  Linterna Mágica
 
 Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
