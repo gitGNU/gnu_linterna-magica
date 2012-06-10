@@ -857,10 +857,10 @@ is sarcasm!
 @cindex reporting bugs
 
 If you encounter bugs, or have suggestions of any kind, please report
-them at Linterna M@value{AACUTE}gica project page at Savannah 
-@url{https://savannah.nongnu.org/support/?group=linterna-magica}. Use
-the ``Tech Support Manager''/''Support'' section. The ``Bugs'' tracker
-is for developers only.
+them at Linterna M@value{AACUTE}gica project page at Savannah
+@url{https://savannah.nongnu.org/bugs/?group=linterna-magica}. Use
+the ``Bugs`` tracker, the ``Tech Support Manager''/''Support'' is now
+deprecated.
 
 @node Copying this manual
 @appendix Copying this manual
