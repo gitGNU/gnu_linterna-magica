@@ -2,7 +2,7 @@ Linterna Mágica
 *****************
 
 This manual (updated 10 June 2012) is for Linterna Mágica (version
-svn-trunk), a userscript for watching web video clips inside a browser
+0.0.12), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
 Watch video on the web in a brand new way: "You don't need a glint, the
@@ -490,8 +490,8 @@ plugins.
 4.1 Supported browsers
 ======================
 
-In this release (svn-trunk) Linterna Mágica is tested and kept up to
-date with the following browsers:
+In this release (0.0.12) Linterna Mágica is tested and kept up to date
+with the following browsers:
 
 Epiphany
      Epiphany versions older than 2.30 might have problems with
