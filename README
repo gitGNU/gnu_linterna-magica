@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 17 January 2012) is for Linterna Mágica (version
+This manual (updated 10 June 2012) is for Linterna Mágica (version
 svn-trunk), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -175,9 +175,9 @@ For GNU IceCat and other free software versions of Firefox
      "Install" button.
 
 For Midori
-     For Midori version 0.4.0 and above select "Open Link in Bew Tab".
+     For Midori version 0.3.0 and above select "Open Link in Bew Tab".
      In the new tab click "Install user script" button. Versions before
-     0.4.0 do not support instala do not support installation of
+     0.3.0 do not support instala do not support installation of
      userscripts from the browser.
 
 
@@ -503,8 +503,6 @@ Free software versions of Firefox
      Iceweasel are tested.
 
 Midori
-     Only versions 0.2.2 and 0.2.4 are tested. There are reports from
-     users that 0.3.2 works too.
 
 4.2 Supported plugins
 =====================
@@ -572,9 +570,8 @@ non-free software you must be very "lucky". Yes, that is sarcasm!
 
 If you encounter bugs, or have suggestions of any kind, please report
 them at Linterna Mágica project page at Savannah
-`https://savannah.nongnu.org/support/?group=linterna-magica'. Use the
-"Tech Support Manager"/"Support" section. The "Bugs" tracker is for
-developers only.
+`https://savannah.nongnu.org/bugs/?group=linterna-magica'. Use the
+"Bugs" tracker, the "Tech Support Manager"/"Support" is now deprecated.
 
 Appendix A Copying this manual
 ******************************
