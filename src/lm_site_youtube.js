@@ -260,13 +260,17 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	{
 	    // Usually the links have the following pattern
 	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
-	    var link = fmt[url].match(/url=([^&]+)/);
+	    var link = fmt[url].match(/(url|conn)=([^&]+)/);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
 
 	    if (fmt_id && link)
 	    {
 		links++;
 		link = unescape(link[link.length-1]);
+		// Live streams support. 
+		// See bugs #36759:
+		// https://savannah.nongnu.org/bugs/?36759
+		link = link.replace(/\\u0026stream=/, '/');
 		link = link.split(/\\u0026/)[0];
 
 		map[fmt_id[fmt_id.length-1]] =  link;
