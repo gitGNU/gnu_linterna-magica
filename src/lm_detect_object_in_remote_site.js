@@ -164,6 +164,11 @@ LinternaMagica.prototype.remote_sites.add_site(
     "http://video.google.<tld>/videoplay?docid=<video_id>", 
     {tld:2, video_id:1});
 
+LinternaMagica.prototype.remote_sites.add_site(
+    "viddler\\\.com",
+    "viddler\\\.com\\\/(mini|embed|simple)\\\/([a-zA-Z0-9]+)\\\/",
+    "http://viddler.com/v/<video_id>");
+
 // Create the buton/link that points to the remote site video
 LinternaMagica.prototype.create_remote_site_link = function(object_data)
 {
