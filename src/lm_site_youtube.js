@@ -105,6 +105,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		break;
 	    case '13':
 	    case '17':
+	    case '36':
 		label += " 3GP";
 		break;
 	    default:
@@ -155,6 +156,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		break;
 	    case '13':
 	    case '17':
+	    case '36':
 		more_info += "MPEG-4 Visual, AAC";
 		break;
 	    default:
