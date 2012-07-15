@@ -807,9 +807,11 @@ LinternaMagica.prototype.slider_control = function(event)
     }
 
     // Limit position
-    if ((position+knob.clientWidth) >= slider.clientWidth)
+    if ((position+knob.clientWidth) > slider.clientWidth)
     {
-	position = slider.clientWidth - knob.clientWidth;
+	if (direction > 0) {
+	    position = slider.clientWidth - knob.clientWidth;
+	}
     }
 
     if (position < 0)
@@ -821,8 +823,16 @@ LinternaMagica.prototype.slider_control = function(event)
 			   position +"px",
 			   "important");
 
+    var percent = (parseInt((
+	position/(slider.clientWidth-knob.clientWidth))*100));
+
+    if (percent > 100)
+    {
+	percent = 100;
+    }
     var return_data = new Object();
-    return_data.val = (parseInt((position/slider.clientWidth) *100))+"%";
+    return_data.val = percent +"%";
+
     return_data.direction = direction;
     return return_data;
 }
@@ -893,8 +903,10 @@ LinternaMagica.prototype.ticker = function(id)
 	var pos = parseInt(slider.clientWidth *
 			   time_and_state.percent);
 
-	if (pos >= slider.clientWidth)
-	    pos = slider.clientWidth - knob.clientWidth;;
+	if (pos > (slider.clientWidth-knob.clientWidth))
+	{
+	    pos = slider.clientWidth - knob.clientWidth;
+	}
 
 	knob.style.setProperty(move,
 			       pos+"px",
