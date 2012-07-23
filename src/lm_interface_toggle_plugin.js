@@ -90,8 +90,37 @@ function(not_in_header,id,switch_type)
     }
     else
     {
+	var flash_mime_type = navigator.mimeTypes['application/x-shockwave-flash'];
+	var flash_plugin = flash_mime_type.enabledPlugin.filename;
+
+	// TRANSLATORS: The tooltip for the buttons that switch
+	// between LM and a flash plugin.
 	var title = this.
 	    _("Switch between flash plugin and Linterna Mágica");
+
+
+	if (/gnash/i.test(flash_plugin))
+	{
+	    // TRANSLATORS: The tooltip for the buttons that switch
+	    // between LM and a flash plugin.
+	    title = this.
+		_("Switch between the Gnash plugin for flash and Linterna Mágica");
+	}
+	else if (/lightpsark/i.test(flash_plugin))
+	{
+	    // TRANSLATORS: The tooltip for the buttons that switch
+	    // between LM and a flash plugin.
+	    title = this.
+		_("Switch between the Lightspark plugin for flash and Linterna Mágica");
+	}
+	else if (/totem-vegas/i.test(flash_plugin))
+	{
+	    // TRANSLATORS: The tooltip for the buttons that switch
+	    // between LM and a flash plugin.
+	    title = this.
+		_("Switch between the Totem Vegas plugin for flash and Linterna Mágica");
+	}
+
 
 	toggle_plugin.setAttribute("title",title);
     }
