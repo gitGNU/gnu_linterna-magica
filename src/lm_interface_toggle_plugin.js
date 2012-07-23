@@ -106,7 +106,7 @@ function(not_in_header,id,switch_type)
 	    title = this.
 		_("Switch between the Gnash plugin for flash and Linterna Mágica");
 	}
-	else if (/lightpsark/i.test(flash_plugin))
+	else if (/lightspark/i.test(flash_plugin))
 	{
 	    // TRANSLATORS: The tooltip for the buttons that switch
 	    // between LM and a flash plugin.

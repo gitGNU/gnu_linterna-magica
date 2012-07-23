@@ -54,7 +54,7 @@ LinternaMagica.prototype.check_flash_plugin = function()
 	var flash_plugin = nav.plugins["Shockwave Flash"].filename;
 
 	var plugin_name = /gnash/i.test(flash_plugin) ? "Gnash" :
-	    /lightpsark/i.test(flash_plugin) ? "Lightspark" :
+	    /lightspark/i.test(flash_plugin) ? "Lightspark" :
 	    /totem-vegas/i.test(flash_plugin) ? "Totem Vegas" :
 	    "a flash plugin";
 
