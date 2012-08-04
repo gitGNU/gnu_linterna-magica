@@ -155,7 +155,7 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 		break;
 	    case '13':
 	    case '17':
-		nore_info += "MPEG-4 Visual, AAC";
+		more_info += "MPEG-4 Visual, AAC";
 		break;
 	    default:
 		more_info += " " + this._("Unkown encoding");
