@@ -220,7 +220,7 @@ function(flash_object, type)
     
     flash_object.parentNode.removeChild(flash_object);
 
-    flash_object = clone;  
+    flash_object = clone;
     flash_object.setAttribute("type", type);
     
     if (sibling)
