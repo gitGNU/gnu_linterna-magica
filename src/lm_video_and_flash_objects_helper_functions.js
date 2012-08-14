@@ -147,6 +147,9 @@ LinternaMagica.prototype.hide_lm_video = function(linterna_magica_id)
 	return null;
     }
 
+    var self = this;
+    this.player.stop.apply(self, [linterna_magica_id]);
+
     lm.style.setProperty("display", "none", "important");
 }
 
@@ -162,6 +165,11 @@ function(linterna_magica_id,parent)
 	return null;
     }
 
+
+    // See https://savannah.nongnu.org/bugs/?36888
+    flash_object = 
+	this.force_flash_video_object_type(flash_object,
+				     "application/x-shockwave-flash");
     flash_object.style.removeProperty("display");
 
     return flash_object;
@@ -179,7 +187,50 @@ function(linterna_magica_id, parent)
 	return null;
     }
 
+    // Force the playback to stop. Setting the object on the
+    // background and changing its type alone does not work. 
+    // See https://savannah.nongnu.org/bugs/?36888
+    flash_object = this.force_flash_video_object_type(flash_object,
+						"x-fake/x-flash-stopped");
+
     flash_object.style.setProperty("display", "none", "important");
+
+    return flash_object;
+}
+
+// Force the flash object to another type. Used when hiding the flash
+// player to stop its playback so there is no dual playback as
+// described in bug #36888.
+// See https://savannah.nongnu.org/bugs/?36888
+LinternaMagica.prototype.force_flash_video_object_type =
+function(flash_object, type)
+{
+    if (!flash_object || !type)
+    {
+	return null;
+    }
+
+    var sibling = flash_object.nextSibling ? 
+	flash_object.nextSibling : null;
+
+    var parent = flash_object.parentNode;
+
+    var clone = flash_object.cloneNode(true);
+    clone.linterna_magica_id = flash_object.linterna_magica_id;
+    
+    flash_object.parentNode.removeChild(flash_object);
+
+    flash_object = clone;  
+    flash_object.setAttribute("type", type);
+    
+    if (sibling)
+    {
+	parent.insertBefore(flash_object, sibling);
+    }
+    else
+    {
+	parent.appendChild(flash_object);
+    }
 
     return flash_object;
 }
