@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 18:26+0300\n"
-"PO-Revision-Date: 2012-05-27 18:28+0300\n"
+"POT-Creation-Date: 2012-08-17 14:07+0300\n"
+"PO-Revision-Date: 2012-08-17 14:10+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -66,133 +66,133 @@ msgstr "публикувана на"
 msgid "Read the news section at the home page"
 msgstr "Прочетете новините на уеб страницата"
 
-#: ../src/lm_constructors.js:206
+#: ../src/lm_constructors.js:205
 msgid "Watch video on the web "
 msgstr "Гледайте уеб видео клипове "
 
-#: ../src/lm_constructors.js:207
+#: ../src/lm_constructors.js:206
 msgid "in a brand new way: "
 msgstr "по напълно нов начин: "
 
-#: ../src/lm_constructors.js:208
+#: ../src/lm_constructors.js:207
 msgid "You don't need a glint, "
 msgstr "Нямате нужда от проблясъци, "
 
-#: ../src/lm_constructors.js:209
+#: ../src/lm_constructors.js:208
 msgid "the magic lantern is ignited!"
 msgstr "вълшебният фенер е разпален!"
 
-#: ../src/lm_constructors.js:217
+#: ../src/lm_constructors.js:216
 msgid "This program is free software; "
 msgstr "Тази програма е свободен софтуер. "
 
-#: ../src/lm_constructors.js:218
+#: ../src/lm_constructors.js:217
 msgid "you can redistribute it and/or "
 msgstr "Можете да я разпространявате и/или "
 
-#: ../src/lm_constructors.js:219
+#: ../src/lm_constructors.js:218
 msgid "modify it under the terms of the "
 msgstr "променяте под условията на "
 
-#: ../src/lm_constructors.js:220
+#: ../src/lm_constructors.js:219
 msgid "GNU  General Public License (GNU GPL)"
 msgstr "Общия публичен лиценз на GNU (GNU GPL)"
 
-#: ../src/lm_constructors.js:221
+#: ../src/lm_constructors.js:220
 msgid " version 3 (or later). "
 msgstr " — версия 3 на лиценза или по-късна. "
 
-#: ../src/lm_constructors.js:222
+#: ../src/lm_constructors.js:221
 msgid "A copy of the license can be downloaded from "
 msgstr "Копие на лиценза можете да изтеглите от "
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "01/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jan 2012.
-#: ../src/lm_constructors.js:358
+#: ../src/lm_constructors.js:357
 msgid "Jan"
 msgstr "яну"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "02/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Feb 2012.
-#: ../src/lm_constructors.js:363
+#: ../src/lm_constructors.js:362
 msgid "Feb"
 msgstr "фев"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "03/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Mar 2012.
-#: ../src/lm_constructors.js:368
+#: ../src/lm_constructors.js:367
 msgid "Mar"
 msgstr "мар"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "04/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Apr 2012.
-#: ../src/lm_constructors.js:373
+#: ../src/lm_constructors.js:372
 msgid "Apr"
 msgstr "апр"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "05/28/2012" +"%b". It is part of a
 #. release date. For example: 28 May 2012.
-#: ../src/lm_constructors.js:378
+#: ../src/lm_constructors.js:377
 msgid "May"
 msgstr "май"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "06/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jun 2012.
-#: ../src/lm_constructors.js:383
+#: ../src/lm_constructors.js:382
 msgid "Jun"
 msgstr "юни"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "07/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Jul 2012.
-#: ../src/lm_constructors.js:388
+#: ../src/lm_constructors.js:387
 msgid "Jul"
 msgstr "юли"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "08/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Aug 2012.
-#: ../src/lm_constructors.js:393
+#: ../src/lm_constructors.js:392
 msgid "Aug"
 msgstr "авг"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "09/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Sep 2012.
-#: ../src/lm_constructors.js:398
+#: ../src/lm_constructors.js:397
 msgid "Sep"
 msgstr "сеп"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "10/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Oct 2012.
-#: ../src/lm_constructors.js:403
+#: ../src/lm_constructors.js:402
 msgid "Oct"
 msgstr "окт"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "11/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Noe 2012.
-#: ../src/lm_constructors.js:408
+#: ../src/lm_constructors.js:407
 msgid "Noe"
 msgstr "ное"
 
 #. TRANSLATORS: This is abbreviated month name. The same as
 #. the output of date --date "12/28/2012" +"%b". It is part of a
 #. release date. For example: 28 Dec 2012.
-#: ../src/lm_constructors.js:413
+#: ../src/lm_constructors.js:412
 msgid "Dec"
 msgstr "дек"
 
 #. TRANSLATORS: Add your name here and it will be visible in
 #. the about box. One person per line.
-#: ../src/lm_constructors.js:417
+#: ../src/lm_constructors.js:416
 msgid "__translators"
 msgstr "Ивайло Вълков <ivaylo@e-valkov.org>"
 
@@ -200,7 +200,7 @@ msgstr "Ивайло Вълков <ivaylo@e-valkov.org>"
 #. translating. It should be translated as "ltr" for left-to-right
 #. languages and "rtl" for right-to-left languages. If you don't know
 #. it is probably "ltr".
-#: ../src/lm_constructors.js:423
+#: ../src/lm_constructors.js:422
 msgid "__direction"
 msgstr "ltr"
 
@@ -216,19 +216,19 @@ msgstr "Запазване"
 msgid "Save the video clip"
 msgstr "Запазване на видео клипа"
 
-#: ../src/lm_create_video_object.js:184
+#: ../src/lm_create_video_object.js:180
 msgid "Loading video..."
 msgstr "Зареждане на клипа…"
 
-#: ../src/lm_create_video_object.js:211
+#: ../src/lm_create_video_object.js:207
 msgid "Waiting for video plugin..."
 msgstr "Изчакване на приставката за видео клипове…"
 
-#: ../src/lm_detect_object_in_remote_site.js:176
+#: ../src/lm_detect_object_in_remote_site.js:181
 msgid "Watch this video at it's original site with Linterna Mágica"
 msgstr "Гледайте този видео клип на неговата уеб страница с Linterna Mágica"
 
-#: ../src/lm_detect_object_in_remote_site.js:187
+#: ../src/lm_detect_object_in_remote_site.js:192
 msgid "Remove this button, if it overlaps images or text in the page."
 msgstr "Премахнете този бутон, ако скрива изображения или текст от страницата."
 
@@ -333,25 +333,43 @@ msgstr ""
 "Превключване между възпрозивеждане чрез HTML5, предоставено от страницата и "
 "Linterna Mágica"
 
-#: ../src/lm_interface_toggle_plugin.js:94
+#: ../src/lm_interface_toggle_plugin.js:99
 msgid "Switch between flash plugin and Linterna Mágica"
 msgstr "Превключване между приставката за флаш и Linterna Mágica"
 
-#: ../src/lm_log.js:153 ../src/lm_log.js:237
+#: ../src/lm_interface_toggle_plugin.js:107
+msgid "Switch between the Gnash plugin for flash and Linterna Mágica"
+msgstr "Превключване между приставката Gnash и Linterna Mágica"
+
+#: ../src/lm_interface_toggle_plugin.js:114
+msgid "Switch between the Lightspark plugin for flash and Linterna Mágica"
+msgstr "Превключване между приставката Lightspark и Linterna Mágica"
+
+#: ../src/lm_interface_toggle_plugin.js:121
+msgid "Switch between the Totem Vegas plugin for flash and Linterna Mágica"
+msgstr "Превключване между приставката Totem Vegas и Linterna Mágica"
+
+#: ../src/lm_log.js:188 ../src/lm_log.js:256
 msgid "Linterna Mágica error and debug messages"
 msgstr "Съобщения за отстраняване на грешки в Linterna Mágica"
 
-#: ../src/lm_log.js:161
-msgid "Remove log"
-msgstr "Премахване на обекта"
+#: ../src/lm_log.js:202
+msgid "Hide debug messages"
+msgstr "Скриване на съобщенията за отстраняване на грешки"
 
-#: ../src/lm_log.js:177
-msgid "Show/hide debug messages"
-msgstr "Показване/скриване на съобщенията за отстраняване на грешки"
+#: ../src/lm_log.js:218
+msgid "Ctrl+double-click to select all messages"
+msgstr ""
+"Натиснете два пъти с мишката докато държите клавиша Ctrl, за да изберете "
+"всички съобщения"
 
-#: ../src/lm_log.js:241
+#: ../src/lm_log.js:258
 msgid "Debug messages"
 msgstr "Отстраняване на грешки"
+
+#: ../src/lm_log.js:270
+msgid "Remove log"
+msgstr "Премахване на обекта"
 
 #: ../src/lm_player_button_functions.js:121
 #: ../src/lm_player_button_functions.js:158
@@ -385,10 +403,10 @@ msgstr "Връзка тип „RTSP“"
 msgid "Progressive link"
 msgstr "Връзка тип „Progressive“"
 
-#: ../src/lm_site_youtube.js:111
+#: ../src/lm_site_youtube.js:112
 msgid "Unkown container"
 msgstr "Непознат контейнер"
 
-#: ../src/lm_site_youtube.js:161
+#: ../src/lm_site_youtube.js:163
 msgid "Unkown encoding"
 msgstr "Непознато кодиране"
