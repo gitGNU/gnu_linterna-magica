@@ -39,6 +39,28 @@ button-higher-quality.png
 	Distributed under the terms of the GNU GPL either version 3 of
 	the License, or (at your option) any later version.
 
+button-about-90deg.png
+
+	Based on button-about.png
+
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-close-90deg.png
+button-debug-90deg.png
+
+	Based on button-close.png and button-debug.png
+
+	Copyright (C) 2011  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+
 linterna mágica - interface.svg
 
 	Copyright (C) 2010, 2011 Anton Katsarov <anton@katsarov.org>
@@ -49,7 +71,7 @@ linterna mágica - interface.svg
 template.css
 
 	Copyright (C) 2010, 2011  Anton Katsarov <anton@katsarov.org>
-	Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+	Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 
 	Distributed under the terms of the GNU GPL either version 3 of
 	the License, or (at your option) any later version.
@@ -72,7 +94,7 @@ pronounce.pdf
 
 This file is part of  Linterna Mágica
 
-	Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+	Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 
 Linterna Mágica is free software: you can redistribute it and/or modify
