@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -161,21 +161,17 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // Log to web
     if (this.debug_level && this.log_to == "web")
     {
-	var log_link  =  this.create_web_log_link(id);
+	var log_link  =  this.create_web_log_link();
 
-	var log_link_click_function = function(ev)
-	{
-	    var el = this;
-	    self.show_or_hide_web_log.apply(self, [ev, el]);
-	};
+	log_link.setAttribute("class", 
+			      "linterna-magica-web-log-link");
+	log_link.setAttribute("id",
+			      "linterna-magica-web-log-link-"+id);
 
 	log_link.addEventListener("click",
-				  log_link_click_function, false);
+				  this.show_or_hide_web_log, false);
 
 	header.appendChild(log_link);
-	// Hide the web log, so it is accessible only from the interface.
-	var log = document.getElementById("linterna-magica-web-log");
-	log.style.setProperty("display","none", "important");
     }
 
     object_tag.setAttribute("width", object_data.width);

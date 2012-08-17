@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -257,21 +257,12 @@ LinternaMagica.prototype.show_or_hide_update_info = function(event, element)
     var about = document.
 	getElementById("linterna-magica-about-box-"+id);
 
-    var local_log = 
-	document.getElementById("linterna-magica-web-log-clone-"+id);
-
     if (updates)
     {
 	// Ensure that the about box is hidden.
 	if (about && !about.style.display)
 	{
 	    about.style.setProperty("display","none", "important");
-	}
-
-	// Ensure that the web log  box is hidden/removed.
-	if (local_log)
-	{
-	    obj.parentNode.removeChild(local_log);
 	}
 
 	if (updates.style.display)

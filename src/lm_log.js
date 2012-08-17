@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -130,11 +130,6 @@ LinternaMagica.prototype.create_web_logger = function()
     var logger = document.createElement("div");
     logger.setAttribute("id", "linterna-magica-web-log");
     logger.setAttribute("class", "linterna-magica-web-log");
-    // Make it always visible. Hide it when vide object is created.
-    // This way the web log will be visible even when o objects are
-    // found. This will be usefull to report not working sites. In
-    // other words keep tis commented.
-    // logger.style.setProperty("display","none", "important");
     
     if (!logger)
     {
@@ -143,11 +138,51 @@ LinternaMagica.prototype.create_web_logger = function()
 	return null;
     }
 
+    var debug_button = document.createElement("p");
+    debug_button.setAttribute('class', 'linterna-magica-web-log-debug-button-wrap');
+    debug_button.setAttribute('id', 'linterna-magica-web-log-debug-button-wrap');
+
+    var logo = this.create_web_log_link();
+    logo.textContent = '';
+    logo.setAttribute('class',
+		      'linterna-magica-web-log-debug-button');
+    
+    debug_button.appendChild(logo);
+
+    logo.addEventListener('click', this.show_or_hide_web_log, true);
+
+    var bug = document.createElement('span');
+    bug.setAttribute('class', 'linterna-magica-web-log-debug-button-bug');
+
+    logo.appendChild(bug);
+
+    var close = this.create_web_log_close_link();
+    close.setAttribute('class',
+		       'linterna-magica-web-log-debug-button-close');
+
+    debug_button.appendChild(close);
+
+    close.addEventListener('click', this.remove_web_log, true);
+
+    document.body.appendChild(debug_button);
+
     var header = document.createElement("div");
     header.setAttribute("class",
 			"linterna-magica-web-log-header");
+    header.setAttribute('title', this._('Double-click to change the size'));
 
     var p = document.createElement("p");
+
+    var bug_header = this.create_web_log_link();
+
+    bug_header.setAttribute("class", 
+			  "linterna-magica-web-log-link "+
+			   " linterna-magica-web-log-left-buttons");
+    bug_header.setAttribute('title', this._('Click to change the size'));
+
+    bug_header.addEventListener('click',this.change_web_log_height, false);
+
+    p.appendChild(bug_header);
 
     var txt = document.createTextNode(this._(
 	"Linterna Mágica error and debug messages"));
@@ -155,92 +190,86 @@ LinternaMagica.prototype.create_web_logger = function()
     p.appendChild(txt);
     header.appendChild(p);
 
-    var close = document.createElement("a");
-    close.textContent="x";
-    close.setAttribute("href", "#");
-    close.setAttribute("title", this._("Remove log"));
+    var close = this.create_web_log_close_link();
+   
     p.appendChild(close);
     
-    var close_click_function =  function(ev)
-    {
-    	ev.preventDefault();
-    	// The entire web log
-    	var log = this.parentNode.parentNode.parentNode;
-    	log.parentNode.removeChild(log);
-    };
+    close.addEventListener("click", this.remove_web_log, false);
 
-    close.addEventListener("click", close_click_function, false);
-
-    var show_hide_log = document.createElement("a");
-    show_hide_log.textContent="-";
-    show_hide_log.setAttribute("href", "#");
-    show_hide_log.setAttribute("title", this._("Show/hide debug messages"));
-    show_hide_log.setAttribute("class", "linterna-magica-web-log-show-hide-body");
-    p.appendChild(show_hide_log);
+    var collapse_log = document.createElement("a");
+    collapse_log.textContent="-";
+    collapse_log.setAttribute("href", "#");
+    collapse_log.setAttribute("title", this._("Hide debug messages"));
+    collapse_log.setAttribute("class", "linterna-magica-web-log-collapse "+
+			      " linterna-magica-web-log-right-buttons");
+    p.appendChild(collapse_log);
     
-    var show_hide_log_click_function = function(ev)
-    {
-    	ev.preventDefault();
-    	// The body of the log
-    	var b = this.parentNode.
-	    parentNode.nextSibling;
-	var p = b.parentNode;
-	var t = parseInt(p.style.getPropertyValue("top"));
+    collapse_log.addEventListener("click",
+				   this.show_or_hide_web_log, false);
 
-    	if(b.style.display)
-	{
-	    b.style.removeProperty("display");
-	    p.style.setProperty("height", "250px", "important");
-	    p.style.setProperty("top", (t-226)+"px", "important");
-	    b.style.setProperty("overflow", "auto", "important");
-	    p.style.setProperty("overflow", "visible", "important");
-	}
-	else
-	{
-	    b.style.setProperty("display", "none", "important");
-	    // Only the header is visible
-	    p.style.setProperty("height", "24px", "important");
-	    p.style.setProperty("overflow", "hidden", "important");
-	    p.style.setProperty("top", (t+226)+"px", "important");
-	}
-    };
-
-    show_hide_log.addEventListener("click",
-				   show_hide_log_click_function, false);
-    
+    header.addEventListener('dblclick',this.change_web_log_height, false);
     
     logger.appendChild(header);
 
     var body  = document.createElement("div");
     body.setAttribute("id", "linterna-magica-web-log-messages");
     body.setAttribute("class", "linterna-magica-web-log-messages");
-    body.style.setProperty("display", "none", "important");
+    body.setAttribute('title',
+		      this._("Ctrl+double-click to select all messages"));
 
-    logger.style.setProperty("height","24px", "important");
-    logger.style.setProperty("overflow","hidden", "important");
+    var self = this;
+    var body_click_function = function(ev)
+    {
+	var el = this;
+	self.select_all_text_in_element.apply(self, [ev, el]);
+    };
+
+    body.addEventListener('dblclick',body_click_function, true);
 
     logger.appendChild(body);
 
     // We want direct access to the elemtn holding the messages inside
     // LinternaMagica
     this.logger = body;
+    this.logger_with_header = logger;
+
+    if (this.web_log_expand)
+    {
+	debug_button.style.setProperty("display", "none", "important");
+	logger.style.removeProperty("display");
+    }
+    else
+    {
+	logger.style.setProperty("display", "none", "important");
+	debug_button.style.removeProperty("display");
+    }
 
     return logger;
 }
 
 // The button/link in the header making the web log element visible
-LinternaMagica.prototype.create_web_log_link = function(id)
+LinternaMagica.prototype.create_web_log_link = function()
 {
     var log_link = document.createElement("a");
 
     log_link.setAttribute("title",
 			  this._("Linterna Mágica error and debug messages"));
     log_link.setAttribute("href", "#");
-    log_link.setAttribute("class", "linterna-magica-web-log-link");
-    log_link.setAttribute("id",  "linterna-magica-web-log-link-"+id);
     log_link.textContent = this._("Debug messages");
 
     return log_link;
+}
+
+LinternaMagica.prototype.create_web_log_close_link = function()
+{
+    var close = document.createElement("a");
+    close.textContent="x";
+    close.setAttribute("href", "#");
+    close.setAttribute("class", "linterna-magica-web-log-close "+
+		       " linterna-magica-web-log-right-buttons");
+    close.setAttribute("title", this._("Remove log"));
+
+    return close;
 }
 
 // Show or hide the web log
@@ -248,78 +277,90 @@ LinternaMagica.prototype.show_or_hide_web_log = function(event, element)
 {
     event.preventDefault();
 
-    // Get the element by Id. Finding the object by tag name is not
-    // good idea when there are other objects in the header or in the
-    // linterna-magica-<id> container.
-    var id = element.getAttribute("id");
-    // linterna-magica-logo-<integer>
-    id = id.split("-");
-    id = id[id.length-1];
+    var logger = document.getElementById('linterna-magica-web-log');
+    var debug_button = document.
+	getElementById('linterna-magica-web-log-debug-button-wrap');
 
-    var log = document.getElementById("linterna-magica-web-log");
-
-    // We have one log object for the entire LinternaMagica object.
-    // On click event from the interface it is cloned/copied and
-    // inserted in the linterna-magica-<id> container. Instead of
-    // hiding it is removed. On next click it is copied again. This
-    // way new messages from the log object will be visible.
-    var local_log = log.cloneNode(true);
-
-    var obj =  document.getElementById("linterna-magica-video-object-"+id);
-
-    local_log.setAttribute("id","linterna-magica-web-log-clone-"+id);
-
-    // The entire log 
-    local_log.setAttribute("class", "linterna-magica-web-log-clone");
-    // The header
-    local_log.firstChild.
-	setAttribute("class","linterna-magica-web-log-clone-header");
-    // Body 
-    local_log.lastChild.style.removeProperty("display");
-    local_log.lastChild.setAttribute("class", "linterna-magica-web-"+
-				     "log-clone-messages");
-
-    local_log.style.setProperty("width", 
-				obj.style.getPropertyValue("width"),
-				"important");
-    local_log.style.setProperty("height", 
-				obj.style.getPropertyValue("height"),
-				"important");
-
-    local_log.style.setProperty("overflow", "auto", "important");
-
-    var about = document.getElementById("linterna-magica-about-box-"+id);
-    
-    var updates = document.
-	getElementById("linterna-magica-update-info-box-"+id);
-
-    if (local_log)
+    if (!logger || !debug_button)
     {
-	// Ensure that the updates box is hidden.
-	if (updates && !updates.style.display)
-	{
-	    updates.style.setProperty("display","none", "important");
-	}
+	return null;
+    }
 
-	// Ensure that the about box is hidden.
-	if (about && !about.style.display)
-	{
-	    about.style.setProperty("display","none", "important");
-	}
+    var visible_logger = logger.style.getPropertyValue('display');
+    
+    if (visible_logger)
+    {
+	debug_button.style.setProperty("display", "none", "important");
+	logger.style.removeProperty("display");
+    }
+    else
+    {
+	logger.style.setProperty("display", "none", "important");
+	debug_button.style.removeProperty("display");
+    }
+}
 
-	if(local_log.style.display &&
-	   !document.getElementById("linterna-magica-web-log-clone-"+id))
-	{
-	    obj.parentNode.appendChild(local_log);
-	    obj.style.setProperty("display","none", "important");
-	    local_log.style.removeProperty("display");
-	}
-	else
-	{
-	    var log = 
-		document.getElementById("linterna-magica-web-log-clone-"+id);
-	    log.parentNode.removeChild(log);
-	    obj.style.removeProperty("display");
-	}
+// Remove the web log from the page
+LinternaMagica.prototype.remove_web_log = function(event, element)
+{
+    var logger = document.getElementById('linterna-magica-web-log');
+    var debug_button = document.
+	getElementById('linterna-magica-web-log-debug-button-wrap');
+
+    if (!logger || !debug_button)
+    {
+	return null;
+    }
+
+    debug_button.parentNode.removeChild(debug_button);
+    logger.parentNode.removeChild(logger);
+
+    var log_buttons = document.querySelectorAll('.linterna-magica-web-log-link');
+
+    for(var i=0, l=log_buttons.length; i<l; i++)
+    {
+	var link = log_buttons[i];
+	link.parentNode.removeChild(link);
+    }
+}
+
+LinternaMagica.prototype.change_web_log_height = function(event, element)
+{
+    var logger = document.getElementById('linterna-magica-web-log');
+    var body = document.getElementById('linterna-magica-web-log-messages');
+    if(!logger || !body)
+    {
+	return null;
+    }
+
+    var is_max = logger.style.getPropertyValue('height');
+
+    if (is_max)
+    {
+	logger.style.removeProperty('height');
+	body.style.removeProperty('height');
+
+    }
+    else
+    {
+	logger.style.setProperty('height', '95%', 'important');
+	body.style.setProperty('height', '95%', 'important');
+    }
+}
+
+LinternaMagica.prototype.select_all_text_in_element =
+function(event, element)
+{
+    if (!window.getSelection)
+    {
+	this.tripple_click = 0;
+	return null;
+    }
+
+    if (event.ctrlKey)
+    {
+	var range = document.createRange();
+	range.selectNode(element);
+	window.getSelection().addRange(range);
     }
 }

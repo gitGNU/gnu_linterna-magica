@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -53,6 +53,8 @@ function LinternaMagica(params)
     // Could be a string, but we need integer.
     this.debug_level = parseInt(params.debug);
 
+    this.set_web_log_expand(params.web_log_expand);
+
     if (this.debug_level && params.log_to == "web")
     {
 	var logger = this.create_web_logger();
@@ -71,9 +73,6 @@ function LinternaMagica(params)
 	else
 	{
 	    body.appendChild(logger);
-	    // With fixed position this is not needed
-	    // var bottom =parseInt(body.clientHeight|| body.offsetHeight)-30;
-	    // logger.style.setProperty("top", bottom+"px", "important");
 	}
     }
     else

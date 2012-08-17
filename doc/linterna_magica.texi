@@ -419,6 +419,7 @@ is a JavaScript object that keeps configuration options in
  @{
     "debug": 0,
     "log_to": "web",
+    "web_log_expand": false,
     "updates": "1w",
     "priority": "html5, self, plugin",
     "autostart": "off",
@@ -471,6 +472,19 @@ Print messages in the web page (default)
 
 @item console
 Use the debugging console of the browser
+
+@end table
+
+@item web_log_expand
+Should the web logger be automatically expanded by default
+
+@table @option
+
+@item false
+No (default)
+
+@item true
+Yes
 
 @end table
 

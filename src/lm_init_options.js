@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -38,6 +38,10 @@ var linterna_magica_options =
 	// web: Print messages in the web page (default)
 	// console: Use the debugging console of the browser
 	"log_to": "web",
+ 	// Should the web logger be automatically expanded by default
+	// false: No (default)
+	// true: Yes
+	"web_log_expand": false,
 	// Should Linterna  Mágica automatically check and notify for
 	// updates.
 	// <time><type>: Check at interval. (default 3w)
