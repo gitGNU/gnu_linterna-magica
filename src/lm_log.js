@@ -169,7 +169,7 @@ LinternaMagica.prototype.create_web_logger = function()
     var header = document.createElement("div");
     header.setAttribute("class",
 			"linterna-magica-web-log-header");
-    header.setAttribute('title', this._('Double-click to change the size'));
+    header.setAttribute('title', this._("Double-click to change the size"));
 
     var p = document.createElement("p");
 
@@ -178,7 +178,7 @@ LinternaMagica.prototype.create_web_logger = function()
     bug_header.setAttribute("class", 
 			  "linterna-magica-web-log-link "+
 			   " linterna-magica-web-log-left-buttons");
-    bug_header.setAttribute('title', this._('Click to change the size'));
+    bug_header.setAttribute('title', this._("Click to change the size"));
 
     bug_header.addEventListener('click',this.change_web_log_height, false);
 

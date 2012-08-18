@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-17 14:07+0300\n"
-"PO-Revision-Date: 2012-08-17 14:10+0300\n"
+"POT-Creation-Date: 2012-08-18 10:39+0300\n"
+"PO-Revision-Date: 2012-08-18 10:41+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -348,6 +348,14 @@ msgstr "Превключване между приставката Lightspark и
 #: ../src/lm_interface_toggle_plugin.js:121
 msgid "Switch between the Totem Vegas plugin for flash and Linterna Mágica"
 msgstr "Превключване между приставката Totem Vegas и Linterna Mágica"
+
+#: ../src/lm_log.js:172
+msgid "Double-click to change the size"
+msgstr "Натиснете да пъти, за да промените размера"
+
+#: ../src/lm_log.js:181
+msgid "Click to change the size"
+msgstr "Натиснете, за да промените размера"
 
 #: ../src/lm_log.js:188 ../src/lm_log.js:256
 msgid "Linterna Mágica error and debug messages"
