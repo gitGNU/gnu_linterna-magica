@@ -202,8 +202,8 @@ LinternaMagica.prototype.release_date = "1299248757";
 //    version: <version>,  // string 
 //});
 LinternaMagica.prototype.updates_page =
-//    "http://linterna-magica.nongnu.org/downloads/updates.js";
-    "http://localhost/lm/downloads/updates.js";
+    "http://linterna-magica.nongnu.org/downloads/updates.js";
+//    "http://localhost/lm/downloads/updates.js";
 
 // When this is a function the internal _() function could be used.
 LinternaMagica.prototype.description = function()
