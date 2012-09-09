@@ -39,7 +39,18 @@ button-higher-quality.png
 	Distributed under the terms of the GNU GPL either version 3 of
 	the License, or (at your option) any later version.
 
+button-toggle-plugin-with-logo-90deg.png
+
+	Based on button-toggle-plugin-with-logo.png
+
+	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
 button-about-90deg.png
+button-about-270deg.png
 
 	Based on button-about.png
 
@@ -50,9 +61,14 @@ button-about-90deg.png
 	the License, or (at your option) any later version.
 
 button-close-90deg.png
+button-close-270deg.png
 button-debug-90deg.png
+button-debug-270deg.png
+button-higher-quality-90deg.png
+button-update-270deg.png
 
-	Based on button-close.png and button-debug.png
+	Based on button-close.png, button-debug.png and
+	button-higher-quality.png
 
 	Copyright (C) 2011  Anton Katsarov <anton@katsarov.org>
 	Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
@@ -109,3 +125,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
+

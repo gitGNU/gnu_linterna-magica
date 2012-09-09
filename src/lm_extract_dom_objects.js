@@ -192,7 +192,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		var remote_site = 
 		    this.create_remote_site_link(object_data);
 
-		var before =  object.nextSibling;
+		var before =  object;
 
 		if (before)
 		{
@@ -202,6 +202,36 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		{
 		    object_data.parent.appendChild(remote_site);
 		}
+
+		object.style.setProperty("position", "relative", "important");
+		object.style.setProperty("background-color", "black", "important");
+		object.style.setProperty("z-index", "9999999", "important");
+		object.style.setProperty("display", "block", "important");
+		object.style.setProperty("border",
+					      "1px solid #36393E", "important");
+
+		var top = (remote_site.offsetTop - object.offsetTop);
+		var w = this.extract_object_width(object, true);
+		var h = this.extract_object_height(object, true);
+		h = (this.min_remote_object_height > h || h == this.min_height) ? 
+		    this.min_remote_object_height : h;
+
+		remote_site.style.setProperty("width",
+					      (w+13)+"px", "important");
+		object.style.setProperty("width", (w-2)+"px", "important");
+
+		object.style.setProperty("top", top+"px", "important");
+		object.style.setProperty("min-height", h+"px", "important");
+
+		object.parentNode.style.setProperty("overflow",
+						    "visible", "important");
+
+		object.parentNode.parentNode.
+		    style.setProperty("overflow", 
+				      "visible", "important");
+		object.parentNode.parentNode.
+		    parentNode.style.setProperty("overflow", "visible",
+						 "important");
 
 		// We only need:
 		// * linetrna_magica_id to be set;
@@ -305,7 +335,8 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 }
 
 // Find the flash object width
-LinternaMagica.prototype.extract_object_width = function(element)
+LinternaMagica.prototype.extract_object_width =
+function(element, dont_force_min)
 {
     if (!/HTML(embed|iframe|object)element/i.test(element))
     {
@@ -318,7 +349,8 @@ LinternaMagica.prototype.extract_object_width = function(element)
     var width = null ;
 
     if (element.hasAttribute("width")
-	&& !/\%/.test(element.getAttribute("width")))
+	&& !/\%/.test(element.getAttribute("width"))
+	&& !isNaN(element.getAttribute("width")))
     {
 	width = element.getAttribute("width");
     }
@@ -340,16 +372,17 @@ LinternaMagica.prototype.extract_object_width = function(element)
     }
 
 
-    if (!width)
+    if (!width || (width < this.min_width && !dont_force_min))
     {
-	width = 300;
+	width = this.min_width;
     }
 
     return parseInt(width);
 }
 
 // Find the flash object height
-LinternaMagica.prototype.extract_object_height = function(element)
+LinternaMagica.prototype.extract_object_height =
+function(element, dont_force_min)
 {
     if (!/HTML(embed|iframe|object)element/i.test(element))
     {
@@ -363,7 +396,8 @@ LinternaMagica.prototype.extract_object_height = function(element)
     var height = null ;
 
     if (element.hasAttribute("height")
-	&& !/\%/.test(element.getAttribute("height")))
+	&& !/\%/.test(element.getAttribute("height"))
+	&& !isNaN(element.getAttribute("height")))
     {
 	height = element.getAttribute("height");
     }
@@ -392,9 +426,9 @@ LinternaMagica.prototype.extract_object_height = function(element)
 	height = element.parentNode.offsetHeight;
     }
 
-    if (!height)
+    if (!height || (height<this.min_height && !dont_force_min))
     {
-	height = 150;
+	height = this.min_height;
     }
 
     return parseInt(height);

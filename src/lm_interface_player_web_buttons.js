@@ -30,217 +30,360 @@
 // Create web controls
 LinternaMagica.prototype.create_controls = function(object_data)
 {
-    var id= object_data.linterna_magica_id;
+    var id = object_data.linterna_magica_id;
+    var controls_wrapper = document.createElement("div");
+
+    if (this.controls)
+    {
+	// setTimout timers for the volume slider hide function
+	this.volume_slider_timers[id] = new Array();
+
+	var controls_time_slider = document.createElement("div");
+	controls_time_slider.setAttribute("class", "linterna-magica-controls-time-slider");
+	controls_time_slider.setAttribute("id", "linterna-magica-controls-time-slider-wrapper-"+id);
+	controls_time_slider.style.setProperty("width",
+					       ((parseInt(object_data.width))+"px"),
+					       "important");
+
+	// User agent sniffing is ugly and not recommended. Is it there a
+	// better way?
+	var mouse_scroll = /WebKit/i.test(navigator.userAgent) ?
+	    "mousewheel" : "DOMMouseScroll";
+
+	var time_slider = this.create_time_slider(object_data);
+
+	var time_slider_scroll_function = function(ev)
+	{
+	    var el = this;
+	    self.time_slider_scroll_event.apply(self, [ev, el]);
+	};
+
+	time_slider.addEventListener(mouse_scroll, 
+				     time_slider_scroll_function, false);
+
+	var time_slider_click_function =  function(ev)
+	{
+	    var el = this;
+	    self.time_slider_click_event.apply(self, [ev, el]);
+	};
+
+	time_slider.addEventListener("click", time_slider_click_function, false);
+
+	var time_knob = time_slider.getElementsByTagName("a")[0];
+
+	time_knob.addEventListener("mousedown", function(ev)
+				   {
+				       ev.preventDefault();
+				       // Stop the time ticker
+				       clearInterval(self.player_timers[id]);
+				       delete self.player_timers[id];
+
+				       self.slider_control.apply(self, [ev]);
+				   }, false);
+
+	controls_time_slider.appendChild(time_slider);
+	
+	controls_wrapper.appendChild(controls_time_slider);
+    }
 
     var controls = document.createElement("div");
     controls.setAttribute("class", "linterna-magica-controls");
+    controls.setAttribute("id", "linterna-magica-controls-"+id);
+    controls.style.setProperty("width",
+			     ((parseInt(object_data.width))+"px"),
+			     "important");
 
-    var self =this;
-
-    var started_clip = this.find_started_clip();
-
-    var play = this.create_play_button(object_data);
-
-    // Only pause button should be visible on autostart
-    // Auto start only if no other clip is playing.
-    if (this.autostart && started_clip == null)
+    if (this.controls)
     {
-	play.style.setProperty("display", "none", "important");
+	var self = this;
+
+	var started_clip = this.find_started_clip();
+
+	var play = this.create_play_button(object_data);
+
+	// Only pause button should be visible on autostart
+	// Auto start only if no other clip is playing.
+	if (this.autostart && started_clip == null)
+	{
+	    play.style.setProperty("display", "none", "important");
+	}
+
+	var play_click_function = function(ev)
+	{
+	    var el = this;
+	    self.play_button_click_event.apply(self, [ev, el]);
+	};
+
+	play.addEventListener("click", play_click_function, false);
+	controls.appendChild(play);
+
+	var pause = this.create_pause_button(object_data);
+
+	// Only play button should be visible if !autostart or another
+	// clip is strated.
+	if (!this.autostart || started_clip !== null)
+	{
+	    pause.style.setProperty("display", "none", "important");
+	}
+
+	var pause_click_function = function(ev)
+	{
+	    var el = this;
+	    self.pause_button_click_event.apply(self, [ev, el]);
+	};
+
+	pause.addEventListener("click", pause_click_function, false);
+	controls.appendChild(pause);
+
+	var stop = this.create_stop_button(object_data);
+
+	var stop_click_function = function(ev)
+	{
+	    var el = this;
+	    self.stop_button_click_event.apply(self, [ev, el]);
+	};
+
+	stop.addEventListener("click", stop_click_function, false);
+	controls.appendChild(stop);
+
+	var mute = this.create_mute_button(object_data);
+
+	var mute_click_function = function(ev)
+	{
+	    var el = this;
+	    self.mute_button_click_event.apply(self, [ev, el]);
+	};
+
+	mute.addEventListener("click", mute_click_function, false);
+
+	var mute_mouse_over_function = function(ev)
+	{
+	    var el = this;
+	    var id = el.getAttribute("id").split('-');
+	    id = id[id.length-1];
+
+	    self.mute_button_mouse_over_event.apply(self, [ev, el]);
+
+	    for(var i=0,l=self.volume_slider_timers[id].length; i<l; i++)
+	    {
+		clearTimeout(self.volume_slider_timers[id][i]);
+		self.volume_slider_timers[id].pop(i);
+	    }
+
+	    el.addEventListener("mouseout", volume_slider_hide_function, false);
+	}
+
+	mute.addEventListener("mouseover", mute_mouse_over_function, false);
+	mute.addEventListener("mousemove", mute_mouse_over_function, false);
+
+	var volume_slider_hide_function = function(ev)
+	{
+	    var el = this;
+	    var id = el.getAttribute("id").split('-');
+	    id = id[id.length-1];
+
+	    var volume_slider_hide_timeout_function = function ()
+	    {
+		self.volume_slider_hide_event.apply(self, [ev, el]);
+	    }
+
+	    var time_id = setTimeout(volume_slider_hide_timeout_function, 700);
+	    self.volume_slider_timers[id].push(time_id);
+	}
+
+	mute.addEventListener("mouseout", volume_slider_hide_function, false);
+
+	controls.appendChild(mute);
+
+	var volume_slider  = this.create_volume_slider(object_data);
+	var volume_text = volume_slider.getElementsByTagName("span")[0];
+
+	var volume_slider_scroll_function = function(ev)
+	{
+	    var el = this;
+	    self.volume_slider_scroll_event.apply(self, [ev, el]);
+	};
+
+	volume_slider.addEventListener(mouse_scroll,
+				       volume_slider_scroll_function, false);
+
+	var volume_slider_click_function = function(ev)
+	{
+	    var el = this;
+	    self.volume_slider_click_event.apply(self, [ev, el]);
+	};
+
+	volume_slider.addEventListener("click",
+				       volume_slider_click_function, false);
+
+	volume_slider.addEventListener("mouseover", mute_mouse_over_function, false);
+	volume_slider.addEventListener("mousemove", mute_mouse_over_function, false);
+
+	volume_slider.addEventListener("mouseout", volume_slider_hide_function, false);
+
+	var volume_knob = volume_slider.getElementsByTagName("a")[0];
+
+	volume_knob.addEventListener("mousedown", function(ev)
+				     {
+					 ev.preventDefault();
+					 self.slider_control.apply(self, [ev]);
+				     }, false);
+
+	controls.appendChild(volume_slider);
+
+	var time_text = document.createElement("span");
+	time_text.style.display = "none";
+	time_text.setAttribute("class", "linterna-magica-controls-slider-text "+
+			       " linterna-magica-controls-time-slider-text");
+	time_text.setAttribute("id", "linterna-magica-controls-"+
+			       "time-slider-text-"+id);
+
+	time_text.textContent="--:--:--";
+
+	controls.appendChild(time_text);
+
+	var fullscreen = this.create_fullscreen_button(object_data);
+
+	var fullscreen_click_function = function(ev)
+	{
+	    var el = this;
+	    self.fullscreen_button_click_event.apply(self, [ev, el]);
+	};
+    	
+	fullscreen.addEventListener("click",
+				    fullscreen_click_function, false);
+	controls.appendChild(fullscreen);
     }
 
-    var play_click_function = function(ev)
+    var dw_link = document.createElement("a");
+
+    dw_link.textContent = this._("Download");
+    dw_link.setAttribute("title", this._("Save the video clip"));
+
+    dw_link.setAttribute("id", "linterna-magica-video-download-link-"+id);
+    dw_link.setAttribute("class", "linterna-magica-video-download-link");
+    dw_link.setAttribute("href", object_data.link);
+
+    if (!object_data.link)
     {
-	var el = this;
-	self.play_button_click_event.apply(self, [ev, el]);
-    };
-
-    play.addEventListener("click", play_click_function, false);
-    controls.appendChild(play);
-
-    var pause = this.create_pause_button(object_data);
-
-    // Only play button should be visible if !autostart or another
-    // clip is strated.
-    if (!this.autostart || started_clip !== null)
-    {
-	pause.style.setProperty("display", "none", "important");
+	dw_link.style.setProperty("display", "none", "important");
     }
 
-    var pause_click_function = function(ev)
+    controls.appendChild(dw_link);
+
+    var site_html5_player =
+	this.find_site_html5_player_wrapper(object_data.parent);
+
+    var toggle_plugin_switch_type = 
+	site_html5_player ? "html5" : "plugin";
+
+    // If the plugin is not installed this is useless
+    if (this.plugin_is_installed || site_html5_player)
+    {
+	// append before download link (first button in the header)
+	var toggle_plugin = 
+	    this.create_toggle_plugin_link(null,id,
+					   toggle_plugin_switch_type);
+
+	controls.appendChild(toggle_plugin);
+    }
+
+    // Log to web
+    if (this.debug_level && this.log_to == "web")
+    {
+	var log_link  =  this.create_web_log_link();
+
+	log_link.setAttribute("class", 
+			      "linterna-magica-web-log-link");
+	log_link.setAttribute("id",
+			      "linterna-magica-web-log-link-"+id);
+
+	log_link.addEventListener("click",
+				  this.show_or_hide_web_log, false);
+
+	controls.appendChild(log_link);
+    }
+
+    var self = this;
+    var update_notifier = this.create_update_notifier_link(id);
+
+    if (!this.updates_data)
+    {
+	update_notifier.style.setProperty("display", "none", "important");
+    }
+
+    var notifier_click_function = function(ev)
     {
 	var el = this;
-	self.pause_button_click_event.apply(self, [ev, el]);
+	self.show_or_hide_update_info.apply(self, [ev, el]);
     };
+    
+    update_notifier.addEventListener("click",
+				     notifier_click_function,
+				     false);
 
-    pause.addEventListener("click", pause_click_function, false);
-    controls.appendChild(pause);
-
-    var stop = this.create_stop_button(object_data);
-
-    var stop_click_function = function(ev)
-    {
-	var el = this;
-	self.stop_button_click_event.apply(self, [ev, el]);
-    };
-
-    stop.addEventListener("click", stop_click_function, false);
-    controls.appendChild(stop);
-
-    var time_slider = this.create_time_slider(object_data);
-
-    // User agent sniffing is ugly and not recommended. Is it there a
-    // better way?
-    var mouse_scroll = /WebKit/i.test(navigator.userAgent) ?
-	"mousewheel" : "DOMMouseScroll";
-
-    var time_slider_scroll_function = function(ev)
-    {
-	var el = this;
-	self.time_slider_scroll_event.apply(self, [ev, el]);
-    };
-
-    time_slider.addEventListener(mouse_scroll, 
-				 time_slider_scroll_function, false);
-
-    var time_slider_click_function =  function(ev)
-    {
-	var el = this;
-	self.time_slider_click_event.apply(self, [ev, el]);
-    };
-
-    time_slider.addEventListener("click", time_slider_click_function, false);
-
-    var time_knob = time_slider.getElementsByTagName("a")[0];
-
-    time_knob.addEventListener("mousedown", function(ev)
-			       {
-				   ev.preventDefault();
-				   // Stop the time ticker
-				   clearInterval(self.player_timers[id]);
-				   delete self.player_timers[id];
-
-				   self.slider_control.apply(self, [ev]);
-			       }, false);
-
-    controls.appendChild(time_slider);
-
-    var volume_slider  = this.create_volume_slider(object_data);
-    var volume_text = volume_slider.getElementsByTagName("span")[0];
-
-    var volume_slider_scroll_function = function(ev)
-    {
-	var el = this;
-	self.volume_slider_scroll_event.apply(self, [ev, el]);
-    };
-
-    volume_slider.addEventListener(mouse_scroll,
-				   volume_slider_scroll_function, false);
-
-    var volume_slider_click_function = function(ev)
-    {
-	var el = this;
-	self.volume_slider_click_event.apply(self, [ev, el]);
-    };
-
-    volume_slider.addEventListener("click",
-				   volume_slider_click_function, false);
-
-    var volume_knob = volume_slider.getElementsByTagName("a")[0];
-
-    volume_knob.addEventListener("mousedown", function(ev)
-				 {
-				     ev.preventDefault();
-				     self.slider_control.apply(self, [ev]);
-				 }, false);
-
-    controls.appendChild(volume_slider);
-
-    var mute = this.create_mute_button(object_data);
-
-    var mute_click_function = function(ev)
-    {
-	var el = this;
-	self.mute_button_click_event.apply(self, [ev, el]);
-    };
-
-    mute.addEventListener("click", mute_click_function, false);
-    controls.appendChild(mute);
-
-    var fullscreen = this.create_fullscreen_button(object_data);
-
-    var fullscreen_click_function = function(ev)
-    {
-	var el = this;
-	self.fullscreen_button_click_event.apply(self, [ev, el]);
-    };
-    				
-    fullscreen.addEventListener("click",
-				fullscreen_click_function, false);
-    controls.appendChild(fullscreen);
-
+    controls.appendChild(update_notifier);
+   
+    // Create HD links
     if (object_data.hd_links)
     {
-	var hd_links = this.create_hd_links_button(object_data);
-	controls.appendChild(hd_links);
+	var p = 
+	    this.compute_preferred_hd_link(object_data.hd_links);
 
-	// For RTL pages and LM translations we order the controls
-	// from right to left. 
-
-	// For RTL translations we are using Totem
-	// (LANGUAGE=ar_SA.utf8 totem) for reference. Any RTL LANGUAGE
-	// should do.
-
-	// For RTL pages it is needed, because otherwise in YouTube
-	// the HD links list is rendered at the right end of the
-	// screen, where it might not be visible.
-
-	if (this.get_document_direction() == "rtl" || 
-	    this.languages[this.lang].__direction == "rtl")
+	// No link is calculated. Set to lowest.
+	if (p == null || isNaN(p))
 	{
-	    controls.setAttribute("dir", "rtl");
+	    p = object_data.hd_links[object_data.hd_links.length-1];
+	}
+	
+	object_data.preferred_link = p;
 
-	    var children = controls.childNodes;
+	// Set the link for the player and download link.
+	object_data.link = object_data.hd_links[p].url;
+	dw_link.setAttribute("href", object_data.hd_links[p].url);
+    }
 
-	    var class_b = "linterna-magica-controls-buttons";
-	    var class_hs = "linterna-magica-controls-horizontal-slider";
-	    var hd_wrapper_id = "linterna-magica-hd-wrapper-"+id;
+    // For RTL pages and LM translations we order the controls
+    // from right to left. 
 
-	    for(var b=0,l=children.length; b<l; b++)
+    // For RTL translations we are using Totem
+    // (LANGUAGE=ar_SA.utf8 totem) for reference. Any RTL LANGUAGE
+    // should do.
+
+    // For RTL pages it is needed, because otherwise in YouTube
+    // the HD links list is rendered at the right end of the
+    // screen, where it might not be visible.
+
+    if (this.get_document_direction() == "rtl" || 
+	this.languages[this.lang].__direction == "rtl")
+    {
+	controls.setAttribute("dir", "rtl");
+
+	var children = controls.childNodes;
+
+	var class_b = "linterna-magica-controls-buttons";
+	var class_hs = "linterna-magica-controls-horizontal-slider";
+
+	for(var b=0,l=children.length; b<l; b++)
+	{
+	    var child = children[b];
+
+	    var has_b_class = 
+		this.object_has_css_class(child, class_b);
+
+	    var has_hs_class = 
+		this.object_has_css_class(child, class_hs);
+
+	    if (has_b_class || has_hs_class)
 	    {
-		var child = children[b];
-
-		var has_b_class = 
-		    this.object_has_css_class(child, class_b);
-
-		var has_hs_class = 
-		    this.object_has_css_class(child, class_hs);
-
-		var is_hd_wrapper = (child.hasAttribute("id") && 
-				     child.getAttribute("id") ==
-				     hd_wrapper_id) ? true : false;
-
-		if (has_b_class || has_hs_class)
-		{
-		    child.style.setProperty("float", "right", "important");
-		}
-
-		if (is_hd_wrapper)
-		{
-		    // HD list
-		    // If the CSS changes the 100.5% value should be
-		    // changed.
-		    child.lastChild.style.setProperty("right",
-					    "100.5%", "important");
-
-		    // HD switch 
-		    child.firstChild.style.setProperty("float", "right",
-						       "important");
-		}
+		child.style.setProperty("float", "right", "important");
 	    }
 	}
     }
+        
+    controls_wrapper.appendChild(controls);
 
-    return controls;
+    return controls_wrapper;
 }
 
 // Create play button
@@ -394,21 +537,6 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     time_slider.setAttribute("id",
 			     "linterna-magica-controls-time-slider-"+lm_id);
 
-    // The slider width is calculated from the object width.
-    // 
-    // We have 5 (4) buttons (width + border +padding + margin).
-    // 
-    // Remove the padding, margin, border for each slider (2): 2*x
-    // (padding + border + margin)
-
-    var buttons = object_data.hd_links ? 5 : 4;
-
-    // The time slider uses 3/4 of the space
-    var time_width = parseInt(((object_data.width - (buttons * 21)) * 3/4)-12);
-    time_slider.style.setProperty("width", time_width+"px", "important");
-
-    time_slider.style.setProperty("position", "relative", "important");
-
     var time_knob_move = null;
 
     var doc_dir = this.get_document_direction();
@@ -434,19 +562,6 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     time_knob.setAttribute("href", "#");
 
     time_slider.appendChild(time_knob);
-
-    var time_text = document.createElement("span");
-    time_text.style.display = "none";
-    time_text.setAttribute("class", "linterna-magica-controls-slider-text");
-    time_text.setAttribute("id", "linterna-magica-controls-"+
-			   "time-slider-text-"+lm_id);
-
-    time_text.textContent="--:--:--";
-    time_text.style.setProperty("left",
-				parseInt(time_width/2)+"px",
-				"important");
-
-    time_slider.appendChild(time_text);
 
     return time_slider;
 }
@@ -515,27 +630,13 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
     var volume_slider = document.createElement("div");
 
     volume_slider.setAttribute("class",
-			       "linterna-magica-controls-horizontal-slider");
+			       "linterna-magica-controls-horizontal-slider "+
+			       "linterna-magica-controls-volume-slider");
     volume_slider.setAttribute("id", "linterna-magica-controls-"+
 			       "volume-slider-"+lm_id);
     volume_slider.setAttribute("title", this._("Volume control"));
 
-    // The slider width is calculated from the object width.
-    // 
-    // We have 5 (4) buttons (width + border +padding + margin)
-    // 
-    // Remove the padding, margin, border for each slider (2): 2 * x
-    // (padding + border + margin)
-
-    var buttons = object_data.hd_links ? 5 : 4;
-
-    // The volume slider uses 1/4 of the space
-    var volume_width = parseInt(((object_data.width -
-				  (buttons * 21)) * 1/4)-12);
-
-    volume_slider.style.setProperty("width",
-				    volume_width+"px",
-				    "important");
+    volume_slider.style.setProperty("display", "none", "important");
 
     var volume_knob_move = null;
 
@@ -564,12 +665,10 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
 
     var volume_text = document.createElement("span");
     volume_text.setAttribute("class",
-			     "linterna-magica-controls-slider-text");
+			     "linterna-magica-controls-slider-text "+
+			    " linterna-magica-controls-volume-slider-text");
     volume_text.setAttribute("id", "linterna-magica-controls-"+
 			     "volume-slider-text-"+lm_id);
-    volume_text.style.setProperty("left",
-				  parseInt(volume_width/3)+"px",
-				  "important");
 
     volume_text.textContent = "--";
     volume_slider.appendChild(volume_text);
@@ -639,6 +738,30 @@ LinternaMagica.prototype.create_mute_button = function(object_data)
     return mute;
 }
 
+LinternaMagica.prototype.mute_button_mouse_over_event = function (event, element)
+{
+    var self = this;
+    var mute = element;
+
+    // Linterna Magica object id
+    var id = element.getAttribute("id").
+	replace(/linterna-magica-controls-button-mute-/,"");
+
+    var id_string = "linterna-magica-controls-volume-slider-"+id;
+
+    var volume_slider = 
+	document.getElementById(id_string);
+
+
+    if (!volume_slider)
+    {
+	return null;
+    }
+
+    volume_slider.style.removeProperty("display");
+}
+
+
 // The function executed on DOM click event for the mute button
 LinternaMagica.prototype.mute_button_click_event = function (event, element)
 {
@@ -692,6 +815,16 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	// muted.
 	volume_knob.setAttribute("title",this._("Muted"));
 	volume_text.textContent = "0%";
+
+	mute.lm_volume_knob_direction = 
+	    volume_knob.style.getPropertyValue('left') ? "left" : "right";
+
+	mute.lm_volume_knob_position =
+	    volume_knob.style.getPropertyValue(
+		mute.lm_volume_knob_direction);
+
+	volume_knob.style.setProperty(mute.lm_volume_knob_direction,
+				      "0px", "important");
     }
     else
     {
@@ -716,7 +849,33 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	// cursor is above the volume slider knob and the sound is
 	// *not* muted.
 	volume_knob.setAttribute("title", this._("Volume control"));
+
+	volume_knob.style.setProperty(mute.lm_volume_knob_direction,
+				      mute.lm_volume_knob_position,
+				      "important");
     }
+}
+
+LinternaMagica.prototype.volume_slider_hide_event = function(event, element)
+{
+    if (!element.hasAttribute('id'))
+    {
+ 	return null;
+    }
+
+    var id = element.getAttribute("id").split('-');
+    id = id[id.length-1];
+
+    var volume_slider = 
+	document.getElementById("linterna-magica-controls-"+
+				"volume-slider-"+id);
+
+    if (!volume_slider)
+    {
+	return null;
+    }
+
+    volume_slider.style.setProperty("display", "none", "important");
 }
 
 // Create fullscreen button

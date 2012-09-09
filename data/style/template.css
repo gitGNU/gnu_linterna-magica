@@ -32,6 +32,12 @@ div.dmpi_video_playerv4 div.linterna-magica,
     /* Fix header buttons displacement in boozho.com */
     /* Fixes entire interface displacement */
     clear: left !important;
+    height: auto !important;
+    z-index: 99 !important;
+    /* See LinternaMagica.prototype.min_height and */
+    /* LinternaMagica.prototype.min_width in  */
+    /* lm_constructors.js */
+    min-height: 212px !important;
 }
 
 /* The message paragraph in the object */
@@ -44,8 +50,8 @@ div.dmpi_video_playerv4 div.linterna-magica,
 }
 /* The header div */
 body div#top_content_box div.dmpi_video_playerv4
-div.linterna-magica-header,
-.linterna-magica-header {
+div.linterna-magica-controls-time-slider,
+.linterna-magica-controls-time-slider {
     text-align: left  !important;
     color: #333333  !important;
     background: gray url('header-background.png') 0 0 repeat-x !important;
@@ -54,49 +60,120 @@ div.linterna-magica-header,
     border: solid #666666  !important;
     border-width: 1px 0px  !important;
     position: relative  !important;
+    top: 0px !important;
 }
 
 /* The logo/about link in the header */
 .linterna-magica-logo {
     position: absolute  !important;
     display: block  !important;
-    width: 120px  !important;
-    height: 24px  !important;
-    top: 0  !important;
-    right: 0px  !important;
+    width: 24px  !important;
+    height: 116px  !important;
+    top: -1px !important;
+    right: -15px  !important;
     margin: 0px  !important;
-    background: url('button-about.png') 0 0 no-repeat !important;
+    background: url('button-about-90deg.png') 0 0 no-repeat !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
     /* Hint that there is help */
     cursor: help !important;
+    border: 1px solid #36393E !important;
+    /* Above web page elements. Below video object */
+    z-index: 9999 !important;
 }
 
+.linterna-magica-logo:hover {
+    right: -25px !important;
+}
 
 /* The link that switches between LinternaMagica and the plugin */
 /* (the bottom of a flash object) */
 .linterna-magica-toggle-plugin {
     display: block  !important;
     text-decoration: none  !important;
-    width: 146px  !important;
-    height: 24px  !important;
+    width: 24px  !important;
+    height: 146px  !important;
     position: absolute !important;
-    right: 0px  !important;
-    background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
+    right: -15px  !important;
+    background: url('button-toggle-plugin-with-logo-90deg.png') 0 0 no-repeat !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
+    border: 1px solid #36393E !important;
+}
+
+.linterna-magica-remote-clip-buttons,
+.linterna-magica-toggle-plugin-wrapper {
+    position:relative!important;
+    z-index: 999999 !important;
+    display: block !important;
+    right: 0px !important;
+    top: 0px !important;
+    width: 100% !important;
+}
+
+.linterna-magica-remote-clip-buttons {
+    width: 100% !important;
+    height: 168px !important; 
+    border: 1px solid #36393E !important;
+}
+
+.linterna-magica-toggle-plugin:hover {
+    right: -24px !important;
+}
+
+p.linterna-magica-remote-clip-buttons:hover {
+    right: -9px !important;
+}
+
+.linterna-magica-remote-clip-buttons a {
+    display: block !important;
+    right: 0px !important;
+    margin: 0 !important;
+    top: 0 !important;
+    position: relative !important;
+    padding: 0 !important;
+    color:#ffffff !important;
+    height: 146px !important;
+    width: 24px !important;
+    text-decoration: none !important;
+    overflow: hidden;
+    line-height: 3000px;
+    float: right !important;
+    right: 0px !important;
+}
+
+a.linterna-magica-remote-clip-visit-page-button {
+    background: url('button-toggle-plugin-with-logo-90deg.png') 0 0 no-repeat !important;
+}
+
+/* The link that destroys the remote clip link */
+a.linterna-magica-remote-clip-close-button {
+    background: url('button-close-90deg.png') 0 0 no-repeat !important;
+    height: 24px !important;
+    width: 24px !important;
+    position:relative !important;
+    display: block !important;
+    top: -2px !important;
+    clear: both !important;
 }
 
 /* about message (license, author... every row) */
-.linterna-magica-update-info-box
-body div#top_content_box div.dmpi_video_playerv4
-div.linterna-magica-about-box,
+body div#top_content_box div.dmpi_video_playerv4,
+div.linterna-magica-update-info-box, 
+.linterna-magica-update-info-box,
+div.linterna-magica-about-box, 
 .linterna-magica-about-box {
     background: #000000 !important;
     font-size: 12px !important;
     line-height: 1.3em !important;
     padding-top: 20px !important;
     font-family: 'Liberation Sans', 'Arial', sans-serif  !important;
+    display:block !important;
+    position:relative !important;
+    z-index: 99999 !important;
+    height: auto !important;
+    width: 100% !important;
+    padding-bottom: 20px !important;
 }
 
 .linterna-magica-update-info-box p,
@@ -153,7 +230,7 @@ div.linterna-magica-controls,
     font-weight: normal !important;
     display: block !important;
     bottom: 0px !important;
-    position: absolute !important;
+    position: relative !important;
     /* Hides the HD links list. The HD list was */
     /* moved to the controls footer, because of */
     /* https://savannah.nongnu.org/bugs/?34465 */
@@ -212,6 +289,7 @@ a.linterna-magica-controls-buttons-unmute {
 a.linterna-magica-controls-buttons-fullscreen {
     background: url('button-fullscreen.png') 0 0 no-repeat !important;
     width: 26px !important;
+    float: right !important;
 }
 
 /* time && volume slider (div) */
@@ -228,8 +306,8 @@ div.linterna-magica-controls-horizontal-slider,
     height: 22px !important;
     position: relative !important;
     color: #ffffff !important;
-    margin-left: 3px !important;
     background: url('slider-background.png') left bottom repeat-x !important;
+    width: 100% !important;
 }
 
 /* time && volume slider knob (<a>) */
@@ -245,7 +323,9 @@ div.linterna-magica-controls-horizontal-slider,
     z-index: 9999 !important;
 }
 
-/* The video download link in the header */
+
+
+/* The video download link */
 .linterna-magica-video-download-link {
     background: url('button-download.png') 0 0 no-repeat !important;
     height: 24px !important;
@@ -257,7 +337,7 @@ div.linterna-magica-controls-horizontal-slider,
     line-height: 3000px  !important;
     outline: none  !important;
     display: block !important;
-    float: left !important;
+    float: right !important;
 }
 
 /* The link that switches between LinternaMagica and the plugin */
@@ -284,7 +364,7 @@ div.linterna-magica-controls-horizontal-slider,
     line-height: 3000px  !important;
     outline: none  !important;
     display: block !important;
-    float: left !important;
+    float: right !important;
 }
 
 
@@ -301,6 +381,22 @@ div.linterna-magica-controls-horizontal-slider,
     cursor: default !important;
     /* Fix black rectangle above image background for some videos at myvideo.de */
     background-color: transparent !important;
+}
+
+.linterna-magica-controls-volume-slider {
+    margin-left: 3px !important;
+    width: 80px !important;
+    display: block !important;
+}
+
+.linterna-magica-controls-volume-slider-text {
+    left: 35% !important;
+}
+
+.linterna-magica-controls-time-slider-text {
+    top: 6px !important;
+    color: #ffffff !important;
+    margin-left: 10px !important;
 }
 
 /* The hd links wrapper div */
@@ -324,12 +420,12 @@ div.linterna-magica-hd-links-list,
     /* which is not what we want. At 16% it */
     /* is fine with YouTube and Vimeo, not */
     /* too wide. */
-    width: 16% !important;
+    width: 350% !important;
     height: auto !important;
     /* ^^^Fix height and width in dailymotion: The site sets them to */
     /* 100% but the list shows partly under the header */
-    bottom: -2px !important;
-    left: 100.5% !important;
+    bottom: 26px !important;
+    left: 12px !important;
     overflow-y: auto !important;
     /* Hide scrollbars for HD links in YouTube */
     overflow-x: hidden !important;
@@ -339,7 +435,8 @@ div.linterna-magica-hd-links-list,
     position: absolute  !important;
     font-size: 13px  !important;
     padding: 0px 0 !important;
-    z-index: 9999 !important;
+    /* Above web page elements and logo at the right */
+    z-index: 99999 !important;
 }
 
 .linterna-magica-hd-links-list ul {
@@ -378,7 +475,7 @@ div.linterna-magica-hd-links-list,
 /* <div>hd links list</div> */
 /*</div> */
 .linterna-magica-switch-hd {
-    background: url('button-higher-quality.png') 0 0 no-repeat !important;
+    background: url('button-higher-quality-90deg.png ') 0 0 no-repeat !important;
     height: 24px !important;
     width: 24px !important;
     position: relative !important;
@@ -389,6 +486,26 @@ div.linterna-magica-hd-links-list,
     outline: none  !important;
     display: block !important;
     float: left !important;
+    /* Above web page elements. Below video object */
+    z-index: 9999 !important;
+}
+
+.linterna-magica-hd-wrapper {
+    bottom: 78px !important;
+    display: block !important;
+    float: right !important;
+    position: relative !important;
+    right: -15px !important;
+    width: 24px !important;
+    border: 1px solid #36393E !important;
+}
+
+.linterna-magica-hd-wrapper:hover {
+    right: -25px !important;
+}
+
+.linterna-magica-hd-wrapper:hover > .linterna-magica-hd-links-list {
+    left: 2px !important;
 }
 
 /* Fix displacement in reuters.com. The function delete_object_if_id*/
@@ -401,6 +518,7 @@ div.linterna-magica-hd-links-list,
 }
 
 /* The update button */
+.linterna-magica-side-update-notifier-button-update-icon,
 .linterna-magica-update-notifier-link {
     background: url('button-update.png') 0 0 no-repeat !important;
     height: 24px !important;
@@ -413,7 +531,11 @@ div.linterna-magica-hd-links-list,
     outline: none  !important;
     display: block !important;
     float: right !important;
-    right: 122px !important;
+}
+
+.linterna-magica-side-update-notifier-button-update-icon {
+    background: url('button-update-270deg.png') 0 0 no-repeat !important;
+    top: 116px !important;
 }
 
 /* The web log  button */
@@ -429,7 +551,6 @@ div.linterna-magica-hd-links-list,
     outline: none  !important;
     display: block !important;
     float: right !important;
-    right: 122px !important;
 }
 
 div.linterna-magica-web-log, 
@@ -546,9 +667,10 @@ div.linterna-magica-web-log,
 }
 
 
+.linterna-magica-side-update-notifier-button-wrap,
 .linterna-magica-web-log-debug-button-wrap {
     position: fixed !important;
-    right: -12px !important;
+    right: -10px !important;
     bottom: 105px !important;
     float: right !important;
     line-height: 10000px !important;
@@ -561,6 +683,11 @@ div.linterna-magica-web-log,
     z-index: 10000000000000000 !important;
 }
 
+.linterna-magica-side-update-notifier-button-wrap {
+   bottom: 275px !important;
+}
+
+p.linterna-magica-side-update-notifier-button-wrap:hover,
 p.linterna-magica-web-log-debug-button-wrap:hover {
     right: 0px !important;
 }
@@ -572,16 +699,18 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     color: black !important;
 }
 
+.linterna-magica-side-update-notifier-button,
 .linterna-magica-web-log-debug-button {
-    background: gray url('button-about-90deg.png') 0 0 no-repeat !important;
+    background: gray url('button-about-270deg.png') 0 0 no-repeat !important;
     height: 116px!important;
     width: 24px!important;
     display:block!important;
     border: none !important;
 }
 
+.linterna-magica-side-update-notifier-button-close,
 .linterna-magica-web-log-debug-button-close {
-    background: url('button-close-90deg.png') 0 0 no-repeat !important;
+    background: url('button-close-270deg.png') 0 0 no-repeat !important;
     width: 24px !important;
     height: 24px !important;
     position:relative !important;
@@ -592,7 +721,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 }
 
 .linterna-magica-web-log-debug-button-bug {
-    background: gray url('button-debug-90deg.png') 0 0 no-repeat !important;
+    background: gray url('button-debug-270deg.png') 0 0 no-repeat !important;
     height: 24px!important;
     width: 24px!important;
     display:block!important;
@@ -602,30 +731,12 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     border: none !important;
 }
 
-.linterna-magica-remote-clip-buttons  {
-    position: relative !important;
+.linterna-magica-video-object-wrapper,
+.linterna-magica-video-object,
+.linterna-magica-video-object p {
+    /* Above HD button and logo at the right */
     z-index: 99999 !important;
-    /* See https://savannah.nongnu.org/bugs/?33303*/
-    margin-bottom: 50px !important;
-}
-
-p.linterna-magica-remote-clip-buttons a {
-    display: block !important;
-    right: 0 !important;
-    margin: 0 !important;
-    top: 0 !important;
-    position: relative !important;
-    padding: 0 !important;
-    color:#ffffff !important;
-    height: 24px !important;
-    /* border: 1px dashed white !important; */
-    float: right !important;
-    text-decoration: none !important;
-    overflow: hidden;
-    line-height: 3000px;
-}
-/* The link that destroys the remote clip link */
-a.linterna-magica-remote-clip-close-button {
-    background: url('button-close.png') 0 0 no-repeat !important;
-    width: 24px !important;
+    display:block !important;
+    position:relative !important;
+    background-color: black !important;
 }

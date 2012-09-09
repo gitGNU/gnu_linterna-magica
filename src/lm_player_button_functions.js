@@ -283,7 +283,7 @@ LinternaMagica.prototype.player.state = function(id)
     time.string = (hour_pos ?
 		   (hour_pos+":") : "")+
 	(min_pos+":")+
-	((sec_pos<10)?"0"+sec_pos:sec_pos) +"/"+
+	((sec_pos<10)?"0"+sec_pos:sec_pos) +" / "+
 	(hour_dur ? (hour_dur+":") : "") +
 	(min_dur+":")+
 	((sec_dur<10)?"0"+sec_dur:sec_dur);
@@ -370,7 +370,10 @@ LinternaMagica.prototype.player.stop = function(id)
     }
     else if (/vlc/i.test(player_name))
     {
-	video_object.playlist.stop();
+	if (video_object.playlist)
+	{
+	    video_object.playlist.stop();
+	}
     }
     else if (/xine/i.test(player_name))
     {

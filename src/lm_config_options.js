@@ -74,6 +74,7 @@ LinternaMagica.prototype.set_priority = function(priority)
     {
 	var o = set_priority_to[i];
 
+
 	// Check for valid option and use only them
 	if (/plugin/i.test(o) || /self/i.test(o) || /html5/i.test(o))
 	{

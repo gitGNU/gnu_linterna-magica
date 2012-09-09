@@ -31,12 +31,13 @@ LinternaMagica.prototype.check_for_updates = function()
 {
     // Configured to not update
     // or the build is from SVN
-    if (this.updates == -1 || 
-	/svn/i.test(this.version))
+    if (this.updates == -1)
+	// || 
+	//  	/svn/i.test(this.version))
     {
-	return  null;
+    	return  null;
     }
-
+  
     if (this.check_for_updates_once)
     {
 	return null;
@@ -45,6 +46,8 @@ LinternaMagica.prototype.check_for_updates = function()
     // Prevent several video objects to call this and make a
     // mess. Only the first one will execute the code.
     this.check_for_updates_once = true;
+
+    
 
     var updates_mul;
     var in_seconds ;
@@ -117,9 +120,11 @@ LinternaMagica.prototype.check_for_updates = function()
 // "frame" (object)
 LinternaMagica.prototype.parse_updated_version_data = function(data)
 {
-    var version = data.version;
+  
+    var new_release_date = new Date(data.date * 1000);
+    var current_release_date  = new Date(this.release_date*1000);
 
-    if ( version != this.version)
+    if ( new_release_date > current_release_date )
     {
 
 	var date = data.date;
@@ -138,39 +143,45 @@ LinternaMagica.prototype.parse_updated_version_data = function(data)
 	// To be used by other functions
 	this.updates_data = new Object();
 	this.updates_data.date = date;
-	this.updates_data.version = version;
+	this.updates_data.version = data.version;
 	this.updates_data.format_date = format_date;
 
-	var self = this;
-	// Add notifier in the headers of all video objects 
-	for (var n=0, l=this.found_flash_video_objects+1; n<l; n++)
+	// Show the notifier in the controls
+	var notifier_buttons = 
+	    document.querySelectorAll('.linterna-magica-update-'+
+				      'notifier-link');
+
+	for(var i=0, l=notifier_buttons.length; i<l; i++)
 	{
-	    // header
-	    var h = document.getElementById("linterna-magica-header-"+n);
+	    var button = notifier_buttons[i];
+	    button.style.removeProperty("display");
+	    button.setAttribute("title",
+				this._("New version")+
+				": "+data.version+". "+this._("Date")+": "+
+				this._(format_date[2]) + " "+
+				this._(format_date[1]) + " " +
+				this._(format_date[3]));
+	    var id = button.getAttribute("id").split(/-/);
+	    id = id[id.length-1];
 
-	    // container 
-	    var lm = document.getElementById("linterna-magica-"+n);
+	    var video_object = this.get_video_object(id);
+	    var heigh = this.extract_object_height(video_object);
+	    var info_box = 
+		document.getElementById("linterna-magica-"+
+					"update-info-box-"-id);
 
-	    if (h && lm)
+	    if (!info_box)
 	    {
-
-		var notifier = this.create_update_notifier_link(n);
-		var update_info = this.create_update_info_box(n);
-
-		var notifier_click_function = function(ev)
+		var info_box = this.create_update_info_box(id,video_object);
+		var lm = document.getElementById("linterna-magica-"+id);
+		if (lm)
 		{
-		    var el = this;
-		    self.show_or_hide_update_info.apply(self, [ev, el]);
-		};
-
-		notifier.addEventListener("click",
-					  notifier_click_function,
-					  false);
-
-		h.appendChild(notifier);
-		lm.appendChild(update_info);
+		    lm.appendChild(info_box);
+		}
 	    }
 	}
+
+	var side_button = this.create_side_update_notifier_button();
     }
 }
 
@@ -178,14 +189,21 @@ LinternaMagica.prototype.parse_updated_version_data = function(data)
 // Create a notifier for the user in the header
 LinternaMagica.prototype.create_update_notifier_link = function(id)
 {
-    var date = this.updates_data.date;
-    var version = this.updates_data.version;
-    var format_date =  this.updates_data.format_date;
-
     var title = 
-	this._("New version")+
-	": "+version+". "+this._("Date")+": "+this._(format_date[2]) + " "+
-	this._(format_date[1]) + " " + this._(format_date[3]);
+	this._("New version");
+
+    if (this.updates_data)
+    {
+	var date = this.updates_data.date;
+	var version = this.updates_data.version;
+	var format_date =  this.updates_data.format_date;
+
+	title +=
+	": "+version+". "+this._("Date")+": "+
+	    this._(format_date[2]) + " "+
+	    this._(format_date[1]) + " " +
+	    this._(format_date[3]);
+    }
     
     var notifier = document.createElement("a");
 
@@ -201,7 +219,7 @@ LinternaMagica.prototype.create_update_notifier_link = function(id)
 
 //  Information to be showed when the notifier link about updates in
 //  the header is clicked
-LinternaMagica.prototype.create_update_info_box = function(id)
+LinternaMagica.prototype.create_update_info_box = function(id, object_height)
 {
     var date = this.updates_data.date;
     var version = this.updates_data.version;
@@ -211,6 +229,12 @@ LinternaMagica.prototype.create_update_info_box = function(id)
     div.style.setProperty("display", "none", "important");
     div.setAttribute("class", "linterna-magica-update-info-box");
     div.setAttribute("id", "linterna-magica-update-info-box-"+id);
+
+    div.style.setProperty("height", 
+			  // The about box and the update info box
+			  // have 20px top and bottom padding
+			  parseInt(object_height-40)+"px",
+			  "important");
 
     // Other 
     var p = document.createElement('p');
@@ -240,7 +264,10 @@ LinternaMagica.prototype.create_update_info_box = function(id)
 // Information for updates
 LinternaMagica.prototype.show_or_hide_update_info = function(event, element)
 {
-    event.preventDefault();
+    if (event)
+    {
+	event.preventDefault();
+    }
 
     // Get by Id. Finding the object by tag name is not good idea when
     // there are other objects in the header.
@@ -266,14 +293,91 @@ LinternaMagica.prototype.show_or_hide_update_info = function(event, element)
 	}
 
 	if (updates.style.display)
-	{
+	{    
 	    updates.style.removeProperty("display");
-	    obj.style.setProperty("display","none", "important");
+	    this.hide_lm_video_object(id);
 	}
 	else
 	{
 	    updates.style.setProperty("display","none", "important");
-	    obj.style.removeProperty("display");
+	    this.show_lm_video_object(id);
 	}
     }
+}
+
+LinternaMagica.prototype.create_side_update_notifier_button = function()
+{
+    var side_button = document.createElement("p");
+    side_button.setAttribute('class', 'linterna-magica-side-update-notifier-button-wrap');
+    side_button.setAttribute('id', 'linterna-magica-side-update-notifier-button-wrap');
+
+    var logo = this.create_side_update_notifier_link();
+    logo.textContent = '';
+    logo.setAttribute('class',
+		      'linterna-magica-side-update-notifier-button');
+    
+    side_button.appendChild(logo);
+
+    var update_icon = document.createElement('span');
+    update_icon.setAttribute('class', 'linterna-magica-side-update-'+
+			     'notifier-button-update-icon');
+
+    logo.appendChild(update_icon);
+
+    var close = this.create_side_update_notifier_close_link();
+
+    side_button.appendChild(close);
+
+    close.addEventListener("click", this.remove_side_update_notifier, false);
+
+    document.body.appendChild(side_button);
+}
+
+// The button/link in the header making the web log element visible
+LinternaMagica.prototype.create_side_update_notifier_link = function()
+{
+    var date = this.updates_data.date;
+    var version = this.updates_data.version;
+    var format_date =  this.updates_data.format_date;
+
+    var update_info =
+	this._("New version is available.")+"\n"+
+	"Linterna Mágica"+" "+version+
+	" "+this._("released at")+" "+this._(format_date[2]) + " "+
+ 	this._(format_date[1]) + " "+this._(format_date[3])+"\n"+
+	this._("Read the news section at the home page");
+
+    var link = this.pack_external_link(
+	this.homepage+"/#news",
+	update_info);
+
+    link.setAttribute("title", update_info);
+
+    return link;
+}
+
+LinternaMagica.prototype.create_side_update_notifier_close_link = function()
+{
+    var close = document.createElement("a");
+    close.textContent="x";
+    close.setAttribute("href", "#");
+    close.setAttribute("class", "linterna-magica-side-update-"+
+		       "notifier-button-close")
+    close.setAttribute("title", this._("Remove update notifier"));
+
+    return close;
+} 
+
+LinternaMagica.prototype.remove_side_update_notifier = function(event, element)
+{
+    var update_notifier = 
+	document.getElementById('linterna-magica-side-update-'+
+				'notifier-button-wrap');
+
+    if (!update_notifier)
+    {
+	return null;
+    }
+
+    update_notifier.parentNode.removeChild(update_notifier);
 }

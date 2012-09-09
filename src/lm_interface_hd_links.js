@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -77,7 +77,14 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 
 	// The ticker function stops and deletes the previous
 	// timer/interval when there is no acces to the object.
-	this.player.init.apply(this,[id]);
+	if (this.controls)
+	{
+	    this.player.init.apply(this,[id]);
+	}
+	else if(!this.controls && !this.get_player_name(id))
+	{
+	    this.player.set_player_name.apply(this,[id]);
+	}
 
 	var control_id = "linterna-magica-controls-button-play-"+id;
 	var play = document.getElementById(control_id);
@@ -216,6 +223,7 @@ LinternaMagica.prototype.create_hd_links_button = function(object_data)
 
     var hd_wrapper = document.createElement("div");
     hd_wrapper.setAttribute("id", "linterna-magica-hd-wrapper-"+id);
+    hd_wrapper.setAttribute("class", "linterna-magica-hd-wrapper");
 
     var hd_button = document.createElement("a");
 
@@ -297,3 +305,4 @@ LinternaMagica.prototype.create_hd_links_list = function(object_data)
 
     return hd_links;
 }
+

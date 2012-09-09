@@ -58,11 +58,10 @@ function(not_in_header,id,switch_type)
 	toggle_plugin.textContent = "Linterna Mágica >>";
 	toggle_plugin.setAttribute("id", 
 				   "linterna-magica-toggle-plugin-"+id);
-	// Fix link displacement after an object (vbox7 and others)
+
 	wrapper = document.createElement("p");
 	wrapper.appendChild(toggle_plugin);
-	wrapper.style.setProperty("position", "relative", "important");
-	wrapper.style.setProperty("z-index", "999999", "important");
+	wrapper.setAttribute("class", "linterna-magica-toggle-plugin-wrapper");
     }
     else
     {
@@ -91,7 +90,8 @@ function(not_in_header,id,switch_type)
     else
     {
 	var flash_mime_type = navigator.mimeTypes['application/x-shockwave-flash'];
-	var flash_plugin = flash_mime_type.enabledPlugin.filename;
+	var flash_plugin = flash_mime_type.enabledPlugin ? 
+	    flash_mime_type.enabledPlugin.filename : '';
 
 	// TRANSLATORS: The tooltip for the buttons that switch
 	// between LM and a flash plugin.
@@ -143,11 +143,10 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
     linterna_magica_id = linterna_magica_id.split("-");
     linterna_magica_id = linterna_magica_id[linterna_magica_id.length-1];
 
-    var video_object =
-	document.getElementById("linterna-magica-video-object-"+
-				linterna_magica_id);
+    var lm_interface =
+	document.getElementById("linterna-magica-"+linterna_magica_id);
 
-    if (!video_object)
+    if (!lm_interface)
     {
 	return null;
     }
@@ -158,10 +157,10 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	this.get_flash_video_object(linterna_magica_id,
 				    // The parent of the div holding
 				    // Linterna Mágica
-				    video_object.parentNode.parentNode);
+				    lm_interface.parentNode);
     if (!site_player)
     {
-	html5_parent = video_object.parentNode.parentNode;
+	html5_parent = lm_interface.parentNode;
 	site_player = 
 	    this.find_site_html5_player_wrapper(html5_parent);
 
@@ -174,7 +173,7 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
     // Visible flash, hidden video object. Display has value (none)
     // when the object is hidden.
     if (!site_player.style.getPropertyValue("display") &&
-	video_object.parentNode.style.getPropertyValue("display"))
+	lm_interface.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
 		 "Replacing/hiding swf object (id:"+
@@ -192,7 +191,9 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	    this.hide_site_html5_player(html5_parent);
 	}
 
-	this.show_lm_video(linterna_magica_id);
+	lm_interface.parentNode.style.setProperty("height",
+						  "auto", "important");
+	this.show_lm_interface(linterna_magica_id);
 
 	// Init the web controls
 	if (this.controls)
@@ -201,12 +202,12 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	}
 	
 	// Hide the external toggle plugin link
-	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
+	var ext_toggle_wrapper = lm_interface.nextSibling;
 	ext_toggle_wrapper.style.setProperty("display", "none", "important");
     }
     // Hidden flash, visible video object. Display has value (none)
     // when the object is hidden.
-    else if (!video_object.parentNode.style.getPropertyValue("display") &&
+    else if (!lm_interface.style.getPropertyValue("display") &&
 	     site_player.style.getPropertyValue("display"))
     {
 	this.log("LinternaMagica.toggle_plugin:\n"+
@@ -225,10 +226,28 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	    this.show_site_html5_player(html5_parent);
 	}
 
-	this.hide_lm_video(linterna_magica_id);
+	var about = document.getElementById("linterna-magica-about-box-"+
+					    linterna_magica_id);
+
+	var update_info =
+	    document.getElementById("linterna-magica-update-info-box-"+
+				    linterna_magica_id);
+
+	if (about && !about.style.display)
+	{
+	    this.about(null, about);
+	}
+
+	if (update_info && !update_info.style.display)
+	{
+	    this.show_or_hide_update_info(null, update_info);
+	}
+
+	lm_interface.parentNode.style.removeProperty("height");
+	this.hide_lm_interface(linterna_magica_id);
 	
 	// External toggle plugin link
-	var ext_toggle_wrapper = video_object.parentNode.nextSibling;
+	var ext_toggle_wrapper = lm_interface.nextSibling;
 	ext_toggle_wrapper.style.removeProperty("display");
     }
 }

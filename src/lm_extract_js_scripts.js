@@ -125,6 +125,19 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 		this.extract_object_from_script_pokkariplayer();
 	}
 
+	if (object_data && object_data.width && object_data.height)
+	{
+	    if(object_data.height < this.min_height)
+	    {
+		object_data.height = this.min_height;
+	    }
+	    
+	    if (object_data.width < this.min_width)
+	    {
+		object_data.width = this.min_width;
+	    }
+	}
+
 	if(object_data && object_data.video_id && !object_data.link)
 	{
 	    this.log("LinternaMagica.constructor:\n"+

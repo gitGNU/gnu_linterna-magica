@@ -147,7 +147,10 @@ LinternaMagica.prototype.create_about_box = function(id)
 // Information for the script.
 LinternaMagica.prototype.about = function(event, element)
 {
-    event.preventDefault();
+    if (event)
+    {
+	event.preventDefault();
+    }
 
     // Get by Id. Finding the object by tag name is not good idea when
     // there are other objects in the header.
@@ -174,12 +177,12 @@ LinternaMagica.prototype.about = function(event, element)
 	if(about.style.display)
 	{
 	    about.style.removeProperty("display");
-	    obj.style.setProperty("display","none", "important");
+	    this.hide_lm_video_object(id);
 	}
 	else
 	{
 	    about.style.setProperty("display","none", "important");
-	    obj.style.removeProperty("display");
+	    this.show_lm_video_object(id);
 	}
     }
 }

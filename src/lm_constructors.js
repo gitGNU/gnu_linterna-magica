@@ -105,6 +105,10 @@ function LinternaMagica(params)
     // (with JSONP data) on every page. check_for_updates() is called
     // in create_video_object().
 
+    // Examine the option for updates and check if necessary.
+    this.updates_data = null;
+    this.check_for_updates();
+
     // Add the style sheet to the head of the document.
     this.create_stylesheet();
 
@@ -121,8 +125,11 @@ function LinternaMagica(params)
     {
 	// setInterval ids for the video time position counter function
 	this.player_timers = new Array();
-    }
 
+	// setTimout ids that hide the volume sliders
+	this.volume_slider_timers = new Array();
+    }
+ 
     var position_function = null ;
     if (this.plugin_is_installed)
     {
@@ -195,8 +202,8 @@ LinternaMagica.prototype.release_date = "1299248757";
 //    version: <version>,  // string 
 //});
 LinternaMagica.prototype.updates_page =
-    "http://linterna-magica.nongnu.org/downloads/updates.js";
-//    "http://localhost/linterna-magica/downloads/updates.js";
+//    "http://linterna-magica.nongnu.org/downloads/updates.js";
+    "http://localhost/lm/downloads/updates.js";
 
 // When this is a function the internal _() function could be used.
 LinternaMagica.prototype.description = function()
@@ -222,6 +229,22 @@ LinternaMagica.prototype.license = function()
     );
 }
 
+// Two control bars (2x24)
+// One HD links buttom (1x24)
+// One logo button (1x116)
+// One close button after the logo (1x24) 
+LinternaMagica.prototype.min_height = 212;
+
+// Buttons (8x24)
+// Volume slider when visible (1x83)
+// Time text (1x78)
+LinternaMagica.prototype.min_width = 353;
+
+// One close button (1x24)
+// One logo button (1x146)
+// 1px border
+LinternaMagica.prototype.min_remote_object_height = 169;
+
 LinternaMagica.prototype.license_link =
     "https://www.gnu.org/licenses/gpl.html";
 
@@ -233,7 +256,7 @@ LinternaMagica.prototype.savannah_page =
     "https://savannah.nongnu.org/projects/linterna-magica";
 
 LinternaMagica.prototype.bug_report_link = 
-    "https://sv.nongnu.org/support/?func=additem&amp;group=linterna-magica";
+    "https://sv.nongnu.org/bugs/?func=additem&amp;group=linterna-magica";
 
 LinternaMagica.prototype.microblog_link =
     "https://identi.ca/group/linternamagica";

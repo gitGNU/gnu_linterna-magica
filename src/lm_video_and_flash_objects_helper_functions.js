@@ -125,24 +125,52 @@ LinternaMagica.prototype.get_video_object = function(linterna_magica_id)
 }
 
 // Show the video object and the interface
-LinternaMagica.prototype.show_lm_video = function(linterna_magica_id)
+LinternaMagica.prototype.show_lm_interface = function(linterna_magica_id)
 {
-    var lm = this.get_video_object(linterna_magica_id).parentNode;
+    var lm_interface = document.getElementById("linterna-magica-"+
+					       linterna_magica_id);
+    this.__show_lm(lm_interface);
+}
 
-    if (!lm)
+// Hide the video object and the interface
+LinternaMagica.prototype.hide_lm_interface = function(linterna_magica_id)
+{
+    var lm_interface = document.getElementById("linterna-magica-"+
+					       linterna_magica_id);
+    this.__hide_lm(lm_interface, linterna_magica_id);
+}
+
+// Hide the video object and the interface
+LinternaMagica.prototype.hide_lm_video_object = function(linterna_magica_id)
+{
+    var video_object = document.getElementById("linterna-magica-"+
+					       "video-object-wrapper-"+
+					       linterna_magica_id);
+    this.__hide_lm(video_object, linterna_magica_id);
+}
+
+// Show the video object
+LinternaMagica.prototype.show_lm_video_object = function(linterna_magica_id)
+{
+    var video_object = document.getElementById("linterna-magica-"+
+					       "video-object-wrapper-"+
+					       linterna_magica_id);
+    this.__show_lm(video_object);
+}
+
+LinternaMagica.prototype.__show_lm = function(element)
+{
+    if (!element)
     {
 	return null;
     }
 
-    lm.style.removeProperty("display");
+    element.style.removeProperty("display");
 }
 
-// Hide the video object and the interface
-LinternaMagica.prototype.hide_lm_video = function(linterna_magica_id)
+LinternaMagica.prototype.__hide_lm = function(element, linterna_magica_id)
 {
-    var lm = this.get_video_object(linterna_magica_id).parentNode;
-
-    if (!lm)
+    if (!element)
     {
 	return null;
     }
@@ -150,8 +178,9 @@ LinternaMagica.prototype.hide_lm_video = function(linterna_magica_id)
     var self = this;
     this.player.stop.apply(self, [linterna_magica_id]);
 
-    lm.style.setProperty("display", "none", "important");
+    element.style.setProperty("display", "none", "important");
 }
+
 
 // Show the flash video object
 LinternaMagica.prototype.show_flash_video_object =
@@ -338,7 +367,7 @@ function(parent)
 // Hide the HTML5 player wrapper found in the parent element.
 LinternaMagica.prototype.hide_site_html5_player =
 function(parent)
-{    
+{
     var html5_player =
 	this.find_site_html5_player_wrapper(parent);
 

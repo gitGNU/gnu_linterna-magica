@@ -34,6 +34,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     if (typeof(object_data) !== "object")
 	return;
 
+    var toggle_plugin = null;
+
     var id = object_data.linterna_magica_id;
     this.log("LinternaMagica.create_video_object:\n"+
 	     "Creating video object with linterna_magica_id "+id,2);
@@ -58,9 +60,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     }
 
     var container = document.createElement("div");
-    var header = document.createElement("div");
+    var object_tag_wrapper = document.createElement("div");
     var script_name = document.createElement("a");
-    var dw_link = document.createElement("a");
     var object_tag = document.createElement("object");
     var message = document.createElement("p");
     var param = document.createElement("param");
@@ -85,17 +86,11 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     container.style.setProperty("width",
 				(object_data.width+"px"), "important");
-
-    header.setAttribute("class", "linterna-magica-header");
-    header.setAttribute("id", "linterna-magica-header-"+id);
-    header.style.setProperty("width",
-			     ((parseInt(object_data.width))+"px"),
-			     "important");
-
-
+ 
     script_name.textContent = "Linterna Mágica";
     script_name.setAttribute("href", "#");
-    script_name.setAttribute("title", this._("About")+ " Linterna Mágica");
+    script_name.setAttribute("title", this._("About")+ " Linterna Mágica " +
+			     this.version);
     script_name.setAttribute("id", "linterna-magica-logo-"+id);
     script_name.setAttribute("class", "linterna-magica-logo");
 
@@ -106,77 +101,30 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				     self.about.apply(self, [ev, el]);
 				 }, false);
 
+    container.appendChild(script_name);
+
+    object_tag_wrapper.setAttribute("id", "linterna-magica-video-object-wrapper-"+id);
+    object_tag_wrapper.setAttribute("class", "linterna-magica-video-object-wrapper");
+
+    object_tag_wrapper.style.setProperty("height", object_data.height+"px",
+				 "important");
+
+    object_tag_wrapper.style.setProperty("width", object_data.width+"px",
+				 "important");
+
+    object_tag_wrapper.style.setProperty("display", "block",
+					 "important");
+
     var site_html5_player =
 	this.find_site_html5_player_wrapper(object_data.parent);
 
     var toggle_plugin_switch_type = 
 	site_html5_player ? "html5" : "plugin";
 
-    // If the plugin is not installed this is useless
-    if (this.plugin_is_installed || site_html5_player)
-    {
-	// append before download link (first button in the header)
-	var toggle_plugin = 
-	    this.create_toggle_plugin_link(null,id,
-					   toggle_plugin_switch_type);
-
-	header.appendChild(toggle_plugin);
-    }
-
-    dw_link.textContent = this._("Download");
-    dw_link.setAttribute("title", this._("Save the video clip"));
-
-    dw_link.setAttribute("id", "linterna-magica-video-download-link-"+id);
-    dw_link.setAttribute("class", "linterna-magica-video-download-link");
-    dw_link.setAttribute("href", object_data.link);
-
-    if (!object_data.link)
-    {
-	dw_link.style.setProperty("display", "none", "important");
-    }
-
-    header.appendChild(dw_link);
-
-    // Create HD links
-    if (object_data.hd_links)
-    {
-	var p = 
-	    this.compute_preferred_hd_link(object_data.hd_links);
-
-	// No link is calculated. Set to lowest.
-	if (p == null || isNaN(p))
-	{
-	    p = object_data.hd_links[object_data.hd_links.length-1];
-	}
-	
-	object_data.preferred_link = p;
-
-	// Set the link for the player and download link.
-	object_data.link = object_data.hd_links[p].url;
-	dw_link.setAttribute("href", object_data.hd_links[p].url);
-    }
-
-    header.appendChild(script_name);
-
-    // Log to web
-    if (this.debug_level && this.log_to == "web")
-    {
-	var log_link  =  this.create_web_log_link();
-
-	log_link.setAttribute("class", 
-			      "linterna-magica-web-log-link");
-	log_link.setAttribute("id",
-			      "linterna-magica-web-log-link-"+id);
-
-	log_link.addEventListener("click",
-				  this.show_or_hide_web_log, false);
-
-	header.appendChild(log_link);
-    }
-
     object_tag.setAttribute("width", object_data.width);
     object_tag.setAttribute("height", object_data.height);
     object_tag.setAttribute("id","linterna-magica-video-object-"+id);
+    object_tag.setAttribute("class","linterna-magica-video-object");
     object_tag.setAttribute("standby", this._("Loading video..."));
 
     if (object_data.link)
@@ -205,6 +153,12 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     }
 
     message.textContent = this._("Waiting for video plugin...");
+    message.style.setProperty("height", object_data.height+"px",
+				 "important");
+
+    message.style.setProperty("width", object_data.width+"px",
+				 "important");
+
 
     param.setAttribute("name", "autoplay");
     // Find if a clip is already playing.
@@ -239,17 +193,11 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     object_tag.appendChild(param);
 
     object_tag.appendChild(message);
-    container.appendChild(header);
-    container.appendChild(object_tag);
+
+    object_tag_wrapper.appendChild(object_tag);
+    container.appendChild(object_tag_wrapper);
 
     var about_box = this.create_about_box(id);
-    // Fix dailymotion (otherwise it is set to 100%
-    // and it goes out of the "box")
-    about_box.style.setProperty("height",
-				// Using the exact height with small
-				// objects hides the homepage link.
-				(parseInt(object_data.height)-20)+"px",
-				"important");
     container.appendChild(about_box);
     
     // Mark the object, so it is not processed and chacked after
@@ -273,17 +221,12 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
 	if (this.plugin_is_installed && !site_html5_player)
 	{
-	    // Vimeo with Flash plugin installed crashes on
-	    // this.get_flash_video_object(id).nextSibling stating
-	    // this.get_flash_video_object(id) is null. This prevents
-	    // it.
-	    before = ( this.get_flash_video_object(id) &&
-		       this.get_flash_video_object(id).nextSibling) ? 
-		this.get_flash_video_object(id).nextSibling : null;
+	    before = this.get_flash_video_object(id) ?
+		this.get_flash_video_object(id) : null;
 	}
 	else if (site_html5_player)
 	{
-	    before = site_html5_player.nextSibling;
+	    before = site_html5_player;
 	}
 
 	if (before)
@@ -307,17 +250,26 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
-    if (this.controls)
+    if (this.updates_data)
     {
-	var controls = this.create_controls(object_data);
-	container.appendChild(controls);
+	var update_info = this.create_update_info_box(id, object_data.height);
+	container.appendChild(update_info);
     }
 
-    var dom_object =  this.get_flash_video_object(id);
+    var controls = this.create_controls(object_data);
+    container.appendChild(controls);
 
-    if (!dom_object)
+    if (object_data.hd_links)
     {
-	dom_object = site_html5_player;
+	var hd_links = this.create_hd_links_button(object_data);
+	container.appendChild(hd_links);
+    }
+
+    var site_player =  this.get_flash_video_object(id);
+
+    if (!site_player)
+    {
+	site_player = site_html5_player;
     }
 
     // Remove/hide the object if it is in DOM
@@ -325,18 +277,18 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	  !site_html5_player) || 
 	 ((this.priority.self > this.priority.html5) &&
 	  site_html5_player)) &&
-	dom_object &&
+	site_player &&
 	// The object is still in DOM some scripts remove it
-	dom_object.parentNode)
+	site_player.parentNode)
     {
-	if(dom_object.nextSibling)
+	if(site_player.nextSibling)
 	{
-	    object_data.use_sibling = dom_object.nextSibling;
+	    object_data.use_sibling = site_player.nextSibling;
 	}
 
 	if (!site_html5_player)
 	{
-	    this.hide_flash_video_object(id,dom_object.parentNode);
+	    this.hide_flash_video_object(id,site_player.parentNode);
 	}
 	else 
 	{
@@ -371,40 +323,34 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	((this.priority.self < this.priority.html5) && 
 	 site_html5_player))
     {
-	this.hide_lm_video(object_data.linterna_magica_id);
+	this.hide_lm_interface(object_data.linterna_magica_id);
     }
-
-    // Defaults style fixes applied always.
-    about_box.style.setProperty("overflow", "auto", "important");
-
-    container.style.setProperty("height",
-				((parseInt(object_data.height)+26+
-				  (this.controls ? 24 : 0))+"px"),
-				"important");
 
     if (object_data.parent)
     {
 	object_data.parent.style.setProperty("height",
-					     (parseInt(object_data.height)+
-					      26+
-					      // borders 1px x 2
-					      2+
-					      (this.controls ? 24 : 0))+"px",
+					     "auto",
 					     "important");
     }
-
-    
-
-    var dom_object = this.get_flash_video_object(id);
+   
     // Objects extracted from script usually does not have cloned object
     // For example youtube
-    if (dom_object)
+    if (site_player)
     {
 	// Prevent the object to fill the container at 100% (if set)
 	// This way the toggle plugin link after the object is not
 	// overlaping elements.
-	dom_object.style.setProperty("height", object_data.height+"px",
+	site_player.style.setProperty("height", object_data.height+"px",
 				     "important");
+
+
+	// Render site player above Linterna Mágica's button
+	site_player.style.setProperty("position", "relative", "important");
+	site_player.style.setProperty("z-index", "9999999", "important");
+	site_player.style.setProperty("background-color",
+				      "black", "important");
+	site_player.style.setProperty("border",
+				     "1px solid #36393E", "important");
     }
 
     // Prevent the video object to fill the area at 100% and overlap
@@ -451,10 +397,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	{
 	    object_data.parent.parentNode.style.
 		setProperty("height",
-			    (parseInt(object_data.height)+26+
-			     // borders 1px x 2
-			     2+
-			     (this.controls ? 24 : 0)  )+"px",
+			    "auto",
 			    "important");
 
 	    this.log("LinternaMagica.create_video_object:\n"+
@@ -464,6 +407,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
+
     // Init the web controls functions
     // only if Linterna Mágica has priority
     if (this.controls &&
@@ -472,8 +416,17 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	this.player.init.apply(this,[id]);
     }
 
-    // Examine the option for updates and check if necessary.
-    this.check_for_updates();
+    // The player name is needed for the this.player.stop function,
+    // which is called when LM is hidden. It is used in the toggle
+    // plugin button's function to stop the audio when LM is not
+    // visible to work-around dual playback. If the video plugin
+    // controls are used the this.player.init function is not called
+    // and the player name is not set. We need to set it manually. 
+    if (!this.controls && !this.get_player_name(id))
+    {
+	this.player.set_player_name.apply(this,[id]);
+    }
+
 
     // Various CSS fixes
     var self = this;

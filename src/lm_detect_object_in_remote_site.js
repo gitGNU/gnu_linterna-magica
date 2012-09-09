@@ -180,7 +180,7 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     var title = this.
 	_("Watch this video at it's original site with Linterna Mágica");
 
-    a.setAttribute("class", "linterna-magica-toggle-plugin");
+    a.setAttribute("class", "linterna-magica-remote-clip-visit-page-button");
     a.setAttribute("title", title + " ("+object_data.remote_site_link+")");
 
     p.appendChild(a);
@@ -195,6 +195,7 @@ LinternaMagica.prototype.create_remote_site_link = function(object_data)
     {
     	ev.preventDefault();
 	var wrapper =  this.parentNode;
+	wrapper.nextSibling.style.removeProperty("top");
 	wrapper.parentNode.removeChild(wrapper);
     };
 
