@@ -248,6 +248,9 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
 		 "Extracted fmt_url_map.",1);
 
+	this.log("LinternaMagica.extract_youtube_fmt_url_map:\n"+
+		 "RAW map variable:"+fmt,5);
+
 	// Hash with keys fmt_ids and values video URLs
 	var map = new Object();
 
@@ -262,14 +265,16 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
 	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
 	    var link = fmt[url].match(/url=([^&]+)/);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
-
+	    var sig = fmt[url].replace(/\\u0026/g, '&').match(/sig=[^&]+/);
+		sig = sig[sig.length-1].replace(/sig/,'signature');
+	    
 	    if (fmt_id && link)
 	    {
 		links++;
 		link = unescape(link[link.length-1]);
 		link = link.split(/\\u0026/)[0];
 
-		map[fmt_id[fmt_id.length-1]] =  link;
+		map[fmt_id[fmt_id.length-1]] =  link+"&"+sig;
 	    }
 	}
 
