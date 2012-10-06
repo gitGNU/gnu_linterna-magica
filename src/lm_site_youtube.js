@@ -28,8 +28,9 @@
 // END OF LICENSE HEADER
 
 // Extract youtube fmt parameter
-LinternaMagica.prototype.extract_youtube_fmt_parameter = function(data)
+LinternaMagica.prototype.extract_youtube_fmt_parameter = function()
 {
+    var data = this.script_data;
     var fmt_re = new RegExp (
 	"(\\\"|\\\'|\\\&)fmt_list"+
 	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
@@ -235,8 +236,9 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 }
 
 // Extract links data for youtube from fmt_url_map
-LinternaMagica.prototype.extract_youtube_fmt_url_map = function(data)
+LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 {
+    var data = this.script_data;
     var fmt_re = new RegExp (
 	"(\\\"|\\\'|\\\&|\\\&amp;)url_encoded_fmt_stream_map"+
 	    "(\\\"|\\\')*(\\\=|\\\:|,)\\\s*(\\\"|\\\')*"+
@@ -354,8 +356,8 @@ function()
 
     this.extract_video_id_data = data;
 
-    var fmt = this.extract_youtube_fmt_parameter(data);
-    var maps = this.extract_youtube_fmt_url_map(data);
+    var fmt = this.extract_youtube_fmt_parameter();
+    var maps = this.extract_youtube_fmt_url_map();
 
     var hd_links = this.create_youtube_links(fmt, maps);
     var link = (hd_links && hd_links.length) ? hd_links : null;
@@ -381,6 +383,13 @@ function()
     if (embed_id)
     {
 	embed_id= embed_id[embed_id.length-1];
+    }
+
+    if (!width || !height)
+    {
+	var p = document.getElementById("watch-player");
+	height = p ? p.clientHeight : null;
+	width  = p ? p.clientWidth : null;
     }
 
     if (!width || !height)
