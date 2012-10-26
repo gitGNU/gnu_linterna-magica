@@ -196,9 +196,8 @@ function(linterna_magica_id,parent)
 
 
     // See https://savannah.nongnu.org/bugs/?36888
-    flash_object = 
-	this.force_flash_video_object_type(flash_object,
-				     "application/x-shockwave-flash");
+    flash_object = this.force_flash_video_object_start(flash_object);
+
     flash_object.style.removeProperty("display");
 
     return flash_object;
@@ -219,12 +218,108 @@ function(linterna_magica_id, parent)
     // Force the playback to stop. Setting the object on the
     // background and changing its type alone does not work. 
     // See https://savannah.nongnu.org/bugs/?36888
-    flash_object = this.force_flash_video_object_type(flash_object,
-						"x-fake/x-flash-stopped");
+    flash_object = this.force_flash_video_object_stop(flash_object);
 
     flash_object.style.setProperty("display", "none", "important");
 
     return flash_object;
+}
+
+LinternaMagica.prototype.force_flash_video_object_stop =
+function(flash_object)
+{
+    var clone = this.force_flash_video_object_src(flash_object, 
+						     "x-fake-flash");
+    clone = 
+	this.force_flash_video_object_type(clone,
+				       "x-fake/x-flash-stopped");
+
+    clone = this.force_flash_video_object_injection(flash_object, clone);
+
+    return clone;
+}
+
+LinternaMagica.prototype.force_flash_video_object_start =
+function(flash_object)
+{
+    var clone = this.force_flash_video_object_src(flash_object, "swf");
+
+    clone = 
+	this.force_flash_video_object_type(clone,
+				       "application/x-shockwave-flash");
+
+    clone = this.force_flash_video_object_injection(flash_object, clone);
+
+    return clone;
+}
+
+// Add/remove swf from the flash object src/data attribute. Used when
+// hiding the flash player to stop its playback so there is no dual
+// playback as described in bug #36888.
+// See https://savannah.nongnu.org/bugs/?36888
+LinternaMagica.prototype.force_flash_video_object_src =
+function(flash_object, src)
+{
+    if (!flash_object || !src)
+    {
+	return null;
+    }
+
+    var old_src = null;
+
+    if (/swf/i.test(src))
+    {
+	old_src = "x-fake-flash";
+    }
+    else if (/x-fake-flash/i.test(src))
+    {
+	old_src = "swf";
+    }
+    else
+    {
+	return flash_object;
+    }
+
+    var src_attribute = 
+	/object/i.test(flash_object.localName) ? "data" : "src";
+
+    var full_src = flash_object.getAttribute(src_attribute);
+
+    if (!full_src)
+    {
+	return flash_object;
+    }
+
+    full_src = full_src.replace('.'+old_src, '.'+src);
+
+    var clone = flash_object.cloneNode(true);
+    clone.linterna_magica_id = flash_object.linterna_magica_id;
+    
+    clone.setAttribute(src_attribute, full_src);
+
+    return clone;
+}
+
+LinternaMagica.prototype.force_flash_video_object_injection =
+function(flash_object, clone)
+{
+    var sibling = flash_object.nextSibling ? 
+	flash_object.nextSibling : null;
+
+    var parent = flash_object.parentNode;
+
+    flash_object.parentNode.removeChild(flash_object);
+ 
+    if (sibling)
+    {
+	parent.insertBefore(clone, sibling);
+    }
+    else
+    {
+	parent.appendChild(clone);
+    }
+
+    return clone;
 }
 
 // Force the flash object to another type. Used when hiding the flash
@@ -238,29 +333,13 @@ function(flash_object, type)
     {
 	return null;
     }
-
-    var sibling = flash_object.nextSibling ? 
-	flash_object.nextSibling : null;
-
-    var parent = flash_object.parentNode;
-
+  
     var clone = flash_object.cloneNode(true);
     clone.linterna_magica_id = flash_object.linterna_magica_id;
     
-    flash_object.parentNode.removeChild(flash_object);
-
     flash_object = clone;
     flash_object.setAttribute("type", type);
-    
-    if (sibling)
-    {
-	parent.insertBefore(flash_object, sibling);
-    }
-    else
-    {
-	parent.appendChild(flash_object);
-    }
-
+   
     return flash_object;
 }
 
