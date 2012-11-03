@@ -604,6 +604,35 @@ function(object_data)
 	    // will not be displaced.
 	    html5_wrapper.style.setProperty('display', "none", "important");
 
+	    // If the HTML5 player has a fallback CSS class and LM can
+	    // access it it means there is no other option for
+	    // playback. We take over the player.
+	    //
+	    // See bug 37630
+	    // https://savannah.nongnu.org/bugs/index.php?37630
+	    if (this.priority.html5 > this.priority.self)
+ 	    {
+		// It should be available, because it is used above in
+		// this function
+		id = id ? id : object_data.linterna_magica_id;
+
+		this.show_lm_interface(object_data.linterna_magica_id);
+	    
+		// It should be available, because it is used above in
+		// this functon.
+		toggle_plugin = toggle_plugin  ? toggle_plugin :
+		    document.getElementById("linterna-magica-"+
+					    "toggle-plugin-"+id);
+
+		toggle_plugin.parentNode.removeChild(toggle_plugin);
+
+		toggle_plugin_header =
+		    document.getElementById("linterna-magica-"+
+					    "toggle-plugin-header-"+id);
+		
+		toggle_plugin_header.parentNode.removeChild(toggle_plugin_header);
+	    }
+	    
 	    // Hide site controls and video container. Should not
 	    // overlap with Linterna Magica now. Fixes the overlapping
 	    // of HTML5 player and LM.
