@@ -612,7 +612,6 @@ function(object_data)
 	    // https://savannah.nongnu.org/bugs/index.php?37630
 	    if (this.priority.html5 > this.priority.self)
  	    {
-		console.log("in");
 		// It should be available, because it is used above in
 		// this function
 		id = id ? id : object_data.linterna_magica_id;
