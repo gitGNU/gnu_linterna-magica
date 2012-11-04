@@ -81,6 +81,11 @@ LinternaMagica.prototype.extract_link = function()
 	// significant to be exported in src/lm_site_metacafe.js
 	link = link.replace(/\\\//g, "/");
 
+	// Escape spaces.
+	// See bug #37661
+	// https://savannah.nongnu.org/bugs/index.php?37661
+	link = link.replace(/ /g, "%20");
+
 	var self = this;
 	var val = this.call_site_function_at_position.apply(self,[
 	    "process_extracted_link",
