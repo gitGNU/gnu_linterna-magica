@@ -351,11 +351,12 @@ userscripts from the browser.
 @subsection Installation from terminal
 
 Another option to install the userscript is to copy it from a
-terminal.
+terminal. The paths in the examples bellow might be different in your
+configuration and setup.
 
 For Epiphany:
 @sp 1		
-@noindent @samp{cp linternamagica.user.js \@* ~/.gnome2/epiphany/extensions/data/greasemokey/linterna_magica.user.js}
+@noindent @samp{cp linternamagica.user.js \@* ~/.gnome2/epiphany/extensions/data/greasemonkey/linterna_magica.user.js}
 @sp 1		
 
 For GNU IceCat:
