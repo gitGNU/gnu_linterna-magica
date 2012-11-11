@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 18:26+0300\n"
+"POT-Creation-Date: 2012-11-11 17:48+0200\n"
 "PO-Revision-Date: 2012-05-27 18:28+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
@@ -385,10 +385,10 @@ msgstr "Връзка тип „RTSP“"
 msgid "Progressive link"
 msgstr "Връзка тип „Progressive“"
 
-#: ../src/lm_site_youtube.js:111
+#: ../src/lm_site_youtube.js:112
 msgid "Unkown container"
 msgstr "Непознат контейнер"
 
-#: ../src/lm_site_youtube.js:161
+#: ../src/lm_site_youtube.js:162
 msgid "Unkown encoding"
 msgstr "Непознато кодиране"

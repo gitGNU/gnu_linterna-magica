@@ -29,7 +29,7 @@
 @c not, see <http://www.gnu.org/licenses/>.
 @c
 
-@set VERSION 0.0.12
-@set EDITION 0.0.12
-@set UPDATED 10 June 2012
-@set UPDATED-MONTH June
+@set VERSION 0.0.12-4
+@set EDITION 0.0.12-4
+@set UPDATED 11 November 2012
+@set UPDATED-MONTH November
