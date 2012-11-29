@@ -217,7 +217,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		    this.min_remote_object_height : h;
 
 		remote_site.style.setProperty("width",
-					      (w+13)+"px", "important");
+					      (w+12)+"px", "important");
 		object.style.setProperty("width", (w-2)+"px", "important");
 
 		object.style.setProperty("top", top+"px", "important");

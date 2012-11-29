@@ -24,8 +24,8 @@
 body div#top_content_box
 div.dmpi_video_playerv4 div.linterna-magica,
 .linterna-magica {
-    border: 1px solid #36393E  !important;
-    background-color: #000000  !important;
+    /* border: 1px solid #36393E  !important; */
+    background-color: transparent  !important;
     color: black  !important;
     text-align: center  !important;
     position: relative !important;
@@ -44,10 +44,12 @@ div.dmpi_video_playerv4 div.linterna-magica,
 .linterna-magica p {
     color:#ffffff !important
 }
+
 .linterna-magica-web-log-header a,
 .linterna-magica a {
     outline: 0 !important;
 }
+
 /* The header div */
 body div#top_content_box div.dmpi_video_playerv4
 div.linterna-magica-controls-time-slider,
@@ -63,44 +65,41 @@ div.linterna-magica-controls-time-slider,
     top: 0px !important;
 }
 
-/* The logo/about link in the header */
-.linterna-magica-logo {
-    position: absolute  !important;
-    display: block  !important;
-    width: 24px  !important;
-    height: 116px  !important;
-    top: -1px !important;
-    right: -15px  !important;
-    margin: 0px  !important;
-    background: url('button-about-90deg.png') 0 0 no-repeat !important;
-    line-height: 3000px  !important;
-    overflow: hidden  !important;
-    /* Hint that there is help */
-    cursor: help !important;
-    border: 1px solid #36393E !important;
-    /* Above web page elements. Below video object */
-    z-index: 9999 !important;
-}
 
 .linterna-magica-logo:hover {
-    right: -25px !important;
+    top: 0px !important;
 }
 
+/* The logo/about link in the header */
+.linterna-magica-logo,
 /* The link that switches between LinternaMagica and the plugin */
 /* (the bottom of a flash object) */
-.linterna-magica-toggle-plugin {
+.linterna-magica-toggle-plugin,
+/* The buton around clips in remote pages */
+.linterna-magica-remote-clip-buttons a {
     display: block  !important;
     text-decoration: none  !important;
-    width: 24px  !important;
-    height: 146px  !important;
+    width: 146px  !important;
+    height: 24px  !important;
     position: absolute !important;
-    right: -15px  !important;
-    background: url('button-toggle-plugin-with-logo-90deg.png') 0 0 no-repeat !important;
+    right: 0px  !important;
+    background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
     border: 1px solid #36393E !important;
+    top: 11px !important;
 }
 
+/* The logo/about link in the header */
+.linterna-magica-logo {
+    width: 116px  !important;
+    background: url('button-about.png') 0 0 no-repeat !important;
+    cursor: help !important;
+    z-index: 9999 !important;
+    right: -2px !important;
+}
+
+.linterna-magica-logo-wrapper,
 .linterna-magica-remote-clip-buttons,
 .linterna-magica-toggle-plugin-wrapper {
     position:relative!important;
@@ -109,52 +108,42 @@ div.linterna-magica-controls-time-slider,
     right: 0px !important;
     top: 0px !important;
     width: 100% !important;
+    height: 24px !important;
+    background-color: transparent !important;
 }
 
 .linterna-magica-remote-clip-buttons {
-    width: 100% !important;
-    height: 168px !important; 
-    border: 1px solid #36393E !important;
+    top:-24px !important;
 }
 
 .linterna-magica-toggle-plugin:hover {
-    right: -24px !important;
+    top: 0px !important;
 }
 
-p.linterna-magica-remote-clip-buttons:hover {
-    right: -9px !important;
+.linterna-magica-remote-clip-buttons:hover > a {
+    top: -22px !important;
 }
 
 .linterna-magica-remote-clip-buttons a {
-    display: block !important;
-    right: 0px !important;
-    margin: 0 !important;
-    top: 0 !important;
-    position: relative !important;
-    padding: 0 !important;
-    color:#ffffff !important;
-    height: 146px !important;
-    width: 24px !important;
-    text-decoration: none !important;
-    overflow: hidden;
-    line-height: 3000px;
+    top: -12px !important;
     float: right !important;
-    right: 0px !important;
+    right: 12px !important;
 }
 
 a.linterna-magica-remote-clip-visit-page-button {
-    background: url('button-toggle-plugin-with-logo-90deg.png') 0 0 no-repeat !important;
+    background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
+    border-left: none !important;
 }
 
 /* The link that destroys the remote clip link */
 a.linterna-magica-remote-clip-close-button {
-    background: url('button-close-90deg.png') 0 0 no-repeat !important;
+    background: url('button-close.png') 0 0 no-repeat !important;
     height: 24px !important;
     width: 24px !important;
-    position:relative !important;
+    position:absolute !important;
     display: block !important;
-    top: -2px !important;
-    clear: both !important;
+    right: 156px !important;
+    border-right: none !important;
 }
 
 /* about message (license, author... every row) */
@@ -170,7 +159,7 @@ div.linterna-magica-about-box,
     font-family: 'Liberation Sans', 'Arial', sans-serif  !important;
     display:block !important;
     position:relative !important;
-    z-index: 99999 !important;
+    z-index: 999999 !important;
     height: auto !important;
     width: 100% !important;
     padding-bottom: 20px !important;
@@ -234,7 +223,7 @@ div.linterna-magica-controls,
     /* Hides the HD links list. The HD list was */
     /* moved to the controls footer, because of */
     /* https://savannah.nongnu.org/bugs/?34465 */
-    /* overflow: hidden !important; */
+   /* overflow: hidden !important; */
     text-align: center !important;
     color: #333333  !important;
 }
@@ -708,7 +697,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     border: none !important;
 }
 
-.linterna-magica-side-update-notifier-button-close,
+.linterna-magica-sideu-pdate-notifier-button-close,
 .linterna-magica-web-log-debug-button-close {
     background: url('button-close-270deg.png') 0 0 no-repeat !important;
     width: 24px !important;
@@ -735,8 +724,20 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-video-object,
 .linterna-magica-video-object p {
     /* Above HD button and logo at the right */
-    z-index: 99999 !important;
+    z-index: 999999 !important;
     display:block !important;
     position:relative !important;
     background-color: black !important;
 }
+
+.linterna-magica-update-info-box,
+.linterna-magica-about-box,
+.linterna-magica-video-object-wrapper {
+    border: 1px solid #36393E !important;
+}
+
+.linterna-magica {
+    border-bottom: 1px solid #36393E !important;
+}
+
+

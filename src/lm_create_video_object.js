@@ -101,7 +101,10 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				     self.about.apply(self, [ev, el]);
 				 }, false);
 
-    container.appendChild(script_name);
+    var about_wrapper = document.createElement('p');
+    about_wrapper.setAttribute("class", "linterna-magica-logo-wrapper");
+    about_wrapper.appendChild(script_name);
+    container.appendChild(about_wrapper);
 
     object_tag_wrapper.setAttribute("id", "linterna-magica-video-object-wrapper-"+id);
     object_tag_wrapper.setAttribute("class", "linterna-magica-video-object-wrapper");
