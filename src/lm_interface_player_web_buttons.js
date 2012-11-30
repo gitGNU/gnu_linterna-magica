@@ -242,6 +242,31 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
 	controls.appendChild(time_text);
 
+    }
+
+    // Create HD links
+    if (object_data.hd_links)
+    {
+	var p = 
+	    this.compute_preferred_hd_link(object_data.hd_links);
+	
+	// No link is calculated. Set to lowest.
+	if (p == null || isNaN(p))
+	{
+	    p = object_data.hd_links[object_data.hd_links.length-1];
+	}
+	
+	object_data.preferred_link = p;
+
+	// Set the link for the player and download link.
+	object_data.link = object_data.hd_links[p].url;
+
+	var hd_links = this.create_hd_links_button(object_data);
+	controls.appendChild(hd_links);
+    }
+
+
+    if (controls) {
 	var fullscreen = this.create_fullscreen_button(object_data);
 
 	var fullscreen_click_function = function(ev)
@@ -254,6 +279,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
 				    fullscreen_click_function, false);
 	controls.appendChild(fullscreen);
     }
+
 
     var dw_link = document.createElement("a");
 
@@ -323,25 +349,6 @@ LinternaMagica.prototype.create_controls = function(object_data)
 				     false);
 
     controls.appendChild(update_notifier);
-   
-    // Create HD links
-    if (object_data.hd_links)
-    {
-	var p = 
-	    this.compute_preferred_hd_link(object_data.hd_links);
-
-	// No link is calculated. Set to lowest.
-	if (p == null || isNaN(p))
-	{
-	    p = object_data.hd_links[object_data.hd_links.length-1];
-	}
-	
-	object_data.preferred_link = p;
-
-	// Set the link for the player and download link.
-	object_data.link = object_data.hd_links[p].url;
-	dw_link.setAttribute("href", object_data.hd_links[p].url);
-    }
 
     // For RTL pages and LM translations we order the controls
     // from right to left. 

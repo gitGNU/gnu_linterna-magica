@@ -96,7 +96,7 @@ div.linterna-magica-controls-time-slider,
     background: url('button-about.png') 0 0 no-repeat !important;
     cursor: help !important;
     z-index: 9999 !important;
-    right: -2px !important;
+    right: -1px !important;
 }
 
 .linterna-magica-logo-wrapper,
@@ -413,8 +413,8 @@ div.linterna-magica-hd-links-list,
     height: auto !important;
     /* ^^^Fix height and width in dailymotion: The site sets them to */
     /* 100% but the list shows partly under the header */
-    bottom: 26px !important;
-    left: 12px !important;
+    bottom: -2px !important;
+    left: 28px !important;
     overflow-y: auto !important;
     /* Hide scrollbars for HD links in YouTube */
     overflow-x: hidden !important;
@@ -464,7 +464,7 @@ div.linterna-magica-hd-links-list,
 /* <div>hd links list</div> */
 /*</div> */
 .linterna-magica-switch-hd {
-    background: url('button-higher-quality-90deg.png ') 0 0 no-repeat !important;
+    background: url('button-higher-quality.png ') 0 0 no-repeat !important;
     height: 24px !important;
     width: 24px !important;
     position: relative !important;
@@ -480,22 +480,12 @@ div.linterna-magica-hd-links-list,
 }
 
 .linterna-magica-hd-wrapper {
-    bottom: 78px !important;
     display: block !important;
     float: right !important;
     position: relative !important;
-    right: -15px !important;
     width: 24px !important;
-    border: 1px solid #36393E !important;
 }
 
-.linterna-magica-hd-wrapper:hover {
-    right: -25px !important;
-}
-
-.linterna-magica-hd-wrapper:hover > .linterna-magica-hd-links-list {
-    left: 2px !important;
-}
 
 /* Fix displacement in reuters.com. The function delete_object_if_id*/
 /* removes the overlaping flash objects */
@@ -733,8 +723,15 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-update-info-box,
 .linterna-magica-about-box,
 .linterna-magica-video-object-wrapper {
-    border: 1px solid #36393E !important;
+    border-top: 1px solid #36393E !important;
+    border-right: 1px solid #36393E !important;
 }
+
+.linterna-magica-controls-time-slider,
+.linterna-magica-controls {
+    border-right: 1px solid #36393E !important;
+}
+
 
 .linterna-magica {
     border-bottom: 1px solid #36393E !important;

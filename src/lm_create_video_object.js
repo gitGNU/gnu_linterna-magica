@@ -262,12 +262,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     var controls = this.create_controls(object_data);
     container.appendChild(controls);
 
-    if (object_data.hd_links)
-    {
-	var hd_links = this.create_hd_links_button(object_data);
-	container.appendChild(hd_links);
-    }
-
     var site_player =  this.get_flash_video_object(id);
 
     if (!site_player)
