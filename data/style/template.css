@@ -40,6 +40,12 @@ div.dmpi_video_playerv4 div.linterna-magica,
     min-height: 212px !important;
 }
 
+
+.linterna-magica {
+    border-bottom: 1px solid #36393E !important;
+}
+
+
 /* The message paragraph in the object */
 .linterna-magica p {
     color:#ffffff !important
@@ -730,11 +736,6 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-controls-time-slider,
 .linterna-magica-controls {
     border-right: 1px solid #36393E !important;
-}
-
-
-.linterna-magica {
-    border-bottom: 1px solid #36393E !important;
 }
 
 
