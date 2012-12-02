@@ -38,4 +38,5 @@
 // @description  Watch video on the web in a brand new way: You don't need a glint, the magic lantern is ignited!
 // @include        http://*
 // @include        https://*
+// @grant none
 // ==/UserScript==
