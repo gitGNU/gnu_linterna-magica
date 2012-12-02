@@ -27,62 +27,173 @@
 
 // END OF LICENSE HEADER
 
+
+LinternaMagica.prototype.extract_signature_vimeo = function()
+{
+    var data = this.script_data;
+    var signature = null;
+
+    if (!data)
+    {
+	return null;
+    }
+
+    var signature_re =  new RegExp(
+	"(\\\"|\\\')*signature(\\\"|\\\')*:(\\\"|\\\')*([^,\\\"\\\']+)(\\\"|\\\')*",
+	"im");
+
+    signature = data.match(signature_re);
+
+    if (signature && signature[signature.length-2])
+    {
+	signature = signature[signature.length-2];
+    }
+
+    return signature;
+}
+ 
+LinternaMagica.prototype.extract_time_stamp_vimeo = function()
+{
+    var data = this.script_data;
+    var time_stamp = null;
+
+    if (!data)
+    {
+	return null;
+    }
+
+    var time_stamp_re =  new RegExp(
+	"(\\\"|\\\')*[^_]timestamp(\\\"|\\\')*:(\\\"|\\\')*([^,\\\"\\\']+)(\\\"|\\\')*",
+                  // ^^^ Skip cached_timestam
+	"im");
+
+    time_stamp = data.match(time_stamp_re);
+
+    if (time_stamp && time_stamp[time_stamp.length-2])
+    {
+
+	time_stamp = time_stamp[time_stamp.length-2];
+    }
+
+    return time_stamp;
+}
+
+
+LinternaMagica.prototype.extract_codec_and_quality_vimeo = function()
+{
+    var data = this.script_data;
+
+    if (!data)
+    {
+	return null;
+    }
+
+    var files_re =  new RegExp(
+	"(\\\"|\\\')*files(\\\"|\\\')*:(\\\"|\\\')*([^\\\}]+)",
+	"im");
+
+    var files = data.match(files_re);
+
+    if (!files && !files[files.length-1]);
+
+    this.log("LinternaMagica.prototype.extract_codec_and_quality_vimeo:\n"+
+	     "Result from files_re: "+files,5);
+
+    var codecs_data_re = new RegExp(
+	"(\\\"|\\\')*([^:,\\\"\\\']+)(\\\'|\\\")*:\\\[([^\\\]]+)\\\]",
+	"img");
+
+    var codecs_data =  null;
+    var codecs = new Object();
+    codecs.length = -1;
+
+    while(codecs_data = codecs_data_re.exec(files[files.length-1]))
+    {
+	if (codecs_data && codecs_data[codecs_data.length-1] &&
+	    codecs_data[codecs_data.length-3])
+	{
+	    var name = codecs_data[codecs_data.length-3];
+	    var quality = codecs_data[codecs_data.length-1];
+	    quality = quality.replace(/\"|\'|/g, '').split(/,/);
+	    codecs[name] = quality;
+
+	    this.log("LinternaMagica.extract_codec_and_quality_vimeo:\n"+
+		     "Extracted codec "+name+". "+
+		     "Available quality: "+quality.join(", ")+".",5);
+	    codecs.length++;
+	}
+    }
+
+    if (codecs.length == -1)
+    {
+	codecs = null;
+    }
+
+    delete codecs.length;
+
+    return codecs;
+}
+
+LinternaMagica.prototype.create_links_vimeo = function(args)
+{
+    if(!args)
+    {
+	return null;
+    }
+   
+    var links = new Array();
+
+    for (var c in args.codecs)
+    {
+	for (var i=0,l=args.codecs[c].length;i<l; i++)
+	{
+	    var q = args.codecs[c][i].toLowerCase();
+	    var link = new Object();
+
+	    link.url = "http://player.vimeo.com/play_redirect?quality="+q+
+		"&codecs="+c+
+		"&clip_id="+args.object_data.video_id+
+		"&time="+args.time_stamp+
+		"&sig="+args.signature+"&type=html5_desktop_local";
+
+
+	    // Mobile 480x
+	    // SD 640x
+	    // HD 1280x
+
+	    var res = null;
+	    if (q == "mobile")
+	    {
+		res = "480p";
+	    }
+	    else if (q ==  "sd")
+	    {
+		res = "640p";
+	    }
+	    else if (q == "hd")
+	    {
+		res = "1280p";
+	    }
+	    else
+	    {
+		res = "Unknown";
+	    }
+
+	    var codec = c.toUpperCase();
+	    link.label = res + " "+codec;
+	    link.more_info = codec+ " "+q.toUpperCase()+" "+res;
+
+	    links.push(link);
+	}
+    }
+
+    return (links && links.length >=0) ? links : null;
+}
+
 LinternaMagica.prototype.sites["vimeo.com"] = new Object();
 
 // Reference 
 LinternaMagica.prototype.sites["www.vimeo.com"] = "vimeo.com";
-
-// Detect vimeo browser upgrade warning (no flash & h264) .This is
-// called withing setInterval. It is needed because when the elements
-// with the warning are inserted all our data that has been added
-// before that is removed.
-LinternaMagica.prototype.detect_vimeo_browser_upgrade = function(object_data)
-{
-    var detected = 0 ;
-
-    // Keep track of the time
-    this.vimeo_browser_upgrade_counter ++;
-
-    // With default timeout 500mS this will be 3 sec. Stop checking
-    // it must be WebKit, where no script will be found and plugin is
-    // not installed. 
-
-    // 26.02.2011 The warning missing HTML5/Flash is not showing. We
-    // must force as detected otherwise will not work in Firefox.
-    if (this.vimeo_browser_upgrade_counter >= 6)
-    {
-	// Will be cleared in if (detected)
-	// clearInterval(this.vimeo_browser_upgrade_timeout);
-	detected=1;
-    }
-
-    var scripts = object_data.parent.getElementsByTagName("script");
-
-    for(s=0, l=scripts.length; s<l; s++)
-    {
-	if (scripts[s].textContent &&
-	    /Please\s*upgrade/i.test(scripts[s].textContent))
-	    {
-		detected = 1;
-		break;
-	    }
-    }
-
-    if (detected)
-    {
-	clearInterval(this.vimeo_browser_upgrade_timeout);
-
-	this.log("LinternaMagica.detect_vimeo_browser_upgrade:\n"+
-		 "Removing plugin install warning.",2);
-
-	this.remove_plugin_install_warning(object_data.parent);
-
-	this.log("LinternaMagica.detect_vimeo_browser_upgrade:\n"+
-		 "Creating video object.",2);
-
-	this.create_video_object(object_data);
-    }
-}
 
 // Reference YT's function. Checks for HTML5 player and if found, scan
 // scripts.
@@ -128,7 +239,7 @@ LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = functio
 
     var height = el.clientHeight || el.offsetHeight || 
 	el.parentNode.clientHeight || el.parentNode.offsetHeight;
-
+    
     if (video_id && width && height)
     {
 	var object_data = new Object();
@@ -136,6 +247,46 @@ LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = functio
 	object_data.height = height;
 	object_data.video_id = video_id;
 	object_data.parent = el;
+	object_data.mime = "video/mp4";
+
+
+	var time_stamp = this.extract_time_stamp_vimeo();
+	var signature = this.extract_signature_vimeo();
+
+	if (!time_stamp)
+	{
+	    this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
+		     "Unable to extract time stamp. Giving up.",1);
+
+	    return null;
+	}
+
+	if (!signature)
+	{
+	    this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
+		     "Unable to extract signature. Giving up.",1);
+
+	    return null;
+	}
+	
+	var codecs = this.extract_codec_and_quality_vimeo();
+
+	var args  = new Object();
+	args.object_data = object_data;
+	args.codecs = codecs;
+	args.time_stamp = time_stamp;
+	args.signature = signature;
+		
+	var hd_links = this.create_links_vimeo(args);
+	object_data.hd_links = hd_links;
+
+	object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+	
+	if (!object_data.link)
+	{
+	    return null;
+	}
+
 
 	this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
 		 "Object data extracted from script ",1);
@@ -148,110 +299,7 @@ LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = functio
 
     return null;
 }
-
-LinternaMagica.prototype.sites["vimeo.com"].prepare_xhr =
-function(object_data)
-{
-    var result = new Object();
-
-    result.address = "/moogaloop/load/clip:"+object_data.video_id;
-    
-    // Remove cookies and fetch page again. See "A note on
-    // cookies".
-    // this.extract_cookies();
-    // this.expire_cookies();
-
-    return result;
-}
-
-LinternaMagica.prototype.sites["vimeo.com"].process_xhr_response =
-function(args)
-{
-    var object_data = args.object_data;
-    var client = args.client;
-    var xml = client.responseXML;
-
-    var rq_sig = xml.getElementsByTagName("request_signature");
-
-    rq_sig = rq_sig[0].textContent;
-
-    var rq_exp = xml.getElementsByTagName(
-	"request_signature_expires")[0].textContent;
-    var id = xml.getElementsByTagName("video")[0];
-    id= id.getElementsByTagName("nodeId")[0].textContent;
-
-    object_data.link = "http://www.vimeo.com/moogaloop/play/clip:"+
-	id+"/"+rq_sig+"/"+rq_exp+"/?q=sd";
-
-    // Check if there is HD clip
-    var is_hd = xml.getElementsByTagName("isHD");
-    if (is_hd && is_hd[0] && is_hd[0].textContent)
-    {
-	try
-	{
-	    is_hd=parseInt(is_hd[0].textContent);
-	}
-	catch(e)
-	{
-	    is_hd=0;
-	}
-    }
-
-    // HD links support only for clips that have it
-    if (is_hd)
-    {
-	object_data.hd_links = new Array();
-	var hd_link = new Object();
-
-	hd_link.label = this._("Low quality");
-	hd_link.url = object_data.link;
-	object_data.hd_links.unshift(hd_link);
-
-	hd_link = new Object();
-
-	hd_link.label = this._("High quality");
-	hd_link.url = object_data.link.replace(/q=sd/, "q=hd");
-	object_data.hd_links.unshift(hd_link);
-    }
-
-    // Vimeo web server sends the clips as
-    // video/mp4. totemNarrowSpace plugin (plays video/mp4)
-    // sends custom UA. This prevents the video to load. Must
-    // use video/flv, so totemCone plugin could start and send
-    // UA of the browser.  totemNarrowSpace/QuickTime plugin
-    // have other issues as well. Could be forced to
-    // video/flv, but there is a better fix in
-    // create_video_object();
-    object_data.mime = "video/mp4";
-
-    return object_data;
-}
-
-LinternaMagica.prototype.sites["vimeo.com"].insert_object_after_xhr =
-function(object_data)
-{
-
-    // Just return true and let the default code do its job. A special
-    // attention is needed when no plugin is installed.
-    if (this.plugin_is_installed)
-    {
-	return true;
-    }
-    
-    if (!this.vimeo_browser_upgrade_timeout)
-    {
-	this.vimeo_browser_upgrade_counter = 0;
-	var data = object_data;
-	var self = this;
-	this.vimeo_browser_upgrade_timeout = setInterval(
-	    function() {
-		self.detect_vimeo_browser_upgrade.apply(self,[data]);
-	    }, 500);
-    }
-
-    return false;
-}
-
+ 
 LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 {
     // The thumbnail image overlaps the toggle plugin button after our
@@ -286,7 +334,13 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 
     object_data.parent.parentNode.style.
 	setProperty("overflow", "visible", "important");
-	
+
+    object_data.parent.parentNode.style.
+	setProperty("background-color", "transparent", "important");
+
+    object_data.parent.parentNode.style.
+	setProperty("background-image", "none", "important");
+
     // No idea what this fixes.
     var object_tag = 
 	document.getElementById("linterna-magica-video-object-"+
@@ -309,8 +363,10 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 				       (parseInt(object_data.height)+26+
 					// borders 1px x 2
 					2+
-					(this.controls ? 24 : 0)  )+"px",
+					(this.controls ? 24 : 0)  )+40+"px",
 				       "important");
+	third_parent.style.
+	    setProperty("background-color", "transparent", "important");
     }
 
     // Fixes the height of the fourth parent. Fixes replacement object
@@ -326,7 +382,7 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 					(parseInt(object_data.height)+26+
 					 // borders 1px x 2
 					 2+
-					 (this.controls ? 24 : 0)  )+"px",
+					 (this.controls ? 24 : 0)  )+40+"px",
 					"important");
     }
 
@@ -375,6 +431,16 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
     	    div_sbu.parentNode.removeChild(div_sbu);
     	}
     } 
+
+
+    // Fix video galerry displacement on first page when LM volume
+    // slider is showing.
+
+    var gallery = document.getElementById("videos_gallery");
+    if (gallery)
+    {
+	gallery.style.setProperty("margin-top", "90px", "important");
+    }
 
     return false;
 }
