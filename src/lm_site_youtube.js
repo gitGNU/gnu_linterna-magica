@@ -379,10 +379,12 @@ function()
 	embed_id= embed_id[embed_id.length-1];
     }
 
+    var p = this.get_first_element_by_class("flash-player");
+    p = p ? p : this.get_first_element_by_class("html5-player");
+
+
     if (!width || !height)
     {
-	var p = this.get_first_element_by_class("player-root");
-
 	height = p ? p.clientHeight : null;
 	width  = p ? p.clientWidth : null;
     }
@@ -434,7 +436,7 @@ function()
 	linterna_magica_id =
 	    this.mark_flash_object("extracted-from-script");
 
-	object_data.parent =  this.get_first_element_by_class("player-root");
+	object_data.parent =  p;
     }
 
     object_data.linterna_magica_id = linterna_magica_id;
