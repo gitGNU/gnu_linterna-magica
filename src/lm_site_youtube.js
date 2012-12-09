@@ -664,3 +664,41 @@ function(object_data)
 
     return false;
 }
+
+// Fixes the overlapping of the HD links list in YouTube's new design
+// See bug #37881
+// http://savannah.nongnu.org/bugs/?37881
+LinternaMagica.prototype.sites["youtube.com"].post_show_hd_links_list =
+function()
+{
+    var play_list= document.getElementById("watch7-playlist-tray-container");
+    if (play_list)
+    {
+	play_list.style.setProperty("display", "none", "important");
+    }
+
+    var side_bar= document.getElementById("watch7-sidebar");
+    if (side_bar)
+    {
+	side_bar.style.setProperty("display", "none", "important");
+    }
+}
+
+// Fixes the overlapping of the HD links list in YouTube's new design
+// See bug #37881
+// http://savannah.nongnu.org/bugs/?37881
+LinternaMagica.prototype.sites["youtube.com"].post_hide_hd_links_list =
+function()
+{
+    var play_list= document.getElementById("watch7-playlist-tray-container");
+    if (play_list)
+    {
+	play_list.style.removeProperty("display");
+    }
+
+    var side_bar= document.getElementById("watch7-sidebar");
+    if (side_bar)
+    {
+	side_bar.style.removeProperty("display");
+    }
+}

@@ -314,6 +314,21 @@ function(parent)
     return true;
 }
 
+// Execute an action after the HD link list is shown.
+LinternaMagica.prototype.sites.__post_show_hd_links_list = 
+function()
+{
+    return true;
+}
+
+// Execute an action after the HD link list is hidden.
+LinternaMagica.prototype.sites.__post_hide_hd_links_list = 
+function()
+{
+    return true;
+}
+
+
 // Check if site specific config and function exists and call it. If
 // it doesn't, call the general/default function.  A function returns
 // false/null, if the calling function should exit/return after this

@@ -124,7 +124,11 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	if (display)
 	{
 	    hd_list.style.removeProperty("display");
-
+	    var self = this;
+	    this.call_site_function_at_position.apply(self,[
+		"post_show_hd_links_list",
+		window.location.hostname]);
+		
 	    var hd_list_blur_function = function(ev)
 	    {
 		var timeout_function = function()
@@ -137,6 +141,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		    {
 			hd_list.style.setProperty("display", 
 						  "none", "important");
+			self.call_site_function_at_position.apply(self,[
+			    "post_hide_hd_links_list",
+			    window.location.hostname]);
 		    }
 		    element.removeEventListener("blur",
 						hd_list_blur_function,
@@ -153,6 +160,10 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	else
 	{
 	    hd_list.style.setProperty("display", "none", "important");
+	    var self = this;
+	    this.call_site_function_at_position.apply(self,[
+		"post_hide_hd_links_list",
+		window.location.hostname]);
 	}
     }
     return true;
