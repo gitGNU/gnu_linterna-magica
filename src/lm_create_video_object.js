@@ -61,7 +61,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     var container = document.createElement("div");
     var object_tag_wrapper = document.createElement("div");
-    var script_name = document.createElement("a");
     var object_tag = document.createElement("object");
     var message = document.createElement("p");
     var param = document.createElement("param");
@@ -87,24 +86,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     container.style.setProperty("width",
 				(object_data.width+"px"), "important");
  
-    script_name.textContent = "Linterna Mágica";
-    script_name.setAttribute("href", "#");
-    script_name.setAttribute("title", this._("About")+ " Linterna Mágica " +
-			     this.version);
-    script_name.setAttribute("id", "linterna-magica-logo-"+id);
-    script_name.setAttribute("class", "linterna-magica-logo");
-
-    var self = this;
-    script_name.addEventListener("click", function(ev)
-				 {
-				     var el = this;
-				     self.about.apply(self, [ev, el]);
-				 }, false);
-
-    var about_wrapper = document.createElement('p');
-    about_wrapper.setAttribute("class", "linterna-magica-logo-wrapper");
-    about_wrapper.appendChild(script_name);
-    container.appendChild(about_wrapper);
 
     object_tag_wrapper.setAttribute("id", "linterna-magica-video-object-wrapper-"+id);
     object_tag_wrapper.setAttribute("class", "linterna-magica-video-object-wrapper");

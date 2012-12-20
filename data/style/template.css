@@ -72,12 +72,8 @@ div.linterna-magica-controls-time-slider,
 }
 
 
-.linterna-magica-logo:hover {
-    top: 0px !important;
-}
 
 /* The logo/about link in the header */
-.linterna-magica-logo,
 /* The link that switches between LinternaMagica and the plugin */
 /* (the bottom of a flash object) */
 .linterna-magica-toggle-plugin,
@@ -98,11 +94,17 @@ div.linterna-magica-controls-time-slider,
 
 /* The logo/about link in the header */
 .linterna-magica-logo {
+    display: block  !important;
+    text-decoration: none  !important;
+    width: 146px  !important;
+    height: 24px  !important;
+    line-height: 3000px  !important;
+    overflow: hidden  !important;
     width: 116px  !important;
     background: url('button-about.png') 0 0 no-repeat !important;
     cursor: help !important;
     z-index: 9999 !important;
-    right: -1px !important;
+    float: right !important;
 }
 
 .linterna-magica-logo-wrapper,

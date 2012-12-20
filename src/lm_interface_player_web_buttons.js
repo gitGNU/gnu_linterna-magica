@@ -350,6 +350,24 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
     controls.appendChild(update_notifier);
 
+    var about_lm = document.createElement("a");
+    about_lm.textContent = "Linterna Mágica";
+    about_lm.setAttribute("href", "#");
+    about_lm.setAttribute("title", this._("About")+ " Linterna Mágica " +
+			     this.version);
+    about_lm.setAttribute("id", "linterna-magica-logo-"+id);
+    about_lm.setAttribute("class", "linterna-magica-logo");
+
+    var self = this;
+    about_lm.addEventListener("click", function(ev)
+				 {
+				     var el = this;
+				     self.about.apply(self, [ev, el]);
+				 }, false);
+
+    controls.appendChild(about_lm);
+
+
     // For RTL pages and LM translations we order the controls
     // from right to left. 
 
