@@ -92,6 +92,13 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     container.style.setProperty("width",
 				(object_data.width+"px"), "important");
+
+    container.style.setProperty("height",
+				(object_data.height+"px"), "important");
+
+    // Decrease the size for the object, so it all fits in the space
+    // allocated by the website
+    object_data.height -= 48;
  
 
     object_tag_wrapper.setAttribute("id", "linterna-magica-video-object-wrapper-"+id);
