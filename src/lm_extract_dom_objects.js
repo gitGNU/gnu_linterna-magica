@@ -318,7 +318,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 
 // Find the flash object width
 LinternaMagica.prototype.extract_object_width =
-function(element, dont_force_min)
+function(element)
 {
     if (!/HTML(embed|iframe|object)element/i.test(element))
     {
@@ -354,7 +354,7 @@ function(element, dont_force_min)
     }
 
 
-    if (!width || (width < this.min_width && !dont_force_min))
+    if (!width || (width < this.min_width))
     {
 	width = this.min_width;
     }
@@ -364,7 +364,7 @@ function(element, dont_force_min)
 
 // Find the flash object height
 LinternaMagica.prototype.extract_object_height =
-function(element, dont_force_min)
+function(element)
 {
     if (!/HTML(embed|iframe|object)element/i.test(element))
     {
@@ -408,7 +408,7 @@ function(element, dont_force_min)
 	height = element.parentNode.offsetHeight;
     }
 
-    if (!height || (height<this.min_height && !dont_force_min))
+    if (!height || (height<this.min_height))
     {
 	height = this.min_height;
     }

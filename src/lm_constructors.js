@@ -235,10 +235,8 @@ LinternaMagica.prototype.license = function()
 // One close button after the logo (1x24) 
 LinternaMagica.prototype.min_height = 212;
 
-// Buttons (8x24)
-// Volume slider when visible (1x83)
-// Time text (1x78)
-LinternaMagica.prototype.min_width = 353;
+
+LinternaMagica.prototype.min_width = 400;
 
 // One close button (1x24)
 // One logo button (1x146)
