@@ -135,17 +135,6 @@ LinternaMagica.prototype.create_controls = function(object_data)
 	pause.addEventListener("click", pause_click_function, false);
 	controls.appendChild(pause);
 
-	var stop = this.create_stop_button(object_data);
-
-	var stop_click_function = function(ev)
-	{
-	    var el = this;
-	    self.stop_button_click_event.apply(self, [ev, el]);
-	};
-
-	stop.addEventListener("click", stop_click_function, false);
-	controls.appendChild(stop);
-
 	var mute = this.create_mute_button(object_data);
 
 	var mute_click_function = function(ev)
@@ -498,54 +487,6 @@ LinternaMagica.prototype.pause_button_click_event = function(event, element)
     delete this.player_timers[id];
 }
 
-// Create stop button
-LinternaMagica.prototype.create_stop_button = function(object_data)
-{
-    var lm_id = object_data.linterna_magica_id;
-
-    var stop = document.createElement("a");
-    stop.setAttribute("class", "linterna-magica-controls-buttons "+
-		      "linterna-magica-controls-buttons-stop");
-    stop.setAttribute("id", "linterna-magica-controls-button-stop-"+lm_id);
-    stop.setAttribute("href", "#");
-
-    // TRANSLATORS: This is showed as a tooltip when the mouse cursor
-    // is above the stop button.
-    stop.setAttribute("title", this._("Stop"));
-    stop.textContent ="St";
-    
-    return stop;
-}
-
-// The function executed on DOM click event for the stop button
-LinternaMagica.prototype.stop_button_click_event = function(event, element)
-{
-    event.preventDefault();
-
-    // Linterna Magica object id
-    var id = element.getAttribute("id").
-	replace(/linterna-magica-controls-button-stop-/,"");
-
-    // Hide pause button.
-    var pause = 
-	document.getElementById("linterna-magica-controls-button-pause-"+id);
-    pause.style.setProperty("display", "none", "important");
-
-    // this.previousSibling.style.setProperty("display", 
-    // 					   "none", "important");
-    // play button
-    var play =
-	document.getElementById("linterna-magica-controls-button-play-"+id);
-    // var play = this.previousSibling.previousSibling;
-    play.style.removeProperty("display");
-
-    var self = this;
-    this.player.stop.apply(self, [id]);
-
-    // Stop the time ticker
-    clearInterval(self.player_timers[id]);
-    delete this.player_timers[id];
-}
 
 // Create time slider
 LinternaMagica.prototype.create_time_slider = function(object_data)
