@@ -729,3 +729,14 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 }
 
 
+.linterna-magica-controls-time-slider-outer-frame {
+    height: 22px !important;
+}
+
+.linterna-magica-controls-volume-slider-outer-frame {
+    display: block !important;
+    position: relative !important;
+    float: left !important;
+    width: 80px !important;
+    height: 22px !important;
+}

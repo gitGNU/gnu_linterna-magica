@@ -553,6 +553,14 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     var lm_id = object_data.linterna_magica_id;
     var self = this;
 
+    var time_slider_outer = document.createElement("div");
+    time_slider_outer.setAttribute("title", this._("Time"));
+
+    time_slider_outer.setAttribute("class",
+			     "linterna-magica-controls-time-slider-outer-frame");
+    time_slider_outer.setAttribute("id",
+			     "linterna-magica-controls-time-slider-outer-frame-"+lm_id);
+
     var time_slider = document.createElement("div");
 
     time_slider.setAttribute("title", this._("Time"));
@@ -588,7 +596,9 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
 
     time_slider.appendChild(time_knob);
 
-    return time_slider;
+    time_slider_outer.appendChild(time_slider);
+
+    return time_slider_outer;
 }
 
 // The function executed on DOM scroll event for the time slider
@@ -599,7 +609,7 @@ LinternaMagica.prototype.time_slider_scroll_event = function (event, element)
 
     // Linterna Magica object id
     var id = element.getAttribute("id").
-	replace(/linterna-magica-controls-time-slider-/,"");
+	replace(/linterna-magica-controls-time-slider-outer-frame-/,"");
 
     var pos = this.slider_control.apply(self, [event]);
     
@@ -621,7 +631,7 @@ LinternaMagica.prototype.time_slider_click_event = function (event, element)
 
     // Linterna Magica object id
     var id = element.getAttribute("id").
-	replace(/linterna-magica-controls-time-slider-/,"");
+	replace(/linterna-magica-controls-time-slider-outer-frame-/,"");
 
     // Stop the time ticker
     clearInterval(this.player_timers[id]);
@@ -652,6 +662,17 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
     var lm_id = object_data.linterna_magica_id;
     var self = this;
 
+    var volume_slider_outer = document.createElement("div");
+
+    volume_slider_outer.setAttribute("class", "linterna-magica-controls-volume-"+
+				     "slider-outer-frame");
+    volume_slider_outer.setAttribute("id", "linterna-magica-controls-"+
+			       "volume-slider-outer-frame-"+lm_id);
+    volume_slider_outer.setAttribute("title", this._("Volume control"));
+
+    volume_slider_outer.style.setProperty("display", "none", "important");
+
+
     var volume_slider = document.createElement("div");
 
     volume_slider.setAttribute("class",
@@ -661,7 +682,6 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
 			       "volume-slider-"+lm_id);
     volume_slider.setAttribute("title", this._("Volume control"));
 
-    volume_slider.style.setProperty("display", "none", "important");
 
     var volume_knob_move = null;
 
@@ -698,7 +718,9 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
     volume_text.textContent = "--";
     volume_slider.appendChild(volume_text);
 
-    return volume_slider;
+    volume_slider_outer.appendChild(volume_slider);
+
+    return volume_slider_outer;
 }
 
 // The function executed on DOM scroll event for the volume slider
@@ -731,7 +753,7 @@ LinternaMagica.prototype.volume_slider_click_event = function (event, element)
 
     // Linterna Magica object id
     var id = element.getAttribute("id").
-	replace(/linterna-magica-controls-volume-slider-/,"");
+	replace(/linterna-magica-controls-volume-slider-outer-frame-/,"");
     
     event.preventDefault();
     var pos = self.slider_control.apply(self, [event]);
@@ -772,7 +794,7 @@ LinternaMagica.prototype.mute_button_mouse_over_event = function (event, element
     var id = element.getAttribute("id").
 	replace(/linterna-magica-controls-button-mute-/,"");
 
-    var id_string = "linterna-magica-controls-volume-slider-"+id;
+    var id_string = "linterna-magica-controls-volume-slider-outer-frame-"+id;
 
     var volume_slider = 
 	document.getElementById(id_string);
@@ -893,7 +915,7 @@ LinternaMagica.prototype.volume_slider_hide_event = function(event, element)
 
     var volume_slider = 
 	document.getElementById("linterna-magica-controls-"+
-				"volume-slider-"+id);
+				"volume-slider-outer-frame-"+id);
 
     if (!volume_slider)
     {
