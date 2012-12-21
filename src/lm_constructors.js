@@ -233,9 +233,10 @@ LinternaMagica.prototype.license = function()
 // One HD links buttom (1x24)
 // One logo button (1x116)
 // One close button after the logo (1x24) 
-LinternaMagica.prototype.min_height = 212;
+LinternaMagica.prototype.absolute_min_height = 212;
 
 
+LinternaMagica.prototype.absolute_min_width = 300;
 LinternaMagica.prototype.min_width = 400;
 
 // One close button (1x24)

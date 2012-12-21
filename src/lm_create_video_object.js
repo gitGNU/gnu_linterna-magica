@@ -36,17 +36,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	return;
     }
 
-    if (object_data.width < this.min_width)
-    {
-	object_data.width = this.min_width;
-    }
-
-    if (object_data.height < this.min_height)
-    {
-	object_data.height = this.min_height;
-    }
-
-
+  
     var toggle_plugin = null;
 
     var id = object_data.linterna_magica_id;
@@ -80,6 +70,10 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     container.setAttribute("id", "linterna-magica-"+id);
     container.setAttribute("class", "linterna-magica");
+
+    if (object_data.width < this.min_width) {
+	container.setAttribute("class", "linterna-magica-lower");
+    }
 
     // Fix for rtl languages. See
     // https://savannah.nongnu.org/bugs/?32740

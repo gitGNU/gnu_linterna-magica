@@ -354,9 +354,9 @@ function(element)
     }
 
 
-    if (!width || (width < this.min_width))
+    if (!width || (width < this.absolute_min_width))
     {
-	width = this.min_width;
+	width = this.absolute_min_width;
     }
 
     return parseInt(width);
@@ -408,9 +408,9 @@ function(element)
 	height = element.parentNode.offsetHeight;
     }
 
-    if (!height || (height<this.min_height))
+    if (!height || (height<this.absolute_min_height))
     {
-	height = this.min_height;
+	height = this.absolute_min_height;
     }
 
     return parseInt(height);

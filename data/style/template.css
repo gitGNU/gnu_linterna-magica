@@ -740,3 +740,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     width: 80px !important;
     height: 22px !important;
 }
+
+.linterna-magica-lower {
+    /* border: 1px solid red !important; */
+}

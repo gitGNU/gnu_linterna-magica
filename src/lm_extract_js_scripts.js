@@ -127,14 +127,14 @@ LinternaMagica.prototype.extract_objects_from_scripts = function()
 
 	if (object_data && object_data.width && object_data.height)
 	{
-	    if(object_data.height < this.min_height)
+	    if(object_data.height < this.absolute_min_height)
 	    {
-		object_data.height = this.min_height;
+		object_data.height = this.absolute_min_height;
 	    }
 	    
-	    if (object_data.width < this.min_width)
+	    if (object_data.width < this.absolute_min_width)
 	    {
-		object_data.width = this.min_width;
+		object_data.width = this.absolute_min_width;
 	    }
 	}
 
