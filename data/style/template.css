@@ -89,7 +89,7 @@ div.linterna-magica-controls-time-slider,
     line-height: 3000px  !important;
     overflow: hidden  !important;
     border: 1px solid #36393E !important;
-    top: 11px !important;
+    bottom: 0px !important;
 }
 
 /* The logo/about link in the header */
@@ -107,35 +107,23 @@ div.linterna-magica-controls-time-slider,
     float: right !important;
 }
 
-.linterna-magica-logo-wrapper,
 .linterna-magica-remote-clip-buttons,
 .linterna-magica-toggle-plugin-wrapper {
     position:relative!important;
     z-index: 999999 !important;
     display: block !important;
     right: 0px !important;
-    top: 0px !important;
     width: 100% !important;
     height: 24px !important;
     background-color: transparent !important;
-}
-
-.linterna-magica-remote-clip-buttons {
-    top:-24px !important;
-}
-
-.linterna-magica-toggle-plugin:hover {
+    clear: both !important;
     top: 0px !important;
 }
 
-.linterna-magica-remote-clip-buttons:hover > a {
-    top: -22px !important;
-}
 
 .linterna-magica-remote-clip-buttons a {
-    top: -12px !important;
     float: right !important;
-    right: 12px !important;
+    right: 0px !important;
 }
 
 a.linterna-magica-remote-clip-visit-page-button {
@@ -150,7 +138,7 @@ a.linterna-magica-remote-clip-close-button {
     width: 24px !important;
     position:absolute !important;
     display: block !important;
-    right: 156px !important;
+    right: 144px !important;
     border-right: none !important;
 }
 

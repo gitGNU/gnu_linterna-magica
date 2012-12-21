@@ -213,9 +213,9 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    before = site_html5_player;
 	}
 
-	if (before)
+	if (before && before.nextSibling)
 	{
-	    object_data.parent.insertBefore(toggle_plugin, before);
+	    object_data.parent.insertBefore(toggle_plugin, before.nextSibling);
 	}
 	else
 	{

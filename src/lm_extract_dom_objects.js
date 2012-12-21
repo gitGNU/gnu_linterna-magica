@@ -194,34 +194,16 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 
 		var before =  object;
 
-		if (before)
+		if (before && before.nextSibling)
 		{
-		    object_data.parent.insertBefore(remote_site, before);
+		    object_data.parent.insertBefore(remote_site,
+						    before.nextSibling);
 		}
 		else
 		{
 		    object_data.parent.appendChild(remote_site);
 		}
 
-		object.style.setProperty("position", "relative", "important");
-		object.style.setProperty("background-color", "black", "important");
-		object.style.setProperty("z-index", "9999999", "important");
-		object.style.setProperty("display", "block", "important");
-		object.style.setProperty("border",
-					      "1px solid #36393E", "important");
-
-		var top = (remote_site.offsetTop - object.offsetTop);
-		var w = this.extract_object_width(object, true);
-		var h = this.extract_object_height(object, true);
-		h = (this.min_remote_object_height > h || h == this.min_height) ? 
-		    this.min_remote_object_height : h;
-
-		remote_site.style.setProperty("width",
-					      (w+12)+"px", "important");
-		object.style.setProperty("width", (w-2)+"px", "important");
-
-		object.style.setProperty("top", top+"px", "important");
-		object.style.setProperty("min-height", h+"px", "important");
 
 		object.parentNode.style.setProperty("overflow",
 						    "visible", "important");
