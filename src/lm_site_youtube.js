@@ -196,7 +196,7 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 
     // Fancy flash upgrade message. The element with id flash-upgrade
     // might be obsolete now.
-    var watch_player = document.getElementById("watch-player");
+    var watch_player = document.getElementById("watch7-player");
     var fancy_alert = null;
 
     if(watch_player && watch_player.hasAttribute("class") &&
@@ -212,12 +212,12 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
     }
     
 
-    // With default timeout 500mS this will be 6 sec. Stop checking and insert.    
+    // With default timeout 2000mS this will be 10 sec. Stop checking and insert.    
     // Might be flashblock
-    if (document.getElementById("flash-upgrade") ||
+    if (document.getElementById("movie_player") ||
 	document.getElementById("movie_player-html5") ||
 	fancy_alert ||
-	this.youtube_flash_upgrade_counter >= 12 )
+	this.youtube_flash_upgrade_counter >= 5 )
     {
 	clearInterval(this.youtube_flash_upgrade_timeout);
 
@@ -229,7 +229,7 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 	this.log("LinternaMagica.detect_youtube_flash_upgrade:\n"+
 		 "Creating video object.",2);
 
-	this.create_video_object(object_data);
+	setTimeout(this.create_video_object(object_data), 1000);
     }
 }
 
@@ -333,6 +333,14 @@ LinternaMagica.prototype.sites["youtube.com"].skip_link_extraction = function()
 	     "GNU IceCat and other forks and versions of Firefox.",4);
     return false;
 }
+
+LinternaMagica.prototype.sites["youtube.com"].skip_video_id_extraction = function()
+{
+    this.log("LinternaMagica.sites.skip_video_id_extraction:\n"+
+	     "Skipping video_id extraction in YouTube.",4);
+    return false;
+}
+
 
 // Extracts data for the flash object in youtube from a script
 LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
@@ -472,7 +480,7 @@ function(object_data)
 	this.youtube_flash_upgrade_timeout = setInterval(
 	    function() {
 		self.detect_youtube_flash_upgrade.apply(self,[data]);
-	    }, 500);
+	    }, 2000);
     }
     
     return false;
@@ -481,6 +489,27 @@ function(object_data)
 LinternaMagica.prototype.sites["youtube.com"].css_fixes =
 function(object_data)
 {
+
+    // Sometimes when flash is installed the flash video object does
+    // not have (at all or the right one) linterna_magica_id. Usually
+    // the other objects if any are useless. This renders both LM and
+    // the flash interface. The code bellow tries to avoid it. Reason
+    // *unknown*.
+
+    this.log("LinternaMagica.youtube.css_fixes:\n "+
+	     "Harvesting (possible) lost flash video object with "+
+	     "linterna_magica_id "+ object_data.linterna_magica_id);
+
+    var movie_player = document.getElementById('movie_player');
+    if (movie_player) {
+	movie_player.linterna_magica_id = object_data.linterna_magica_id;
+    }
+
+    if (this.priority.self > this.priority.plugin)
+    {
+	this.hide_flash_video_object(object_data.linterna_magica_id);
+    }
+
     if (document.getElementById("playnav-playview"))
     {
 	// In channels/user pages in YouTube the web controlls are
