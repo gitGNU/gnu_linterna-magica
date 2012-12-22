@@ -409,8 +409,8 @@ div.linterna-magica-hd-links-list,
     height: auto !important;
     /* ^^^Fix height and width in dailymotion: The site sets them to */
     /* 100% but the list shows partly under the header */
-    bottom: -2px !important;
-    left: 28px !important;
+    bottom: 35px !important;
+    left: -270% !important;
     overflow-y: auto !important;
     /* Hide scrollbars for HD links in YouTube */
     overflow-x: hidden !important;
@@ -709,8 +709,6 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-video-object-wrapper,
 .linterna-magica-video-object,
 .linterna-magica-video-object p {
-    /* Above HD button and logo at the right */
-    z-index: 999999 !important;
     display:block !important;
     position:relative !important;
     background-color: black !important;

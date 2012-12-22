@@ -124,18 +124,28 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
     var id = element.getAttribute("id").split(/-/);
     id = id[id.length-1];
 
+    var lm_video = this.get_video_object(id);
     var hd_list = element.nextSibling;
+   
     if (hd_list)
     {
 	var display = hd_list.style.getPropertyValue("display");
 	if (display)
 	{
 	    hd_list.style.removeProperty("display");
-	    var self = this;
-	    this.call_site_function_at_position.apply(self,[
-		"post_show_hd_links_list",
-		window.location.hostname]);
-		
+
+	    var hd_list_width = hd_list.clientWidth ? 
+		hd_list.clientWidth : hd_list.offsetWidth ? 
+		hd_list.offsetWidth : 120;
+	    	
+	    lm_video.normal_width = 
+		parseInt(lm_video.style.getPropertyValue("width"));
+
+	    // 20 = offset from the right to the middle
+	    lm_video.reduced_width = lm_video.normal_width - hd_list_width - 20;
+
+	    lm_video.style.setProperty("width", lm_video.reduced_width+"px",
+				       "important");
 	    var hd_list_blur_function = function(ev)
 	    {
 		var timeout_function = function()
@@ -148,9 +158,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		    {
 			hd_list.style.setProperty("display", 
 						  "none", "important");
-			self.call_site_function_at_position.apply(self,[
-			    "post_hide_hd_links_list",
-			    window.location.hostname]);
+			lm_video.style.setProperty("width",
+						   lm_video.normal_width+"px",
+						   "important");
 		    }
 		    element.removeEventListener("blur",
 						hd_list_blur_function,
@@ -167,10 +177,8 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	else
 	{
 	    hd_list.style.setProperty("display", "none", "important");
-	    var self = this;
-	    this.call_site_function_at_position.apply(self,[
-		"post_hide_hd_links_list",
-		window.location.hostname]);
+	    lm_video.style.setProperty("width", lm_video.normal_width+"px",
+				       "important");
 	}
     }
     return true;
