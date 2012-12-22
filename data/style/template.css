@@ -744,3 +744,8 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-lower {
     /* border: 1px solid red !important; */
 }
+
+/* ws - website */
+.linterna-magica-ws-video-parent {
+    background-color: transparent !important;
+}

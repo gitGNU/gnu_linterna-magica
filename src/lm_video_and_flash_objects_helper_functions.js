@@ -112,6 +112,18 @@ LinternaMagica.prototype.object_has_css_class = function (element, className)
     return false;
 }
 
+// Add a class to the classes of an element
+LinternaMagica.prototype.add_css_class = function(element, class_name)
+{
+    if (!this.object_has_css_class(element, class_name))
+    {
+	var c = element.getAttribute("class");
+	element.setAttribute("class", c+" "+class_name);
+    }
+
+    return element.getAttribute("class");
+}
+
 // Get the video object with id
 // "linterna-magica-video-object-"+linterna_magica_id from DOM
 LinternaMagica.prototype.get_video_object = function(linterna_magica_id)

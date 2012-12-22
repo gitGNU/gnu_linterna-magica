@@ -36,6 +36,11 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	return;
     }
 
+    // Decrease the size for the object, so it all fits in the space
+    // allocated by the website
+    object_data.outer_height = object_data.height;
+    object_data.height -= 48;
+
   
     var toggle_plugin = null;
 
@@ -94,12 +99,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				(object_data.width+"px"), "important");
 
     container.style.setProperty("height",
-				(object_data.height+"px"), "important");
-
-    // Decrease the size for the object, so it all fits in the space
-    // allocated by the website
-    object_data.height -= 48;
- 
+				(object_data.outer_height+"px"), "important");
 
     object_tag_wrapper.setAttribute("id", "linterna-magica-video-object-wrapper-"+id);
     object_tag_wrapper.setAttribute("class", "linterna-magica-video-object-wrapper");
@@ -246,6 +246,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    toggle_plugin.style.setProperty("display", "none",
 					    "important");
 	}
+
+	this.add_css_class(object_data.parent, "linterna-magica-ws-video-parent");
     }
 
     if (this.updates_data)
@@ -332,8 +334,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	// Prevent the object to fill the container at 100% (if set)
 	// This way the toggle plugin link after the object is not
 	// overlaping elements.
-	site_player.style.setProperty("height", object_data.height+"px",
-				     "important");
+	site_player.style.setProperty("height", object_data.outer_height+"px",
+				      "important");
 
 
 	// Render site player above Linterna Mágica's button
