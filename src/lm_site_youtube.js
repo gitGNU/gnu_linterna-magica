@@ -507,7 +507,9 @@ function(object_data)
 	     "linterna_magica_id "+ object_data.linterna_magica_id);
 
     var movie_player = document.getElementById('movie_player');
-    movie_player.linterna_magica_id = object_data.linterna_magica_id;
+    if (movie_player) {
+	movie_player.linterna_magica_id = object_data.linterna_magica_id;
+    }
 
     if (this.priority.self > this.priority.plugin)
     {
