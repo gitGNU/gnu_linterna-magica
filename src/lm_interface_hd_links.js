@@ -112,6 +112,7 @@ LinternaMagica.prototype.switch_to_hd_link = function(event, element)
 
 	// hide the list
 	div.style.setProperty("display", "none", "important");
+	this.set_video_object_width_on_hd_list_display_change(id);
     }
 }
 
@@ -124,7 +125,6 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
     var id = element.getAttribute("id").split(/-/);
     id = id[id.length-1];
 
-    var lm_video = this.get_video_object(id);
     var hd_list = element.nextSibling;
    
     if (hd_list)
@@ -133,19 +133,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	if (display)
 	{
 	    hd_list.style.removeProperty("display");
+	    this.set_video_object_width_on_hd_list_display_change(id);
 
-	    var hd_list_width = hd_list.clientWidth ? 
-		hd_list.clientWidth : hd_list.offsetWidth ? 
-		hd_list.offsetWidth : 120;
-	    	
-	    lm_video.normal_width = 
-		parseInt(lm_video.style.getPropertyValue("width"));
-
-	    // 20 = offset from the right to the middle
-	    lm_video.reduced_width = lm_video.normal_width - hd_list_width - 20;
-
-	    lm_video.style.setProperty("width", lm_video.reduced_width+"px",
-				       "important");
+	    var self = this;
 	    var hd_list_blur_function = function(ev)
 	    {
 		var timeout_function = function()
@@ -158,9 +148,9 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 		    {
 			hd_list.style.setProperty("display", 
 						  "none", "important");
-			lm_video.style.setProperty("width",
-						   lm_video.normal_width+"px",
-						   "important");
+			self.
+			    set_video_object_width_on_hd_list_display_change.
+			    apply(self, [id]);
 		    }
 		    element.removeEventListener("blur",
 						hd_list_blur_function,
@@ -177,11 +167,50 @@ LinternaMagica.prototype.show_or_hide_hd_links = function(event, element)
 	else
 	{
 	    hd_list.style.setProperty("display", "none", "important");
-	    lm_video.style.setProperty("width", lm_video.normal_width+"px",
-				       "important");
-	}
+	    this.set_video_object_width_on_hd_list_display_change(id);
+ 	}
     }
     return true;
+}
+
+LinternaMagica.prototype.set_video_object_width_on_hd_list_display_change =
+function(linterna_magica_id)
+{
+    var hd_list = document.getElementById("linterna-magica-hd-links-list-"+
+					 linterna_magica_id);
+
+    var lm_video = this.get_video_object(linterna_magica_id);
+
+    if (!hd_list || !lm_video)
+    {
+	return;
+    }
+
+    if (hd_list.video_normal_width == undefined)
+    {
+	var hd_list_width = hd_list.clientWidth ? 
+	    hd_list.clientWidth : hd_list.offsetWidth ? 
+	    hd_list.offsetWidth : 120;
+
+	hd_list.video_normal_width = 
+	    parseInt(lm_video.style.getPropertyValue("width"));
+
+	// 20 = offset from the right to the middle
+	hd_list.video_reduced_width = 
+	    hd_list.video_normal_width - hd_list_width - 20;
+    }
+
+    if (hd_list.style.getPropertyValue('display'))
+    {
+
+	lm_video.style.setProperty("width", hd_list.video_normal_width+"px",
+				   "important");
+    }
+    else
+    {
+	lm_video.style.setProperty("width", hd_list.video_reduced_width+"px",
+			       "important");
+    }
 }
 
 // Set style and id of the selected link in the HD list. This way it
