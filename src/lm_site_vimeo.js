@@ -64,7 +64,7 @@ LinternaMagica.prototype.extract_time_stamp_vimeo = function()
 
     var time_stamp_re =  new RegExp(
 	"(\\\"|\\\')*[^_]timestamp(\\\"|\\\')*:(\\\"|\\\')*([^,\\\"\\\']+)(\\\"|\\\')*",
-                  // ^^^ Skip cached_timestam
+                  // ^^^ Skip cached_timestamp
 	"im");
 
     time_stamp = data.match(time_stamp_re);
@@ -442,6 +442,10 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 	gallery.style.setProperty("margin-top", "90px", "important");
     }
 
+    // Fix the loading on the front page
+    this.vimeo_fix_navigation();
+   
+    
     return false;
 }
 
@@ -464,4 +468,85 @@ LinternaMagica.prototype.sites["vimeo.com"].
     skip_video_id_extraction = function()
 {
     return null;
+}
+
+
+LinternaMagica.prototype.vimeo_fix_navigation = function()
+{
+    var vimeo_fix_list = function (list_id) 
+    {
+	var list = document.getElementById(list_id);
+
+	if (!list)
+	{
+	    return false;
+	}
+
+	var vimeo_list_click_fn = function(ev)
+	{
+	    window.location = this.getAttribute("href");
+	}
+
+	var li_elements = list.getElementsByTagName('li');
+	for (var i=0, l=li_elements.length; i<l; i++)
+	{
+	    var li = li_elements[i];
+	    var a = li.getElementsByTagName("a");
+
+	    if (a && a[0]) {
+		a[0].addEventListener("click", vimeo_list_click_fn, true);
+	    }
+	}
+
+	return true;
+    }
+
+    if (window.location.pathname == '/')
+    {
+	vimeo_fix_list('featured_videos');
+	var featured_ = document.getElementById("featured_videos");
+	if (featured_videos)
+	{
+	    featured_videos.addEventListener("DOMNodeInserted",
+				    function(e)
+				    {
+					var timeout = function()
+					{
+					    vimeo_fix_list('featured_videos');
+					}
+					// Three attempts. Should
+					// catch it.
+					setTimeout(timeout, 500);
+					setTimeout(timeout, 1200);
+					setTimeout(timeout, 5000);
+				    }, false);
+	}
+
+    }
+    else
+    {
+	// Holds the navigation on clip pages
+	var brozar = document.getElementById("brozar");
+	if (brozar)
+	{
+	    brozar.addEventListener("DOMNodeInserted", 
+				    function(e)
+				    {
+					var timeout = function()
+					{
+					    vimeo_fix_list('clips');
+					}
+					// Three attempts. Should
+					// catch it. setInterval is
+					// causing the brouser to
+					// segfault. Probably the
+					// clearInterval is not
+					// clearing the timers (lack
+					// of scope variables);
+					setTimeout(timeout, 500);
+					setTimeout(timeout, 1200);
+					setTimeout(timeout, 5000);
+				    }, false);
+	}
+    }
 }
