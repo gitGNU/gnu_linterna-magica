@@ -196,7 +196,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     container.appendChild(object_tag_wrapper);
 
     var about_box = this.create_about_box(id);
-    about_box.style.setProperty("height", object_data.height+"px",
+    // 40 = padding
+    about_box.style.setProperty("height", (object_data.height-40)+"px",
 				"important");
 
     container.appendChild(about_box);
