@@ -196,6 +196,9 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     container.appendChild(object_tag_wrapper);
 
     var about_box = this.create_about_box(id);
+    about_box.style.setProperty("height", object_data.height+"px",
+				"important");
+
     container.appendChild(about_box);
     
     // Mark the object, so it is not processed and chacked after

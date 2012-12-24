@@ -156,9 +156,9 @@ div.linterna-magica-about-box,
     display:block !important;
     position:relative !important;
     z-index: 999999 !important;
-    height: auto !important;
     width: 100% !important;
     padding-bottom: 20px !important;
+    overflow: auto !important;
 }
 
 .linterna-magica-update-info-box p,
