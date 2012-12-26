@@ -116,9 +116,9 @@ function()
     // Extracting from script
     else
     {
-	result.link_re = new RegExp (
-	    "(\\\"|\\\')video_src(\\\"|\\\'),\\\s*(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\'){1}",
-	    "i");
+ 	result.link_re = new RegExp (
+	    "(\\\"|\\\')video(\\\"|\\\'),\\\s*(\\\"|\\\')([^\\\"\\\']+)(\\\"|\\\'){1}",
+ 	    "i");
 	result.link_position = 2;
     }
 
@@ -132,6 +132,14 @@ LinternaMagica.prototype.sites["facebook.com"].process_extracted_link = function
     // unescape directly. This workaround might break
     // non-ASCII strings in the link
     link = unescape(link.replace(/\\u0025/g, "%"));
+
+    link = link.split(',');
+    link = link[0] ? link[0] : link;
+
+    link = link.split('"');
+    link = link[3] ? link[3] : link.join();
+
+    link = link.replace(/\\\//g, "/");
 
     return link;
 }
@@ -167,41 +175,58 @@ function()
 {
     var data = this.script_data;
 
-    var hd_strings = ["lowqual_src", "highqual_src" ];
+    var hd_strings = ["sd_src", "hd_src" ];
     var hd_links = new Array();
     var l,i;
 
-    for(i=0, l=hd_strings.length; i<=l; i++)
+    var link_re = new RegExp (
+	"(\\\"|\\\')video(\\\"|\\\'),\\\s*(\\\"|\\\')"+
+	    "([^\\\"\\\']+)(\\\"|\\\'){1}",
+	"i");
+
+    var match = data.match(link_re);
+
+    if (!match || !match[match.length-2])
     {
-	var hd_string = hd_strings[i];
-	var link_re = new RegExp (
-	    "(\\\"|\\\')"+hd_string+"(\\\"|\\\'),\\\s*(\\\"|\\\')"+
-		"([^\\\"\\\']+)(\\\"|\\\'){1}",
-	    "i");
+	return;
+    }
 
-	var match = data.match(link_re);
+    var links = unescape(match[match.length-2].replace(/\\u0025/g, "%"));
 
-	if (match && match[match.length-2])
+    links = links.split(/,/);
+
+    for (var i=0, l=links.length; i<l; i++)
+    {
+	// Skip data that does not have link infromation.
+	if (!/_src/i.test(links[i]))
 	{
-	    var link = new Object();
-	    // The # at the end of hte link is needed, because
-	    // Facebook adds some event listenerers for click events
-	    // for anchor elements that break the default browser
-	    // behaviour. This causes the HD links to load directly in
-	    // the browser. This work-around works because ... ? I
-	    // suppose they filter links with #.
-	    link.url = 
-		this.sites["facebook.com"].
-		process_extracted_link(match[match.length-2])+"#";
-
-
-	    link.label = (hd_string == "lowqual_src") ?
-		this._("Low quality") : this._("High quality");
-
-	    hd_links.push(link);
-	} else {
-	    break;
+	    continue;
 	}
+	var link = new Object();
+	// The # at the end of the link is needed, because
+	// Facebook adds some event listenerers for click events
+	// for anchor elements that break the default browser
+	// behaviour. This causes the HD links to load directly in
+	// the browser. This work-around works because ... ? I
+	// suppose they filter links with #.
+	link.url = 
+	    this.sites["facebook.com"].
+	    process_extracted_link(links[i])+"#";
+
+	if (/sd_src/i.test(links[i]))
+	{
+	    // Resolution is not consistent. Cant use 400p for example
+	    link.label = this._("Low") 
+	    link.more_info = "MPEG-4, H.264";
+	}
+	else
+	{
+	    // Resolution is not consistent. Cant use 720p for example
+	    link.label = this._("High");
+	    link.more_info = "MPEG-4, H.264";
+	}
+
+	hd_links.unshift(link);
     }
 
     if (hd_links.length > 0)
