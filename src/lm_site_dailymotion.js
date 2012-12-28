@@ -191,39 +191,10 @@ function(args)
 	// object replaces itself. The work around here is to
 	// request the page and process it. 
 
-	// Dailymotion uses pseudo-random ids for some DOM
-	// elements of interest. We replace the body HTML with
-	// the one returned by the XHR. Then scripts are
-	// processed. The script extraction code matches the
-	// correct ID for the parentNode in DOM, that will
-	// hold the video object. The original body is
-	// restored, because some data is missing in the body
-	// data from XHR. After all data is collected, the
-	// parentNode (object_data.parent), where the video
-	// object will be inserted is replaced with the one in
-	// the original body.  Custom function to match the
-	// parent by CSS class is used, because getElementById
-	// does not support regular expressions.
-
-	var body_data = 
-	    client.responseText.split("<body")[1].
-	    replace(/>{1}/,"__SPLIT__").
-	    split("__SPLIT__")[1];
-
-	var body = document.getElementsByTagName("body")[0];
-	var original_body_data = body.innerHTML;
-
-	body.innerHTML = body_data;
-
-	this.script_data = client.responseText;
-	object_data = this.extract_object_from_script_swfobject();
-
-	body.innerHTML = original_body_data;
-
-	if (!object_data)
-	{
-	    return null;
-	}
+	// Dailymotion uses pseudo-random ids for some DOM elements of
+	// interest. Custom function to match the parent by CSS class
+	// is used, because getElementById does not support regular
+	// expressions.
 
 	object_data.parent = 
 	    this.get_first_element_by_class("dmpi_video_playerv[0-9]+");
@@ -232,6 +203,14 @@ function(args)
 	{
 	    return null;
 	}
+
+	object_data.width = object_data.parent.clientWidth ? 
+	    object_data.parent.clientWidth : object_data.offsetWidht ?
+	    object_data.offsetWidht : null ;
+
+	object_data.height = object_data.parent.clientHeight ? 
+	    object_data.parent.clientHeight : object_data.offsetWidht ?
+	    object_data.offsetWidht : null ;
     }
 
     var hd_links = this.extract_dailymotion_links(client.responseText);
@@ -253,6 +232,12 @@ function(args)
     {
 	document.cookie = "html5_switch=1;";
     }
+
+
+	if (!object_data.width || !object_data.height || !object_data.link)
+	{
+	    return null;
+	}
 
 
     return object_data;
