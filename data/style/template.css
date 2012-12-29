@@ -537,8 +537,8 @@ div.linterna-magica-hd-links-list,
 }
 
 .linterna-magica-side-update-notifier-button-update-icon {
-    background: url('button-update-270deg.png') 0 0 no-repeat !important;
-    top: 116px !important;
+    background: url('button-update.png') 0 0 no-repeat !important;
+    left: -106px !important;
 }
 
 /* The web log  button */
@@ -673,26 +673,33 @@ div.linterna-magica-web-log,
 .linterna-magica-side-update-notifier-button-wrap,
 .linterna-magica-web-log-debug-button-wrap {
     position: fixed !important;
-    right: -10px !important;
-    bottom: 105px !important;
-    float: right !important;
+    left: 20px !important;
+    bottom: -10px !important;
     line-height: 10000px !important;
-    width: 24px !important;
-    height: 164px !important;
+    width: 154px !important;
+    height: 22px !important;
     padding:0 !important;
     margin:0 !important;
     border: 1px solid #36393E !important;
     /* The footer at some site had 1e+09 that broke 9999 */
     z-index: 10000000000000000 !important;
+    background-color: #1a1a1a;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666));
+    background-image: -webkit-linear-gradient(top, #1a1a1a, #666666);
+    background-image:    -moz-linear-gradient(top, #1a1a1a, #666666);
+    background-image:         linear-gradient(to bottom, #1a1a1a, #666666);
+    border-color: #222222;
+    border-width: 1px 0;
+    border-style: solid;
 }
 
 .linterna-magica-side-update-notifier-button-wrap {
-   bottom: 275px !important;
+   left: 185px !important;
 }
 
 p.linterna-magica-side-update-notifier-button-wrap:hover,
 p.linterna-magica-web-log-debug-button-wrap:hover {
-    right: 0px !important;
+    bottom: 0px !important;
 }
 
 .linterna-magica-web-log-debug-button-wrap a:hover {
@@ -704,34 +711,37 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 
 .linterna-magica-side-update-notifier-button,
 .linterna-magica-web-log-debug-button {
-    background: gray url('button-about-270deg.png') 0 0 no-repeat !important;
-    height: 116px!important;
-    width: 24px!important;
+    background: transparent url('button-about.png') 0 0 no-repeat !important;
+    height: 22px!important;
+    width: 106px!important;
     display:block!important;
     border: none !important;
+    left: 24px !important;
+    position: relative !important
 }
 
-.linterna-magica-sideu-pdate-notifier-button-close,
+.linterna-magica-side-update-notifier-button-close,
 .linterna-magica-web-log-debug-button-close {
-    background: url('button-close-270deg.png') 0 0 no-repeat !important;
+    background: transparent url('button-close.png') 0 0 no-repeat !important;
     width: 24px !important;
     height: 24px !important;
     position:relative !important;
-    top: 24px !important;
+    left: 130px !important;
     display:block;
     overflow:hidden !important;
     border: none !important;
+    top: -22px !important;
 }
 
 .linterna-magica-web-log-debug-button-bug {
-    background: gray url('button-debug-270deg.png') 0 0 no-repeat !important;
+    background: gray url('button-debug.png') 0 0 no-repeat !important;
     height: 24px!important;
     width: 24px!important;
     display:block!important;
-    top:116px!important;
     position:relative!important;
     overflow:hidden !important;
     border: none !important;
+    left: -24px !important;
 }
 
 .linterna-magica-video-object-wrapper,
