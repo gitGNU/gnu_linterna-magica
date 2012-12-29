@@ -185,8 +185,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
 	controls.appendChild(mute);
 
 	var volume_slider  = this.create_volume_slider(object_data);
-	var volume_text = volume_slider.getElementsByTagName("span")[0];
-
+ 
 	var volume_slider_scroll_function = function(ev)
 	{
 	    var el = this;
@@ -524,6 +523,14 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     {
 	time_knob_move = "left";
     }
+ 
+    var progress_bar = document.createElement("div");
+    progress_bar.setAttribute("title", this._("Time"));
+    progress_bar.setAttribute("class", "linterna-magica-controls-horizontal-"+
+			   "slider-progress-bar");
+    progress_bar.setAttribute("id", "linterna-magica-controls-"+
+			   "time-slider-progress-bar-"+lm_id);
+ 
 
     var time_knob = document.createElement("a");
     time_knob.setAttribute("title", this._("Time"));
@@ -536,6 +543,8 @@ LinternaMagica.prototype.create_time_slider = function(object_data)
     time_knob.setAttribute("href", "#");
 
     time_slider.appendChild(time_knob);
+
+    time_slider_outer.appendChild(progress_bar);
 
     time_slider_outer.appendChild(time_slider);
 
@@ -571,8 +580,14 @@ LinternaMagica.prototype.time_slider_click_event = function (event, element)
     var self = this;
 
     // Linterna Magica object id
-    var id = element.getAttribute("id").
-	replace(/linterna-magica-controls-time-slider-outer-frame-/,"");
+    var raw_id = element.getAttribute("id");
+    var id = raw_id.split('-');
+    id = id[id.length-1];
+
+    if (!id)
+    {
+	return;
+    }
 
     // Stop the time ticker
     clearInterval(this.player_timers[id]);
@@ -624,6 +639,13 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
     volume_slider.setAttribute("title", this._("Volume control"));
 
 
+    var progress_bar = document.createElement("div");
+    progress_bar.setAttribute("title", this._("Volume"));
+    progress_bar.setAttribute("class", "linterna-magica-controls-horizontal-"+
+			   "slider-progress-bar");
+    progress_bar.setAttribute("id", "linterna-magica-controls-"+
+			   "volume-slider-progress-bar-"+lm_id);
+ 
     var volume_knob_move = null;
 
     var doc_dir = this.get_document_direction();
@@ -649,16 +671,7 @@ LinternaMagica.prototype.create_volume_slider = function(object_data)
 
     volume_slider.appendChild(volume_knob);
 
-    var volume_text = document.createElement("span");
-    volume_text.setAttribute("class",
-			     "linterna-magica-controls-slider-text "+
-			    " linterna-magica-controls-volume-slider-text");
-    volume_text.setAttribute("id", "linterna-magica-controls-"+
-			     "volume-slider-text-"+lm_id);
-
-    volume_text.textContent = "--";
-    volume_slider.appendChild(volume_text);
-
+    volume_slider_outer.appendChild(progress_bar);
     volume_slider_outer.appendChild(volume_slider);
 
     return volume_slider_outer;
@@ -678,12 +691,6 @@ LinternaMagica.prototype.volume_slider_scroll_event = function (event, element)
     var pos = self.slider_control.apply(self, [event]);
 
     this.player.set_volume.apply(self, [id, pos.val]);
-
-    var volume_text =
-	document.getElementById("linterna-magica-controls-"+
-				"volume-slider-text-"+id);
-
-    volume_text.textContent = pos.val;
 }
 
 // The function executed on DOM click event for the volume slider
@@ -700,11 +707,6 @@ LinternaMagica.prototype.volume_slider_click_event = function (event, element)
     var pos = self.slider_control.apply(self, [event]);
 
     this.player.set_volume.apply(self, [id, pos.val]);
-
-    var volume_text =
-	document.getElementById("linterna-magica-controls-"+
-				"volume-slider-text-"+id);
-    volume_text.textContent = pos.val;
 }
 
 // Create mute button
@@ -773,9 +775,9 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	document.getElementById("linterna-magica-controls-"+
 			    "volume-slider-knob-"+id);
 
-    var volume_text =
-	document.getElementById("linterna-magica-controls-"+
-			    "volume-slider-text-"+id);
+    var volume_progress =
+ 	document.getElementById("linterna-magica-controls-"+
+				"volume-slider-progress-bar-"+id);
 
     if (/M/i.test(mute.textContent))
     {
@@ -790,11 +792,6 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 			  "buttons-unmute");
 
 	// TRANSLATORS: This is showed as tooltip when the mouse
-	// cursor is above the text in volume slider and the sound is
-	// muted.
-	volume_text.setAttribute("title", this._("Muted"));
-
-	// TRANSLATORS: This is showed as tooltip when the mouse
 	// cursor is above the volume slider and the sound is muted.
 	volume_slider.setAttribute("title",this._("Muted"));
 
@@ -802,7 +799,6 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	// cursor is above the volume slider knob and the sound is
 	// muted.
 	volume_knob.setAttribute("title",this._("Muted"));
-	volume_text.textContent = "0%";
 
 	mute.lm_volume_knob_direction = 
 	    volume_knob.style.getPropertyValue('left') ? "left" : "right";
@@ -813,6 +809,7 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 
 	volume_knob.style.setProperty(mute.lm_volume_knob_direction,
 				      "0px", "important");
+	volume_progress.style.setProperty("width", "0px", "important");
     }
     else
     {
@@ -822,9 +819,6 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	mute.setAttribute("title", this._("Mute"));
 	mute.textContent = "M";
 
-	volume_text.textContent = volume;
-
-	volume_text.removeAttribute("title");
 	mute.setAttribute("class", "linterna-magica-controls-buttons "+
 			  "linterna-magica-controls-buttons-mute");
 
@@ -841,6 +835,11 @@ LinternaMagica.prototype.mute_button_click_event = function (event, element)
 	volume_knob.style.setProperty(mute.lm_volume_knob_direction,
 				      mute.lm_volume_knob_position,
 				      "important");
+	volume_progress.style.setProperty("width", 
+					  (mute.lm_volume_knob_position ? 
+					   parseInt(mute.lm_volume_knob_position)+3 :
+					   0)+"px",
+					  "important");
     }
 }
 

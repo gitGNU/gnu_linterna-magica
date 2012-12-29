@@ -661,6 +661,7 @@ LinternaMagica.prototype.slider_control = function(event)
 {
     var knob  = null;
     var slider = null;
+    var progress = null;
 
     // find the konb and the slider
     if (event.target.nodeType == 3)
@@ -692,6 +693,9 @@ LinternaMagica.prototype.slider_control = function(event)
 	    getElementsByTagName("a")[0];
 	slider = event.target;
     }
+
+    progress = slider.previousSibling;
+
 
     if (!knob)
     {
@@ -826,6 +830,11 @@ LinternaMagica.prototype.slider_control = function(event)
 			   position +"px",
 			   "important");
 
+    progress.style.setProperty("width",
+			   (position ? 
+			    position+3:0) +"px",
+			   "important");
+
     var percent = (parseInt((
 	position/(slider.clientWidth-knob.clientWidth))*100));
 
@@ -884,7 +893,11 @@ LinternaMagica.prototype.ticker = function(id)
     }
 
 
-    // Move the knob while playing
+    // Move the knob and the progress bar while playing
+    var progress_bar  = document.
+	getElementById("linterna-magica-controls-time-"+
+		       "slider-progress-bar-"+id);
+
     var knob  = document.
 	getElementById("linterna-magica-controls-time-slider-knob-"+id);
 
@@ -913,6 +926,10 @@ LinternaMagica.prototype.ticker = function(id)
 
 	knob.style.setProperty(move,
 			       pos+"px",
+			       "important");
+
+	progress_bar.style.setProperty("width",
+				       (pos+3)+"px",
 			       "important");
     }
 }

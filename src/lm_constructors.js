@@ -303,7 +303,6 @@ LinternaMagica.prototype.player.init = function(id)
 	    return null;
 	}
 
-	var text = knob.nextSibling;
 	var slider = knob.parentNode;
 	var vol = null;
 
@@ -346,8 +345,6 @@ LinternaMagica.prototype.player.init = function(id)
 			 knob.clientWidth-knob.clientWidth/2);
 
 	    knob.style.setProperty("left", pos+"px", "important");
-
-	    text.textContent = vol+"%";
 
 	    clearInterval(volume_interval);
 	}

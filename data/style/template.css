@@ -402,10 +402,6 @@ div.linterna-magica-controls-horizontal-slider,
     line-height: 10px !important;
 }
 
-.linterna-magica-controls-volume-slider-text {
-    display: none !important;
-}
-
 .linterna-magica-controls-time-slider-text {
     top: 6px !important;
     color: #ffffff !important;
@@ -775,6 +771,15 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     float: left !important;
     width: 80px !important;
     height: 22px !important;
+}
+
+.linterna-magica-controls-horizontal-slider-progress-bar {
+    background-color: #e84ead !important;
+    /* Initial value must be zero */
+    width: 0 !important;
+    height: 8px !important;
+    position:relative !important;
+    display: block !important;
 }
 
 .linterna-magica-lower {
