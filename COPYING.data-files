@@ -22,19 +22,20 @@ button-stop.png
 button-toggle-plugin-with-logo.png
 header-background.png
 slider-knob.png
-
-	Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
-
-	Distributed under the terms of the GNU GPL either version 3 of
-	the License, or (at your option) any later version.
-
 button-close.png
 button-debug.png
 button-update.png
 button-minimize.png
 button-higher-quality.png
 
-	Copyright (C) 2011  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2010, 2011, 2012 Anton Katsarov <anton@katsarov.org>
+
+	Distributed under the terms of the GNU GPL either version 3 of
+	the License, or (at your option) any later version.
+
+button-about-lower.png
+
+	Copyright (C) 2012 Anton Katsarov <anton@katsarov.org>
 
 	Distributed under the terms of the GNU GPL either version 3 of
 	the License, or (at your option) any later version.
@@ -86,7 +87,7 @@ linterna mágica - interface.svg
 
 template.css
 
-	Copyright (C) 2010, 2011  Anton Katsarov <anton@katsarov.org>
+	Copyright (C) 2010, 2011, 2012 Anton Katsarov <anton@katsarov.org>
 	Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
 
 	Distributed under the terms of the GNU GPL either version 3 of

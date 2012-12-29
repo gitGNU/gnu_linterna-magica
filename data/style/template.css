@@ -1,8 +1,8 @@
 /*
    This CSS file is part of  Linterna Mágica
 
-   Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
-   Copyright (C) 2010, 2011  Anton Katsarov <anton@katsarov.org>
+   Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+   Copyright (C) 2010, 2011, 2012 Anton Katsarov <anton@katsarov.org>
 
    Linterna Mágica is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -58,7 +58,6 @@ div.dmpi_video_playerv4 div.linterna-magica,
 
 /* The header div */
 body div#top_content_box div.dmpi_video_playerv4
-div.linterna-magica-controls-time-slider,
 .linterna-magica-controls-time-slider {
     text-align: left  !important;
     color: #333333  !important;
@@ -71,7 +70,9 @@ div.linterna-magica-controls-time-slider,
     top: 0px !important;
 }
 
-
+div.linterna-magica-controls-time-slider {
+    height: 12px !important;
+}
 
 /* The logo/about link in the header */
 /* The link that switches between LinternaMagica and the plugin */
@@ -96,17 +97,19 @@ div.linterna-magica-controls-time-slider,
 .linterna-magica-logo {
     display: block  !important;
     text-decoration: none  !important;
-    width: 146px  !important;
-    height: 24px  !important;
+    width: 106px  !important;
+    height: 22px  !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
-    width: 116px  !important;
     background: url('button-about.png') 0 0 no-repeat !important;
     cursor: help !important;
     z-index: 9999 !important;
     float: right !important;
 }
-
+.linterna-magica-lower .linterna-magica-logo {
+    width: 24px !important;
+    background: url('button-about-lower.png') 0 0 no-repeat !important;
+}
 .linterna-magica-remote-clip-buttons,
 .linterna-magica-toggle-plugin-wrapper {
     position:relative!important;
@@ -203,12 +206,14 @@ div.linterna-magica-about-box,
 body div#top_content_box div.dmpi_video_playerv4
 div.linterna-magica-controls,
 .linterna-magica-controls {
-    background: gray url('header-background.png') 0 0 repeat-x !important;
-    border-color: #666666  !important;
-    border-style: solid !important;
-    border-width: 1px 0px  !important;
+  background-color: #666666;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a));
+  background-image: -webkit-linear-gradient(top, #666666, #1a1a1a);
+  background-image:    -moz-linear-gradient(top, #666666, #1a1a1a);
+  background-image:         linear-gradient(to bottom, #666666, #1a1a1a);
+    border: none  !important;
     color: black !important;
-    height: 24px !important;
+    height: 22px !important;
     width: inherit !important;
     font-family: 'Liberation Sans', 'Arial', sans-serif  !important;
     font-size: 10px  !important;
@@ -221,7 +226,7 @@ div.linterna-magica-controls,
     /* https://savannah.nongnu.org/bugs/?34465 */
    /* overflow: hidden !important; */
     text-align: center !important;
-    color: #333333  !important;
+    color: #e6e6e6  !important;
 }
 
 /* control buttons (<a>) */
@@ -231,8 +236,8 @@ div.linterna-magica-controls,
 a.linterna-magica-controls-buttons {
     display: block !important;
     float: left !important;
-    height: 24px !important;
-    width: 21px !important;
+    height: 22px !important;
+    width: 22px !important;
     position: relative !important;
     text-decoration: none !important;
     padding: 0px !important;
@@ -283,31 +288,48 @@ a.linterna-magica-controls-buttons-fullscreen {
 body div#top_content_box div.dmpi_video_playerv4
 div.linterna-magica-controls-horizontal-slider,
 .linterna-magica-controls-horizontal-slider {
-    top: 1px !important;
-    line-height: 22px !important;
+    /* top: 1px !important; */
+    line-height: 10px !important;
     float: left !important;
     /* Fix for The Onion dot com */
     clear: none !important;
-    height: 22px !important;
+    height: 10px !important;
     position: relative !important;
     color: #ffffff !important;
-    background: url('slider-background.png') left bottom repeat-x !important;
+  background-color: #1a1a1a;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666));
+  background-image: -webkit-linear-gradient(top, #1a1a1a, #666666);
+  background-image:    -moz-linear-gradient(top, #1a1a1a, #666666);
+  background-image:         linear-gradient(to bottom, #1a1a1a, #666666);
+  border-color: #222222;
+  border-width: 1px 0;
+  border-style: solid;
     width: 100% !important;
 }
 
 /* time && volume slider knob (<a>) */
 .linterna-magica-controls-slider-knob {
     padding: 0px !important;
-    height: 20px !important;
-    width: 17px !important;
+    height: 8px !important;
+    width: 8px !important;
     display: block !important;
     position: relative !important;
-    top: 0px !important;
-    background: url('slider-knob.png') center top no-repeat !important;
+    top: -1px !important;
+    /* background: url('slider-knob.png') center top no-repeat !important; */
     /* Position the knob above time && volume positon text */
+    background-color: #e84ead;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e84ead), to(#951b66));
+    background-image: -webkit-linear-gradient(top, #e84ead, #951b66);
+    background-image:    -moz-linear-gradient(top, #e84ead, #951b66);
+    background-image:         linear-gradient(to bottom, #e84ead, #951b66);
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: #e6e6e6 !important;
+    -webkit-border-radius: 6px !important;
+    -moz-border-radius: 6px !important;
+    border-radius: 6px !important;
     z-index: 9999 !important;
 }
-
 
 
 /* The video download link */
@@ -369,13 +391,19 @@ div.linterna-magica-controls-horizontal-slider,
 }
 
 .linterna-magica-controls-volume-slider {
-    margin-left: 3px !important;
+    margin-left: 5px !important;
+    height: 10px !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
     width: 80px !important;
     display: block !important;
+    top: 6px !important;
+    line-height: 10px !important;
 }
 
 .linterna-magica-controls-volume-slider-text {
-    left: 35% !important;
+    display: none !important;
 }
 
 .linterna-magica-controls-time-slider-text {
@@ -728,7 +756,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 
 
 .linterna-magica-controls-time-slider-outer-frame {
-    height: 22px !important;
+    height: 12px !important;
 }
 
 .linterna-magica-controls-volume-slider-outer-frame {
