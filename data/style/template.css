@@ -82,11 +82,11 @@ div.linterna-magica-controls-time-slider {
 .linterna-magica-remote-clip-buttons a {
     display: block  !important;
     text-decoration: none  !important;
-    width: 146px  !important;
+    width: 106px  !important;
     height: 24px  !important;
     position: absolute !important;
     right: 0px  !important;
-    background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
+    background: url('button-about.png') 0 0 no-repeat !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
     border: 1px solid #36393E !important;
@@ -130,19 +130,25 @@ div.linterna-magica-controls-time-slider {
 }
 
 a.linterna-magica-remote-clip-visit-page-button {
-    background: url('button-toggle-plugin-with-logo.png') 0 0 no-repeat !important;
+    background: #3e3e3e url('button-about.png') 0 0 no-repeat !important;
     border-left: none !important;
+    -webkit-border-radius: 0 6px 0 0 !important;
+    -moz-border-radius: 0 6px 0 0 !important;
+    border-radius: 0 6px 0 0 !important;
 }
 
 /* The link that destroys the remote clip link */
 a.linterna-magica-remote-clip-close-button {
-    background: url('button-close.png') 0 0 no-repeat !important;
+    background: #3e3e3e url('button-close.png') 0 0 no-repeat !important;
     height: 24px !important;
     width: 24px !important;
     position:absolute !important;
     display: block !important;
-    right: 144px !important;
+    right: 104px !important;
     border-right: none !important;
+    -webkit-border-radius: 6px 0 0 0 !important;
+    -moz-border-radius: 6px 0 0 0 !important;
+    border-radius: 6px 0 0 0 !important;
 }
 
 /* about message (license, author... every row) */
