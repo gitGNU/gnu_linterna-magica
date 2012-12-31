@@ -330,13 +330,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	this.hide_lm_interface(object_data.linterna_magica_id);
     }
 
-    if (object_data.parent)
-    {
-	object_data.parent.style.setProperty("height",
-					     "auto",
-					     "important");
-    }
-   
     // Objects extracted from script usually does not have cloned object
     // For example youtube
     if (site_player)
@@ -382,35 +375,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				  "important");
 	}
     }
-
-    // Fixes script crash in vimeo.com with firefox. if
-    // parent.parentNode is not an object
-    if (object_data.parent && object_data.parent.parentNode)
-    {
-	// dailymotion.com && metacafe.com && btn.bg
-	// These have single div inside another one
-	// which (through height) overlaps elemenst
-	// It is not good to be applied on parent.parentNode
-	// which has different number of childNodes
-	if ((object_data.parent.parentNode.childNodes.length === 3 &&
-	     // text node
-	     object_data.parent.parentNode.firstChild.nodeType === 3 &&
-	     object_data.parent.parentNode.lastChild.nodeType === 3) ||
-	    object_data.parent.parentNode.localName.toLowerCase() === "li")
-
-	{
-	    object_data.parent.parentNode.style.
-		setProperty("height",
-			    "auto",
-			    "important");
-
-	    this.log("LinternaMagica.create_video_object:\n"+
-		     "Detected single wrapper "+
-		     "element inside another one. Aplying parent.parent "+
-		     "height: "+(parseInt(object_data.height)+26)+"px", 4);
-	}
-    }
-
 
     // Init the web controls functions
     // only if Linterna Mágica has priority
