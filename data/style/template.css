@@ -214,11 +214,11 @@ div.linterna-magica-about-box,
 body div#top_content_box div.dmpi_video_playerv4
 div.linterna-magica-controls,
 .linterna-magica-controls {
-  background-color: #666666;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a));
-  background-image: -webkit-linear-gradient(top, #666666, #1a1a1a);
-  background-image:    -moz-linear-gradient(top, #666666, #1a1a1a);
-  background-image:         linear-gradient(to bottom, #666666, #1a1a1a);
+  background-color: #666666 !important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a)) !important;
+  background-image: -webkit-linear-gradient(top, #666666, #1a1a1a) !important;
+  background-image:    -moz-linear-gradient(top, #666666, #1a1a1a) !important;
+  background-image:         linear-gradient(to bottom, #666666, #1a1a1a) !important;
     border: none  !important;
     color: black !important;
     height: 22px !important;
@@ -317,11 +317,11 @@ div.linterna-magica-controls-horizontal-slider,
     top: -1px !important;
     /* background: url('slider-knob.png') center top no-repeat !important; */
     /* Position the knob above time && volume positon text */
-    background-color: #e84ead;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#e84ead), to(#951b66));
-    background-image: -webkit-linear-gradient(top, #e84ead, #951b66);
-    background-image:    -moz-linear-gradient(top, #e84ead, #951b66);
-    background-image:         linear-gradient(to bottom, #e84ead, #951b66);
+    background-color: #e84ead !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e84ead), to(#951b66)) !important;
+    background-image: -webkit-linear-gradient(top, #e84ead, #951b66) !important;
+    background-image:    -moz-linear-gradient(top, #e84ead, #951b66) !important;
+    background-image:         linear-gradient(to bottom, #e84ead, #951b66) !important;
     border-style: solid !important;
     border-width: 2px !important;
     border-color: #e6e6e6 !important;
@@ -582,11 +582,11 @@ div.linterna-magica-web-log,
     text-align: left  !important;
     line-height: 10px !important;
     color: #333333  !important;
-    background-color: #666666;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a));
-    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a);
-    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a);
-    background-image:         linear-gradient(to bottom, #666666, #1a1a1a);
+    background-color: #666666 !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a)) !important;
+    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:         linear-gradient(to bottom, #666666, #1a1a1a) !important;
     height: 24px  !important;
     line-height: 24px  !important;
     border: solid #666666  !important;
@@ -624,8 +624,8 @@ div.linterna-magica-web-log,
     height: 24px !important;
     /* border: 1px dashed white !important; */
     text-decoration: none !important;
-    overflow: hidden;
-    line-height: 3000px;
+    overflow: hidden !important;
+    line-height: 3000px !important;
 }
 
 .linterna-magica-web-log-right-buttons {
@@ -650,14 +650,14 @@ div.linterna-magica-web-log,
     height: 85% !important;
     overflow: auto !important;
     padding: 5px 15px !important;
-    line-height: 1.35em;
+    line-height: 1.35em !important;
 }
 
 
 /* New lines are replaced with span in the web log. */
 /* This shows them in new line in the web log */
 .linterna-magica-log-to-web-message span {
-    display: block;
+    display: block !important;
 }
 
 /* Mesage rows */
@@ -684,14 +684,14 @@ div.linterna-magica-web-log,
     border: 1px solid #36393E !important;
     /* The footer at some site had 1e+09 that broke 9999 */
     z-index: 10000000000000000 !important;
-    background-color: #666666;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a));
-    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a);
-    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a);
-    background-image:         linear-gradient(to bottom, #666666, #1a1a1a);
-    border-color: #222222;
-    border-width: 1px 0;
-    border-style: solid;
+    background-color: #666666 !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a)) !important;
+    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:         linear-gradient(to bottom, #666666, #1a1a1a) !important;
+    border-color: #222222 !important;
+    border-width: 1px 0 !important;
+    border-style: solid !important;
     -webkit-border-radius: 6px 6px 0 0 !important;
     -moz-border-radius: 6px 6px 0 0 !important;
     border-radius: 6px 6px 0 0 !important;
@@ -716,9 +716,9 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-side-update-notifier-button,
 .linterna-magica-web-log-debug-button {
     background: transparent url('button-about.png') 0 0 no-repeat !important;
-    height: 22px!important;
-    width: 106px!important;
-    display:block!important;
+    height: 22px !important;
+    width: 106px !important;
+    display:block !important;
     border: none !important;
     left: 24px !important;
     position: relative !important
@@ -731,7 +731,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     height: 24px !important;
     position:relative !important;
     left: 130px !important;
-    display:block;
+    display:block !important;
     overflow:hidden !important;
     border: none !important;
     top: -22px !important;
@@ -739,10 +739,10 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 
 .linterna-magica-web-log-debug-button-bug {
     background: transparent url('button-debug.png') 0 0 no-repeat !important;
-    height: 24px!important;
-    width: 24px!important;
-    display:block!important;
-    position:relative!important;
+    height: 24px !important;
+    width: 24px !important;
+    display:block !important;
+    position:relative !important;
     overflow:hidden !important;
     border: none !important;
     left: -24px !important;
@@ -771,12 +771,12 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 
 .linterna-magica-controls-time-slider-outer-frame {
   height: 10px !important;
-  background-color: #1a1a1a;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666));
-  background-image: -webkit-linear-gradient(top, #1a1a1a, #666666);
-  background-image:    -moz-linear-gradient(top, #1a1a1a, #666666);
-  background-image:         linear-gradient(to bottom, #1a1a1a, #666666);
-  border-color: #222222;
+  background-color: #1a1a1a !important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666)) !important;
+  background-image: -webkit-linear-gradient(top, #1a1a1a, #666666) !important;
+  background-image:    -moz-linear-gradient(top, #1a1a1a, #666666) !important;
+  background-image:         linear-gradient(to bottom, #1a1a1a, #666666) !important;
+  border-color: #222222 !important;
   border-width: 1px 0 !important;
   border-style: solid !important;
   position: relative !important;
@@ -787,11 +787,11 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     float: left !important;
     width: 80px !important;
   height: 10px !important;
-  background-color: #1a1a1a;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666));
-  background-image: -webkit-linear-gradient(top, #1a1a1a, #666666);
-  background-image:    -moz-linear-gradient(top, #1a1a1a, #666666);
-  background-image:         linear-gradient(to bottom, #1a1a1a, #666666);
+  background-color: #1a1a1a !important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#1a1a1a), to(#666666)) !important;
+  background-image: -webkit-linear-gradient(top, #1a1a1a, #666666) !important;
+  background-image:    -moz-linear-gradient(top, #1a1a1a, #666666) !important;
+  background-image:         linear-gradient(to bottom, #1a1a1a, #666666) !important;
   border-color: #3E3E3E !important;
   border-width: 0px 1px !important;
   border-style: solid !important;
@@ -812,10 +812,10 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
 .linterna-magica-controls-horizontal-slider-progress-bar {
     background-color: #e84ead !important;
     /* Initial value must be zero */
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#e84ead), to(#951b66));
-    background-image: -webkit-linear-gradient(top, #e84ead, #951b66);
-    background-image:    -moz-linear-gradient(top, #e84ead, #951b66);
-    background-image:         linear-gradient(to bottom, #e84ead, #951b66);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e84ead), to(#951b66)) !important;
+    background-image: -webkit-linear-gradient(top, #e84ead, #951b66) !important;
+    background-image:    -moz-linear-gradient(top, #e84ead, #951b66) !important;
+    background-image:         linear-gradient(to bottom, #e84ead, #951b66) !important;
     width: 0 !important;
     height: 4px !important;
     position: absolute !important;
