@@ -166,6 +166,9 @@ div.linterna-magica-about-box,
     z-index: 999999 !important;
     width: 100% !important;
     padding-bottom: 20px !important;
+ }
+
+.linterna-magica-about-box {
     overflow: auto !important;
 }
 
