@@ -88,7 +88,6 @@ div.linterna-magica-controls-time-slider {
     background: url('button-about.png') 0 0 no-repeat !important;
     line-height: 3000px  !important;
     overflow: hidden  !important;
-    border: 1px solid #36393E !important;
     bottom: 0px !important;
 }
 
@@ -120,6 +119,27 @@ div.linterna-magica-controls-time-slider {
     background-color: transparent !important;
     clear: both !important;
     top: 0px !important;
+}
+
+.linterna-magica-toggle-plugin-outer-frame {
+    display: block !important;
+    width: 106px !important; 
+    height: 24px !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+
+    background-color: #666666 !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a)) !important;
+    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:         linear-gradient(to bottom, #666666, #1a1a1a) !important;
+    border-color: #222222 !important;
+    border-width: 1px 0 !important;
+    border-style: solid !important;
+    -webkit-border-radius: 6px 6px 0 0 !important;
+    -moz-border-radius: 6px 6px 0 0 !important;
+    border-radius: 6px 6px 0 0 !important;    
 }
 
 

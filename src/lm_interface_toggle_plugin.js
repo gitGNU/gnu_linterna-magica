@@ -59,8 +59,12 @@ function(not_in_header,id,switch_type)
 	toggle_plugin.setAttribute("id", 
 				   "linterna-magica-toggle-plugin-"+id);
 
+	var span = document.createElement("span");
+	span.setAttribute("class", "linterna-magica-toggle-plugin-outer-frame");
+	span.appendChild(toggle_plugin);
+
 	wrapper = document.createElement("p");
-	wrapper.appendChild(toggle_plugin);
+	wrapper.appendChild(span);
 	wrapper.setAttribute("class", "linterna-magica-toggle-plugin-wrapper");
     }
     else

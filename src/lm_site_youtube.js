@@ -587,30 +587,6 @@ function(object_data)
 	
     }
 
-    // Sometimes the toggle plugin button that should be bellow the
-    // HTML5/Flash player shows on top. The following tries to fix
-    // this.  Most of the time the bug occurs in Epiphany.s
-
-    var id = object_data.linterna_magica_id;
-    var toggle_plugin = document.getElementById("linterna-magica-toggle-plugin-"+id);
-    
-    if (toggle_plugin)
-    {
-	var lm = document.getElementById("linterna-magica-"+id);
-	var h_lm = parseInt(lm.style.getPropertyValue("height"));
-
-	toggle_plugin = toggle_plugin.parentNode;
-	var display = toggle_plugin.style.getPropertyValue("display");
-	var top = toggle_plugin.offsetTop;
-
-	if (!display && !top)
-	{
-	    toggle_plugin.style.setProperty("top", 
-					    (h_lm +30)+"px",
-					    "important");
-	}
-    }
-
     // When YouTube's HTML5 player detects that the browser does not
     // have support for any clip, a warning div is displayed. It must
     // be hidden or it displaces Linterna Magica.
