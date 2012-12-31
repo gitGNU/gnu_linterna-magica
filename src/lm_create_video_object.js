@@ -38,8 +38,14 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     // Decrease the size for the object, so it all fits in the space
     // allocated by the website
-    object_data.outer_height = object_data.height;
-    object_data.height -= 48;
+    // height of all controls + borders
+    // 36 = 12 + 22 + 2
+    // 12 - time slider
+    // 22 - control barr
+    // 2 - borders 
+    // -1 = bottom border of the object
+    object_data.outer_height = object_data.height-1;
+    object_data.height -= this.controls ? 36 : 24;
 
   
     var toggle_plugin = null;
