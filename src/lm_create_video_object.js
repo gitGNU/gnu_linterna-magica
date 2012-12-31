@@ -267,7 +267,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     }
 
     var controls = this.create_controls(object_data);
-    // Set the link if the an HD preferred link was computed in the
+    // Set the link if an HD preferred link was computed in the
     // controls code.
     object_tag.setAttribute("data", object_data.link);
     container.appendChild(controls);
