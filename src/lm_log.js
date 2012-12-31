@@ -343,8 +343,8 @@ LinternaMagica.prototype.change_web_log_height = function(event, element)
     }
     else
     {
-	logger.style.setProperty('height', '95%', 'important');
-	body.style.setProperty('height', '95%', 'important');
+	logger.style.setProperty('height', '93%', 'important');
+	body.style.setProperty('height', '93%', 'important');
     }
 }
 
