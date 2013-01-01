@@ -214,7 +214,7 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
     }
     
 
-    // With default timeout 2000mS this will be 10 sec. Stop checking and insert.    
+    // With default timeout 3000mS this will be >10 sec. Stop checking and insert.    
     // Might be flashblock
     if (document.getElementById("movie_player") ||
 	document.getElementById("movie_player-html5") ||
@@ -486,7 +486,7 @@ function(object_data)
 	this.youtube_flash_upgrade_timeout = setInterval(
 	    function() {
 		self.detect_youtube_flash_upgrade.apply(self,[data]);
-	    }, 2000);
+	    }, 3000);
     }
     
     return false;
