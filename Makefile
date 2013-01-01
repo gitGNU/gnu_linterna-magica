@@ -1,6 +1,6 @@
 # This Makefile is part of  Linterna Mágica
 #
-# Copyright (C) 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
+# Copyright (C) 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 #
 # Linterna Mágica is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -149,33 +149,14 @@ $(STYLEFILE).js: $(STYLEFILE) $(CSSINJSFILES)  $(BASE64FILES) Makefile
 	fi
 
 userscript-header.js: $(USRSCRIPTHDR) $(JSFILES) $(STYLEFILE) COPYING.data-files Makefile
-	@echo -n "Collecting authors... ";\
-	authors="`$(GREP) -E '(//)*\s*Copyright' $(JSFILES) $(USRSCRIPTHDR) $(STYLEFILE) COPYING.data-files | $(CUT) -d ':' -f2| $(SED) -e 's/\s\s/ /g' -e 's/^[^\/]/\/\//g' -e 's/\/\/\s*/\/\/    /g' | $(SORT) | $(UNIQ) | $(TR) -d '\n'`";\
-	up_cut="`$(CAT) $(USRSCRIPTHDR) | $(GREP) -n '//\s*Copyright' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
-	down_cut="`$(TAC) $(USRSCRIPTHDR) |$(GREP) -n '//\s*Copyright' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
-	$(HEAD) -n $$up_cut  $(USRSCRIPTHDR) > $@;\
-	echo -e "$$authors//\n" | $(SED) -e 's#\/\/\s*#\n//  #g' | $(SED)  -e '/^$$/d' >> $@;\
-	echo "done";\
-	$(TAIL) -n $$down_cut $(USRSCRIPTHDR) >> $@;
+	$(CP) $(USRSCRIPTHDR) $@;
 
 $(PACKAGE).user.js: strip-js-comments strip-js-headers userscript-header.js $(JSFILES) $(USRSCRIPTHDR) $(STYLEFILE) $(STYLEFILE).js Makefile
 	@$(CAT) userscript-header.js > $@;\
-	 authors="`$(GREP) -E '//*\s+Copyrigh' userscript-header.js |	\
-	$(SED) -e							\
-	's/^\/\/\s*/LinternaMagica.prototype.copyrights.push\(\"/g' -e	\
-	's/$$/\"\);\n/g'`";\
 	echo "(function(){" >> $@;\
 	$(CAT)  $(STRIPCOMMENTS) >> $@;\
 	echo "})();" >> $@;\
 	$(SED) -i -e 's/@VERSION@/$(VERSION)/g' $@;\
-	tmp="`$(MKTEMP)`";\
-	rights_up_cut="`$(CAT) $@ | $(GREP) -n $(PUSHCOPYRIGHTLINE)  |$(HEAD) -n 1| $(CUT) -d':' -f1`";\
-	rights_down_cut="`$(TAC) $@ |$(GREP) -n $(PUSHCOPYRIGHTLINE) -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
-	$(HEAD) -n $$rights_up_cut $@ > $$tmp;\
-	echo $$authors >> $$tmp;\
-	$(TAIL) -n $$rights_down_cut $@ >> $$tmp;\
-	$(CP) $$tmp $@;\
-	$(RM) $$tmp;\
 	echo -n "Merging style sheet ... ";\
 	tmp="`$(MKTEMP)`";\
 	css_up_cut="`$(CAT) $@ | $(GREP) -n 'var css_data;' -B1 |$(HEAD) -n 1| $(CUT) -d'-' -f1`";\
