@@ -265,7 +265,7 @@ LinternaMagica.prototype.player.state = function(id)
     // Add some moving text
     if (time.state)
     {
-	var dots = Math.random()*10;
+	var dots = Math.random()*7;
 	for (var d=0; d <dots ; d ++)
 	{
 	    time.state += ".";
