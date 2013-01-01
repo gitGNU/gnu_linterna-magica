@@ -432,6 +432,18 @@ LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
     	}
     } 
 
+    // A div left by the website player is taking the space for LM
+    // Usually a waring about missing flash or no supported video
+    // format in the browser.
+    if (lm)
+    {
+    	var div = lm.previousSibling;
+    	if (/HTMLDiv/i.test(div))
+    	{
+    	    div.parentNode.removeChild(div);
+    	}
+    } 
+
 
     // Fix video galerry displacement on first page when LM volume
     // slider is showing.
