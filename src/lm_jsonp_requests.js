@@ -151,7 +151,8 @@ LinternaMagica.prototype.jsonp_data_parser = function(data)
 	    window.location.toString().split("&linterna_magica");
 
 	// Clear our data from the address field
-	window.location = jsonp_data[0]+jsonp_data[jsonp_data.length-1];
+	// window.location = jsonp_data[0]+jsonp_data[jsonp_data.length-1];
+	history.go(-1);
 	
 	// Cleanup the checker object/frame
 	var o = document.getElementById(data.frame_id);
