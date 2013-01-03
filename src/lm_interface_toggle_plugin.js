@@ -195,8 +195,6 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	    this.hide_site_html5_player(html5_parent);
 	}
 
-	lm_interface.parentNode.style.setProperty("height",
-						  "auto", "important");
 	this.show_lm_interface(linterna_magica_id);
 
 	// Init the web controls
@@ -247,7 +245,6 @@ LinternaMagica.prototype.toggle_plugin = function(event,element)
 	    this.show_or_hide_update_info(null, update_info);
 	}
 
-	lm_interface.parentNode.style.removeProperty("height");
 	this.hide_lm_interface(linterna_magica_id);
 	
 	// External toggle plugin link

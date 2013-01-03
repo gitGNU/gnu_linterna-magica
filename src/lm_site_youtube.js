@@ -628,17 +628,18 @@ function(object_data)
  	    {
 		// It should be available, because it is used above in
 		// this function
-		id = id ? id : object_data.linterna_magica_id;
+		var id = object_data.linterna_magica_id;
 
-		this.show_lm_interface(object_data.linterna_magica_id);
+		this.show_lm_interface(id);
 	    
 		// It should be available, because it is used above in
 		// this functon.
-		toggle_plugin = toggle_plugin  ? toggle_plugin :
+		toggle_plugin = 
 		    document.getElementById("linterna-magica-"+
 					    "toggle-plugin-"+id);
 
-		toggle_plugin.parentNode.removeChild(toggle_plugin);
+		var pn = toggle_plugin.parentNode.parentNode;
+		pn.removeChild(toggle_plugin.parentNode);
 
 		toggle_plugin_header =
 		    document.getElementById("linterna-magica-"+
@@ -663,6 +664,24 @@ function(object_data)
 		container.style.setProperty("display", "none", "important");
 	    }
 
+	}
+    }
+
+    // Without this the toggle plugin stays hidden below the title of
+    // the clip
+    var watch7 = document.getElementById('watch7-player');
+    if (watch7)
+    {
+	watch7.style.setProperty("height", 
+				 (parseInt(object_data.outer_height)+
+				  24)+"px", "important");
+
+	var movie_player = document.getElementById("movie_player");
+	if (movie_player)
+	{
+	    movie_player.style.setProperty("height", 
+					   parseInt(object_data.outer_height)+
+					   "px", "important");
 	}
     }
 
