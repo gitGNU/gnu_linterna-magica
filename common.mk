@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
 
-VERSION = svn-trunk
+VERSION = 0.0.13
 PACKAGE = linternamagica
 GETTEXT_PACKAGE = linterna_magica
 
