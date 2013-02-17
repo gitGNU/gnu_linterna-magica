@@ -33,7 +33,7 @@
 //  plugin (totem/vlc/xine/gecko-mediaplayer).
 
 // ==UserScript==
-// @name          Linterna Mágica
+// @name          Linterna Mágica @VERSION@
 // @namespace Linterna Mágica
 // @description  Watch video on the web in a brand new way: You don't need a glint, the magic lantern is ignited!
 // @include        http://*
