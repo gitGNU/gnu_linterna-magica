@@ -353,7 +353,7 @@ LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
 function()
 {
     var data = this.script_data;
-    if (!data.match(/yt\.playerConfig =/))
+    if (!data.match(/ytplayer\.config =/))
     {
  	return null;
     }
@@ -392,9 +392,7 @@ function()
 	embed_id= embed_id[embed_id.length-1];
     }
 
-    var p = this.get_first_element_by_class("flash-player");
-    p = p ? p : this.get_first_element_by_class("html5-player");
-
+    var p = document.getElementById("movie_player").parentNode;
 
     if (!width || !height)
     {
