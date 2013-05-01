@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -304,7 +304,7 @@ LinternaMagica.prototype.sites["www.youtube.com"] = "youtube.com";
 LinternaMagica.prototype.sites["www.youtube-nocookie.com"] = "youtube.com";
 LinternaMagica.prototype.sites["youtube-nocookie.com"] = "youtube.com";
 
-// Referenced by Vimeo
+// Referenced by Vimeo, Xhamster
 LinternaMagica.prototype.sites["youtube.com"].flash_plugin_installed =
 function()
 {
