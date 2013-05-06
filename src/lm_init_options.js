@@ -53,16 +53,6 @@ var linterna_magica_options =
 	// configured.
 	// off/disabled/no/never/false/0: Do not check
 	"updates": "1w",
-	// This options determines how opbject found by Linterna Mágica
-	// should be played. You can set multiple values separated with
-	// ",", without the quotes. Default value is "html5, self,
-	// plugin".
-        // self: Replace the flash object
-	// plugin: Add link after the swf object that replaces it
-	// html5: Add link after the HTMl5 player (if a site provides
-	// one) that replaces it
-	// Default value "html5, self, plugin"
-	"priority": "html5, self, plugin",
 	// Automatically start the video playback
 	// enabled: Auto start the clip (default)
 	// disabled:  Do not start the clip

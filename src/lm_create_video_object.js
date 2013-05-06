@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -46,10 +46,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // -1 = bottom border of the object
     object_data.outer_height = object_data.height-1;
     object_data.height -= this.controls ? 36 : 24;
-
   
-    var toggle_plugin = null;
-
     var id = object_data.linterna_magica_id;
     this.log("LinternaMagica.create_video_object:\n"+
 	     "Creating video object with linterna_magica_id "+id,2);
@@ -121,9 +118,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     var site_html5_player =
 	this.find_site_html5_player_wrapper(object_data.parent);
-
-    var toggle_plugin_switch_type = 
-	site_html5_player ? "html5" : "plugin";
 
     object_tag.setAttribute("width", object_data.width);
     object_tag.setAttribute("height", object_data.height);
@@ -216,47 +210,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     object_tag.linterna_magica_id =
 	parseFloat(object_data.linterna_magica_id+".1");
 
-    // Add link after the object/embed
-    // this.set_priority() has set this.priority
-    // to self if there is no plugin
     if (this.plugin_is_installed || site_html5_player)
     {
-	toggle_plugin =
-	    this.create_toggle_plugin_link("link-not-in-header", id,
-					  toggle_plugin_switch_type);
-
-	var before = null;
-
-	if (this.plugin_is_installed && !site_html5_player)
-	{
-	    before = this.get_flash_video_object(id) ?
-		this.get_flash_video_object(id) : null;
-	}
-	else if (site_html5_player)
-	{
-	    before = site_html5_player;
-	}
-
-	if (before && before.nextSibling)
-	{
-	    object_data.parent.insertBefore(toggle_plugin, before.nextSibling);
-	}
-	else
-	{
-	    object_data.parent.appendChild(toggle_plugin);
-	}
-
-	if (((this.priority.self > this.priority.plugin) && 
-	     this.plugin_is_installed && !site_html5_player) ||
-	    ((this.priority.self > this.priority.html5) &&
-	     site_html5_player))
-	{
-	    // Hide the toggle plugin button only if self has higher
-	    // priority then plugin and html5.
-	    toggle_plugin.style.setProperty("display", "none",
-					    "important");
-	}
-
 	this.add_css_class(object_data.parent, "linterna-magica-ws-video-parent");
     }
 
@@ -280,11 +235,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     }
 
     // Remove/hide the object if it is in DOM
-    if ((((this.priority.self > this.priority.plugin) &&
-	  !site_html5_player) || 
-	 ((this.priority.self > this.priority.html5) &&
-	  site_html5_player)) &&
-	site_player &&
+    if (site_player &&
 	// The object is still in DOM some scripts remove it
 	site_player.parentNode)
     {
@@ -304,33 +255,18 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	}
     }
 
-    if (toggle_plugin)
+    if (object_data.use_sibling)
     {
-	object_data.parent.insertBefore(container, toggle_plugin);
+	object_data.parent.insertBefore(
+	    container,
+	    object_data.use_sibling);
     }
     else
     {
-	if (object_data.use_sibling)
+	if (object_data.parent)
 	{
-	    object_data.parent.insertBefore(
-		container,
-		object_data.use_sibling);
+	    object_data.parent.appendChild(container);
 	}
-	else
-	{
-	    if (object_data.parent)
-	    {
-		object_data.parent.appendChild(container);
-	    }
-	}
-    }
-
-    if (((this.priority.self < this.priority.plugin) && 
-	 this.plugin_is_installed) || 
-	((this.priority.self < this.priority.html5) && 
-	 site_html5_player))
-    {
-	this.hide_lm_interface(object_data.linterna_magica_id);
     }
 
     // Objects extracted from script usually does not have cloned object
@@ -380,9 +316,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     }
 
     // Init the web controls functions
-    // only if Linterna Mágica has priority
-    if (this.controls &&
-	(this.priority.self > this.priority.plugin))
+    if (this.controls)
     {
 	this.player.init.apply(this,[id]);
     }

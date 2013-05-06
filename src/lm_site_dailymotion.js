@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -277,44 +277,6 @@ function(object_data)
 	if (lm && !lm.style.display)
 	{
 	    html5_error.style.setProperty("display", "none", "important");
-	}
-
-	// Hide / show on toggle_plugin clicks 
-	var toggle_header =
-	    document.getElementById("linterna-magica-toggle-plugin-header-"+
-				    object_data.linterna_magica_id);
-	var toggle_after =
-	    document.getElementById("linterna-magica-toggle-plugin-"+
-				    object_data.linterna_magica_id);
-
-	var header_fn = function(ev)
-	{
-	    var err_screen  = document.querySelector(".error_screen");
-
-	    if (!err_screen)
-	    {
-		return;
-	    }
-
-	    if (err_screen.style.display)
-	    {
-		err_screen.style.removeProperty("display");
-	    }
-	    else
-	    {
-		err_screen.style.setProperty("display", 
-					     "none", "important");
-	    }
-	};
-
-	if (toggle_header)
-	{
-	    toggle_header.addEventListener("click",header_fn,false);
-	}
-
-	if (toggle_after)
-	{
-	    toggle_after.addEventListener("click",header_fn,false);
 	}
     }
 

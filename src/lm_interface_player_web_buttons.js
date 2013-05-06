@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -287,20 +287,6 @@ LinternaMagica.prototype.create_controls = function(object_data)
 
     var site_html5_player =
 	this.find_site_html5_player_wrapper(object_data.parent);
-
-    var toggle_plugin_switch_type = 
-	site_html5_player ? "html5" : "plugin";
-
-    // If the plugin is not installed this is useless
-    if (this.plugin_is_installed || site_html5_player)
-    {
-	// append before download link (first button in the header)
-	var toggle_plugin = 
-	    this.create_toggle_plugin_link(null,id,
-					   toggle_plugin_switch_type);
-
-	controls.appendChild(toggle_plugin);
-    }
 
     // Log to web
     if (this.debug_level && this.log_to == "web")

@@ -91,7 +91,6 @@ function LinternaMagica(params)
 
     // Do not change order
     this.check_flash_plugin();
-    this.set_priority(params.priority);
     this.set_autostart(params.autostart);
     this.set_controls(params.controls);
     this.set_cookies(params.cookies);

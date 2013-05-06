@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -52,17 +52,6 @@ LinternaMagica.prototype.sites["indieflix.com"].css_fixes =
 function(object_data)
 {
     var id = object_data.linterna_magica_id;
-    var toggle_plugin = 
-	document.getElementById("linterna-magica-toggle-plugin-"+id);
-
-    if (toggle_plugin)
-    {
-	// Move the external toggle plugin link at the bottom of the
-	// player.
-	var p = toggle_plugin.parentNode;
-	p.style.setProperty("top", (parseInt(object_data.height)+5)+"px",
-			    "importnat");
-    }
 
     // Fix hidden HD links menu
     var lm = document.getElementById("linterna-magica-"+id);

@@ -508,10 +508,7 @@ function(object_data)
 	movie_player.linterna_magica_id = object_data.linterna_magica_id;
     }
 
-    if (this.priority.self > this.priority.plugin)
-    {
-	this.hide_flash_video_object(object_data.linterna_magica_id);
-    }
+    this.hide_flash_video_object(object_data.linterna_magica_id);
 
     if (document.getElementById("playnav-playview"))
     {
@@ -615,36 +612,7 @@ function(object_data)
 	    // will not be displaced.
 	    html5_wrapper.style.setProperty('display', "none", "important");
 
-	    // If the HTML5 player has a fallback CSS class and LM can
-	    // access it it means there is no other option for
-	    // playback. We take over the player.
-	    //
-	    // See bug 37630
-	    // https://savannah.nongnu.org/bugs/index.php?37630
-	    if (this.priority.html5 > this.priority.self)
- 	    {
-		// It should be available, because it is used above in
-		// this function
-		var id = object_data.linterna_magica_id;
-
-		this.show_lm_interface(id);
-	    
-		// It should be available, because it is used above in
-		// this functon.
-		toggle_plugin = 
-		    document.getElementById("linterna-magica-"+
-					    "toggle-plugin-"+id);
-
-		var pn = toggle_plugin.parentNode.parentNode;
-		pn.removeChild(toggle_plugin.parentNode);
-
-		toggle_plugin_header =
-		    document.getElementById("linterna-magica-"+
-					    "toggle-plugin-header-"+id);
-		
-		toggle_plugin_header.parentNode.removeChild(toggle_plugin_header);
-	    }
-	    
+    
 	    // Hide site controls and video container. Should not
 	    // overlap with Linterna Magica now. Fixes the overlapping
 	    // of HTML5 player and LM.
