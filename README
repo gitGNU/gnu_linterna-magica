@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 10 June 2012) is for Linterna Mágica (version
+This manual (updated 29 May 2013) is for Linterna Mágica (version
 svn-trunk), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -129,10 +129,11 @@ should see the following message:
 2.2 Installation
 ================
 
-First of all install the Greasemonkey extension for your browser and
+First of all install the userscript extension for your browser and
 activate it. For Epiphany it is part of the Epiphany-extensions
 package. For GNU IceCat, Abrowser and other versions of Firefox see the
-Greasemonkey web page.
+Greasemonkey and/or the Scriptish web pages. For Chromium see the
+Tampermonkey website.
 
 
 Probably these extensions are available in your GNU/Linux distribution
@@ -165,6 +166,9 @@ Load the path where you downloaded Linterna Mágica in your browser:
 
    `icecat file:///home/user/linterna-magica/'
 
+
+   `iceape file:///home/user/linterna-magica/'
+
    Right-click the user script and from the menu select
 
 For Epiphany
@@ -172,7 +176,8 @@ For Epiphany
 
 For GNU IceCat and other free software versions of Firefox
      "View User Script Source". In the new window click the Greasemonkey
-     "Install" button.
+     "Install" button. If you are using Scriptish, choose "Install User
+     Script…".
 
 For Midori
      For Midori version 0.3.0 and above select "Open Link in Bew Tab".
@@ -180,16 +185,21 @@ For Midori
      0.3.0 do not support instala do not support installation of
      userscripts from the browser.
 
+For Iceape (and other versions of Seamonkey)
+     "Install User Script…"
+
 
 2.2.2 Installation from terminal
 --------------------------------
 
 Another option to install the userscript is to copy it from a terminal.
+The paths in the examples bellow might be different in your
+configuration and setup.
 
    For Epiphany:
 
 `cp linternamagica.user.js \
-~/.gnome2/epiphany/extensions/data/greasemokey/linterna_magica.user.js'
+~/.gnome2/epiphany/extensions/data/greasemonkey/linterna_magica.user.js'
 
    For GNU IceCat:
 
@@ -203,11 +213,29 @@ Another option to install the userscript is to copy it from a terminal.
 `cp linternamagica.user.js \
 ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/linterna_magica.user.js'
 
+
    For Midori:
 
 `mkdir ~/.local/share/midori/scripts/'
 `cp linternamagica.user.js \
 ~/.local/share/midori/scripts/linterna_magica.user.js'
+
+   For Iceape (and other versions of Seamonkey):
+
+   Iceape works only with Scriptish for which there is no easy way to
+install scripts from a terminal. The scripts are located in
+
+
+`~/.mozila/seamonkey/profile/scriptsh_scripts'
+
+
+   but for every installed script there is a definition needed in the
+file
+
+
+`~/.mozila/seamonkey/profile/scriptsh_scripts/scriptish-config.json'
+
+   which does not seem simple enough to be done by hand.
 
 3 Configuration
 ***************
@@ -225,6 +253,7 @@ that keeps configuration options in "option":"value" format:
       {
          "debug": 0,
          "log_to": "web",
+         "web_log_expand": false,
          "updates": "1w",
          "priority": "html5, self, plugin",
          "autostart": "off",
@@ -267,6 +296,16 @@ provided by the main userscript will be used.
 
     `console'
           Use the debugging console of the browser
+
+
+`web_log_expand'
+     Should the web logger be automatically expanded by default
+
+    `false'
+          No (default)
+
+    `true'
+          Yes
 
 
 `updates'
@@ -487,7 +526,29 @@ Linterna Mágica with:
 Linterna Mágica explicitly supports only free software browsers and
 plugins.
 
-4.1 Supported browsers
+4.1 Supported extensions
+========================
+
+The current versions of Linterna Mágica is tested and kept up to date
+with the following userscript extensions and implementations:
+
+Greasemonkey
+     `http://greasespot.net'
+
+Scriptish
+     `http://scriptish.org/'
+
+Tampermonkey
+     `http://tampermonkey.net/'
+
+Epiphany
+     Internal browser userscript implementation
+
+Midori
+     Internal browser userscript implementation
+
+
+4.2 Supported browsers
 ======================
 
 In this release (svn-trunk) Linterna Mágica is tested and kept up to
@@ -504,7 +565,13 @@ Free software versions of Firefox
 
 Midori
 
-4.2 Supported plugins
+Chromium
+     Chromium is free software version of Google Chrome. Have in mind
+     that this version has copyright issues and might not be entirely
+     free software as well.
+
+
+4.3 Supported plugins
 =====================
 
 Supported video plugins that can handle "video/flv" and "video/mp4"
@@ -533,7 +600,7 @@ gecko-mediaplayer plugin
 Xine plugin
      No known problems.
 
-4.3 Supported websites
+4.4 Supported websites
 ======================
 
 Linterna Mágica is programmed in such a way that it might work (and it
@@ -548,7 +615,7 @@ and so on.
 are known to work. See the `WEBSITES' file for all known working sites
 and more information.
 
-4.4 Not supported
+4.5 Not supported
 =================
 
 Web sites that use RTMP to transfer clips *do not* work.

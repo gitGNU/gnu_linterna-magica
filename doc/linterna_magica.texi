@@ -283,10 +283,11 @@ To remove all the generated files and the userscript file, type:
 @node Installation
 @section Installation
 
-First of all install the Greasemonkey extension for your browser and
+First of all install the userscript extension for your browser and
 activate it. For Epiphany it is part of the Epiphany-extensions
 package. For GNU IceCat, Abrowser and other versions of Firefox see
-the Greasemonkey web page.
+the Greasemonkey and/or the Scriptish web pages. For Chromium see the
+Tampermonkey website.
 
 @sp 1
 @noindent
@@ -329,6 +330,10 @@ or
 @samp{icecat file:///home/user/linterna-magica/}
 @sp 1
 
+@sp 1
+@samp{iceape file:///home/user/linterna-magica/}
+@sp 1
+
 Right-click the user script and from the menu select
 
 @table @asis
@@ -337,13 +342,17 @@ Right-click the user script and from the menu select
 
 @item For GNU IceCat and other free software versions of Firefox
 ``View User Script Source''. In the new window click the Greasemonkey
-``Install'' button.
+``Install'' button. If you are using Scriptish, choose ``Install User
+Script…''.
 
 @item For Midori
 For Midori version 0.3.0 and above select ``Open Link in Bew Tab''. In
 the new tab click ``Install user script'' button. Versions before
 0.3.0 do not support instala do not support installation of
 userscripts from the browser.
+
+@item For Iceape (and other versions of Seamonkey)
+``Install User Script…''
 
 @end table
 
@@ -370,11 +379,29 @@ For other free software versions of Firefox:
 @noindent @samp{mkdir ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/}@*
 @noindent @samp{cp linternamagica.user.js \@* ~/.mozilla/firefox/profile/gm_scripts/linterna_magica/linterna_magica.user.js}
 @sp 1
+@sp 1
+
 For Midori:
 @sp 1
 @noindent @samp{mkdir ~/.local/share/midori/scripts/}@*
 @noindent @samp{cp linternamagica.user.js \@* ~/.local/share/midori/scripts/linterna_magica.user.js}
 @sp 1
+
+For Iceape (and other versions of Seamonkey):
+@sp 1
+Iceape works only with Scriptish for which there is no easy way to
+install scripts from a terminal. The scripts are located in 
+@sp 1
+@sp 1
+@noindent @samp{~/.mozila/seamonkey/profile/scriptsh_scripts}
+@sp 1
+@sp 1
+but for every installed script there is a definition needed in the file 
+@sp 1
+@sp 1
+@noindent @samp{~/.mozila/seamonkey/profile/scriptsh_scripts/scriptish-config.json}
+@sp 1 
+which does not seem simple enough to be done by hand.
 
 @node Configuration
 @chapter Configuration
@@ -757,11 +784,38 @@ Linterna M@value{AACUTE}gica explicitly supports only free software
 browsers and plugins.
 
 @menu
+* Supported extensions::
 * Supported browsers::
 * Supported plugins::
 * Supported websites::
 * Not supported::
 @end menu
+
+
+@node Supported extensions
+@section Supported extensions
+@cindex extension list
+@cindex extensions
+@cindex Greasemonkey
+@cindex Scriptish
+
+The current versions of Linterna M@value{AACUTE}gica is tested and
+kept up to date with the following userscript extensions and
+implementations:
+
+@table @asis
+@item Greasemonkey
+  @url{http://greasespot.net}
+@item Scriptish
+ @url{http://scriptish.org/}
+@item Tampermonkey
+ @url{http://tampermonkey.net/}
+@item Epiphany
+Internal browser userscript implementation
+@item Midori 
+Internal browser userscript implementation
+
+@end table
 
 @node Supported browsers
 @section Supported browsers
@@ -776,6 +830,7 @@ browsers and plugins.
 @cindex Abrowser, browser
 @cindex Firefox, browser
 @cindex Midori, browser
+@cindex Chromium, browser
 
 In this release (@value{VERSION}) Linterna M@value{AACUTE}gica is
 tested and kept up to date with the following browsers:
@@ -791,6 +846,11 @@ extension should work. Only GNU IceCat, Web Browser/ABrowser and
 Iceweasel are tested.
 
 @item Midori
+
+@item Chromium
+Chromium is free software version of Google Chrome. Have in mind that
+this version has copyright issues and might not be entirely free
+software as well.
 
 @end table
 
