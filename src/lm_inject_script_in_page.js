@@ -31,6 +31,14 @@
 // Epiphany and Midori it is already running in the page scope. 
 // See https://savannah.nongnu.org/bugs/?33120
 
+
+window.linterna_magica_latest_version = function(data)
+{
+    window.LinternaMagica = new Object();
+    window.LinternaMagica.updates = data;
+    delete window.linterna_magica_latest_version;
+}
+
 // We are running in Greasemonkey and the userscript is not inject in
 // the page yet.
 if (typeof(unsafeWindow) == "object")

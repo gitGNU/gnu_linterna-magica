@@ -101,25 +101,42 @@ LinternaMagica.prototype.check_for_updates = function()
     {
 	return null;
     }
+  
+    var script = document.createElement("script");
+    script.setAttribute("defer", "defer");
+    script.setAttribute("async", "async");
+    script.setAttribute("src", this.updates_page);
 
-    var jsonp_request_data = new Object();
+    document.getElementsByTagName("head")[0].appendChild(script);
+    script.parentNode.removeChild(script);
 
-    jsonp_request_data.frame_id = "linterna-magica-updates-checker";
-    jsonp_request_data.parser_timeout = this.updates_timeout;
-    jsonp_request_data.parser_timeout_counter = 
-	this.updates_timeout_counter;
-    jsonp_request_data.jsonp_script_link =  this.updates_page;
-    jsonp_request_data.jsonp_function = "linterna_magica_latest_version";
-    jsonp_request_data.parser_function = this.parse_updated_version_data;
+    var self = this;
 
-    this.create_checker_frame(jsonp_request_data);
+    this.updates_counter = 0;
+    this.updates_timer_id = setInterval(
+	function()
+	{
+	    // 250 mS * 80 = 20 sec
+	    if (self.updates_counter > 80)
+	    {
+		clearInterval(self.updates_timer_id);
+	    }
+
+	    if (window.LinternaMagica)
+	    {
+		var updates = window.LinternaMagica.updates;
+		delete window.LinternaMagica;
+		clearInterval(self.updates_timer_id);
+		self.parse_updated_version_data.apply(self,[updates]);
+	    }
+	    self.updates_counter ++;
+	}, 250);
 }
 
 // Get the new version data at window.location#<data> set by the child
 // "frame" (object)
 LinternaMagica.prototype.parse_updated_version_data = function(data)
 {
-  
     var new_release_date = new Date(data.date * 1000);
     var current_release_date  = new Date(this.release_date*1000);
 
