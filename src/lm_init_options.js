@@ -92,7 +92,15 @@ var linterna_magica_options =
 	// <number>%: Start the link that corresponds to <number>
 	// percent from the list. Float numbers are allowed - 34.56%,
 	// 18,6%.
+	// 
+	// <width>p: Start the clip with the specified with. For
+	// example 480p
+	// 
 	"quality": "low",
+	// Preferred video format
+	// webm/mp4/flv/3gp/h264
+	//
+	"format": "mp4",
     };
 
 // NO MINIMISATION ABOVE THIS LINE

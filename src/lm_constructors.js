@@ -97,6 +97,7 @@ function LinternaMagica(params)
     this.set_wait_xhr(params.wait_xhr);
     this.set_check_updates(params.updates);
     this.set_hd_link_quality(params.quality);
+    this.set_format(params.format);
 
     // check_for_updates() MUST be called only if there is video object
     // found. The only place where the user can be informed is in the

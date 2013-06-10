@@ -213,7 +213,7 @@ LinternaMagica.prototype.set_hd_link_quality = function(quality)
     var set_quality_to = quality ? quality : "low";
     var err = null;
     
-    if (!/^(low|medium|high|[0-9]+|[0-9.,]+%)$/i.test(set_quality_to) ||
+    if (!/^(low|medium|high|[0-9]+|[0-9.,]+%|[0-9]+p)$/i.test(set_quality_to) ||
 	/^low$/i.test(set_quality_to))
     {
 	// Low
@@ -229,7 +229,7 @@ LinternaMagica.prototype.set_hd_link_quality = function(quality)
 	// High
 	set_quality_to = -1;
     }
-     else if (/^[0-9]+$/i.test(set_quality_to))
+    else if (/^[0-9]+$/i.test(set_quality_to))
     {
 	// Set to link number
 	set_quality_to = parseInt(set_quality_to);
@@ -273,3 +273,14 @@ LinternaMagica.prototype.set_web_log_expand = function(web_log_expand)
 
     this.web_log_expand = web_log_expand;
 }
+
+LinternaMagica.prototype.set_format = function(format)
+{
+    if (!/^(webm|flv|mp4|3gp|h264)$/i.test(format))
+    {
+	format = "";
+    }
+
+    this.format = format;
+}
+

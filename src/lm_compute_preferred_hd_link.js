@@ -57,6 +57,34 @@ LinternaMagica.prototype.compute_preferred_hd_link = function(hd_links)
 	var quality = Math.abs(this.preferred_hd_quality);
 	preferred_link_index = Math.floor(((hd_links.length)*quality));
     }
+    else if (/^[0-9]+p$/i.test(this.preferred_hd_quality))
+    {
+	var match = this.preferred_hd_quality.split(/p/)[0];
+	var width_re = new RegExp(
+	    match);
+	var width_format_re = new RegExp(
+	    match+".*"+this.format,
+	"i");
+
+
+	var hd_index = -1;
+	for (var i=0,l=hd_links.length; i<l; i++)
+	{
+	    if (hd_links[i].label.match(width_re))
+	    {
+		hd_index = hd_links.length - i;
+	    }
+
+	    if (hd_links[i].label.match(width_format_re))
+	    {
+		hd_index = hd_links.length - i;
+		break;
+	    }
+
+	}
+
+	preferred_link_index = (hd_index >=0) ? hd_index : 0;
+    }
 
     // Ensure correct index. The hd_links.length is greater by one
     // then the number of links.
