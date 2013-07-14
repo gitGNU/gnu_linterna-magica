@@ -101,6 +101,7 @@ LinternaMagica.prototype.extract_objects_from_dom = function(element)
 		extracted_data = val;
 	    }
 
+	    object_data.mime = extracted_data.mime;
 	    object_data.remote_site_link = extracted_data.remote_site_link;
 	    object_data.link = extracted_data.link;
 	    object_data.video_id = extracted_data.video_id;

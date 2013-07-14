@@ -136,7 +136,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	// - The UA it sends is different from the browser, Vimeo does
 	// not load.
 	// With video/flv totemCone plugin will load.
-	if (/mp4|m4v|quicktime/i)
+	if (/mp4|m4v|quicktime/i.test(object_data.mime))
 	{
 	    var mp4 = navigator.mimeTypes["video/mp4"];
 	    if (mp4 && mp4.enabledPlugin && mp4.enabledPlugin.name &&
