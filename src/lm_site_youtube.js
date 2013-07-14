@@ -260,6 +260,7 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 
 	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
 	fmt = fmt.split(/,/);
+	this.log("DEBUG: YT fmt split size "+fmt.length);
 
 	var links = 0;
 
@@ -268,9 +269,23 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 	    // Usually the links have the following pattern
 	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
 	    var link = fmt[url].match(/(url|conn)=([^&]+)/);
+	    this.log("DEBBUG: link "+link);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
+	    this.log("DEBUG: itag "+fmt_id);
 	    var sig = fmt[url].replace(/\\u0026/g, '&').match(/sig=[^&]+/);
-		sig = sig[sig.length-1].replace(/sig/,'signature');
+	    this.log("DEBUG: sig1: "+sig);
+	    sig = sig ? sig[sig.length-1].replace(/sig/,'signature') : '';
+	    this.log("DEBUG: sig2: "+sig);
+
+	    // Bug 39402. Some links have the signature in the s=<SIG>
+	    // format. For example when they are oppened from Canada
+	    if (!sig)
+	    {
+		sig = fmt[url].replace(/\\u0026/g, '&').match(/s=[^&]+/);
+		this.log("DEBUG: sig3: "+sig);
+		sig = sig ? sig[sig.length-1].replace(/s/,'signature') : '';
+		this.log("DEBUG: sig4: "+sig);
+	    }
 	    
 	    if (fmt_id && link)
 	    {
@@ -483,7 +498,7 @@ function(object_data)
 	this.youtube_flash_upgrade_timeout = setInterval(
 	    function() {
 		self.detect_youtube_flash_upgrade.apply(self,[data]);
-	    }, 3000);
+	    }, 5000);
     }
     
     return false;
