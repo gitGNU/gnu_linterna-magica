@@ -281,10 +281,97 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 	    // format. For example when they are oppened from Canada
 	    if (!sig)
 	    {
+		this.log("DEBUG: entered s= scenario");
 		sig = fmt[url].replace(/\\u0026/g, '&').match(/s=[^&]+/);
-		this.log("DEBUG: sig3: "+sig);
-		sig = sig ? sig[sig.length-1].replace(/s/,'signature') : '';
-		this.log("DEBUG: sig4: "+sig);
+		sig = sig[0].replace(/s=/, '');
+		this.log("DEBUG: sig3: "+sig+" len "+sig.length);
+
+		// Borrowed from youtube-dl (Public domain)
+		l = sig.length;
+
+		this.log("DEBUG sig len "+l);
+		if (l == 81)
+		{
+		    sig = sig.charAt(6) + sig.slice(3,6) + sig.charAt(33) + 
+			sig.slice(7,24) + sig.charAt(0) + sig.slice(25, 33) +
+			sig.charAt(2) + sig.slice(34,53) + sig.charAt(24) +
+			sig.slice(54,81);
+		}
+		else if (l == 82)
+		{
+		    this.log("DEBUG "+typeof(sig.slice(67,79)));
+		    sig = sig.charAt(36) + 
+			sig.slice(67,79).split('').reverse().join('') +
+			sig.charAt(81) + 
+			sig.slice(40,66).split('').reverse().join('') + 
+			sig.charAt(33) + 
+			sig.slice(36,39).split('').reverse().join('') +
+			sig.charAt(40) + sig.charAt(35) + sig.charAt(0) +
+			sig.charAt(67) + 
+			sig.slice(0,32).split('').reverse().join('') + sig.charAt(34);
+		}
+		else if (l == 83)
+		{
+		    sig =  sig.charAt(6) + sig.slice(3,6) +
+			sig.charAt(33) + sig.slice(7,24) + 
+			sig.charAt(0) + sig.slice(25,33) +
+			sig.charAt(53) + sig.slice(34,53) +
+			sig.charAt(24) + sig.slice(54,83);
+		}
+		else if (l == 84)
+		{
+		    sig =  sig.slice(36,83).split('').reverse().join('')+
+			+ sig.charAt(2) + 
+			sig.slice(26,35).split('').reverse().join('') +
+			sig.charAt(3) + 
+			sig.slice(1,25).split('').reverse().join('') +
+			sig.chaAt(26);
+
+		}
+		else if (l == 85)
+		{
+		    sig = sig.charAt(76) + 
+			sig.slice(76,82).split('').reverse().join('') +
+			sig.charAt(83) + 
+			sig.slice(60,75).split('').reverse().join('') +
+			sig.charAt(0) + 
+			sig.slice(50,59).split('').reverse().join('') +
+			sig.charAt(1) + 
+			sig.slice(2,49).split('').reverse().join('');
+		}
+		else if (l == 86)
+		{
+		    sig = sig.slice(2,63) + sig.charAt(82) + 
+			sig.slice(64,82) + sig.charAt(63);
+
+		}
+		else if (l == 87)
+		{
+		    sig =  sig.charAt(62) + 
+			sig.slice(62,82).split('').reverse().join('') +
+			sig.charAt(83) +
+			sig.slice(52,61).split('').reverse().join('') +
+			sig.charAt(0) +
+			sig.slice(2,51).split('').reverse().join('');
+		}
+		else if (l == 88)
+		{
+		    sig =  sig.charAt(48) +
+			sig.slice(67,81).split('').reverse().join('') +
+			sig.charAt(82) +
+			sig.slice(62,66).split('').reverse().join('') +
+			sig.charAt(85) + 
+			sig.slice(48,61).split('').reverse().join('') +
+			sig.charAt(67) +
+			sig.slice(12,47).split('').reverse().join('') +
+			sig.charAt(3) +
+			sig.slice(3,11).split('').reverse().join('') +
+			sig.charAt(2) + sig.charAt(12);
+		}
+
+		sig = "signature="+sig;
+		this.log("DEBUG: final sig "+sig);
+
 	    }
 	    
 	    if (fmt_id && link)
