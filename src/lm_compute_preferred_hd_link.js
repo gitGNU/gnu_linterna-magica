@@ -70,12 +70,12 @@ LinternaMagica.prototype.compute_preferred_hd_link = function(hd_links)
 	var hd_index = -1;
 	for (var i=0,l=hd_links.length; i<l; i++)
 	{
-	    if (hd_links[i].label.match(width_re))
+	    if (width_re.test(hd_links[i].label))
 	    {
 		hd_index = hd_links.length - i;
 	    }
 
-	    if (hd_links[i].label.match(width_format_re))
+	    if (width_format_re.test(hd_links[i].label))
 	    {
 		hd_index = hd_links.length - i;
 		break;
