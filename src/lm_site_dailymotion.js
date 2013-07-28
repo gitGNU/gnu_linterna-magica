@@ -39,42 +39,46 @@ LinternaMagica.prototype.extract_dailymotion_links = function(data)
     // requests are useless.
 
     var links_re = new RegExp (
-	"sdurl"+
+	"video_url"+
 	    "(\\\"|\\\')*\\\s*(\\\=|\\\:|\\\,)\\\s*(\\\"|\\\')*"+
 	    "(.*(\\\?auth\\\=[A-Za-z0-9\\\-\\\.]+)"+
 	    "(\\\&|\\\"|\\\'){1})\\\,{1}",
 	"i");
 
-    var links = unescape(data).match(links_re);
+    var link = unescape(data).match(links_re);
 
-    if (links && links[0])
+    if (!link || !link[0])
     {
-	// There is not data after the last comma, it is end-of-match.
-	links =  links[0].replace(/,$/, "").split(/,/);
-
-	var hd_links = new Array();
-
-	for (var lnk=0; lnk<links.length; lnk++)
-	{
-	    var link = new Object();
-	    var link_data = links[lnk];
-
-	    link.label = link_data.match(/\w+-\d+x\d+/i);
-	    link.url =  link_data.replace(/\\\//g, "/").replace(
-		    /(\"\s*:\s*\")|(\"\s*|,\s*\")|hdurl|hqurl|sdurl|\}/ig,
-		"").replace(/hd720url|hd1080url/ig,"");
-
-	    this.log("LinternaMagica.extract_dailymotion_links:\n"+
-		     "Extracted link  : "+link.url,4);
-
-	    // We want highest res on top
-	    // but we parse the links from lowest to highest
-	    hd_links.unshift(link)
-	}
-	return hd_links;
+	return null;
     }
 
-    return null;
+    link = link[0].split(":");
+
+    if (!link || !link[1])
+    {
+	return null;
+    }
+
+    link = link[1].split(",");
+
+    if (!link || !link[0])
+    {
+	return null;
+    }
+
+    link = link[0].split("\"");
+
+    if (!link || !link[1])
+    {
+	return null;
+    }
+
+    link = unescape(link[1]);
+
+    this.log("LinternaMagica.create_youtube_links:\n"+
+	     "Extracted link  : "+link,4);
+
+    return link;
 }
 
 LinternaMagica.prototype.sites["dailymotion.com"] = new Object();
@@ -107,16 +111,6 @@ function()
     }
 
     return true;
-}
-
-LinternaMagica.prototype.sites["dailymotion.com"].process_cookies =
-function()
-{
-    // Dailymotion is processed twice. Once with .dailymotion.com. The
-    // second time with www.dailymotion.com. They set cookies very
-    // strange.  Also they use host= which is not documented anywhere
-    // (DOM 0,1...).
-    return "; domain=.dailymotion.com; path=/; host="+window.location.hostname+"; ";
 }
 
 LinternaMagica.prototype.sites["dailymotion.com"].do_not_force_iframe_detection =
@@ -160,19 +154,6 @@ function(object_data)
     // libswfobject_skip_video_id_extraction
     result.address = object_data.video_id;
 
-    this.extract_cookies();
-    this.expire_cookies();
-
-    // For some strange reason the cookie that activates the HTML5
-    // player could not be expired. It must be forced to non-relevant
-    // for the site value. If it is present, the XHR does not get a
-    // flash player version of the page and no data could be
-    // extracted.
-    if (/html5_switch=1/i.test(document.cookie))
-    {
-	document.cookie = "html5_switch=0;";
-    }
-
     return result;
 }
 
@@ -181,7 +162,9 @@ function(args)
 {
     var client = args.client;
     var object_data = args.object_data;
-    
+    object_data.linterna_magica_id =
+	this.mark_flash_object("extracted-from-script");
+
     // !this.plugin_is_installed is removed so it could work when
     //  plugin is installed and HTML5 is active.
     if (!object_data.linterna_magica_id && 
@@ -213,51 +196,15 @@ function(args)
 	    object_data.offsetWidht : null ;
     }
 
-    var hd_links = this.extract_dailymotion_links(client.responseText);
-    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
-    object_data.hd_links = (hd_links && hd_links.length) ? hd_links : null;
+    object_data.link = this.extract_dailymotion_links(client.responseText);
 
-    // See "A note on cookies"
-    if (/restore/i.test(this.process_cookies))
+
+    if (!object_data.width || !object_data.height || !object_data.link)
     {
-	this.restore_cookies();
+	return null;
     }
-
-    // For some strange reason the cookie that activates the HTML5
-    // player could not be expired. It was forced to non-relevant for
-    // the site value. If it is present, the XHR does not get a flash
-    // player version of the page and no data could be extracted.  It
-    // must be restored.
-    if (/html5_switch=0/i.test(document.cookie))
-    {
-	document.cookie = "html5_switch=1;";
-    }
-
-
-	if (!object_data.width || !object_data.height || !object_data.link)
-	{
-	    return null;
-	}
-
 
     return object_data;
-}
-
-LinternaMagica.prototype.sites["dailymotion.com"].insert_object_after_xhr =
-function(object_data)
-{
-    // Skip the remove_plugin_install_waring in the default object
-    // creation code after XHR. This keeps the HTML5 error screen.
-    if (/html5_switch=1/i.test(document.cookie))
-    {
-	this.log("LinternaMagica.request_video_link_parse response:\n"+
-		 "Creating video object with url: "+object_data.link,1);
-	this.create_video_object(object_data);
-	return false;
-    }
-
-    // Just exit and leave object insertion to the XHR function.
-    return true;
 }
 
 LinternaMagica.prototype.sites["dailymotion.com"].css_fixes =
@@ -307,4 +254,12 @@ function(parent)
     }
 
     return html5_player_element;
+}
+
+
+LinternaMagica.prototype.sites["dailymotion.com"].flash_plugin_installed = 
+function()
+{
+    return this.sites["dailymotion.com"].
+	no_flash_plugin_installed.apply(this,[arguments]);
 }
