@@ -286,87 +286,85 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 		sig = sig[0].replace(/s=/, '');
 		this.log("DEBUG: sig3: "+sig+" len "+sig.length);
 
+		sig = sig.split("");
 		// Borrowed from youtube-dl (Public domain)
-		l = sig.length;
-
-		this.log("DEBUG sig len "+l);
+		if (l == 79)
+		{
+		    sig = sig[54] + sig.slice(55,78).reverse().join("")+
+			sig[39] + sig.slice(40,54).reverse().join("") +
+			sig[78] + sig.slice(35,39).reverse().join("") +
+			sig[0] + sig.slice(30,34).reverse().join("") +
+			sig[34] + sig.slice(10,29).reverse().join("") +
+			sig[29] + sig.slice(1,9).reverse().join("") + sig[9];
+		}
 		if (l == 81)
 		{
-		    sig = sig.charAt(6) + sig.slice(3,6) + sig.charAt(33) + 
-			sig.slice(7,24) + sig.charAt(0) + sig.slice(25, 33) +
-			sig.charAt(2) + sig.slice(34,53) + sig.charAt(24) +
-			sig.slice(54,81);
+		    sig = sig[56] + sig.slice(57,80).reverse().join("") +
+			sig[41] + sig.slice(42,56).reverse().join("") +
+			sig[80] + sig.slice(35,41).reverse().join("") +
+			sig[0] + sig.slice(30,34).reverse().join("") +
+			sig[34] + sig.slice(10,29).reverse().join("") +
+			sig[29] + sig.slice(1,9).reverse().join("") +
+			sig[9];
 		}
 		else if (l == 82)
-		{
-		    this.log("DEBUG "+typeof(sig.slice(67,79)));
-		    sig = sig.charAt(36) + 
-			sig.slice(67,79).split('').reverse().join('') +
-			sig.charAt(81) + 
-			sig.slice(40,66).split('').reverse().join('') + 
-			sig.charAt(33) + 
-			sig.slice(36,39).split('').reverse().join('') +
-			sig.charAt(40) + sig.charAt(35) + sig.charAt(0) +
-			sig.charAt(67) + 
-			sig.slice(0,32).split('').reverse().join('') + sig.charAt(34);
+		{    
+		    sig = sig[36] + 
+			sig.slice(68,80).reverse().join('') +
+			sig[81] + 
+			sig.slice(41,67).reverse().join('') + 
+			sig[33] + 
+			sig.slice(37,40).reverse().join('') +
+			sig[40] + sig[35] + sig[0] +
+			sig[67] + 
+			sig.slice(1,33).reverse().join('') + sig[34];
 		}
 		else if (l == 83)
 		{
-		    sig =  sig.charAt(6) + sig.slice(3,6) +
-			sig.charAt(33) + sig.slice(7,24) + 
-			sig.charAt(0) + sig.slice(25,33) +
-			sig.charAt(53) + sig.slice(34,53) +
-			sig.charAt(24) + sig.slice(54,83);
+		    sig =  sig[6] + sig.slice(3,6).join("") +
+			sig[33] + sig.slice(7,24).join("") + 
+			sig[0] + sig.slice(25,33).join("") +
+			sig[53] + sig.slice(34,53).join("") +
+			sig[24] + sig.slice(54,83).join("");
 		}
 		else if (l == 84)
 		{
-		    sig =  sig.slice(36,83).split('').reverse().join('')+
-			+ sig.charAt(2) + 
-			sig.slice(26,35).split('').reverse().join('') +
-			sig.charAt(3) + 
-			sig.slice(1,25).split('').reverse().join('') +
-			sig.chaAt(26);
-
+		    sig =  sig.slice(37,84).reverse().join('')+
+			+ sig[2] + 
+			sig.slice(27,36).reverse().join('') +
+			sig[3] + 
+			sig.slice(4,26).reverse().join('') +
+			sig[26];
 		}
 		else if (l == 85)
 		{
-		    sig = sig.charAt(76) + 
-			sig.slice(76,82).split('').reverse().join('') +
-			sig.charAt(83) + 
-			sig.slice(60,75).split('').reverse().join('') +
-			sig.charAt(0) + 
-			sig.slice(50,59).split('').reverse().join('') +
-			sig.charAt(1) + 
-			sig.slice(2,49).split('').reverse().join('');
+		    sig = sig.slice(2,8).join("") + 
+			sig[0] + sig.slice(9,21).join("") + sig[65] +
+			sig.slice(22,65).join("") + sig[84] + 
+			sig.slice(66,82).join("") + sig[21];
 		}
 		else if (l == 86)
 		{
-		    sig = sig.slice(2,63) + sig.charAt(82) + 
-			sig.slice(64,82) + sig.charAt(63);
-
+		    sig = sig.slice(2,63).join("") + sig[82] + 
+			sig.slice(64,82).join("") + sig[63];
 		}
 		else if (l == 87)
 		{
-		    sig =  sig.charAt(62) + 
-			sig.slice(62,82).split('').reverse().join('') +
-			sig.charAt(83) +
-			sig.slice(52,61).split('').reverse().join('') +
-			sig.charAt(0) +
-			sig.slice(2,51).split('').reverse().join('');
+		    sig = sig.slice(4,23).join("") + sig[86] + sig.slice(24,85).join("");
 		}
 		else if (l == 88)
 		{
-		    sig =  sig.charAt(48) +
-			sig.slice(67,81).split('').reverse().join('') +
-			sig.charAt(82) +
-			sig.slice(62,66).split('').reverse().join('') +
-			sig.charAt(85) + 
-			sig.slice(48,61).split('').reverse().join('') +
-			sig.charAt(67) +
-			sig.slice(12,47).split('').reverse().join('') +
-			sig.charAt(3) +
-			sig.slice(3,11).split('').reverse().join('') +
-			sig.charAt(2) + sig.charAt(12);
+		    sig =  sig[48] +
+			sig.slice(68,82).reverse().join('') +
+			sig[82] +
+			sig.slice(63,67).reverse().join('') +
+			sig[85] + 
+			sig.slice(49,62).reverse().join('') +
+			sig[67] +
+			sig.slice(13,48).reverse().join('') +
+			sig[3] +
+			sig.slice(4,12).reverse().join('') +
+			sig[2] + sig[12];
 		}
 
 		sig = "signature="+sig;
