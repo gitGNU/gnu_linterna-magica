@@ -244,15 +244,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    object_data.use_sibling = site_player.nextSibling;
 	}
 
-	if (!site_html5_player)
-	{
-	    this.hide_flash_video_object(id,site_player.parentNode);
-	}
-	else 
-	{
-	    this.pause_site_html5_player(object_data.parent);
-	    this.hide_site_html5_player(object_data.parent);
-	}
+	site_player.parentNode.removeChild(site_player);
     }
 
     if (object_data.use_sibling)
