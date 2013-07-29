@@ -123,14 +123,10 @@ function()
     return false;
 }
 
-LinternaMagica.prototype.sites["dailymotion.com"].skip_video_id_extraction =
-function ()
+LinternaMagica.prototype.sites["dailymotion.com"].skip_link_extraction = 
+function()
 {
-    // Can't extract video_id from script when flash is not
-    // isntalled. The video id is always the pathname.
-    var extracted_data = new Object();
-    extracted_data.video_id = window.location.pathname;
-    return  extracted_data;
+    return false;
 }
 
 LinternaMagica.prototype.sites["dailymotion.com"].
@@ -162,8 +158,22 @@ function(args)
 {
     var client = args.client;
     var object_data = args.object_data;
-    object_data.linterna_magica_id =
-	this.mark_flash_object("extracted-from-script");
+
+    // With flash plugin installed there might be a DOM object that
+    // holds the flash player
+    var dom_object = document.getElementById("video_player_main");
+
+    if (dom_object)
+    {
+	object_data.linterna_magica_id =
+	    this.mark_flash_object(dom_object);
+    }
+    else
+    {
+	object_data.linterna_magica_id =
+	    this.mark_flash_object("extracted-from-script");
+
+    }
 
     // !this.plugin_is_installed is removed so it could work when
     //  plugin is installed and HTML5 is active.
