@@ -395,12 +395,12 @@ div.linterna-magica-hd-links-list,
     /* which is not what we want. At 16% it */
     /* is fine with YouTube and Vimeo, not */
     /* too wide. */
-    width: 350% !important;
+    width: 450% !important;
     height: auto !important;
     /* ^^^Fix height and width in dailymotion: The site sets them to */
     /* 100% but the list shows partly under the header */
     bottom: 35px !important;
-    left: -270% !important;
+    left: -370% !important;
     overflow-y: auto !important;
     /* Hide scrollbars for HD links in YouTube */
     overflow-x: hidden !important;
