@@ -589,6 +589,43 @@ function(object_data)
     return false;
 }
 
+LinternaMagica.prototype.sites["youtube.com"].player_stream_ended_action =
+function()
+{
+    var playlist = document.getElementById("watch7-playlist-tray");
+    var autoplay = document.getElementById("watch7-playlist-bar-autoplay-button");
+    var current_song =
+	this.get_first_element_by_class("playlist-bar-item-playing", playlist);
+
+    var shuffle = document.getElementById("watch7-playlist-bar-shuffle-button");
+
+    var next_song = null;
+
+    if (!playlist || !autoplay || !current_song ||
+	!this.object_has_css_class(autoplay, "yt-uix-button-toggled"))
+    {
+	return;
+    }
+
+    if (shuffle && 
+	this.object_has_css_class(shuffle, "yt-uix-button-toggled"))
+    {
+	var songs = playlist.getElementsByTagName("a");
+	var rand = Math.floor(Math.random() * songs.length);
+	next_song = songs[rand].getAttribute("href");
+    }
+    else 
+    {
+	next_song = 
+	    current_song.nextSibling.getElementsByTagName("a")[0].
+	    getAttribute("href");
+    }
+
+    window.location = next_song;
+
+    return true;
+}
+
 LinternaMagica.prototype.sites["youtube.com"].css_fixes =
 function(object_data)
 {

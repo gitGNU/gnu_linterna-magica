@@ -314,6 +314,14 @@ function(parent)
     return true;
 }
 
+
+// lm_site_youtube.js:player_stream_ended_action()
+LinternaMagica.prototype.sites.__player_stream_ended_action =
+function()
+{
+    return true;
+}
+
 // Check if site specific config and function exists and call it. If
 // it doesn't, call the general/default function.  A function returns
 // false/null, if the calling function should exit/return after this

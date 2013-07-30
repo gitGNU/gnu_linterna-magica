@@ -873,10 +873,17 @@ LinternaMagica.prototype.ticker = function(id)
     // Clear when the video end is reached
     // or null returned (no video_object found)
     if ((time_and_state.position && time_and_state.duration) &&
-	(time_and_state.position >= time_and_state.duration))
+	((time_and_state.position >= time_and_state.duration) || 
+	 ((time_and_state.position + 1) >= time_and_state.duration)))
     {
 	clearInterval(self.player_timers[id]);
 	delete self.player_timers[id];
+
+	var self = this;
+	var val = this.call_site_function_at_position.apply(self,[
+	    "player_stream_ended_action",
+	    window.location.hostname]);
+
 	return;
     }
 
