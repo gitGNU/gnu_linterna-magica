@@ -47,9 +47,26 @@ div.dmpi_video_playerv4 div.linterna-magica,
 
 
 /* The message paragraph in the object */
-.linterna-magica p {
+.linterna-magica p,
+.linterna-magica-video-object-messages p {
     color:#ffffff !important
 }
+
+.linterna-magica-video-object-messages p a {
+    color: #bbbbbb !important;
+    text-decoration: underline !important;
+    font-style: none !important;
+}
+
+.linterna-magica-video-object-messages p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.linterna-magica-video-object-messages {
+    overflow: auto !important;
+}
+
 
 .linterna-magica-web-log-header a,
 .linterna-magica a {

@@ -73,6 +73,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     var container = document.createElement("div");
     var object_tag_wrapper = document.createElement("div");
     var object_tag = document.createElement("object");
+    var message_wrapper = document.createElement("div");
     var message = document.createElement("p");
     var param = document.createElement("param");
 
@@ -150,13 +151,68 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	object_tag.setAttribute("data", object_data.link);
     }
 
-    message.textContent = this._("Waiting for video plugin...");
-    message.style.setProperty("height", object_data.height+"px",
+    message.textContent = this._("Waiting for video plugin to load ...");
+    message_wrapper.setAttribute("class",
+				 "linterna-magica-video-object-messages");
+    message_wrapper.style.setProperty("height", object_data.height+"px",
 				 "important");
 
-    message.style.setProperty("width", object_data.width+"px",
+    message_wrapper.style.setProperty("width", object_data.width+"px",
 				 "important");
 
+    message_wrapper.appendChild(message);
+
+
+    // Firefox Mixed Content blocker
+    // https://savannah.nongnu.org/bugs/?39726
+    if(/https:/i.test(window.location.protocol) &&
+       /http:/i.test(object_data.link))
+    {
+	var message_mixed = document.createElement("p");
+	message_mixed.textContent =
+	    this._("It seems that the page is serving mixed "+
+		   "content and Linterna M\u00e1gica "+
+		   "might not be able to play the video, because "+
+		   "of mixed content blocking.");
+
+	message_wrapper.appendChild(message_mixed);
+
+	var mixed_content = document.createElement("a");
+	mixed_content.textContent =
+	    this._("Read about mixed content blocking in Firefox (forks and clones as well)");
+	mixed_content.setAttribute("href", 
+		       "https://blog.mozilla.org/tanvi/2013/04/10/"+
+		       "mixed-content-blocking-enabled-in-firefox-23/");
+
+	message_mixed = document.createElement("p");
+	message_mixed.appendChild(mixed_content);
+
+	message_wrapper.appendChild(message_mixed);
+
+
+	message_mixed = document.createElement("p");
+	var mixed_addon = document.createElement("a");
+	mixed_addon.setAttribute("href",
+				 "https://addons.mozilla.org/en-us/firefox/"+
+				 "addon/toggle-mixed-active-content/");
+
+	mixed_addon.textContent = this._("Check out the Toggle Mixed "+
+					 "Active Content addon");
+
+	message_mixed.appendChild(mixed_addon);
+	message_wrapper.appendChild(message_mixed);
+
+	var no_https = document.createElement("a");
+	no_https.setAttribute("href",
+			      window.location.href.replace("https:", "http:"));
+
+	no_https.textContent = this._("View the page without encryption"+
+				      " on your own risk");
+
+	message_mixed = document.createElement("p");
+	message_mixed.appendChild(no_https);
+	message_wrapper.appendChild(message_mixed);
+    }
 
     param.setAttribute("name", "autoplay");
     // Find if a clip is already playing.
@@ -190,7 +246,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     param.setAttribute("value",  true);
     object_tag.appendChild(param);
 
-    object_tag.appendChild(message);
+    object_tag.appendChild(message_wrapper);
 
     object_tag_wrapper.appendChild(object_tag);
     container.appendChild(object_tag_wrapper);
