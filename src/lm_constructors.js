@@ -23,7 +23,7 @@
 //  @licend The above is the entire license notice for the JavaScript
 //  code in this page (or file).
 //
-// @source http://linterna-magica.nongnu.org
+// @source http://linternamagica.org
 
 // END OF LICENSE HEADER
 
@@ -202,7 +202,7 @@ LinternaMagica.prototype.release_date = "1299248757";
 //    version: <version>,  // string 
 //});
 LinternaMagica.prototype.updates_page =
-    "http://linterna-magica.nongnu.org/downloads/updates.js";
+    "http://linternamagica.org/downloads/updates.js";
 //    "http://localhost/lm/downloads/updates.js";
 
 // When this is a function the internal _() function could be used.
@@ -248,7 +248,7 @@ LinternaMagica.prototype.license_link =
     "https://www.gnu.org/licenses/gpl.html";
 
 LinternaMagica.prototype.homepage = 
-    "http://linterna-magica.nongnu.org";
+    "http://linternamagica.org";
 // "http://localhost/lm";
 
 LinternaMagica.prototype.savannah_page =

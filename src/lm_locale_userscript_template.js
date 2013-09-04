@@ -24,7 +24,7 @@
 //  @licend The above is the entire license notice for the JavaScript
 //  code in this page (or file).
 //
-// @source http://linterna-magica.nongnu.org
+// @source http://linternamagica.org
 
 // ==UserScript==
 // @name           Linterna Mágica l10n @LOCALE@
