@@ -1,0 +1,9 @@
+*~
+\#*
+.\#*
+*.nhr
+*.ncm
+*.b64
+data/style/*.js
+userscript-header.js
+linternamagica.user.js
