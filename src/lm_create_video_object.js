@@ -203,8 +203,16 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	message_wrapper.appendChild(message_mixed);
 
 	var no_https = document.createElement("a");
-	no_https.setAttribute("href",
-			      window.location.href.replace("https:", "http:"));
+
+	var http_link =  window.location.href.replace("https:", "http:");
+	if (window.location.pathname == '/' &&
+	    (/vimeo/i.test(window.location.host) ||
+	     /vimeo/i.test(window.location.hostname)))
+	{
+	    http_link = object_data.video_id;
+	}
+	no_https.setAttribute("href", http_link);
+
 
 	no_https.textContent = this._("View the page without encryption"+
 				      " on your own risk");
