@@ -489,16 +489,6 @@ div.linterna-magica-hd-links-list,
     width: 24px !important;
 }
 
-
-/* Fix displacement in reuters.com. The function delete_object_if_id*/
-/* removes the overlaping flash objects */
-#videoPlayer, div.sectionContent, section,
-#video-wAd, bleeding, multimedia {
-    overflow: visible !important;
-    top: 0px !important;
-    padding: 5px !important
-}
-
 /* The update button */
 .linterna-magica-side-update-notifier-button-update-icon,
 .linterna-magica-update-notifier-link {
