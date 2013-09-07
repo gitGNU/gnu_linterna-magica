@@ -45,27 +45,3 @@ function()
     return result;
 }
 
-LinternaMagica.prototype.sites["reuters.com"].css_fixes =
-function(object_data)
-{
-    // Extra height for reuters.com. Otherwise the controlls are
-    // hidden.
-    var extra_height = 100;
-
-    var fourth_parent = object_data.parent.parentNode.parentNode.parentNode;
-    if (fourth_parent)
-    {
-	fourth_parent.style.setProperty("overflow", "visible", "important");
-	fourth_parent.style.
-	    setProperty("height", 
-			(parseInt(object_data.height)+26+
-			 extra_height+
-			 // borders 1px x 2
-			 2+
-			 (this.controls ? 24 : 0)  )+"px",
-			"important");
-    }
-
-    return false;
-}
-
