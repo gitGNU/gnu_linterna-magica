@@ -26,6 +26,9 @@ podir=$(topdir)/po
 
 include $(topdir)/common.mk
 
+rel_version="`echo $(VERSION) | $(SED) -e 's/git-//g'`"
+rel_dir=releases/$(PACKAGE)-v$(VERSION)-upload
+
 STYLEFILE=$(styledir)/template.css
 
 HEADERLINE="// END OF LICENSE HEADER"
@@ -191,6 +194,125 @@ update-readme:
 	@cd $(docsdir); \
 	$(MAKE) update-readme;
 
+
+valid-version:
+	@ver=$(rel_version) ; \
+	valid="`$(GIT) tag -l $$ver`"; \
+	if [ ! "$$valid" ] && [ "$$ver" !=  "master" ]; \
+	then \
+	echo "Unknown version "$(rel_version); \
+	exit 1 ; \
+	fi
+
+release-archives: valid-version
+	@$(MKDIR) -p $(rel_dir) 2>/dev/null ; \
+	$(GIT) archive --format=tar --prefix=$(GETTEXT_PACKAGE)-$(VERSION)/ \
+		-o $(rel_dir)/$(PACKAGE)-v$(VERSION).tar $(rel_version) ; \
+	$(GZIP) -c $(rel_dir)/$(PACKAGE)-v$(VERSION).tar > \
+		$(rel_dir)/$(PACKAGE)-v$(VERSION).tar.gz ; \
+	$(BZIP2) -c $(rel_dir)/$(PACKAGE)-v$(VERSION).tar > \
+		$(rel_dir)/$(PACKAGE)-v$(VERSION).tar.bz2 ; \
+	$(XZ) -c $(rel_dir)/$(PACKAGE)-v$(VERSION).tar > \
+		$(rel_dir)/$(PACKAGE)-v$(VERSION).tar.xz ; \
+	$(RM) -rf $(rel_dir)/$(PACKAGE)-v$(VERSION).tar
+
+release-binary: valid-version
+	@$(MKDIR) -p $(rel_dir) 2>/dev/null ; \
+	$(GIT) archive --format=tar --prefix=$(GETTEXT_PACKAGE)-$(VERSION)/ $(rel_version) | tar -x -C $(rel_dir)/ ; \
+	git_sources_dir="$$PWD" ; \
+	cd  $(rel_dir)/$(GETTEXT_PACKAGE)-$(VERSION) ; \
+	$(MAKE) ; \
+	$(GZIP) -c $(PACKAGE).user.js > ../$(PACKAGE)-v$(VERSION).user.js.gz ; \
+	$(BZIP2) -c $(PACKAGE).user.js > ../$(PACKAGE)-v$(VERSION).user.js.bz2 ; \
+	$(XZ) -c $(PACKAGE).user.js > ../$(PACKAGE)-v$(VERSION).user.js.xz ; \
+	$(CP) $(PACKAGE).user.js ../$(PACKAGE)-v$(VERSION).user.js ; \
+	$(CHMOD) a-x ../$(PACKAGE)-v$(VERSION).user.js ; \
+	$(CP) $${git_sources_dir}/data/linternamagica-release-template.user.js.html ../$(PACKAGE)-v$(VERSION).user.js.html ; \
+	$(SED) -i -e "s/@VERSION@/$(VERSION)/g" ../$(PACKAGE)-v$(VERSION).user.js.html ; \
+	if [ -e po ]; \
+	then \
+	$(MAKE) locales ; \
+	for po in `$(LS) po/*.js` ; \
+	do \
+	locale="`echo $$po | $(GREP) -o -E '_[a-z]+.user.js' | $(CUT) -d'.' -f1 | $(CUT) -d '_' -f2`"; \
+	po_out=`echo $$po | $(SED) -e "s/_l10n_/-v$(VERSION)-l10n-/g" \
+		-e "s#po/##g"`; \
+	$(GZIP) -c $$po > ../$${po_out}.gz ; \
+	$(BZIP2) -c $$po > ../$${po_out}.bz2 ; \
+	$(XZ) -c $$po > ../$${po_out}.xz ; \
+	$(CP) $$po ../$${po_out} ; \
+	$(CP) $${git_sources_dir}/data/linternamagica-release-locale-template.user.js.html ../$${po_out}.html ; \
+	echo $${git_sources_dir}/data/linternamagica-release-locale-template.user.js.html ../$${po_out}.html ; \
+	$(SED) -i -e "s/@VERSION@/$(VERSION)/g" -e "s/@LOCALE@/$$locale/g" ../$${po_out}.html ; \
+	done; \
+	fi; \
+	cd $$git_sources_dir ; \
+	$(RM) -rf $(rel_dir)/$(GETTEXT_PACKAGE)-$(VERSION)
+
+release-latest_docs: valid-version
+	@v=$(rel_version); \
+	docs=`$(GIT) log -1 --pretty='format:%h|%ct' $$v doc`; \
+	if [ ! $$docs ]; \
+	then \
+	exit 0; \
+	fi; \
+	$(MKDIR) -p $(rel_dir) 2>/dev/null ; \
+	$(RM) -rf $(rel_dir)/latest_docs  ; \
+	$(GIT) archive --format=tar --prefix=latest_docs/ $(rel_version) doc common.mk | tar -x -C $(rel_dir); \
+	cur_dir="$$PWD"; \
+	cd $(rel_dir)/latest_docs/doc ; \
+	$(MV) ../common.mk . ; \
+	$(SED) -i -e "s#topdir=../#topdir=./#g" Makefile ; \
+	$(MAKE) all-docs; \
+	$(RM) *.in *.bg.pdf ; \
+	for i in `$(LS) $(GETTEXT_PACKAGE)*.pdf $(GETTEXT_PACKAGE)*.info $(GETTEXT_PACKAGE)*.txt $(GETTEXT_PACKAGE)*.html`; \
+	do \
+	$(GZIP) -c $$i > ../$${i}.gz; \
+	$(BZIP2) -c $$i > ../$${i}.bz2; \
+	$(XZ) -c $$i > ../$${i}.xz; \
+	$(CP) $$i ../ ; \
+	done; \
+	cd ../ ; \
+	$(MV) doc/ $(GETTEXT_PACKAGE)_latest_docs ; \
+	$(TAR) -czf $(GETTEXT_PACKAGE)_latest_docs.tar.gz $(GETTEXT_PACKAGE)_latest_docs ; \
+	$(TAR) -cjf $(GETTEXT_PACKAGE)_latest_docs.tar.bz2 $(GETTEXT_PACKAGE)_latest_docs ; \
+	$(TAR) -cJf $(GETTEXT_PACKAGE)_latest_docs.tar.xz $(GETTEXT_PACKAGE)_latest_docs ; \
+	$(RM) -rf $(GETTEXT_PACKAGE)_latest_docs ; \
+	cd $$cur_dir
+
+
+release-signatures: valid-version
+	@cd $(rel_dir) ; \
+	find . -type f -iname "*" | grep -E "*.sig" -v | while read file ; \
+	do \
+	echo -e "\n"$(rel_dir)/$$file ; \
+	$(GPG) --yes --default-key $(GPG_KEY) -b --use-agent  $$file || exit 1 ; \
+	done
+
+release-verify-signatures: valid-version
+	@cd $(rel_dir) ; \
+	find . -type f -iname "*.sig" | while read file ; \
+	do \
+	echo -e "\n"$(rel_dir)/$$file ; \
+	$(GPG) --verify $$file || exit 1; \
+	done
+
+release-changelog: valid-version
+	@$(MKDIR) -p $(rel_dir) 2>/dev/null ; \
+	v=$(rel_version) ; \
+	if [ "$$v" == "master" ]; \
+	then \
+	exit 0 ; \
+	fi;  \
+	diff="`$(GIT) tag | $(XARGS) -I@ $(GIT) log --format=format:'%at @%n' -1 @ | $(SORT) | \
+	       $(GREP) -B1 $$v$$ | $(CUT) -d ' ' -f2 | $(TR) '\n' ' ' | $(SED) -e 's/ $$//' -e 's/ /../'`" ; \
+	$(GIT) log $$diff > $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION) ; \
+	$(GZIP) -c $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION) >  $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION).gz ; \
+	$(BZIP2) -c $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION) >  $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION).bz2 ; \
+	$(XZ) -c $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION) >  $(rel_dir)/Changelog-$(PACKAGE)-$(VERSION).xz
+
+release: release-archives release-latest_docs release-binary release-changelog release-signatures release-verify-signatures
+
 # Clean without warnings for missing files. Sends errors in /dev/null
 # and returns 0 always.
 clean:
@@ -198,7 +320,7 @@ clean:
 
 # See comments for clean:
 distclean: clean docs-clean po-distclean
-	@$(RM) $(PACKAGE).user.js 2> /dev/null; exit 0
+	@$(RM) -rf $(PACKAGE).user.js releases/ 2> /dev/null; exit 0
 
 strip-js-headers: $(STRIPHEADERS)
 

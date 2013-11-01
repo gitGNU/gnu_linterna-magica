@@ -1,6 +1,6 @@
 # This Makefile is part of  Linterna Mágica
 #
-# Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+# Copyright (C) 2011, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 #
 # Linterna Mágica is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 VERSION = git-master
 PACKAGE = linternamagica
 GETTEXT_PACKAGE = linterna_magica
+GPG_KEY=ivaylo@e-valkov.org
 
 GREP = /bin/grep
 RM = /bin/rm
@@ -29,6 +30,8 @@ CAT=/bin/cat
 TAC=/usr/bin/tac
 CUT=/usr/bin/cut
 CP=/bin/cp
+MV=/bin/mv
+MKDIR=/bin/mkdir
 HEAD=/usr/bin/head
 TAIL=/usr/bin/tail
 SORT=/usr/bin/sort
@@ -46,3 +49,10 @@ TEXI2HTML=/usr/bin/texi2html
 DATE=/bin/date
 INTLTOOL_UPDATE=/usr/bin/intltool-update
 MSGATTRIB=/usr/bin/msgattrib
+GIT=/usr/bin/git
+GZIP=/bin/gzip
+BZIP2=/bin/bzip2
+XZ=/usr/bin/xz
+TAR=/bin/tar
+XARGS=/usr/bin/xargs
+GPG=/usr/bin/gpg
