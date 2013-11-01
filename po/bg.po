@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-09 19:11+0300\n"
+"POT-Creation-Date: 2013-10-13 18:07+0300\n"
 "PO-Revision-Date: 2012-09-09 19:12+0300\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
@@ -42,31 +42,31 @@ msgstr "Подайте доклад за грешка на страницата 
 msgid "Linterna Mágica microbloging group at Identi.ca"
 msgstr "Микроблог групата на Linterna Mágicа в Identi.ca"
 
-#: ../src/lm_check_for_updates.js:158 ../src/lm_check_for_updates.js:192
+#: ../src/lm_check_for_updates.js:175 ../src/lm_check_for_updates.js:209
 msgid "New version"
 msgstr "Нова версия"
 
-#: ../src/lm_check_for_updates.js:159 ../src/lm_check_for_updates.js:201
+#: ../src/lm_check_for_updates.js:176 ../src/lm_check_for_updates.js:218
 msgid "Date"
 msgstr "Дата"
 
-#: ../src/lm_check_for_updates.js:214
+#: ../src/lm_check_for_updates.js:231
 msgid "Update"
 msgstr "Обновление"
 
-#: ../src/lm_check_for_updates.js:240 ../src/lm_check_for_updates.js:343
+#: ../src/lm_check_for_updates.js:257 ../src/lm_check_for_updates.js:360
 msgid "New version is available."
 msgstr "Налична е нова версия."
 
-#: ../src/lm_check_for_updates.js:247 ../src/lm_check_for_updates.js:345
+#: ../src/lm_check_for_updates.js:264 ../src/lm_check_for_updates.js:362
 msgid "released at"
 msgstr "публикувана на"
 
-#: ../src/lm_check_for_updates.js:254 ../src/lm_check_for_updates.js:347
+#: ../src/lm_check_for_updates.js:271 ../src/lm_check_for_updates.js:364
 msgid "Read the news section at the home page"
 msgstr "Прочетете новините на уеб страницата"
 
-#: ../src/lm_check_for_updates.js:365
+#: ../src/lm_check_for_updates.js:382
 msgid "Remove update notifier"
 msgstr "Премахване на обекта"
 
@@ -208,17 +208,30 @@ msgstr "Ивайло Вълков <ivaylo@e-valkov.org>"
 msgid "__direction"
 msgstr "ltr"
 
-#: ../src/lm_create_video_object.js:92
-msgid "About"
-msgstr "Относно"
-
-#: ../src/lm_create_video_object.js:128
+#: ../src/lm_create_video_object.js:127
 msgid "Loading video..."
 msgstr "Зареждане на клипа…"
 
-#: ../src/lm_create_video_object.js:155
-msgid "Waiting for video plugin..."
+#: ../src/lm_create_video_object.js:154
+#, fuzzy
+msgid "Waiting for video plugin to load ..."
 msgstr "Изчакване на приставката за видео клипове…"
+
+#: ../src/lm_create_video_object.js:173
+msgid "It seems that the page is serving mixed "
+msgstr ""
+
+#: ../src/lm_create_video_object.js:182
+msgid "Read about mixed content blocking in Firefox (forks and clones as well)"
+msgstr ""
+
+#: ../src/lm_create_video_object.js:199
+msgid "Check out the Toggle Mixed "
+msgstr ""
+
+#: ../src/lm_create_video_object.js:217
+msgid "View the page without encryption"
+msgstr ""
 
 #: ../src/lm_detect_object_in_remote_site.js:181
 msgid "Watch this video at it's original site with Linterna Mágica"
@@ -235,42 +248,42 @@ msgstr "Премахнете този бутон, ако скрива изобр
 msgid "Link"
 msgstr "Връза"
 
-#: ../src/lm_interface_hd_links.js:231
+#: ../src/lm_interface_hd_links.js:279
 msgid "HQ"
 msgstr "ВК"
 
-#: ../src/lm_interface_hd_links.js:232
+#: ../src/lm_interface_hd_links.js:280
 msgid "Higher quality"
 msgstr "Високо качество"
 
-#: ../src/lm_interface_player_web_buttons.js:260
+#: ../src/lm_interface_player_web_buttons.js:274
 msgid "Download"
 msgstr "Запазване"
 
-#: ../src/lm_interface_player_web_buttons.js:261
+#: ../src/lm_interface_player_web_buttons.js:275
 msgid "Save the video clip"
 msgstr "Запазване на видео клипа"
 
+#: ../src/lm_interface_player_web_buttons.js:330
+msgid "About"
+msgstr "Относно"
+
 #. TRANSLATORS: This showed as tooltip when the mouse cursor is
 #. above the play button.
-#: ../src/lm_interface_player_web_buttons.js:402
+#: ../src/lm_interface_player_web_buttons.js:401
 msgid "Play"
 msgstr "Изпълнение"
 
 #. TRANSLATORS: This is showed as tooltip when the mouse cursor is
 #. above the pause button.
-#: ../src/lm_interface_player_web_buttons.js:449
+#: ../src/lm_interface_player_web_buttons.js:448
 msgid "Pause"
 msgstr "Пауза"
 
-#. TRANSLATORS: This is showed as a tooltip when the mouse cursor
-#. is above the stop button.
-#: ../src/lm_interface_player_web_buttons.js:489
-msgid "Stop"
-msgstr "Спиране"
-
-#: ../src/lm_interface_player_web_buttons.js:533
-#: ../src/lm_interface_player_web_buttons.js:555
+#: ../src/lm_interface_player_web_buttons.js:483
+#: ../src/lm_interface_player_web_buttons.js:492
+#: ../src/lm_interface_player_web_buttons.js:514
+#: ../src/lm_interface_player_web_buttons.js:522
 msgid "Time"
 msgstr "Време"
 
@@ -280,11 +293,17 @@ msgstr "Време"
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the volume slider knob and the sound is
 #. *not* muted.
-#: ../src/lm_interface_player_web_buttons.js:637
-#: ../src/lm_interface_player_web_buttons.js:662
-#: ../src/lm_interface_player_web_buttons.js:846
-#: ../src/lm_interface_player_web_buttons.js:851
+#: ../src/lm_interface_player_web_buttons.js:613
+#: ../src/lm_interface_player_web_buttons.js:625
+#: ../src/lm_interface_player_web_buttons.js:656
+#: ../src/lm_interface_player_web_buttons.js:814
+#: ../src/lm_interface_player_web_buttons.js:819
 msgid "Volume control"
+msgstr "Сила на звука"
+
+#: ../src/lm_interface_player_web_buttons.js:629
+#, fuzzy
+msgid "Volume"
 msgstr "Сила на звука"
 
 #. TRANSLATORS: This is showed as a tooltip when the mouse cursor
@@ -292,66 +311,32 @@ msgstr "Сила на звука"
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the mute button and the sound is *not*
 #. muted.
-#: ../src/lm_interface_player_web_buttons.js:735
-#: ../src/lm_interface_player_web_buttons.js:834
+#: ../src/lm_interface_player_web_buttons.js:711
+#: ../src/lm_interface_player_web_buttons.js:805
 msgid "Mute"
 msgstr "Заглушаване"
 
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the mute button and the sound is muted.
-#: ../src/lm_interface_player_web_buttons.js:796
+#: ../src/lm_interface_player_web_buttons.js:772
 msgid "Unmute"
 msgstr "Премахване на заглушаването"
 
-#. TRANSLATORS: This is showed as tooltip when the mouse
-#. cursor is above the text in volume slider and the sound is
-#. muted.
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the volume slider and the sound is muted.
 #. TRANSLATORS: This is showed as tooltip when the mouse
 #. cursor is above the volume slider knob and the sound is
 #. muted.
-#: ../src/lm_interface_player_web_buttons.js:807
-#: ../src/lm_interface_player_web_buttons.js:811
-#: ../src/lm_interface_player_web_buttons.js:816
+#: ../src/lm_interface_player_web_buttons.js:782
+#: ../src/lm_interface_player_web_buttons.js:787
 msgid "Muted"
 msgstr "Заглушен"
 
 #. TRANSLATORS: This is showed as a tooltip when the mouse cursor
 #. is above the fullscreen button.
-#: ../src/lm_interface_player_web_buttons.js:896
+#: ../src/lm_interface_player_web_buttons.js:869
 msgid "Fullscreen"
 msgstr "На цял екран"
-
-#: ../src/lm_interface_toggle_plugin.js:70
-msgid "HTML5"
-msgstr "HTML5"
-
-#: ../src/lm_interface_toggle_plugin.js:74
-msgid "Plugin"
-msgstr "Приставка"
-
-#: ../src/lm_interface_toggle_plugin.js:86
-msgid "Switch between site's HTML5 player and Linterna Mágica"
-msgstr ""
-"Превключване между възпрозивеждане чрез HTML5, предоставено от страницата и "
-"Linterna Mágica"
-
-#: ../src/lm_interface_toggle_plugin.js:99
-msgid "Switch between flash plugin and Linterna Mágica"
-msgstr "Превключване между приставката за флаш и Linterna Mágica"
-
-#: ../src/lm_interface_toggle_plugin.js:107
-msgid "Switch between the Gnash plugin for flash and Linterna Mágica"
-msgstr "Превключване между приставката Gnash и Linterna Mágica"
-
-#: ../src/lm_interface_toggle_plugin.js:114
-msgid "Switch between the Lightspark plugin for flash and Linterna Mágica"
-msgstr "Превключване между приставката Lightspark и Linterna Mágica"
-
-#: ../src/lm_interface_toggle_plugin.js:121
-msgid "Switch between the Totem Vegas plugin for flash and Linterna Mágica"
-msgstr "Превключване между приставката Totem Vegas и Linterna Mágica"
 
 #: ../src/lm_log.js:172
 msgid "Double-click to change the size"
@@ -399,13 +384,15 @@ msgstr "Буфериране"
 msgid "Waiting plugin"
 msgstr "Изчакване на приставката"
 
-#: ../src/lm_site_facebook.js:199 ../src/lm_site_vimeo.js:206
-msgid "Low quality"
-msgstr "Ниско качество"
+#. Resolution is not consistent. Cant use 400p for example
+#: ../src/lm_site_facebook.js:219
+msgid "Low"
+msgstr ""
 
-#: ../src/lm_site_facebook.js:199 ../src/lm_site_vimeo.js:212
-msgid "High quality"
-msgstr "Високо качество"
+#. Resolution is not consistent. Cant use 720p for example
+#: ../src/lm_site_facebook.js:225
+msgid "High"
+msgstr ""
 
 #: ../src/lm_site_livestreamcom.js:141
 msgid "RTSP link"
@@ -415,10 +402,42 @@ msgstr "Връзка тип „RTSP“"
 msgid "Progressive link"
 msgstr "Връзка тип „Progressive“"
 
-#: ../src/lm_site_youtube.js:112
+#: ../src/lm_site_youtube.js:113
 msgid "Unkown container"
 msgstr "Непознат контейнер"
 
-#: ../src/lm_site_youtube.js:163
+#: ../src/lm_site_youtube.js:164
 msgid "Unkown encoding"
 msgstr "Непознато кодиране"
+
+#~ msgid "Stop"
+#~ msgstr "Спиране"
+
+#~ msgid "HTML5"
+#~ msgstr "HTML5"
+
+#~ msgid "Plugin"
+#~ msgstr "Приставка"
+
+#~ msgid "Switch between site's HTML5 player and Linterna Mágica"
+#~ msgstr ""
+#~ "Превключване между възпрозивеждане чрез HTML5, предоставено от страницата "
+#~ "и Linterna Mágica"
+
+#~ msgid "Switch between flash plugin and Linterna Mágica"
+#~ msgstr "Превключване между приставката за флаш и Linterna Mágica"
+
+#~ msgid "Switch between the Gnash plugin for flash and Linterna Mágica"
+#~ msgstr "Превключване между приставката Gnash и Linterna Mágica"
+
+#~ msgid "Switch between the Lightspark plugin for flash and Linterna Mágica"
+#~ msgstr "Превключване между приставката Lightspark и Linterna Mágica"
+
+#~ msgid "Switch between the Totem Vegas plugin for flash and Linterna Mágica"
+#~ msgstr "Превключване между приставката Totem Vegas и Linterna Mágica"
+
+#~ msgid "Low quality"
+#~ msgstr "Ниско качество"
+
+#~ msgid "High quality"
+#~ msgstr "Високо качество"
