@@ -222,6 +222,44 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	message_wrapper.appendChild(message_mixed);
     }
 
+    // Bug 39402. Some links have the signature in the s=<SIG>
+    // format. For example when they are oppened from Canada
+    if (this.sites['youtube.com'].encrypted_signature)
+    {
+	object_tag.setAttribute("data", "#");
+	object_tag.setAttribute("type", "#fake");
+
+	var message_enc_sig = document.createElement("p");
+	message_enc_sig.textContent =
+	    this._("It seems that the signatures for this "+
+		   "video are encrypted or missing.");
+
+	message_wrapper.appendChild(message_enc_sig);
+
+	message_enc_sig = document.createElement("p");
+	message_enc_sig.textContent =
+	    this._("Linterna M\u00e1gica is not able to play such clips.");
+
+	message_wrapper.appendChild(message_enc_sig);
+
+	message_enc_sig = document.createElement("p");
+	message_enc_sig.textContent =
+	    this._("Sorry for the inconvenience.");
+
+	message_wrapper.appendChild(message_enc_sig);
+
+	var enc_sig_bug = document.createElement("a");
+	enc_sig_bug.textContent =
+	    this._("Read the bug report about encrypted signatures");
+	enc_sig_bug.setAttribute("href",
+				     "https://savannah.nongnu.org/bugs/?39402");
+
+	message_enc_sig = document.createElement("p");
+	message_enc_sig.appendChild(enc_sig_bug);
+
+	message_wrapper.appendChild(message_enc_sig);
+    }
+
     param.setAttribute("name", "autoplay");
     // Find if a clip is already playing.
     var started_clip = this.find_started_clip();

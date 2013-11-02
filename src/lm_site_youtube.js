@@ -260,7 +260,6 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 
 	fmt = fmt[fmt.length-1].replace(/\\\//g, "/");
 	fmt = fmt.split(/,/);
-	this.log("DEBUG: YT fmt split size "+fmt.length);
 
 	var links = 0;
 
@@ -269,107 +268,16 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 	    // Usually the links have the following pattern
 	    // (itag=fmt_id)*url=URL&type=video/...&(itag=fmt_id)*
 	    var link = fmt[url].match(/(url|conn)=([^&]+)/);
-	    this.log("DEBBUG: link "+link);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
-	    this.log("DEBUG: itag "+fmt_id);
 	    var sig = fmt[url].replace(/\\u0026/g, '&').match(/sig=[^&]+/);
-	    this.log("DEBUG: sig1: "+sig);
 	    sig = sig ? sig[sig.length-1].replace(/sig/,'signature') : '';
-	    this.log("DEBUG: sig2: "+sig);
 
 	    // Bug 39402. Some links have the signature in the s=<SIG>
 	    // format. For example when they are oppened from Canada
 	    if (!sig)
 	    {
-		this.log("DEBUG: entered s= scenario");
-		sig = fmt[url].replace(/\\u0026/g, '&').match(/s=[^&]+/);
-		sig = sig[0].replace(/s=/, '');
-		this.log("DEBUG: sig3: "+sig+" len "+sig.length);
-
-		sig = sig.split("");
-		// Borrowed from youtube-dl (Public domain)
-		if (l == 79)
-		{
-		    sig = sig[54] + sig.slice(55,78).reverse().join("")+
-			sig[39] + sig.slice(40,54).reverse().join("") +
-			sig[78] + sig.slice(35,39).reverse().join("") +
-			sig[0] + sig.slice(30,34).reverse().join("") +
-			sig[34] + sig.slice(10,29).reverse().join("") +
-			sig[29] + sig.slice(1,9).reverse().join("") + sig[9];
-		}
-		if (l == 81)
-		{
-		    sig = sig[56] + sig.slice(57,80).reverse().join("") +
-			sig[41] + sig.slice(42,56).reverse().join("") +
-			sig[80] + sig.slice(35,41).reverse().join("") +
-			sig[0] + sig.slice(30,34).reverse().join("") +
-			sig[34] + sig.slice(10,29).reverse().join("") +
-			sig[29] + sig.slice(1,9).reverse().join("") +
-			sig[9];
-		}
-		else if (l == 82)
-		{    
-		    sig = sig[36] + 
-			sig.slice(68,80).reverse().join('') +
-			sig[81] + 
-			sig.slice(41,67).reverse().join('') + 
-			sig[33] + 
-			sig.slice(37,40).reverse().join('') +
-			sig[40] + sig[35] + sig[0] +
-			sig[67] + 
-			sig.slice(1,33).reverse().join('') + sig[34];
-		}
-		else if (l == 83)
-		{
-		    sig =  sig[6] + sig.slice(3,6).join("") +
-			sig[33] + sig.slice(7,24).join("") + 
-			sig[0] + sig.slice(25,33).join("") +
-			sig[53] + sig.slice(34,53).join("") +
-			sig[24] + sig.slice(54,83).join("");
-		}
-		else if (l == 84)
-		{
-		    sig =  sig.slice(37,84).reverse().join('')+
-			+ sig[2] + 
-			sig.slice(27,36).reverse().join('') +
-			sig[3] + 
-			sig.slice(4,26).reverse().join('') +
-			sig[26];
-		}
-		else if (l == 85)
-		{
-		    sig = sig.slice(2,8).join("") + 
-			sig[0] + sig.slice(9,21).join("") + sig[65] +
-			sig.slice(22,65).join("") + sig[84] + 
-			sig.slice(66,82).join("") + sig[21];
-		}
-		else if (l == 86)
-		{
-		    sig = sig.slice(2,63).join("") + sig[82] + 
-			sig.slice(64,82).join("") + sig[63];
-		}
-		else if (l == 87)
-		{
-		    sig = sig.slice(4,23).join("") + sig[86] + sig.slice(24,85).join("");
-		}
-		else if (l == 88)
-		{
-		    sig =  sig[48] +
-			sig.slice(68,82).reverse().join('') +
-			sig[82] +
-			sig.slice(63,67).reverse().join('') +
-			sig[85] + 
-			sig.slice(49,62).reverse().join('') +
-			sig[67] +
-			sig.slice(13,48).reverse().join('') +
-			sig[3] +
-			sig.slice(4,12).reverse().join('') +
-			sig[2] + sig[12];
-		}
-
-		sig = "signature="+sig;
-		this.log("DEBUG: final sig "+sig);
-
+		this.sites["youtube.com"].encrypted_signature = 1;
+		sig = "";
 	    }
 	    
 	    if (fmt_id && link)
