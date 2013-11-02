@@ -3,7 +3,8 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -27,59 +28,8 @@
 
 // END OF LICENSE HEADER
 
-
-LinternaMagica.prototype.extract_signature_vimeo = function()
-{
-    var data = this.script_data;
-    var signature = null;
-
-    if (!data)
-    {
-	return null;
-    }
-
-    var signature_re =  new RegExp(
-	"(\\\"|\\\')*signature(\\\"|\\\')*:(\\\"|\\\')*([^,\\\"\\\']+)(\\\"|\\\')*",
-	"im");
-
-    signature = data.match(signature_re);
-
-    if (signature && signature[signature.length-2])
-    {
-	signature = signature[signature.length-2];
-    }
-
-    return signature;
-}
  
-LinternaMagica.prototype.extract_time_stamp_vimeo = function()
-{
-    var data = this.script_data;
-    var time_stamp = null;
-
-    if (!data)
-    {
-	return null;
-    }
-
-    var time_stamp_re =  new RegExp(
-	"(\\\"|\\\')*[^_]timestamp(\\\"|\\\')*:(\\\"|\\\')*([^,\\\"\\\']+)(\\\"|\\\')*",
-                  // ^^^ Skip cached_timestamp
-	"im");
-
-    time_stamp = data.match(time_stamp_re);
-
-    if (time_stamp && time_stamp[time_stamp.length-2])
-    {
-
-	time_stamp = time_stamp[time_stamp.length-2];
-    }
-
-    return time_stamp;
-}
-
-
-LinternaMagica.prototype.extract_codec_and_quality_vimeo = function()
+LinternaMagica.prototype.extract_links_vimeo = function()
 {
     var data = this.script_data;
 
@@ -89,88 +39,49 @@ LinternaMagica.prototype.extract_codec_and_quality_vimeo = function()
     }
 
     var files_re =  new RegExp(
-	"(\\\"|\\\')*files(\\\"|\\\')*:(\\\"|\\\')*([^\\\}]+)",
+	"(\\\"|\\\')*files(\\\"|\\\')*:(\\\"|\\\')*(.*)(\\\'|\\\")hls",
 	"im");
 
     var files = data.match(files_re);
 
-    if (!files && !files[files.length-1]);
-
-    this.log("LinternaMagica.prototype.extract_codec_and_quality_vimeo:\n"+
-	     "Result from files_re: "+files,5);
-
-    var codecs_data_re = new RegExp(
-	"(\\\"|\\\')*([^:,\\\"\\\']+)(\\\'|\\\")*:\\\[([^\\\]]+)\\\]",
-	"img");
-
-    var codecs_data =  null;
-    var codecs = new Object();
-    codecs.length = -1;
-
-    while(codecs_data = codecs_data_re.exec(files[files.length-1]))
-    {
-	if (codecs_data && codecs_data[codecs_data.length-1] &&
-	    codecs_data[codecs_data.length-3])
-	{
-	    var name = codecs_data[codecs_data.length-3];
-	    var quality = codecs_data[codecs_data.length-1];
-	    quality = quality.replace(/\"|\'|/g, '').split(/,/);
-	    codecs[name] = quality;
-
-	    this.log("LinternaMagica.extract_codec_and_quality_vimeo:\n"+
-		     "Extracted codec "+name+". "+
-		     "Available quality: "+quality.join(", ")+".",5);
-	    codecs.length++;
-	}
-    }
-
-    if (codecs.length == -1)
-    {
-	codecs = null;
-    }
-
-    delete codecs.length;
-
-    return codecs;
-}
-
-LinternaMagica.prototype.create_links_vimeo = function(args)
-{
-    if(!args)
+    if (!files && !files[files.length-2])
     {
 	return null;
     }
-   
+
+    this.log("LinternaMagica.prototype.extract_links_vimeo:\n"+
+	     "Result from files_re: "+files[files.length-2],5);
+
+    urls_data_re = new RegExp(
+	"(\\\"|\\\')*(mobile|hd|sd)(\\\'|\\\")*[^\\\}]+url(\\\'|\\\")*:(\\\'|\\\")*([^\\\'\\\",\\\}]+)",
+    "img");
+
     var links = new Array();
 
-    for (var c in args.codecs)
+    while(urls_data = urls_data_re.exec(files[files.length-2]))
     {
-	for (var i=0,l=args.codecs[c].length;i<l; i++)
+	if (urls_data && urls_data[urls_data.length-1] &&
+	    urls_data[urls_data.length-5])
 	{
-	    var q = args.codecs[c][i].toLowerCase();
 	    var link = new Object();
-
-	    link.url = "http://player.vimeo.com/play_redirect?quality="+q+
-		"&codecs="+c+
-		"&clip_id="+args.object_data.video_id+
-		"&time="+args.time_stamp+
-		"&sig="+args.signature+"&type=html5_desktop_local";
-
+	    var quality = urls_data[urls_data.length-5];
+	    link.url = urls_data[urls_data.length-1];
 
 	    // Mobile 480x
 	    // SD 640x
 	    // HD 1280x
 
-	    var res = null;
-	    if (q == "mobile")
+	    var res = "";
+
+	    if (quality == "mobile")
 	    {
 		res = "480p";
 	    }
-	    else if (q ==  "sd")
+	    else if (quality ==  "sd")
 	    {
 		res = "640p";
 	    }
-	    else if (q == "hd")
+	    else if (quality == "hd")
 	    {
 		res = "1280p";
 	    }
@@ -179,284 +90,191 @@ LinternaMagica.prototype.create_links_vimeo = function(args)
 		res = "Unknown";
 	    }
 
-	    var codec = c.toUpperCase();
-	    link.label = res + " "+codec;
-	    link.more_info = codec+ " "+q.toUpperCase()+" "+res;
+	    link.label = res + " H.264";
+	    link.more_info = res+ " H.264 "+quality.toUpperCase();
+
+	    link.video_width = res;
 
 	    links.push(link);
+
+	    this.log("LinternaMagica.extract_links_vimeo:\n"+
+		     "Extracted link "+link.url,5);
 	}
     }
 
+
+    // Sort the array by video width, so the links show properly in
+    // the HD links list with the highest quality at the top.
+    var sort_fun = function (a, b)
+    {
+	if (parseInt(a.video_width) > parseInt(b.video_width))
+	{
+	    return -1;
+	}
+	else if (parseInt(a.video_width) < parseInt(b.video_width))
+	{
+	    return 1;
+	}
+	else
+	{
+	    return 0;
+	}
+    }
+
+    links.sort(sort_fun);
+
     return (links && links.length >=0) ? links : null;
 }
+
 
 LinternaMagica.prototype.sites["vimeo.com"] = new Object();
 
 // Reference 
 LinternaMagica.prototype.sites["www.vimeo.com"] = "vimeo.com";
 
-// Reference YT's function. Checks for HTML5 player and if found, scan
-// scripts.
-LinternaMagica.prototype.sites["vimeo.com"].flash_plugin_installed = "youtube.com";
 
-// Extract object data in Vimeo. This makes Firefox and forks to work
-// without plugin and without HTML5 (missing H264)
-LinternaMagica.prototype.sites["vimeo.com"].extract_object_from_script = function()
+LinternaMagica.prototype.sites["vimeo.com"].flash_plugin_installed = function()
 {
-    var player_element_re = new RegExp(
-	"player[0-9]+_[0-9]+_element\\\s*=\\\s*"+
-	    "document.getElementById\\\(\\\'([a-zA-Z0-9_]+)\\\'\\\)",
-	"im");
+    return this.sites["vimeo.com"].
+        no_flash_plugin_installed.apply(this,[arguments]);
+}
 
-    var data = this.script_data;
-    var player_element = data.match(player_element_re);
+LinternaMagica.prototype.sites["vimeo.com"].no_flash_plugin_installed = function()
+{
+    var player_class = document.querySelectorAll('.player');
 
-    if (!player_element)
-    {
+    if (!player_class) {
 	return null;
     }
 
-    var el = document.getElementById(player_element[1]);
+    var el = null;
 
-    // No parent element
+    for (var i=0,l=player_class.length;i<l;i++)
+    {
+	el = player_class[i];
+	if (el.hasAttribute('id') &&
+	    /player[0-9a-zA-Z_]+/i.test(el.getAttribute('id')))
+	    {
+		break;
+	    }
+    }
+
     if (!el)
     {
 	return null;
     }
 
-    var video_id = data.match(/\"id\":([0-9]+),/);
-
-    if (video_id)
+    var video_id = null;
+    var video_id_re = /video\/([^\/]+)/;
+    if (el.hasAttribute('data-fallback-url'))
     {
-	video_id = video_id[1];
+	video_id = el.getAttribute('data-fallback-url').match(video_id_re);
     }
 
-    // It is possible to extract width and height from JavaScript but
-    // they make the object HUGE and out of place
+    if (!video_id)
+    {
+	var noscript = el.getElementsByTagName('noscript');
+
+	if (noscript)
+	{
+	    video_id = noscript[0].textContent.match(video_id_re);
+	}
+    }
+
+    if (!video_id || !video_id[video_id.length-1])
+    {
+	return null;
+    }
+
+    video_id = video_id[video_id.length-1];
 
     var width = el.clientWidth || el.offsetWidth || 
 	el.parentNode.clientWidth || el.parentNode.offsetWidth;
 
     var height = el.clientHeight || el.offsetHeight || 
 	el.parentNode.clientHeight || el.parentNode.offsetHeight;
+
+    var object_data = null;
     
     if (video_id && width && height)
     {
-	var object_data = new Object();
+	object_data = new Object();
+
 	object_data.width = width;
 	object_data.height = height;
 	object_data.video_id = video_id;
-	object_data.parent = el;
+	object_data.parent = el.parentNode;
 	object_data.mime = "video/mp4";
 
-
-	var time_stamp = this.extract_time_stamp_vimeo();
-	var signature = this.extract_signature_vimeo();
-
-	if (!time_stamp)
-	{
-	    this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
-		     "Unable to extract time stamp. Giving up.",1);
-
-	    return null;
-	}
-
-	if (!signature)
-	{
-	    this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
-		     "Unable to extract signature. Giving up.",1);
-
-	    return null;
-	}
-	
-	var codecs = this.extract_codec_and_quality_vimeo();
-
-	var args  = new Object();
-	args.object_data = object_data;
-	args.codecs = codecs;
-	args.time_stamp = time_stamp;
-	args.signature = signature;
-		
-	var hd_links = this.create_links_vimeo(args);
-	object_data.hd_links = hd_links;
-
-	object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
-	
-	if (!object_data.link)
-	{
-	    return null;
-	}
-
-
-	this.log("LinternaMagica.extract_object_from_script_vimeo:\n"+
-		 "Object data extracted from script ",1);
-
-	object_data.linterna_magica_id =
-	    this.mark_flash_object("extracted-from-script");
-
-	return object_data;
+	// Clear the site player
+	el.parentNode.removeChild(el);
     }
 
-    return null;
+    if (this.wait_xhr)
+    {
+	this.log("LinternaMagica.sites.vimeo.com:\n"+
+		 "Waiting "+this.wait_xhr+
+		 " ms ("+(this.wait_xhr/1000)+
+		 " s) before requesting video link via"+
+		 " video_id "+data.video_id+" ",1);
+
+	var self = this;
+	setTimeout(function() {
+	    self.request_video_link.apply(self,[object_data]);
+	}, this.wait_xhr);
+    }
+    else
+    {
+	this.request_video_link(object_data);
+    }
 }
- 
+
+
+LinternaMagica.prototype.sites["vimeo.com"].prepare_xhr = function(object_data)
+{
+    object_data.address = window.location.protocol+"//"+
+	"player.vimeo.com/v2/video/"+object_data.video_id+"/config";
+
+    return object_data;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].process_xhr_response =
+function(args)
+{
+    var client = args.client;
+    var object_data = args.object_data;
+
+    this.script_data = client.responseText;
+
+    var hd_links = this.extract_links_vimeo();
+
+    object_data.hd_links = hd_links;
+
+    object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
+
+    if (!object_data.link)
+    {
+	return null;
+    }
+
+    return object_data;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].skip_script_processing = function()
+{
+    return false;
+}
+
+LinternaMagica.prototype.sites["vimeo.com"].skip_link_extraction = function()
+{
+    return false;
+}
+
 LinternaMagica.prototype.sites["vimeo.com"].css_fixes = function(object_data)
 {
-    // The thumbnail image overlaps the toggle plugin button after our
-    // changes. This way our button is visible.
-    if (object_data.parent.firstChild &&
-	/HTMLDiv/i.test(object_data.parent.firstChild))
-    {
-	// The first child should be a div with thumbnail as
-	// background. Reduce it's size so it will not overlap our
-	// button. A size of 0 px does not hide the linterna magica
-	// header object, but moves the flash object down.  A size of
-	// object_data.height px does not hide the header, but does
-	// not move the flash object. The only option left is to
-	// remove the element. This fixes the toggle_plugin
-	// displacement, if the height of the element is changed.
-	object_data.parent.removeChild(object_data.parent.firstChild);
-
-	var flash_object = 
-	    this.get_flash_video_object(object_data.linterna_magica_id, 
-					object_data.parent);
-
-	if (flash_object)
-	{
-	    flash_object.style.setProperty("position", 
-					   "relative", "important");
-	}
-    }
-
-    // Show HD links list. 
-    object_data.parent.style.
-	setProperty("overflow", "visible", "important");
-
-    object_data.parent.parentNode.style.
-	setProperty("overflow", "visible", "important");
-
-    object_data.parent.parentNode.style.
-	setProperty("background-color", "transparent", "important");
-
-    object_data.parent.parentNode.style.
-	setProperty("background-image", "none", "important");
-
-    // No idea what this fixes.
-    var object_tag = 
-	document.getElementById("linterna-magica-video-object-"+
-				object_data.linterna_magica_id);
-
-    if (object_tag)
-    {
-	object_tag.style.setProperty("position","relative","important");
-    }
-
-    // Fixes the height of the third parent element.  Fixes
-    // replacement object visibility.
-    var third_parent = object_data.parent.parentNode.parentNode;
-
-    if (third_parent)
-    {
-	third_parent.style.setProperty("overflow", "visible",
-				       "important");
-	third_parent.style.setProperty("height", 
-				       (parseInt(object_data.height)+26+
-					// borders 1px x 2
-					2+
-					(this.controls ? 24 : 0)  )+40+"px",
-				       "important");
-	third_parent.style.
-	    setProperty("background-color", "transparent", "important");
-    }
-
-    // Fixes the height of the fourth parent. Fixes replacement object
-    // visibility.
-    var fourth_parent = object_data.parent.parentNode.
-	parentNode.parentNode;
-
-    if (fourth_parent)
-    {
-	fourth_parent.style.setProperty("overflow", "visible",
-					"important");
-	fourth_parent.style.setProperty("height", 
-					(parseInt(object_data.height)+26+
-					 // borders 1px x 2
-					 2+
-					 (this.controls ? 24 : 0)  )+40+"px",
-					"important");
-    }
-
-   
-    // The CSS rules hide parts of our elements
-    object_data.parent.parentNode.style.
-	setProperty("height", (parseInt(object_data.height)+26+
-		     // borders 1px x 2
-		     2+
-		     (this.controls ? 24 : 0)  )+"px", "important");
-
-    object_data.parent.parentNode.style.
-	setProperty("width", (parseInt(object_data.width+2))+"px",
-		    "important");
-
-    var site_html5_player = 
-	this.find_site_html5_player_wrapper(object_data.parent);
-
-    if (site_html5_player)
-    {
-	// The HTML5 player's thumbnail image has black lines on top and
-	// back after adding LM. Clear them
-	site_html5_player.style.setProperty("height", "87%", "important");
-
-	// The LM switch button is too close to the thumbnail of the HTML5 player.
-	site_html5_player.style.setProperty("margin-bottom", 
-					    "5px", "important");
-    }
-
-    // The previousSibling of the Linterna Magica div is a mysterious
-    // div (stays white) with class="s bu" that has height set to
-    // 100%. This displaces LM. This div should hold the SWF object,
-    // but it is missing.
-
-    var lm = document.getElementById("linterna-magica-"+
-     				     object_data.linterna_magica_id);
- 
-    if (lm)
-    {
-    	var div_sbu = lm.previousSibling;
-    	if (/HTMLDiv/i.test(div_sbu) && 
-	    div_sbu.hasAttribute("class") && 
-	    /s bu/i.test(div_sbu.getAttribute("class")) &&
-	    !site_html5_player)
-    	{
-    	    div_sbu.parentNode.removeChild(div_sbu);
-    	}
-    } 
-
-    // A div left by the website player is taking the space for LM
-    // Usually a waring about missing flash or no supported video
-    // format in the browser.
-    if (lm)
-    {
-    	var div = lm.previousSibling;
-    	if (/HTMLDiv/i.test(div))
-    	{
-    	    div.parentNode.removeChild(div);
-    	}
-    } 
-
-
-    // Fix video galerry displacement on first page when LM volume
-    // slider is showing.
-
-    var gallery = document.getElementById("videos_gallery");
-    if (gallery)
-    {
-	gallery.style.setProperty("margin-top", "90px", "important");
-    }
 
     // Fix the loading on the front page
     this.vimeo_fix_navigation();
-   
     
     return false;
 }
