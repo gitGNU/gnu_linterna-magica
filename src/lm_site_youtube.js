@@ -217,6 +217,7 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
     // With default timeout 3000mS this will be >10 sec. Stop checking and insert.    
     // Might be flashblock
     if (document.getElementById("movie_player") ||
+	document.getElementById("movie_player-lm-override") ||
 	document.getElementById("movie_player-html5") ||
 	fancy_alert ||
 	this.youtube_flash_upgrade_counter >= 5 )
@@ -400,7 +401,9 @@ function()
 	embed_id= embed_id[embed_id.length-1];
     }
 
-    var p = document.getElementById("movie_player").parentNode;
+    var p = document.getElementById("movie_player");
+    p.setAttribute("id", "movie_player-lm-override");
+    p = p.parentNode;
 
     if (!width || !height)
     {
@@ -524,8 +527,17 @@ function()
     }
     else 
     {
+	if (/text/i.test(current_song.nextSibling))
+	{
+	    next_song = current_song.nextSibling.nextSibling;
+	}
+	else
+	{
+	    next_song = current_song.nextSibling;
+	}
+
 	next_song = 
-	    current_song.nextSibling.getElementsByTagName("a")[0].
+	    next_song.getElementsByTagName("a")[0].
 	    getAttribute("href");
     }
 
@@ -537,6 +549,31 @@ function()
 LinternaMagica.prototype.sites["youtube.com"].css_fixes =
 function(object_data)
 {
+    // Override YT playlist links, click event. Ensure LM will load
+    // when a new video is selected.
+    var playlist = document.getElementById("watch7-playlist-tray");
+
+    if (playlist)
+    {
+	var links = playlist.getElementsByTagName("a");
+	for (var i=0,l=links.length; i<l;i++)
+	{
+	    var t = links[i];
+	    t.addEventListener('click',
+			       function(ev)
+			       {
+				   window.location = this.href;
+			       },false);
+
+	    t.parentNode.addEventListener('click',
+					  function(ev)
+					  {
+					      window.location =
+						  this.getElementsByTagName('a')[0].
+						  getAttribute('href');
+					  },false);
+	}
+    }
 
     // Sometimes when flash is installed the flash video object does
     // not have (at all or the right one) linterna_magica_id. Usually
@@ -548,9 +585,18 @@ function(object_data)
 	     "Harvesting (possible) lost flash video object with "+
 	     "linterna_magica_id "+ object_data.linterna_magica_id);
 
-    var movie_player = document.getElementById('movie_player');
+    var movie_player = document.getElementById('movie_player-lm-override');
+
     if (movie_player) {
 	movie_player.linterna_magica_id = object_data.linterna_magica_id;
+    }
+
+    // Remove flash object
+    var embed = document.getElementById('movie_player');
+
+    if (embed && this.is_swf_object(embed))
+    {
+	embed.parentNode.removeChild(embed);
     }
 
     this.hide_flash_video_object(object_data.linterna_magica_id);
@@ -686,7 +732,7 @@ function(object_data)
 				 (parseInt(object_data.outer_height)+
 				  24)+"px", "important");
 
-	var movie_player = document.getElementById("movie_player");
+	var movie_player = document.getElementById("movie_player-lm-override");
 	if (movie_player)
 	{
 	    movie_player.style.setProperty("height", 
