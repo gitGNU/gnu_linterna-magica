@@ -1,15 +1,15 @@
 # Bulgarian translation of linterna_magica.texi file
-# Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+# Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 # Copyright (C) 2010 Anton Katsarov <anton@katsarov.org>
 # This file is distributed under the same license as the Linterna Magica package.
-# Ivaylo Valkov <ivaylo@e-valkov.org>, 2010, 2011, 2012.
+# Ivaylo Valkov <ivaylo@e-valkov.org>, 2010, 2011, 2012, 2013.
 # Anton Katsarov <anton@katsarov.org>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linterna magica 0.0.10\n"
 "POT-Creation-Date: 2013-11-10 12:54+0200\n"
-"PO-Revision-Date: 2013-11-10 12:56+0200\n"
+"PO-Revision-Date: 2013-11-10 13:00+0200\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"

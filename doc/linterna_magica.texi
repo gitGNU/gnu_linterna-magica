@@ -2,7 +2,7 @@
 @c
 @c This file is part of  Linterna Mágica
 @c
-@c Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+@c Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
 @c Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 @c
 @c Linterna Mágica is free software: you can redistribute it and/or modify
