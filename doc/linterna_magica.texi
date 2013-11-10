@@ -437,6 +437,7 @@ way (for now) to configure it, is to edit the code of the userscript.
 @cindex wait_xhr, config option
 @cindex quality, config option
 @cindex clip quality, config option
+@cindex clip format, config option
 
 To change the configuration of Linterna M@value{AACUTE}gica open the
 userscript file and look for @code{var linterna_magica_options}. This
@@ -456,6 +457,7 @@ is a JavaScript object that keeps configuration options in
     "cookies": "restore",
     "wait_xhr": "off",
     "quality": "low",
+    "format": "mp4"
  @};
 @end example
 
@@ -666,6 +668,17 @@ the highest quality. Use "1" for lowest quality.
 @item <number>%
 Start the link that equals to <number>% in
 the list. Fractions are accepted - 34.56%, 18,6%.
+
+@end table
+
+@item format
+Preferred video format.
+
+@table @option
+
+@item webm/mp4/flv/3gp/h264
+Auto-select the video format from the list of
+links (default mp4)
 
 @end table
 
