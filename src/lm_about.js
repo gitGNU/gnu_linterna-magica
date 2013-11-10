@@ -134,12 +134,45 @@ LinternaMagica.prototype.create_about_box = function(id)
     var microblog_link = 
 	this.pack_external_link(
 	    this.microblog_link,
-	    this._("Linterna Mágica microbloging group at Identi.ca"));
+	    this._("Microblog notices about Linterna Mágica at Identi.ca"));
 
     microblog_link.setAttribute("title", this.microblog_link);
     p = document.createElement("p");
     p.appendChild(microblog_link);
     box.appendChild(p);
+
+    p = document.createElement("p");
+    var txt =  document.createTextNode(this._("Chat rooms"));
+    p.appendChild(txt);
+    box.appendChild(p);
+
+    var rooms = this.chat_rooms();
+
+    for (var r=0,l=rooms.length; r<l; r++)
+    {
+	var room = rooms[r] ;
+	p = document.createElement("p");
+
+	var room_link =
+	    this.pack_external_link(room.url, room.room);
+
+	room_link.setAttribute("title", room.url);
+
+	var server_url = "http://"+room.server;
+	var server_link =
+	    this.pack_external_link(server_url, room.server);
+
+	server_link.setAttribute("title", server_url);
+
+	var txt_type = document.createTextNode(room.type+": ");
+	var txt_at = document.createTextNode(" "+this._("at")+" ");
+
+	p.appendChild(txt_type);
+	p.appendChild(room_link);
+	p.appendChild(txt_at);
+	p.appendChild(server_link);
+	box.appendChild(p);
+    }
 
     return box;
 }

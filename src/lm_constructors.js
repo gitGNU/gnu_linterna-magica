@@ -258,7 +258,30 @@ LinternaMagica.prototype.bug_report_link =
     "https://sv.nongnu.org/bugs/?func=additem&amp;group=linterna-magica";
 
 LinternaMagica.prototype.microblog_link =
-    "https://identi.ca/group/linternamagica";
+    "https://identi.ca/valkov";
+   // Identi.ca does not support groups as of pump.io migration.
+   // "https://identi.ca/group/linternamagica";
+
+LinternaMagica.prototype.chat_rooms = function()
+{
+    var rooms = new Array();
+
+    var room = new Object();
+    room.type = "IRC";
+    room.room = "#linternamagica";
+    room.url = "ircs://irc.freenode.net:6697/linternamagica";
+    room.server = "freenode.net";
+    rooms.push(room);
+
+    var room = new Object();
+    room.type = "Jabber/XMPP";
+    room.room = "linternamagica@conference.jabber.org";
+    room.url = "xmpp:linternamagica@conference.jabber.org?join";
+    room.server = "jabber.org";
+    rooms.push(room);
+
+    return rooms;
+};
 
 
 // This is filled during build from the Makefile
