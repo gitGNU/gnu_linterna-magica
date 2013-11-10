@@ -1,8 +1,8 @@
 Linterna Mágica
 *****************
 
-This manual (updated 29 May 2013) is for Linterna Mágica (version
-svn-trunk), a userscript for watching web video clips inside a browser
+This manual (updated 10 November 2013) is for Linterna Mágica (version
+git-master), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
 Watch video on the web in a brand new way: "You don't need a glint, the
@@ -262,6 +262,7 @@ that keeps configuration options in "option":"value" format:
          "cookies": "restore",
          "wait_xhr": "off",
          "quality": "low",
+         "format": "mp4"
       };
 
    Since version 0.0.10 it is possible to keep your configuration in
@@ -434,6 +435,14 @@ provided by the main userscript will be used.
           Fractions are accepted - 34.56%, 18,6%.
 
 
+`format'
+     Preferred video format.
+
+    `webm/mp4/flv/3gp/h264'
+          Auto-select the video format from the list of links (default
+          mp4)
+
+
 
 3.2 Automatic check for updates
 ===============================
@@ -551,7 +560,7 @@ Midori
 4.2 Supported browsers
 ======================
 
-In this release (svn-trunk) Linterna Mágica is tested and kept up to
+In this release (git-master) Linterna Mágica is tested and kept up to
 date with the following browsers:
 
 Epiphany
