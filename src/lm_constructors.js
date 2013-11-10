@@ -189,7 +189,7 @@ LinternaMagica.prototype = new Object ();
 LinternaMagica.constructor = LinternaMagica;
 
 LinternaMagica.prototype.version = "@VERSION@";
-LinternaMagica.prototype.name =  "Linterna Mágica";
+LinternaMagica.prototype.name =  "Linterna M\u00e1gica";
 
 // Release date string in POISIX time format (date +"%s")
 // FIXME: Add real string

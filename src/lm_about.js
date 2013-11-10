@@ -104,7 +104,7 @@ LinternaMagica.prototype.create_about_box = function(id)
 
     var homepage = 
 	this.pack_external_link(this.homepage,
-				this._("Linterna Mágica Home page"));
+				this._("Linterna M\u00e1gica Home page"));
 
     homepage.setAttribute("title", this.homepage);
     p = document.createElement('p');
@@ -114,7 +114,7 @@ LinternaMagica.prototype.create_about_box = function(id)
     var savannah_link = 
 	this.pack_external_link(
 	    this.savannah_page,
-	    this._("Linterna Mágica project page at Savannah"));
+	    this._("Linterna M\u00e1gica project page at Savannah"));
 
     savannah_link.setAttribute("title", this.savannah_page);
     p = document.createElement("p");
@@ -134,7 +134,7 @@ LinternaMagica.prototype.create_about_box = function(id)
     var microblog_link = 
 	this.pack_external_link(
 	    this.microblog_link,
-	    this._("Microblog notices about Linterna Mágica at Identi.ca"));
+	    this._("Microblog notices about Linterna M\u00e1gica at Identi.ca"));
 
     microblog_link.setAttribute("title", this.microblog_link);
     p = document.createElement("p");

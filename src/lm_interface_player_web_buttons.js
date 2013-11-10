@@ -327,7 +327,7 @@ LinternaMagica.prototype.create_controls = function(object_data)
     var about_lm = document.createElement("a");
     about_lm.textContent = "Linterna Mágica";
     about_lm.setAttribute("href", "#");
-    about_lm.setAttribute("title", this._("About")+ " Linterna Mágica " +
+    about_lm.setAttribute("title", this._("About")+ " Linterna M\u00e1gica " +
 			     this.version);
     about_lm.setAttribute("id", "linterna-magica-logo-"+id);
     about_lm.setAttribute("class", "linterna-magica-logo");
