@@ -170,10 +170,10 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     {
 	var message_mixed = document.createElement("p");
 	message_mixed.textContent =
-	    this._("It seems that the page is serving mixed "+
-		   "content and Linterna M\u00e1gica "+
-		   "might not be able to play the video, because "+
-		   "of mixed content blocking.");
+	    this._("It seems that the page is serving mixed ")+
+	    this._("content and Linterna M\u00e1gica ")+
+	    this._("might not be able to play the video, because ")+
+	    this._("of mixed content blocking.");
 
 	message_wrapper.appendChild(message_mixed);
 
@@ -196,8 +196,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 				 "https://addons.mozilla.org/en-us/firefox/"+
 				 "addon/toggle-mixed-active-content/");
 
-	mixed_addon.textContent = this._("Check out the Toggle Mixed "+
-					 "Active Content addon");
+	mixed_addon.textContent = 
+	    this._("Check out the Toggle Mixed Active Content addon");
 
 	message_mixed.appendChild(mixed_addon);
 	message_wrapper.appendChild(message_mixed);
@@ -214,8 +214,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	no_https.setAttribute("href", http_link);
 
 
-	no_https.textContent = this._("View the page without encryption"+
-				      " on your own risk");
+	no_https.textContent =
+	    this._("View the page without encryption on your own risk");
 
 	message_mixed = document.createElement("p");
 	message_mixed.appendChild(no_https);
@@ -231,8 +231,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
 	var message_enc_sig = document.createElement("p");
 	message_enc_sig.textContent =
-	    this._("It seems that the signatures for this "+
-		   "video are encrypted or missing.");
+	    this._("It seems that the signatures for this ")+
+	    thhis._("video are encrypted or missing.");
 
 	message_wrapper.appendChild(message_enc_sig);
 
