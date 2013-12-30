@@ -53,6 +53,11 @@ var linterna_magica_options =
 	// configured.
 	// off/disabled/no/never/false/0: Do not check
 	"updates": "1w",
+	// Should Linterna Magica replace HTML5 players
+	// self: replace the HTML5 players (default)
+	// html5: do not replace HTML5 players. A link is present to
+	// manually replace the player
+	"priority": "html5",
 	// Automatically start the video playback
 	// enabled: Auto start the clip (default)
 	// disabled:  Do not start the clip

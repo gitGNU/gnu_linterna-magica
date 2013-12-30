@@ -46,7 +46,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     // -1 = bottom border of the object
     object_data.outer_height = object_data.height-1;
     object_data.height -= this.controls ? 36 : 24;
-  
+
     var id = object_data.linterna_magica_id;
     this.log("LinternaMagica.create_video_object:\n"+
 	     "Creating video object with linterna_magica_id "+id,2);
@@ -69,6 +69,8 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    return null;
 	}
     }
+
+    var toggle_plugin = this.create_toggle_plugin_link(id);
 
     var container = document.createElement("div");
     var object_tag_wrapper = document.createElement("div");
@@ -336,6 +338,31 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	site_player = site_html5_player;
     }
 
+
+    // Install flash warning in YT
+    var yt_flash_warning = null;
+
+    if (/youtube/i.test(window.location.host) ||
+	/youtube/i.test(window.location.hostname))
+    {
+	yt_flash_warning = document.querySelector(".ytp-error");
+    }
+
+    var dm_media_warning = null;
+
+    if (/dailymotion/i.test(window.location.host) ||
+	/dailymotion/i.test(window.location.hostname))
+    {
+	// Detect if mp4 is supported. If not Dailymotion should
+	// display a warning. The warning is inside an iframe, so it
+	// is not accessible. We want to replace the site player when
+	// it is not able to start. This is kind of heuristic!
+	var v = document.createElement("video");
+	var mp4_support =
+	    v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+	dm_media_warning = mp4_support ? false : true;
+    }
+
     // Remove/hide the object if it is in DOM
     if (site_player &&
 	// The object is still in DOM some scripts remove it
@@ -346,7 +373,10 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    object_data.use_sibling = site_player.nextSibling;
 	}
 
-	site_player.parentNode.removeChild(site_player);
+	if (this.priority || yt_flash_warning || dm_media_warning)
+	{
+	    site_player.parentNode.removeChild(site_player);
+	}
     }
 
     if (object_data.use_sibling)
@@ -362,6 +392,20 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    object_data.parent.appendChild(container);
 	}
     }
+
+    if (!this.priority && site_player && !yt_flash_warning && !dm_media_warning)
+    {
+	// Increase the site player space to fit the LM toggle button
+	object_data.parent.
+	    style.setProperty("height",
+			      object_data.outer_height+27+"px",
+			      "important");
+
+	object_data.parent.appendChild(toggle_plugin);
+
+	this.hide_lm_interface(object_data.linterna_magica_id);
+    }
+
 
     // Objects extracted from script usually does not have cloned object
     // For example youtube

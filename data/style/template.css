@@ -90,10 +90,34 @@ div.linterna-magica-controls-time-slider {
     height: 12px !important;
 }
 
+.linterna-magica-toggle-plugin-outer-frame {
+    margin-top: 2px !important;
+    display: block !important;
+    width: 106px !important;
+    height: 24px !important;
+    position: relative !important;
+    float: right !important;
+    right: 0 !important;
+    top: 0 !important;
+    background-color: #666666 !important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#1a1a1a)) !important;
+    background-image: -webkit-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:    -moz-linear-gradient(top, #666666, #1a1a1a) !important;
+    background-image:         linear-gradient(to bottom, #666666, #1a1a1a) !important;
+    border-color: #222222 !important;
+    border-width: 1px 0 !important;
+    border-style: solid !important;
+    -webkit-border-radius: 6px 6px 0 0 !important;
+    -moz-border-radius: 6px 6px 0 0 !important;
+    border-radius: 6px 6px 0 0 !important;
+}
+
+
 /* The logo/about link in the header */
 /* The link that switches between LinternaMagica and the plugin */
 /* (the bottom of a flash object) */
 /* The buton around clips in remote pages */
+.linterna-magica-toggle-plugin-wrapper a,
 .linterna-magica-remote-clip-buttons a {
     display: block  !important;
     text-decoration: none  !important;

@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 10 November 2013) is for Linterna Mágica (version
+This manual (updated 30 December 2013) is for Linterna Mágica (version
 git-master), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -255,7 +255,7 @@ that keeps configuration options in "option":"value" format:
          "log_to": "web",
          "web_log_expand": false,
          "updates": "1w",
-         "priority": "html5, self, plugin",
+         "priority": "html5",
          "autostart": "off",
          "controls": "self",
          "locale": "auto",
@@ -341,16 +341,11 @@ provided by the main userscript will be used.
 
 
 `priority'
-     This options determines how objects found by Linterna Mágica
-     should be played. You can set multiple values separated by ",",
-     without the quotes. The default value is "html5, self, plugin".
+     This options determines if Linterna Mágica should replace HTML5
+     players. The default value is "html5".
 
     `self'
-          Replace flash and HTML5 objects
-
-    `plugin'
-          Use Gnash/Swfdec. A button next to the flash object switches
-          to Linterna Mágica.
+          Replace HTML5 players
 
     `html5'
           Use HTML5 player if the site provides one. A button next to

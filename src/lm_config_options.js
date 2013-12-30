@@ -284,3 +284,19 @@ LinternaMagica.prototype.set_format = function(format)
     this.format = format;
 }
 
+
+LinternaMagica.prototype.set_priority = function(priority)
+{
+    var set_priority = false;
+
+    if (/html5/i.test(priority))
+    {
+	set_priority = false;
+    }
+    else
+    {
+	set_priority = true;
+    }
+
+    this.priority = set_priority;
+}
