@@ -779,6 +779,13 @@ function(object_data)
 				  24)+"px", "important");
     }
 
+
+    var watch7_container = document.getElementById("watch7-container");
+    if (watch7_container)
+    {
+	watch7_container.style.setProperty("margin-top", "38px", "important");
+    }
+
     return false;
 }
 
