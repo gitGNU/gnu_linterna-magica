@@ -338,7 +338,6 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	site_player = site_html5_player;
     }
 
-
     // Install flash warning in YT
     var yt_flash_warning = null;
 
@@ -373,27 +372,39 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	    object_data.use_sibling = site_player.nextSibling;
 	}
 
-	if (this.priority || yt_flash_warning || dm_media_warning)
+	if (this.priority || yt_flash_warning || dm_media_warning ||
+	    this.is_swf_object(site_player))
 	{
-	    site_player.parentNode.removeChild(site_player);
+	    if(this.is_swf_object(site_player) || yt_flash_warning ||
+	       dm_media_warning)
+	    {
+		// Ensure it is hidden, not playing and not loadable
+		// if removing from DOM does not work.
+		site_player = this.hide_flash_video_object(site_player);
+		site_player.parentNode.removeChild(site_player);
+	    }
+	    else
+	    {
+		this.pause_site_html5_player(site_player);
+		site_player.style.setProperty("display","none", "important");
+	    }
 	}
     }
 
     if (object_data.use_sibling)
     {
 	object_data.parent.insertBefore(
-	    container,
-	    object_data.use_sibling);
+           container,
+           object_data.use_sibling);
     }
-    else
+    else if (object_data.parent)
     {
-	if (object_data.parent)
-	{
-	    object_data.parent.appendChild(container);
-	}
+	object_data.parent.appendChild(container);
     }
 
-    if (!this.priority && site_player && !yt_flash_warning && !dm_media_warning)
+
+    if (!this.priority && !this.is_swf_object(site_player) &&
+	!yt_flash_warning && !dm_media_warning)
     {
 	// Increase the site player space to fit the LM toggle button
 	object_data.parent.

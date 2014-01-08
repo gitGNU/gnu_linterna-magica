@@ -53,7 +53,6 @@ function(linterna_magica_id)
     for (var i=0, l=object_list.length; i<l; i++)
     {
 	var o = object_list[i];
-
 	if (o.linterna_magica_id != undefined &&
 	    o.linterna_magica_id == linterna_magica_id)
 	{
@@ -196,11 +195,8 @@ LinternaMagica.prototype.__hide_lm = function(element, linterna_magica_id)
 
 // Show the flash video object
 LinternaMagica.prototype.show_flash_video_object =
-function(linterna_magica_id,parent)
+function(flash_object)
 {
-    var flash_object = 
-	this.get_flash_video_object(linterna_magica_id,parent);
-
     if (!flash_object)
     {
 	return null;
@@ -217,11 +213,8 @@ function(linterna_magica_id,parent)
 
 // Hide the flash video object
 LinternaMagica.prototype.hide_flash_video_object =
-function(linterna_magica_id, parent)
+function(flash_object)
 {
-    var flash_object =
-	this.get_flash_video_object(linterna_magica_id, parent);
-
     if (!flash_object)
     {
 	return null;

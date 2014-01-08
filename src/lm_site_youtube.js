@@ -212,15 +212,13 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 	}
 	
     }
-    
 
-    // With default timeout 3000mS this will be >10 sec. Stop checking and insert.    
-    // Might be flashblock
+    // With default timeouts 800mS & 1300mS this will be max
+    // ~3sec. Stop checking and insert.  Might be flashblock
     if (document.getElementById("movie_player") ||
-	document.getElementById("movie_player-lm-override") ||
 	document.getElementById("movie_player-html5") ||
 	fancy_alert ||
-	this.youtube_flash_upgrade_counter >= 5 )
+	this.youtube_flash_upgrade_counter >= 3 )
     {
 	clearInterval(this.youtube_flash_upgrade_timeout);
 
@@ -232,7 +230,7 @@ LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
 	this.log("LinternaMagica.detect_youtube_flash_upgrade:\n"+
 		 "Creating video object.",2);
 
-	setTimeout(this.create_video_object(object_data), 1000);
+	setTimeout(this.create_video_object(object_data), 500);
     }
 }
 
@@ -361,6 +359,23 @@ LinternaMagica.prototype.sites["youtube.com"].skip_video_id_extraction = functio
 LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
 function()
 {
+    // Check for unavailable clips in playlists and switch to the next
+    // clip.  YT is using some strange loading technique that looks
+    // like AJAX/XMLHttpRequest, which breaks LM loading. Leaving this
+    // task to YT is not an option.
+
+    var unavailable = document.getElementById("player-unavailable");
+    if (unavailable &&
+	(!this.object_has_css_class(unavailable, "hid") ||
+	 getComputedStyle(unavailable).getPropertyValue("display") != "none"))
+    {
+	var object_data = new Object();
+	object_data.linterna_magica_id = null;
+	this.sites["youtube.com"].css_fixes.apply(this, [object_data]);
+	this.sites["youtube.com"].player_stream_ended_action.apply(this,[]);
+	return;
+    }
+
     var data = this.script_data;
     if (!data.match(/ytplayer\.config =/))
     {
@@ -378,7 +393,7 @@ function()
     var hd_links = this.create_youtube_links(fmt, maps);
     var link = (hd_links && hd_links.length) ? hd_links : null;
 
-    var embed_id = data.match(/\"id\"\:\s*\"([a-zA-Z0-9_\-]+)\"/);
+    var player_id = data.match(/\"id\"\:\s*\"([a-zA-Z0-9_\-]+)\"/);
 
     // We do not have any links! Give up.
     if (!link)
@@ -396,19 +411,37 @@ function()
 	width = width[width.length-1];
     }
 
-    if (embed_id)
+    if (player_id)
     {
-	embed_id= embed_id[embed_id.length-1];
+	player_id = player_id[player_id.length-1];
+    }
+    else
+    {
+	player_id = "movie_player";
     }
 
-    var p = document.getElementById("movie_player");
-    p.setAttribute("id", "movie_player-lm-override");
-    p = p.parentNode;
+    var player = document.getElementById(player_id);
+    var player_api = document.getElementById("player-api");
 
     if (!width || !height)
     {
-	height = p ? p.clientHeight : null;
-	width  = p ? p.clientWidth : null;
+	height = player ? player.clientHeight : null;
+	width  = player ? player.clientWidth : null;
+    }
+
+    if (!width || !height)
+    {
+	height = ( player && player.parentNode ) ?
+	    player.parentNode.clientHeight : null;
+	width  = ( player && player.parentNode ) ?
+	    player.parentNode.parentNode.clientWidth : null;
+    }
+
+    if (!width || !height)
+    {
+	var cs = window.getComputedStyle(player_api);
+	width = parseInt(cs.getPropertyValue("width"));
+	height = parseInt(cs.getPropertyValue("height"));
     }
 
     if (!width || !height)
@@ -416,7 +449,7 @@ function()
 	this.log("LinternaMagica.extract_object_from_script_youtube:\n"+
 		 "Missing object data "+
 		 "\n H: "+height+
-		 "\n W:"+width, 3);
+		 "\n W: "+width, 3);
 
 	return null;
     }
@@ -424,50 +457,34 @@ function()
     this.log("LinternaMagica.extract_object_from_script_youtube:\n"+
 	     " H: "+height+
 	     "\n W:"+width+
-	     "\n embedid "+embed_id,2);
+	     "\n player/swf "+player_id,2);
 
 
     var object_data = new Object();
-    var linterna_magica_id = null;
 
     object_data.width= width;
     object_data.height= height;
     object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
     object_data.hd_links = link;
+    object_data.parent = player_api.parentNode;
 
-    if (embed_id)
+    if (this.is_swf_object(player))
     {
-	embed_object = document.getElementById(embed_id);
-	if (embed_object)
-	{
-	    if (this.plugin_is_installed)
-	    {
-		linterna_magica_id =
-		    this.mark_flash_object(embed_object);
-
-		object_data.parent = embed_object.parentNode;
-	    }
-	}
+	this.priority = true;
+	object_data.linterna_magica_id =
+	    this.mark_flash_object(player);
     }
-
-    if (!embed_id ||
-	!embed_object ||
-	(embed_object &&
-	 !this.plugin_is_installed))
+    else
     {
-	linterna_magica_id =
+	object_data.linterna_magica_id =
 	    this.mark_flash_object("extracted-from-script");
-
-	object_data.parent =  p;
     }
-
-    object_data.linterna_magica_id = linterna_magica_id;
 
     return object_data;
 }
 
 LinternaMagica.prototype.sites["youtube.com"].
-    stop_if_one_extracted_object_from_script =
+stop_if_one_extracted_object_from_script =
 function()
 {
     this.log("LinternaMagica.sites.stop_if_"+
@@ -477,13 +494,15 @@ function()
 }
 
 LinternaMagica.prototype.sites["youtube.com"].
-    replace_extracted_object_from_script = 
+replace_extracted_object_from_script =
 function(object_data)
 {
     // This function used to exit if flash plugin was installed,
     // because no workarounds were needed. Now Epiphany requires this
     // delay, because it prevents LM to be inserted before the HTML5
     // player, in which case they are both playing and overlapping.
+
+    var timeout = this.plugin_is_installed ? 1300 : 800;
 
     if (!this.youtube_flash_upgrade_timeout)
     {
@@ -494,7 +513,7 @@ function(object_data)
 	this.youtube_flash_upgrade_timeout = setInterval(
 	    function() {
 		self.detect_youtube_flash_upgrade.apply(self,[data]);
-	    }, 5000);
+	    }, timeout);
     }
     
     return false;
@@ -541,7 +560,7 @@ function()
 	    getAttribute("href");
     }
 
-    window.location = next_song;
+    window.location.href = next_song;
 
     return true;
 }
@@ -549,57 +568,78 @@ function()
 LinternaMagica.prototype.sites["youtube.com"].css_fixes =
 function(object_data)
 {
-    // Override YT playlist links, click event. Ensure LM will load
-    // when a new video is selected.
-    var playlist = document.getElementById("watch7-playlist-tray");
+    var id = object_data.linterna_magica_id;
+    var toggle_plugin = document.getElementById("linterna-magica-toggle-plugin-"+id);
+    if (toggle_plugin)
+    {
+	toggle_plugin = toggle_plugin.parentNode.parentNode;
+	toggle_plugin.style.setProperty("width", object_data.width+"px", "important");
+    }
 
+    var playlist = document.getElementById("watch7-playlist-tray-container");
     if (playlist)
     {
-	var links = playlist.getElementsByTagName("a");
-	for (var i=0,l=links.length; i<l;i++)
+	var lm = document.getElementById("linterna-magica-"+id);
+	if (lm)
 	{
-	    var t = links[i];
-	    t.addEventListener('click',
-			       function(ev)
-			       {
-				   window.location = this.href;
-			       },false);
-
-	    t.parentNode.addEventListener('click',
-					  function(ev)
-					  {
-					      window.location =
-						  this.getElementsByTagName('a')[0].
-						  getAttribute('href');
-					  },false);
+	    lm.style.setProperty("float", "left", "important");
 	}
     }
 
-    // Sometimes when flash is installed the flash video object does
-    // not have (at all or the right one) linterna_magica_id. Usually
-    // the other objects if any are useless. This renders both LM and
-    // the flash interface. The code bellow tries to avoid it. Reason
-    // *unknown*.
 
-    this.log("LinternaMagica.youtube.css_fixes:\n "+
-	     "Harvesting (possible) lost flash video object with "+
-	     "linterna_magica_id "+ object_data.linterna_magica_id);
-
-    var movie_player = document.getElementById('movie_player-lm-override');
-
-    if (movie_player) {
-	movie_player.linterna_magica_id = object_data.linterna_magica_id;
-    }
-
-    // Remove flash object
-    var embed = document.getElementById('movie_player');
-
-    if (embed && this.is_swf_object(embed))
+    var player_api  = document.getElementById("player-api");
+    if (this.priority)
     {
-	embed.parentNode.removeChild(embed);
+	if (player_api && player_api.style)
+	{
+	    player_api.style.setProperty("display", "none", "important");
+	}
     }
 
-    this.hide_flash_video_object(object_data.linterna_magica_id);
+    // Fix history navigation (HTML5) for LM
+    window.addEventListener("popstate", function() {
+	setTimeout(function() { window.location.reload(); }, 50);
+    }, true);
+
+    // Override YT playlist links and related clips click
+    // event. Ensure LM will load when a new video is selected.
+    var links = document.querySelectorAll("#watch7-playlist-tray > li > a,"+
+					  " #watch-related > li >a, "+
+					  " #watch7-playlist-bar-next-button, "+
+					  " #watch7-playlist-bar-prev-button");
+
+    // Disabled for testing
+    // links = null;
+    if (links && links.length > 0)
+    {
+	var clip_click_fn = function(ev)
+	{
+	    var url = this.href;
+
+	    if (!url)
+	    {
+		var a = this.getElementsByTagName('a')[0];
+		url = a.getAttribute('href');
+	    }
+
+	    if (!url)
+	    {
+		return;
+	    }
+
+	    setTimeout(function()
+		       {
+			   window.location.href = url;
+		       },50);
+	};
+
+	for (var i=0,l=links.length; i<l;i++)
+	{
+	    var t = links[i];
+	    t.addEventListener('click',clip_click_fn,false);
+	    t.parentNode.addEventListener('click',clip_click_fn,false);
+	}
+    }
 
     if (document.getElementById("playnav-playview"))
     {
@@ -656,20 +696,9 @@ function(object_data)
     }
 
     // Bug #33504 https://savannah.nongnu.org/bugs/?33504
-    object_data.parent.style.setProperty("overflow", "visible", "important");
-
-    var site_html5_player = 
-	this.find_site_html5_player_wrapper(object_data.parent);
-
-    if (site_html5_player)
+    if (object_data.parent)
     {
-	// The HTML5 player's controlls hide the Linterna Magica switch button.
-	site_html5_player.style.setProperty("margin-bottom", "30px", "important");
-
-	// The player is too close to YT visitors counter & buttons
-	object_data.parent.style.setProperty("margin-bottom",
-						 "50px", "important");
-	
+	object_data.parent.style.setProperty("overflow", "visible", "important");
     }
 
     // When YouTube's HTML5 player detects that the browser does not
@@ -723,6 +752,14 @@ function(object_data)
 	}
     }
 
+    var movie_player = document.getElementById("movie_player");
+    if (movie_player)
+    {
+	movie_player.style.setProperty("height",
+				       parseInt(object_data.outer_height)+2+
+				       "px", "important");
+    }
+
     // Without this the toggle plugin stays hidden below the title of
     // the clip
     var watch7 = document.getElementById('watch7-player');
@@ -731,14 +768,6 @@ function(object_data)
 	watch7.style.setProperty("height", 
 				 (parseInt(object_data.outer_height)+
 				  24)+"px", "important");
-
-	var movie_player = document.getElementById("movie_player-lm-override");
-	if (movie_player)
-	{
-	    movie_player.style.setProperty("height", 
-					   parseInt(object_data.outer_height)+
-					   "px", "important");
-	}
     }
 
     return false;
