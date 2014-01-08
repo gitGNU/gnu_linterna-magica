@@ -1,7 +1,7 @@
 Linterna Mágica
 *****************
 
-This manual (updated 30 December 2013) is for Linterna Mágica (version
+This manual (updated 09 January 2014) is for Linterna Mágica (version
 git-master), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
@@ -9,6 +9,7 @@ Watch video on the web in a brand new way: "You don't need a glint, the
 magic lantern is ignited!"
 
 Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <<ivaylo@e-valkov.org>>
+Copyright (C) 2013, 2014 Ivaylo Valkov <<ivaylo@e-valkov.org>>
 Copyright (C) 2010  Anton Katsarov <<anton@katsarov.org>>
 
      Permission is granted to copy, distribute and/or modify this
@@ -255,7 +256,7 @@ that keeps configuration options in "option":"value" format:
          "log_to": "web",
          "web_log_expand": false,
          "updates": "1w",
-         "priority": "html5",
+         "priority": "self",
          "autostart": "off",
          "controls": "self",
          "locale": "auto",
@@ -342,7 +343,7 @@ provided by the main userscript will be used.
 
 `priority'
      This options determines if Linterna Mágica should replace HTML5
-     players. The default value is "html5".
+     players. The default value is "self".
 
     `self'
           Replace HTML5 players

@@ -2,7 +2,8 @@
 @c
 @c This file is part of  Linterna Mágica
 @c
-@c Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
+@c Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+@c Copyright (C) 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 @c Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 @c
 @c Linterna Mágica is free software: you can redistribute it and/or modify
@@ -67,6 +68,8 @@ glint, the magic lantern is ignited!''}}@*
 @end ifnottex
 @noindent
 Copyright @copyright{} 2010, 2011, 2012 Ivaylo Valkov <@email{ivaylo@@e-valkov.org}>@*
+@noindent
+Copyright @copyright{} 2013, 2014 Ivaylo Valkov <@email{ivaylo@@e-valkov.org}>@*
 @noindent
 Copyright @copyright{} 2010  Anton Katsarov <@email{anton@@katsarov.org}>@*
 @sp 1
@@ -450,7 +453,7 @@ is a JavaScript object that keeps configuration options in
     "log_to": "web",
     "web_log_expand": false,
     "updates": "1w",
-    "priority": "html5",
+    "priority": "self",
     "autostart": "off",
     "controls": "self",
     "locale": "auto",
@@ -553,7 +556,7 @@ Do not check
 
 @item  priority
 This options determines if Linterna M@value{AACUTE}gica should replace
-HTML5 players. The default value is ``html5''.
+HTML5 players. The default value is ``self''.
 
 @table @option
 
