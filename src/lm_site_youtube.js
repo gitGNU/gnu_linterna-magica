@@ -610,6 +610,19 @@ function(object_data)
 	setTimeout(function() { window.location.reload(); }, 50);
     }, true);
 
+    // Prevent next clip loading with AJAX on HTML5 player stream end.
+    if (!this.priority)
+    {
+	var video_el = player_api.getElementsByTagName("video");
+	if (video_el && video_el[0])
+	{
+	    var self = this;
+	    video_el[0].addEventListener("ended", function(){
+		self.sites["youtube.com"].player_stream_ended_action.apply(self,[]);
+	    }, true);
+	}
+    }
+
     // Override YT playlist links and related clips click
     // event. Ensure LM will load when a new video is selected.
     var links = document.querySelectorAll("#watch7-playlist-tray > li > a,"+
