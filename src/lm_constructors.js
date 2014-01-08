@@ -3,7 +3,8 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -287,8 +288,11 @@ LinternaMagica.prototype.chat_rooms = function()
 
 // This is filled during build from the Makefile
 LinternaMagica.prototype.copyrights = new Array();
-LinternaMagica.prototype.copyrights.push("Copyright (C) 2010, 2011, 2012,"+
-					 " 2013 Ivaylo Valkov <ivaylo@e-valkov.org>");
+LinternaMagica.prototype.copyrights.push("Copyright (C) 2010, 2011, 2012 "+
+					 " Ivaylo Valkov <ivaylo@e-valkov.org>");
+LinternaMagica.prototype.copyrights.push("Copyright (C) 2013, 2014 "+
+					 "Ivaylo Valkov <ivaylo@e-valkov.org>");
+
 LinternaMagica.prototype.copyrights.push("Copyright (C) 2010, 2011, 2012,"+
 					 " 2013 Anton Katsarov <anton@katsarov.org>");
 
