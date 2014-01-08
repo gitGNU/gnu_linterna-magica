@@ -168,8 +168,9 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 
     // Firefox Mixed Content blocker
     // https://savannah.nongnu.org/bugs/?39726
-    if(/https:/i.test(window.location.protocol) &&
-       /http:/i.test(object_data.link))
+    if(this.mixed_content ||
+       (/https:/i.test(window.location.protocol) &&
+	/http:/i.test(object_data.link)))
     {
 	var message_mixed = document.createElement("p");
 	message_mixed.textContent =

@@ -177,6 +177,14 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
 
 	    link.url = fmt_url_map[fmt_id];
 
+	    if (/https:/i.test(window.location.protocol) &&
+		/http:/i.test(link.url))
+	    {
+		link.url = link.url.replace("http:", "https:");
+		this.mixed_content = true;
+	    }
+
+
 	    this.log("LinternaMagica.create_youtube_links:\n"+
 		     "Extracted link  : "+link.url,4);
 
