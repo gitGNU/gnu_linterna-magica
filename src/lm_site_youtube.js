@@ -197,52 +197,6 @@ LinternaMagica.prototype.create_youtube_links = function(fmt, fmt_url_map)
     return null;
 }
 
-// Detect youtube flash upgrade warning. This is called withing
-// setInterval. It is needed because when the elements with the
-// warning are inserted all our data that has been added before that
-// is removed.
-LinternaMagica.prototype.detect_youtube_flash_upgrade = function(object_data)
-{
-    this.youtube_flash_upgrade_counter++;
-
-    // Fancy flash upgrade message. The element with id flash-upgrade
-    // might be obsolete now.
-    var watch_player = document.getElementById("watch7-player");
-    var fancy_alert = null;
-
-    if(watch_player && watch_player.hasAttribute("class") &&
-       /flash-player/i.test(watch_player.getAttribute("class")))
-    {
-	var alert = watch_player.querySelector(".yt-alert-message");
-
-	if (alert && /flash player/i.test(alert.textContent))
-	{
-	    fancy_alert = true;
-	}
-	
-    }
-
-    // With default timeouts 800mS & 1300mS this will be max
-    // ~3sec. Stop checking and insert.  Might be flashblock
-    if (document.getElementById("movie_player") ||
-	document.getElementById("movie_player-html5") ||
-	fancy_alert ||
-	this.youtube_flash_upgrade_counter >= 3 )
-    {
-	clearInterval(this.youtube_flash_upgrade_timeout);
-
-	this.log("LinternaMagica.detect_youtube_flash_upgrade:\n"+
-		 "Removing plugin install warning.",2);
-
-	this.remove_plugin_install_warning(object_data.parent);
-
-	this.log("LinternaMagica.detect_youtube_flash_upgrade:\n"+
-		 "Creating video object.",2);
-
-	setTimeout(this.create_video_object(object_data), 500);
-    }
-}
-
 // Extract links data for youtube from fmt_url_map
 LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 {
@@ -476,6 +430,7 @@ function()
     object_data.link = hd_links ? hd_links[hd_links.length-1].url : null;
     object_data.hd_links = link;
     object_data.parent = player_api.parentNode;
+    object_data.site_player = player_api;
 
     if (this.is_swf_object(player))
     {
@@ -506,25 +461,7 @@ LinternaMagica.prototype.sites["youtube.com"].
 replace_extracted_object_from_script =
 function(object_data)
 {
-    // This function used to exit if flash plugin was installed,
-    // because no workarounds were needed. Now Epiphany requires this
-    // delay, because it prevents LM to be inserted before the HTML5
-    // player, in which case they are both playing and overlapping.
-
-    var timeout = this.plugin_is_installed ? 1300 : 800;
-
-    if (!this.youtube_flash_upgrade_timeout)
-    {
-	this.youtube_flash_upgrade_counter = 0;
-	var data = object_data;
-	var self = this;
-
-	this.youtube_flash_upgrade_timeout = setInterval(
-	    function() {
-		self.detect_youtube_flash_upgrade.apply(self,[data]);
-	    }, timeout);
-    }
-    
+    this.create_video_object(object_data);
     return false;
 }
 

@@ -333,7 +333,12 @@ LinternaMagica.prototype.create_video_object = function(object_data)
     object_tag.setAttribute("data", object_data.link);
     container.appendChild(controls);
 
-    var site_player =  this.get_flash_video_object(id);
+    var site_player =  object_data.site_player;
+
+    if (!site_player)
+    {
+	site_player = this.get_flash_video_object(id);
+    }
 
     if (!site_player)
     {
