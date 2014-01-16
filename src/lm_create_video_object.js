@@ -236,7 +236,7 @@ LinternaMagica.prototype.create_video_object = function(object_data)
 	var message_enc_sig = document.createElement("p");
 	message_enc_sig.textContent =
 	    this._("It seems that the signatures for this ")+
-	    thhis._("video are encrypted or missing.");
+	    this._("video are encrypted or missing.");
 
 	message_wrapper.appendChild(message_enc_sig);
 
