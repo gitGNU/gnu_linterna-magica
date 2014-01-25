@@ -289,6 +289,32 @@ function()
 LinternaMagica.prototype.sites["youtube.com"].skip_script_processing =
 function()
 {
+
+    if (!this.fixed_youtube_navigation)
+    {
+	this.fixed_youtube_navigation = 1;
+
+	// Fix (for LM) YouTube's awful AJAX navigation.
+	this.fix_youtube_navigation();
+
+	// Check for unavailable clips in playlists and switch to the next
+	// clip.  YT is using some strange loading technique that looks
+	// like AJAX/XMLHttpRequest, which breaks LM loading. Leaving this
+	// task to YT is not an option.
+
+	var unavailable = document.getElementById("player-unavailable");
+	if (unavailable &&
+	    (!this.object_has_css_class(unavailable, "hid") ||
+	     getComputedStyle(unavailable).getPropertyValue("display") != "none"))
+	{
+	    var object_data = new Object();
+	    object_data.linterna_magica_id = null;
+	    this.sites["youtube.com"].css_fixes.apply(this, [object_data]);
+	    this.sites["youtube.com"].player_stream_ended_action.apply(this,[]);
+	    return;
+	}
+    }
+
     // See bug #108013:
     // https://savannah.nongnu.org/support/index.php?108013
     // Do not skip script processing in youtube. The default function
@@ -322,22 +348,6 @@ LinternaMagica.prototype.sites["youtube.com"].skip_video_id_extraction = functio
 LinternaMagica.prototype.sites["youtube.com"].extract_object_from_script =
 function()
 {
-    // Check for unavailable clips in playlists and switch to the next
-    // clip.  YT is using some strange loading technique that looks
-    // like AJAX/XMLHttpRequest, which breaks LM loading. Leaving this
-    // task to YT is not an option.
-
-    var unavailable = document.getElementById("player-unavailable");
-    if (unavailable &&
-	(!this.object_has_css_class(unavailable, "hid") ||
-	 getComputedStyle(unavailable).getPropertyValue("display") != "none"))
-    {
-	var object_data = new Object();
-	object_data.linterna_magica_id = null;
-	this.sites["youtube.com"].css_fixes.apply(this, [object_data]);
-	this.sites["youtube.com"].player_stream_ended_action.apply(this,[]);
-	return;
-    }
 
     var data = this.script_data;
     if (!data.match(/ytplayer\.config =/))
@@ -511,6 +521,102 @@ function()
     return true;
 }
 
+LinternaMagica.prototype.fix_youtube_navigation = function()
+{
+    // Fix history navigation (HTML5) for LM
+    window.addEventListener("popstate", function() {
+	setTimeout(function() { window.location.reload(); }, 50);
+    }, true);
+
+    // Fix search box
+    var search_btn = document.getElementById("search-btn");
+    var search = document.getElementById("masthead-search-term");
+    var form = document.getElementById("masthead-search");
+    var submit_form_on_enter_fn =  function(ev)
+    {
+	var key = ev.keyCode || ev.charCode;
+	if (key == 13)
+	{
+	    ev.preventDefault();
+	    var form =
+		document.getElementById("masthead-search");
+	    form.submit();
+	}
+    };
+
+    var submit_form_on_click_fn = function(e)
+    {
+	var form =
+	    document.getElementById("masthead-search");
+	form.submit();
+    };
+
+    if (form)
+    {
+	form.removeAttribute("onsubmit");
+    }
+
+    if (search)
+    {
+	search.addEventListener("keydown", submit_form_on_enter_fn, false);
+    }
+
+    if (search_btn)
+    {
+	search_btn.addEventListener("click", submit_form_on_click_fn);
+    }
+
+    // Override YT links click events. Ensure LM will load when a new
+    // link is selected.
+    var links = document.getElementsByTagName("a");
+
+    // Disabled for testing
+    // links = null;
+    if (links && links.length > 0)
+    {
+	var clip_click_fn = function(ev)
+	{
+	    var url = this.href;
+
+	    if (!url)
+	    {
+		var a = this.getElementsByTagName('a')[0];
+		url = a.getAttribute('href');
+	    }
+
+	    if (!url)
+	    {
+		return;
+	    }
+
+	    setTimeout(function()
+		       {
+			   window.location.href = url;
+		       },50);
+	};
+
+	for (var i=0,l=links.length; i<l;i++)
+	{
+	    var t = links[i];
+	    var href = t.getAttribute("href");
+	    var id =  t.getAttribute("id");
+	    var skip_re = new RegExp ( "data:|javascript:|#");
+
+	    if (id && id == "logo-container")
+	    {
+		continue;
+	    }
+
+	    if (href && href.match(skip_re))
+	    {
+		continue;
+	    }
+
+	    t.addEventListener('click',clip_click_fn,false);
+	}
+    }
+}
+
 LinternaMagica.prototype.sites["youtube.com"].css_fixes =
 function(object_data)
 {
@@ -542,11 +648,6 @@ function(object_data)
 	}
     }
 
-    // Fix history navigation (HTML5) for LM
-    window.addEventListener("popstate", function() {
-	setTimeout(function() { window.location.reload(); }, 50);
-    }, true);
-
     // Prevent next clip loading with AJAX on HTML5 player stream end.
     if (!this.priority)
     {
@@ -557,46 +658,6 @@ function(object_data)
 	    video_el[0].addEventListener("ended", function(){
 		self.sites["youtube.com"].player_stream_ended_action.apply(self,[]);
 	    }, true);
-	}
-    }
-
-    // Override YT playlist links and related clips click
-    // event. Ensure LM will load when a new video is selected.
-    var links = document.querySelectorAll("#watch7-playlist-tray > li > a,"+
-					  " #watch-related > li >a, "+
-					  " #watch7-playlist-bar-next-button, "+
-					  " #watch7-playlist-bar-prev-button");
-
-    // Disabled for testing
-    // links = null;
-    if (links && links.length > 0)
-    {
-	var clip_click_fn = function(ev)
-	{
-	    var url = this.href;
-
-	    if (!url)
-	    {
-		var a = this.getElementsByTagName('a')[0];
-		url = a.getAttribute('href');
-	    }
-
-	    if (!url)
-	    {
-		return;
-	    }
-
-	    setTimeout(function()
-		       {
-			   window.location.href = url;
-		       },50);
-	};
-
-	for (var i=0,l=links.length; i<l;i++)
-	{
-	    var t = links[i];
-	    t.addEventListener('click',clip_click_fn,false);
-	    t.parentNode.addEventListener('click',clip_click_fn,false);
 	}
     }
 
