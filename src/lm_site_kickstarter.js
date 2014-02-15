@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2012, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -31,6 +31,13 @@ LinternaMagica.prototype.sites["kickstarter.com"] = new Object();
 // Reference 
 LinternaMagica.prototype.sites["www.kickstarter.com"] = "kickstarter.com";
 
+LinternaMagica.prototype.sites["kickstarter.com"].flash_plugin_installed =
+function()
+{
+    return this.sites["kickstarter.com"].
+	no_flash_plugin_installed.apply(this, [arguments]);
+}
+
 // Kickstarter does not have scripts that could be processed. This
 // function is an example for website support that works by combining
 // Linterna Magica functions and doesn not depend on most of the
@@ -38,141 +45,95 @@ LinternaMagica.prototype.sites["www.kickstarter.com"] = "kickstarter.com";
 LinternaMagica.prototype.sites["kickstarter.com"].no_flash_plugin_installed =
 function()
 {
-    // The video link is kept in a non-standard (w3c) attribute in a
-    // <div/> with class video-player.
-    var selectors = document.querySelectorAll(".video-player");
+    var player = document.getElementById("video-section");
 
     var object_data = null;
-    var link = null;
+    var links = null;
     var width = null;
     var height = null;
-    var parent = null;
+    var hd_links = null;
 
-    if (selectors && selectors.length)
+    if (!player)
     {
-	for (var i=0,l=selectors.length;i<l;i++)
+	return null;
+    }
+
+    var links = player.getElementsByTagName("source");
+
+    if (!links || !links.length)
+    {
+	return null;
+    }
+
+    hd_links = new Array();
+
+    for (var i=0, l=links.length; i<l; i++)
+    {
+	var link = new Object();
+	var s =links[i];
+	link.url = s.getAttribute("src");
+	link.mime_type = s.getAttribute("type");
+	link.label = link.url.match(/.*video-[^-]+([^\.]+)/);
+	link.label = link.label[link.label.length-1].
+	    replace('-','').replace('_',' ');
+
+	if (!link.url || !link.label)
 	{
-	    var s = selectors[i];
-
-	    // The attribute that holds the video link
-	    if(s.hasAttribute("data-video"))
-	    {
-		// Use the link extraction function to detect if there
-		// is realy a link.
-		this.extract_link_data = "video="+s.getAttribute("data-video");
-
-		link = this.extract_link();
-
-		// The style rules of the video wrapper div seems to
-		// have the correct width and height, but they are
-		// missing sometimes in some browsers.
-		width = parseInt(s.style.getPropertyValue("width"));
-		height = parseInt(s.style.getPropertyValue("height"));
-
-		if (!width)
-		{
-		    width = s.clientWidth;
-		}
-
-		if (!height)
-		{
-		    height = s.clientHeight;
-		}
-
-		// Kickstarter injects the flash object in a <div/>
-		// with class "overlay", that is a child of the <div/>
-		// with the "video-player" class. In absence of flash
-		// plugin we want to place the Linterna Magica in the
-		// same place. The child div is usually the firstChild
-		// object, but the loop code (theoretically) should
-		// work, if Kickstarter changes something.
-		for (var j=0,ln=s.childNodes.length;j<ln;j++)
-		{
-		    parent = s.childNodes[j];
-
-		    if (parent.hasAttribute("class") &&
-			/overlay/i.test(parent.getAttribute("class")))
-		    {
-			break;
-		    }
-
-		    // This code usually should never be
-		    // reached. Sometimes errors occur in Midori and
-		    // the <div/> with the overlay class is not in the
-		    // DOM. The play-icon image of the site is not
-		    // rendered in Midori. We will use the <div/> with
-		    // the video-player class as a parent.
-		    if (j=l)
-		    {
-			parent = s;
-		    }
-		}
-
-		if (link && width && height && parent)
-		{
-		    break;
-		}
-	    }
+	    continue;
 	}
 
-	var object_data = new Object();
-	object_data.link = link;
-	object_data.width = width;
-	object_data.height = height;
-	object_data.parent = parent;
-	object_data.linterna_magica_id = 
-	    this.mark_flash_object("extracted-by-code");
-
-	// Cleanup flash warnings. Will remove the thumbnail image as
-	// well and we will not have to manually delete it. The image
-	// displaces the Linterna Magica replacement object.
-	this.remove_plugin_install_warning(object_data.parent);
-	this.create_video_object(object_data);
-
-	return true;
+	hd_links.push(link);
     }
 
-    // Just in case, if nothing was found with the special code,
-    // return null, so scripts will be parsed.  This is fall-back
-    // if/when Kickstarter changes its design. If they change, they
-    // might (observation from other pages) use a JavaScript library.
-    return null;
-}
-
-LinternaMagica.prototype.sites["kickstarter.com"].css_fixes =
-function(object_data)
-{
-    var id = object_data.linterna_magica_id;
-
-    // A bar with social networks buttons overlaps with Linterna
-    // Magica because the grand parent element does not have the
-    // height needed for the replacement object. Fix that.
-    var lm = document.getElementById("linterna-magica-"+id);
-
-    if (lm)
+    if (!hd_links || !hd_links.length)
     {
-	var grand_parent = lm.parentNode.parentNode;
-	var h = parseInt(lm.style.getPropertyValue("height"));
-
-	grand_parent.style.setProperty("height", h+'px', "important");
+	return null;
     }
-    
-    // A popup notification about missing flash plugin is showed above
-    // Linterna Magica on every link click. Hide it.
-    var popup = document.getElementById("growl_section");
 
-    if (popup)
+    height = player ? player.clientHeight : null;
+    width  = player ? player.clientWidth : null;
+
+    if (!width || !height)
     {
-	popup.style.setProperty("z-index", "-9999999", "important");
+	height = ( player && player.parentNode ) ?
+	    player.parentNode.clientHeight : null;
+	width  = ( player && player.parentNode ) ?
+	    player.parentNode.parentNode.clientWidth : null;
     }
 
-    // The overlay <div/> has a CSS rule line-height equal to its
-    // height. This hides the button at the bottom of the flash object
-    // that switches to Linterna Magica. Removing th line-height does
-    // not affect us if we had fallen back to the div with class
-    // video-player as parent. Removing the rule might not work,
-    // because rules are either in style or in sheet almost randomly.
-    object_data.parent.style.setProperty("line-height", "0px", "important");
+    if (!width || !height)
+    {
+	var cs = window.getComputedStyle(player);
+	width = parseInt(cs.getPropertyValue("width"));
+	height = parseInt(cs.getPropertyValue("height"));
+    }
 
-    return false;
+    if (!width || !height)
+    {
+	this.log("LinternaMagica.sites[kickstarter.com]."+
+		 "no_flash_plugin_installed:\n"+
+		 "Missing object data "+
+		 "\n H: "+height+
+		 "\n W: "+width, 3);
+
+	return null;
+    }
+
+
+    var object_data = new Object();
+    object_data.link = hd_links[0];
+    object_data.hd_links = hd_links;
+    object_data.width = width;
+    object_data.height = height;
+    object_data.parent = player;
+    object_data.linterna_magica_id =
+	this.mark_flash_object("extracted-by-code");
+
+    // Cleanup flash warnings. Will remove the thumbnail image as
+    // well and we will not have to manually delete it. The image
+    // displaces the Linterna Magica replacement object.
+    this.remove_plugin_install_warning(object_data.parent);
+    this.create_video_object(object_data);
+
+    return true;
 }
