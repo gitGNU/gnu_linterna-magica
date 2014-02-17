@@ -31,5 +31,5 @@
 
 @set VERSION git-master
 @set EDITION git-master
-@set UPDATED 09 January 2014
-@set UPDATED-MONTH January
+@set UPDATED 16 February 2014
+@set UPDATED-MONTH February

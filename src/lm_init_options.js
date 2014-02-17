@@ -3,8 +3,8 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011 Ivaylo Valkov <ivaylo@e-valkov.org>
-//  Copyright (C) 2012, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -59,6 +59,20 @@ var linterna_magica_options =
 	// html5: do not replace HTML5 players. A link is present to
 	// manually replace the player
 	"priority": "self",
+	// How the processing of the page should be done.
+	// on/enable/yes/1: A button is present to manually start
+	// the processing (default)
+	// off/disable/true/no/0: automatically start the processing
+	// when the page is loaded
+	"manual_run": "on",
+	// List of websites where Linterna
+	// Mágica should start automatically.
+	"skip_manual_run":
+	  [
+	    "youtube.com",
+	    "vimeo.com",
+	    "dailymotion.com",
+	  ],
 	// Automatically start the video playback
 	// enabled: Auto start the clip (default)
 	// disabled:  Do not start the clip

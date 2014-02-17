@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2010, 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2011, 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -98,8 +98,28 @@ function linterna_magica_init ()
 
 	delete window.LinternaMagica_L10N;
 
-	// Init
-	var larerna_magica = new LinternaMagica(config);
+	var manual =
+	    LinternaMagica.prototype.set_manual_run(config.manual_run);
+
+	var skip_manual_re =
+	    config.skip_manual_run.join("|").replace(/\./g, '\\\.');
+
+
+	var skip_manual_run = window.location.href.match(skip_manual_re);
+
+	if (skip_manual_run || !manual)
+	{
+	    config.manual_run = "false";
+
+	    // autostart
+	    var linterna_magica = new LinternaMagica(config);
+	}
+	else
+	{
+	    // manual start
+	    LinternaMagica.prototype.create_stylesheet();
+	    var manual_start = new LinternaMagicaManualRun(config);
+	}
     }
 }
 

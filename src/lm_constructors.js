@@ -31,24 +31,6 @@
 // Linterna Mágica constructor
 function LinternaMagica(params)
 {
-    // FIXME: This might be used in a frame and after the object is
-    // replaced, everithing else to be removed leaving only the
-    // video. This way it might be possible to play videos from remote
-    // sites in Epiphany (no GM_ API and xmlHttpReqeust is restricted to
-    // the same origin).
-        
-    if (window.top != window.self)
-    {
-	this.log("LinternaMagica.constructor:\n"+
-		 "Skipping (i)frame with address: "+
-		 window.location,1);
-	return null;
-    }
-
-    // The code above should be executed before the web logger
-    // element. Otherwise it is created and visible in iframes and
-    // objects that are used to embed clips in remote sites.
-
     this.set_locale(params.locale);
 
     // Could be a string, but we need integer.
@@ -100,6 +82,7 @@ function LinternaMagica(params)
     this.set_check_updates(params.updates);
     this.set_hd_link_quality(params.quality);
     this.set_format(params.format);
+    this.set_manual_run(params.manual_run);
 
     // check_for_updates() MUST be called only if there is video object
     // found. The only place where the user can be informed is in the
@@ -111,8 +94,13 @@ function LinternaMagica(params)
     this.updates_data = null;
     this.check_for_updates();
 
-    // Add the style sheet to the head of the document.
-    this.create_stylesheet();
+    // Add the style sheet to the head of the document if LM is
+    // starting automatically. If the mode is manual, the stylesheet
+    // is already added by linterna_magica_init().
+    if (!this.manual_run)
+    {
+	this.create_stylesheet();
+    }
 
     // Video flash objects counter. Counting starts from zero for the
     // first found object with the first increment.

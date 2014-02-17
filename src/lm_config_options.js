@@ -4,6 +4,7 @@
 //  This file is part of Linterna Mágica
 //
 //  Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2010, 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
 //  Copyright (C) 2010  Anton Katsarov <anton@katsarov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
@@ -299,4 +300,46 @@ LinternaMagica.prototype.set_priority = function(priority)
     }
 
     this.priority = set_priority;
+}
+
+LinternaMagica.prototype.set_manual_run = function(manual_run)
+{
+    var manual = manual_run ? manual_run : true;
+
+    if (!manual ||
+	(!/enabled/i.test(manual) &&
+	 !/disabled/i.test(manual) &&
+	 !/on/i.test(manual) &&
+	 !/off/i.test(manual) &&
+	 !/true/i.test(manual) &&
+	 !/false/i.test(manual) &&
+	 !/0/i.test(manual) &&
+	 !/1/i.test(manual) &&
+	 !/yes/i.test(manual) &&
+	 !/no/i.test(manual)))
+    {
+	start = false;
+    }
+
+    if (/enabled/i.test(manual) ||
+	/on/i.test(manual) ||
+	/yes/i.test(manual) ||
+	/1/i.test(manual) ||
+	/true/i.test(manual))
+    {
+	manual = true;
+    }
+
+    if (/disabled/i.test(manual)
+	|| /off/i.test(manual)
+	|| /no/i.test(manual)
+	|| /0/i.test(manual)
+	|| /false/i.test(manual))
+    {
+	manual = false;
+    }
+
+    this.manual_run = manual;
+
+    return manual;
 }

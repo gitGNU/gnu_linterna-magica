@@ -1,7 +1,8 @@
 /*
    This CSS file is part of  Linterna Mágica
 
-   Copyright (C) 2010, 2011, 2012, 2013 Ivaylo Valkov <ivaylo@e-valkov.org>
+   Copyright (C) 2010, 2011, 2012 Ivaylo Valkov <ivaylo@e-valkov.org>
+   Copyright (C) 2013, 2014 Ivaylo Valkov <ivaylo@e-valkov.org>
    Copyright (C) 2010, 2011, 2012 Anton Katsarov <anton@katsarov.org>
 
    Linterna Mágica is free software: you can redistribute it and/or modify
@@ -534,6 +535,8 @@ div.linterna-magica-hd-links-list,
     left: -106px !important;
 }
 
+
+.linterna-magica-manual-start-link,
 /* The web log  button */
 .linterna-magica-web-log-link {
     background: url('button-debug.png') 0 0 no-repeat !important;
@@ -548,6 +551,7 @@ div.linterna-magica-hd-links-list,
     display: block !important;
     float: right !important;
 }
+
 
 div.linterna-magica-web-log, 
 .linterna-magica-web-log {
@@ -673,6 +677,7 @@ div.linterna-magica-web-log,
 }
 
 
+.linterna-magica-manual-start-button-wrap,
 .linterna-magica-side-update-notifier-button-wrap,
 .linterna-magica-web-log-debug-button-wrap {
     position: fixed !important;
@@ -715,6 +720,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     color: black !important;
 }
 
+.linterna-magica-manual-start-button,
 .linterna-magica-side-update-notifier-button,
 .linterna-magica-web-log-debug-button {
     background: transparent url('button-about.png') 0 0 no-repeat !important;
@@ -726,6 +732,7 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     position: relative !important
 }
 
+.linterna-magica-manual-start-button-close,
 .linterna-magica-side-update-notifier-button-close,
 .linterna-magica-web-log-debug-button-close {
     background: transparent url('button-close.png') 0 0 no-repeat !important;
@@ -739,6 +746,8 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     top: -22px !important;
 }
 
+
+.linterna-magica-manual-start-button-play-icon,
 .linterna-magica-web-log-debug-button-bug {
     background: transparent url('button-debug.png') 0 0 no-repeat !important;
     height: 24px !important;
@@ -748,6 +757,10 @@ p.linterna-magica-web-log-debug-button-wrap:hover {
     overflow:hidden !important;
     border: none !important;
     left: -24px !important;
+}
+
+.linterna-magica-manual-start-button-play-icon {
+    background: url('button-play.png') 0 0 no-repeat !important;
 }
 
 .linterna-magica-video-object-wrapper,

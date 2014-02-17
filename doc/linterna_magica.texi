@@ -454,6 +454,13 @@ is a JavaScript object that keeps configuration options in
     "web_log_expand": false,
     "updates": "1w",
     "priority": "self",
+    "manual_run": "on",
+    "skip_manual_run":
+     [
+       "youtube.com",
+       "vimeo.com",
+       "dailymotion.com",
+     ],
     "autostart": "off",
     "controls": "self",
     "locale": "auto",
@@ -568,6 +575,35 @@ Use HTML5 player if the site provides one. A button next to the player
 switches to Linterna M@value{AACUTE}gica.
 
 @end table
+
+@item manual_run
+How the processing of the page should be done.
+
+@table @option
+
+@item on/enable/yes/true/1
+A button is present to manually start Linterna
+M@value{AACUTE}gica. (default)
+
+
+@item off/disable/false/no/0
+Automatically start the processing when the page is loaded
+
+@end table
+
+@item skip_manual_run
+List of websites where Linterna M@value{AACUTE}gica should start
+automatically. Default list:
+
+@example
+
+ [
+   "youtube.com",
+   "vimeo.com",
+   "dailymotion.com",
+ ],
+
+@end example
 
 @item  autostart
 Auto start playback. If more than one object is found, only the

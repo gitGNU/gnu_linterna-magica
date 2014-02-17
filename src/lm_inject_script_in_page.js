@@ -3,7 +3,7 @@
 //
 //  This file is part of Linterna Mágica
 //
-//  Copyright (C) 2011  Ivaylo Valkov <ivaylo@e-valkov.org>
+//  Copyright (C) 2011, 2013, 2014  Ivaylo Valkov <ivaylo@e-valkov.org>
 //
 //  The JavaScript code in this page (or file) is free software: you
 //  can redistribute it and/or modify it under the terms of the GNU
@@ -31,6 +31,11 @@
 // Epiphany and Midori it is already running in the page scope. 
 // See https://savannah.nongnu.org/bugs/?33120
 
+// Skip all frames (iframe, object, embed, etc.). Speeds up loading.
+if (window.top != window.self)
+{
+    return null;
+}
 
 window.linterna_magica_latest_version = function(data)
 {
