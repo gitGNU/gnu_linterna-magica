@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: linterna_magica svn-trunk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-16 17:56+0200\n"
-"PO-Revision-Date: 2014-02-16 18:08+0200\n"
+"PO-Revision-Date: 2014-02-20 20:23+0200\n"
 "Last-Translator: Ivaylo Valkov <ivaylo@e-valkov.org>\n"
 "Language-Team: Bulgarian <ivaylo@e-valkov.org>\n"
 "Language: bg\n"
@@ -45,7 +45,7 @@ msgstr "Бележки в Identi.ca относно Linterna M\\u00e1gica"
 
 #: ../src/lm_about.js:145
 msgid "Chat rooms"
-msgstr "Стаи са разговори"
+msgstr "Стаи за разговори"
 
 #: ../src/lm_about.js:168
 msgid "at"
