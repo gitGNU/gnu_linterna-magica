@@ -1,8 +1,8 @@
 Linterna Mágica
 *****************
 
-This manual (updated 09 January 2014) is for Linterna Mágica (version
-git-master), a userscript for watching web video clips inside a browser
+This manual (updated 20 February 2014) is for Linterna Mágica (version
+1.20), a userscript for watching web video clips inside a browser
 without the proprietary flash technology.
 
 Watch video on the web in a brand new way: "You don't need a glint, the
@@ -257,6 +257,13 @@ that keeps configuration options in "option":"value" format:
          "web_log_expand": false,
          "updates": "1w",
          "priority": "self",
+         "manual_run": "on",
+         "skip_manual_run":
+          [
+            "youtube.com",
+            "vimeo.com",
+            "dailymotion.com",
+          ],
          "autostart": "off",
          "controls": "self",
          "locale": "auto",
@@ -352,6 +359,28 @@ provided by the main userscript will be used.
           Use HTML5 player if the site provides one. A button next to
           the player switches to Linterna Mágica.
 
+
+`manual_run'
+     How the processing of the page should be done.
+
+    `on/enable/yes/true/1'
+          A button is present to manually start Linterna Mágica.
+          (default)
+
+    `off/disable/false/no/0'
+          Automatically start the processing when the page is loaded
+
+
+`skip_manual_run'
+     List of websites where Linterna Mágica should start automatically.
+     Default list:
+
+
+           [
+             "youtube.com",
+             "vimeo.com",
+             "dailymotion.com",
+           ],
 
 `autostart'
      Auto start playback. If more than one object is found, only the
@@ -556,8 +585,8 @@ Midori
 4.2 Supported browsers
 ======================
 
-In this release (git-master) Linterna Mágica is tested and kept up to
-date with the following browsers:
+In this release (1.20) Linterna Mágica is tested and kept up to date
+with the following browsers:
 
 Epiphany
      Epiphany versions older than 2.30 might have problems with
