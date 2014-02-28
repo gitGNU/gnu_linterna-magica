@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Linterna Mágica.  If not, see <http://www.gnu.org/licenses/>.
 
-VERSION = 1.20
+VERSION = 1.21
 PACKAGE = linternamagica
 GETTEXT_PACKAGE = linterna_magica
 GPG_KEY=ivaylo@e-valkov.org
