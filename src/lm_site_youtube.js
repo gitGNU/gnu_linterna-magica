@@ -478,12 +478,15 @@ function(object_data)
 LinternaMagica.prototype.sites["youtube.com"].player_stream_ended_action =
 function()
 {
-    var playlist = document.getElementById("watch7-playlist-tray");
-    var autoplay = document.getElementById("watch7-playlist-bar-autoplay-button");
-    var current_song =
-	this.get_first_element_by_class("playlist-bar-item-playing", playlist);
+    var playlist = document.getElementById("watch-appbar-playlist");
+    var autoplay =
+	this.get_first_element_by_class("toggle-autoplay", playlist);
 
-    var shuffle = document.getElementById("watch7-playlist-bar-shuffle-button");
+    var current_song =
+	this.get_first_element_by_class("currently-playing", playlist);
+
+    var shuffle =
+	this.get_first_element_by_class("shuffle-playlist", playlist);
 
     var next_song = null;
 
@@ -659,6 +662,13 @@ function(object_data)
 		self.sites["youtube.com"].player_stream_ended_action.apply(self,[]);
 	    }, true);
 	}
+    }
+
+    // FIX Displacement of the sidebar in playlists.
+    var watch7_sidebar = document.getElementById("watch7-sidebar");
+    if (watch7_sidebar)
+    {
+	watch7_sidebar.style.setProperty("margin-top", "-429px", "important");
     }
 
     if (document.getElementById("playnav-playview"))
