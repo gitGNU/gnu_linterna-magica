@@ -232,11 +232,13 @@ LinternaMagica.prototype.extract_youtube_fmt_url_map = function()
 	    var link = fmt[url].match(/(url|conn)=([^&]+)/);
 	    var fmt_id = fmt[url].match(/itag=([0-9]+)/);
 	    var sig = fmt[url].replace(/\\u0026/g, '&').match(/sig=[^&]+/);
+	    var short_sig = fmt[url].replace(/\\u0026/g, '&').match(/&s=[^&]+/);
+
 	    sig = sig ? sig[sig.length-1].replace(/sig/,'signature') : '';
 
 	    // Bug 39402. Some links have the signature in the s=<SIG>
 	    // format. For example when they are oppened from Canada
-	    if (!sig)
+	    if (short_sig)
 	    {
 		this.sites["youtube.com"].encrypted_signature = 1;
 		sig = "";
